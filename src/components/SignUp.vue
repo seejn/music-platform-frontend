@@ -38,6 +38,10 @@
                 </select>
               </div>
 
+              <div class="form-group">
+                <label class="block text-sm font-medium text-gray-700 mb-2" for="address">Address</label>
+                <input type="text" v-model="info.address" id="address" class="form-input w-full rounded-md border border-gray-300 bg-white text-gray-900 p-1" />
+              </div>
 
               <div class="form-group">
                 <label class="block text-sm font-medium text-gray-700 mb-2" for="password">Password</label>
@@ -65,4 +69,55 @@
   </div>
 </template>
 
+<script>
+import { toast } from 'vue3-toastify';
+
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      info: {
+        id: null,
+        first_name: '',
+        last_name: '',
+        dob: '',
+        gender: '',
+        address: '',
+        email: '',
+        password: ''
+      }
+    };
+  },
+  methods: {
+    submitForm() {
+      axios.post('http://127.0.0.1:8000/ams/artists/', this.info)
+        .then(response => {
+          if (response.status === 201) {
+            this.clearForm();
+            toast.success("User created successful");
+          }
+        })
+        .catch(error => {
+          toast.error("User not created");
+        });
+    },
+    navigateToLogin() {
+      this.$router.push({ name: 'LoginForm' });
+    },
+    clearForm() {
+      this.info = {
+        id: null,
+        first_name: '',
+        last_name: '',
+        dob: '',
+        gender: '',
+        address: '',
+        email: '',
+        password: ''
+      };
+    }
+  }
+};
+</script>
 

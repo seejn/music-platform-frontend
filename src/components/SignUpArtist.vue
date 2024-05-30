@@ -69,3 +69,55 @@
   </div>
 </template>
 
+<script>
+import { toast } from 'vue3-toastify';
+
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      info: {
+        id: null,
+        first_name: '',
+        last_name: '',
+        dob: '',
+        gender: '',
+        address: '',
+        email: '',
+        password: ''
+      }
+    };
+  },
+  methods: {
+    submitForm() {
+      axios.post('http://127.0.0.1:8000/ams/artists/', this.info)
+        .then(response => {
+          if (response.status === 201) {
+            this.clearForm();
+            toast.success("User created successful");
+          }
+        })
+        .catch(error => {
+          toast.error("User not created");
+        });
+    },
+    navigateToLogin() {
+      this.$router.push({ name: 'LoginForm' });
+    },
+    clearForm() {
+      this.info = {
+        id: null,
+        first_name: '',
+        last_name: '',
+        dob: '',
+        gender: '',
+        address: '',
+        email: '',
+        password: ''
+      };
+    }
+  }
+};
+</script>
+
