@@ -1,9 +1,10 @@
 // router.js
 import { createRouter, createWebHistory } from 'vue-router';
 import User from '../components/Navbar/User.vue';
-import Artist from '../components/Navbar/Artist.vue';
+import ArtistNav from '../components/Navbar/ArtistNav.vue';
 import Guest from '../components/Navbar/Guest.vue'
 import Admin from '../components/Navbar/Admin.vue'
+import HomePage from '../components/Artist/HomePage.vue';
 
 
 
@@ -17,7 +18,7 @@ const routes = [
   {
     path:'/artist',
     name:'artist',
-    component:Artist
+    component:ArtistNav
   },
   {
     path:'/admin',
@@ -28,6 +29,11 @@ const routes = [
     path:'/guest',
     name:'guest',
     component:Guest
+  },
+  {
+    path:'/artist-home',
+    name:'artist-home',
+    component:HomePage
   },
   
   // Add more routes as needed

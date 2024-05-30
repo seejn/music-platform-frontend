@@ -28,77 +28,77 @@
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/tay.jpg" alt="Playlist1" class="w-8 h-8 mr-3 rounded-full" />Playlist1
+                                <img src="/src/assets/tay.jpg" alt="Playlist1" class="w-8 h-8 mr-3 rounded-full" />Playlist1
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/tay.jpg" alt="Playlist2" class="w-8 h-8 mr-3 rounded-full" />Playlist2
+                                <img src="/src/assets/tay.jpg" alt="Playlist2" class="w-8 h-8 mr-3 rounded-full" />Playlist2
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/billie.jpg" alt="ArtistAlbum1" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum1
+                                <img src="/src/assets/billie.jpg" alt="ArtistAlbum1" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum1
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/billie.jpg" alt="ArtistAlbum2" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum2
+                                <img src="/src/assets/billie.jpg" alt="ArtistAlbum2" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum2
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/billie.jpg" alt="LikedSongs" class="w-8 h-8 mr-3 rounded-full" />LikedSongs
+                                <img src="/src/assets/billie.jpg" alt="LikedSongs" class="w-8 h-8 mr-3 rounded-full" />LikedSongs
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/tay.jpg" alt="Playlist1" class="w-8 h-8 mr-3 rounded-full" />Playlist1
+                                <img src="/src/assets/tay.jpg" alt="Playlist1" class="w-8 h-8 mr-3 rounded-full" />Playlist1
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/tay.jpg" alt="Playlist2" class="w-8 h-8 mr-3 rounded-full" />Playlist2
+                                <img src="/src/assets/tay.jpg" alt="Playlist2" class="w-8 h-8 mr-3 rounded-full" />Playlist2
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/billie.jpg" alt="ArtistAlbum1" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum1
+                                <img src="/src/assets/billie.jpg" alt="ArtistAlbum1" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum1
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/billie.jpg" alt="ArtistAlbum2" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum2
+                                <img src="/src/assets/billie.jpg" alt="ArtistAlbum2" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum2
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/billie.jpg" alt="LikedSongs" class="w-8 h-8 mr-3 rounded-full" />LikedSongs
+                                <img src="/src/assets/billie.jpg" alt="LikedSongs" class="w-8 h-8 mr-3 rounded-full" />LikedSongs
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/tay.jpg" alt="Playlist1" class="w-8 h-8 mr-3 rounded-full" />Playlist1
+                                <img src="/src/assets/tay.jpg" alt="Playlist1" class="w-8 h-8 mr-3 rounded-full" />Playlist1
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/tay.jpg" alt="Playlist2" class="w-8 h-8 mr-3 rounded-full" />Playlist2
+                                <img src="/src/assets/tay.jpg" alt="Playlist2" class="w-8 h-8 mr-3 rounded-full" />Playlist2
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/billie.jpg" alt="ArtistAlbum1" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum1
+                                <img src="/src/assets/billie.jpg" alt="ArtistAlbum1" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum1
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/billie.jpg" alt="ArtistAlbum2" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum2
+                                <img src="/src/assets/billie.jpg" alt="ArtistAlbum2" class="w-8 h-8 mr-3 rounded-full" />ArtistAlbum2
                             </router-link>
                         </li>
                         <li>
                             <router-link to="#" class="flex items-center text-3xl leading-loose font-semibold hover:underline">
-                                <img src="@/assets/billie.jpg" alt="LikedSongs" class="w-8 h-8 mr-3 rounded-full" />LikedSongs
+                                <img src="/src/assets/billie.jpg" alt="LikedSongs" class="w-8 h-8 mr-3 rounded-full" />LikedSongs
                             </router-link>
                         </li>
                         
@@ -135,7 +135,7 @@
                             class="relative p-6 text-white focus:outline-none font-medium rounded-full"
                             type="button"
                         >
-                            <img src="@/assets/tay.jpg" alt="Tay" class="w-10 h-10 rounded-full" />
+                            <img src="/src/assets/tay.jpg" alt="Tay" class="w-10 h-10 rounded-full" />
                         </button>
                         <!-- Dropdown menu -->
                         <div
