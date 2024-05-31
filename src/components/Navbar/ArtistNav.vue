@@ -1,7 +1,7 @@
 <!-- src/components/MainContent.vue -->
 <template>
     <div class="w-full h-20">
-      <nav class="relative w-full">
+      <nav class=" fixed w-full">
         <div class="bg-black text-white h-20 p-6 flex items-center justify-between">
           <div>
             <button
@@ -18,7 +18,9 @@
             </button>
           </div>
           <div class="relative flex items-center">
-           
+            <button class="p-5 font-bold text-lg hover:text-orange-800">
+              Upload
+            </button>
             <button
               id="dropdownHoverButton"
               @click="toggleDropdown"
