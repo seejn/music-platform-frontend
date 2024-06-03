@@ -37,7 +37,7 @@ export const sideBarroutes = [
     },
 ]
 
-const routes = [...navbarRoutes, ...sideBarroutes]
+export const routes = [...navbarRoutes, ...sideBarroutes]
 
 export default createRouter({
     history: createWebHistory(),
