@@ -20,7 +20,6 @@
 <script setup>
 import Button from '../Button/Button.vue'
 import SingleTrack from './SingleTrack.vue'
-import { defineProps } from 'vue';
 
 const props = defineProps({
     tracks: {
