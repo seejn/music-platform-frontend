@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="my-4 flex items-center space-x-4 w-full">
         <img class="song-cover" src="https://via.placeholder.com/150" alt="Album Cover" />
         <div class="flex-grow song-info">
@@ -13,6 +13,15 @@
             Add to Playlist
         </button>
     </div>
+</template> -->
+
+<template>
+        <div class="slides flex-shrink-0 mx-10">
+            <img src="/src/assets/pic/dua.jpeg" alt="Cover Image" class="w-60 h-60 rounded-lg">
+            <h3 class="text-xl text-white mt-3">{{ track?.title || "TrackName" }}</h3>
+            <p class="text-white">{{ track?.artist?.id }}</p>
+        </div>
+
 </template>
 
 <script setup>
