@@ -1,13 +1,13 @@
 <template>
     <section class="h-screen overflow-hidden">
-        <div class="w-full" style="height: 8%;">
+        <div class="w-full">
             <Navbar />
         </div>
-        <div class="w-full h-full  flex" style="height: 92%;">
-            <div class="w-80 h-full overflow-y-auto">
+        <div class="w-full h-full  grid grid-cols-10" style="height: 92%;">
+            <div class="h-full overflow-y-auto col-span-2">
                 <Sidebar />
             </div>
-            <div class="w-full h-full overflow-y-auto container mx-auto px-4 pt-4">
+            <div class="w-full h-full overflow-y-auto container col-span-8 px-4 pt-4">
                 <slot name="Main" />
                 <Footer />
             </div>
