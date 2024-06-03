@@ -8,7 +8,7 @@
                 <Sidebar />
             </div>
             <div class="w-full h-full overflow-y-auto container col-span-8 ">
-                <div class="px-4 pt-4">
+                <div class="px-4 pt-4 bg-black">
                     <slot name="Main" />
                 </div>
             
