@@ -2,8 +2,8 @@
     <div class="my-4 flex items-center space-x-4 w-full">
         <img class="song-cover" src="https://via.placeholder.com/150" alt="Album Cover" />
         <div class="flex-grow song-info">
-            <h3 class="text-xl font-semibold">Song Title 1</h3>
-            <p class="text-gray-600">Artist 1</p>
+            <h3 class="text-xl font-semibold">{{ track?.title || "TrackName" }}</h3>
+            <p class="text-gray-600">{{ track?.artist?.id }}</p>
         </div>
         <audio controls class="media-player">
             <source src="" type="audio/mpeg" />
@@ -14,3 +14,14 @@
         </button>
     </div>
 </template>
+
+<script setup>
+import { defineProps  } from 'vue';
+
+const props = defineProps({
+    track: {
+        type: Object,
+        required: true
+    }
+})
+</script>
