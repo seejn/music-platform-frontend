@@ -1,6 +1,6 @@
-
-<template><div class="login overflow-y-hidden">
-  <Guest/>
+<template>
+  <GuestNav />
+  <div class="login overflow-y-hidden">
     <div class="main min-h-screen flex justify-center items-center bg-black  ">
       <div class="container max-w-7xl w-full bg-white rounded-lg shadow-lg flex">
         <div class="w-2/3 ">
@@ -14,62 +14,59 @@
                 <div class="form-group">
                   <label class="block text-lg font-medium text-gray-700 mb-2" for="email">Email</label>
 
-                  <input type="email"  id="email" class="form-input w-full rounded-md border border-blood bg-white text-gray-900 p-2" />
+                  <input type="email" id="email"
+                    class="form-input w-full rounded-md border border-blood bg-white text-gray-900 p-2" />
                 </div>
-  
+
                 <div class="form-group">
                   <label class="block text-lg font-medium text-gray-700 mb-2" for="password">Password</label>
 
-                  <input type="password" id="password" class="form-input w-full rounded-md border border-blood bg-white text-gray-900 p-2" />
+                  <input type="password" id="password"
+                    class="form-input w-full rounded-md border border-blood bg-white text-gray-900 p-2" />
                 </div>
-  
+
                 <div class="form-submit flex justify-center mt-8">
-                  <button type="submit" class="bg-white border-blood border-2 hover:bg-blood hover:text-white  text-black font-bold py-2 px-4 rounded-full mb">Login</button>
+                  <button type="submit"
+                    class="bg-white border-blood border-2 hover:bg-blood hover:text-white  text-black font-bold py-2 px-4 rounded-full mb">Login</button>
                 </div>
                 <div class=" flex justify-center mt-8">
 
-                <p>Already have an account?</p>
-          </div>
+                  <p>Already have an account?</p>
+                </div>
 
-          <div class="flex justify-center mt-8">
+                <div class="flex justify-center mt-8">
 
-            <button @click="navigatetoSignup" class="bg-white border-blood border-2 hover:bg-blood hover:text-white  text-black font-bold py-2 px-4 rounded-full mb">Signup</button>
-          </div>
+                  <RouterLink to="/signup"
+                    class="bg-white border-blood border-2 hover:bg-blood hover:text-white  text-black font-bold py-2 px-4 rounded-full mb">Signup</RouterLink>
+                </div>
               </div>
             </div>
           </form>
-            
+
         </div>
       </div>
     </div>
 
-</div>
-  </template>
-  
-<script>
-import Guest from '../Navbar/GuestNav.vue'
+  </div>
+</template>
+
+<script setup>
+import GuestNav from '../../components/Header/GuestNav.vue'
 import { useRouter } from 'vue-router'
-import { Login } from '../../../api/Auth';
+import { Login } from '../../api/Auth';
 import { ref } from 'vue';
 
-export default{
-  name:Login,
-  components:{
-    Guest
-  },
+    const email = ref('');
+    const password = ref('');
+    const router = ref('');
 
-  setup(){
-    const email=ref('');
-    const password=ref('');
-    const router=ref('');
 
-  
     const navigatetoSignup = () => {
       router.push({ name: 'sign' });
     };
 
-    const submitForm=async()=>{
-      try{
+    const submitForm = async () => {
+      try {
         const response = await Login({ email: email.value, password: password.value });
         console.log('Login successful:', response);
         router.push({ name: 'dashboard' }); // Replace 'dashboard' with your desired route
@@ -79,14 +76,6 @@ export default{
       }
     };
 
-    return {
-      email,
-      password,
-      navigatetoSignup,
-      submitForm,
-    };
-  },
-};
 </script>
 
 <style>

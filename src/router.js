@@ -33,14 +33,17 @@ export const guestNavRoutes = [
     {
         path: '/login',
         name: 'Login',
+        component: () => import('./pages/Guest/Login.vue')
     },
     {
         path: '/signup',
         name: 'SignUp',
+        component: () => import('./pages/Guest/SignUp.vue')
     },
     {
         path: '/for-artist',
         name: 'For Artist',
+        component: () => import('./pages/Guest/SignUpArtist.vue')
     },
 ]
 
@@ -59,7 +62,7 @@ export const landingRoute = [
     {
         path: '/',
         name: "LandingRoute",
-        component: () => import('./pages/LandingPage.vue')
+        component: () => import('./pages/Artist/Home.vue')
     }
 ]
 
