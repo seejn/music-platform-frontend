@@ -19,8 +19,13 @@
                 </section>
 
                 <section>
+                    <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Albums</h2>
+                    <AlbumCollection :albums="albums"/>
+                </section>
+
+                <section>
                     <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Playlist</h2>
-                    <PlaylistCollection :playlists="playlists"/>
+                    <!-- <PlaylistCollection :playlists="playlists"/> -->
                 </section>
             </main>
         </template>
@@ -28,14 +33,17 @@
 </template>
 
 <script setup>
-import TrackCollection from '../components/Track/TrackCollection.vue'
+import { ref, onMounted } from 'vue';
+
 import Navbar from '../components/Header/Navbar.vue'
 import Sidebar from '../components/Sidebar/Sidebar.vue';
-import { ref, onMounted } from 'vue';
+
 import { fetchAllTracks } from '../api/Track.js';
 import { fetchAllAlbums } from '../api/Album.js';
 import { fetchAllArtists } from '../api/Artist.js';
 import {fetchAllPlaylists} from '../api/Playlist.js'
+
+import TrackCollection from '../components/Track/TrackCollection.vue'
 import AlbumCollection from '../components/Album/AlbumCollection.vue'
 import PlaylistCollection from '../components/Track/PlaylistCollection.vue';
 import ArtistCollection from '../components/Artist/ArtistCollection.vue'

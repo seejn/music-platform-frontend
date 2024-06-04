@@ -1,7 +1,7 @@
 <template>
-  <div class=" w-full flex justify-between items-center p-6">
-    <button @click="scrollLeft" class="bg-blue-500 text-white px-4 py-2 rounded mr-auto ml-5">Previous</button>
-    <button @click="scrollRight" class="bg-blue-500 text-white px-4 py-2 rounded ml-auto mr-5">Next</button>
+  <div class=" w-full flex justify-between items-center">
+    <button @click="scrollLeft" class="bg-blue-500 text-white px-4 py-2 rounded mr-auto ">Previous</button>
+    <button @click="scrollRight" class="bg-blue-500 text-white px-4 py-2 rounded ml-auto ">Next</button>
   </div>
 </template>
   
@@ -15,11 +15,11 @@ const props = defineProps({
 })
 const slideIndex = ref(1);
 function scrollLeft() {
-  showSlide1(slideIndex.value -= 1);
+  showSlide1(slideIndex.value -= 2);
 }
 
 function scrollRight() {
-  showSlide1(slideIndex.value += 1);
+  showSlide1(slideIndex.value += 2);
 }
 
 function showSlide1(n) {

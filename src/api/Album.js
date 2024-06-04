@@ -11,11 +11,6 @@ export const fetchAllAlbums = async () => {
         console.log(error)
         return error
     }
-
-
-
-
-
 }
 export const fetchAlbum = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/album/${album_id}/`

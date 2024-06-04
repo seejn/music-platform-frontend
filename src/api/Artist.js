@@ -11,7 +11,4 @@ export const fetchAllArtists = async () => {
         console.log(error)
         return error
     }
-
-
-
 }

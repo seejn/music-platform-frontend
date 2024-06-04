@@ -1,10 +1,21 @@
 <template>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Album v-for="album in albums" :album="album" :key="album.id"/>
+    <div class="mx-10 relative">
+        <div v-if="albums.length > 5" class="my-4 sticky top-0 ">
+            <button @click="toggleShowAll" class="px-4 py-2 bg-blue-500 text-white rounded">
+                {{ showAll ? 'See Less' : 'See More' }}
+            </button>
+        </div>
+        <div id="carousel"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 transition-transform ease-in-out duration-500">
+            <Album v-for="album in displayedAlbums" :album="album" :key="album.id" />
+        </div>
     </div>
+    
 </template>
 
 <script setup>
+
+import { ref, computed } from 'vue';
 import Album from './Album.vue'
 
 const props = defineProps({
@@ -13,4 +24,14 @@ const props = defineProps({
         required: true
     }
 })
+
+let showAll = ref(false)
+
+const toggleShowAll = () => {
+    showAll.value = !showAll.value
+}
+
+const displayedAlbums = computed(() => {
+    return showAll.value ? props.albums : props.albums.slice(0, 5);
+});
 </script>
