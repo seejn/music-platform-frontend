@@ -12,7 +12,7 @@
             <SingleTrack v-for="track in tracks" :track="track" :key="track.id" />
         </div>
         <div class="w-full flex">
-            <Button />
+            <Button collection="track"/>
         </div>
     </div>
 </template>

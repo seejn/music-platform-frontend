@@ -2,31 +2,25 @@
     <Layout>
         <template #Main>
             <main class="">
-                <section class=" text-white rounded-lg p-6 mb-8 glass-effect">
+                <section class=" text-white rounded-lg p-6 mb-8 mx-10 glass-effect">
                     <h1 class="text-3xl font-bold mb-2">Welcome to MusicPlatform</h1>
                     <p class="text-lg">Discover new music, listen to your favorite tracks, and explore curated
                         playlists.</p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-bold mb-4 text-white">Recommended for You</h2>
+                    <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Songs for You</h2>
                     <TrackCollection :tracks="tracks" />
                 </section>
-<!-- 
-                <section>
-                    <h2 class="text-2xl font-bold mb-4">Trending Songs</h2>
-                    <TrackCollection />
-                </section> -->
 
                 <section>
-                    <h2 class="text-2xl font-bold mb-4">Curated Playlists</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div class="bg-white rounded-lg shadow p-4">
-                            <img src="https://via.placeholder.com/150" alt="Playlist Cover" class="rounded mb-4">
-                            <h3 class="text-lg font-bold">Playlist Name</h3>
-                            <p class="text-gray-600">Description of the playlist.</p>
-                        </div>
-                    </div>
+                    <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Artist</h2>
+                    <ArtistCollection :artists="artists"/>
+                </section>
+
+                <section>
+                    <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Playlist</h2>
+                    <PlaylistCollection :playlists="playlists"/>
                 </section>
             </main>
         </template>
@@ -40,15 +34,23 @@ import Sidebar from '../components/Sidebar/Sidebar.vue';
 import { ref, onMounted } from 'vue';
 import { fetchAllTracks } from '../api/Track.js';
 import { fetchAllAlbums } from '../api/Album.js';
+import { fetchAllArtists } from '../api/Artist.js';
+import {fetchAllPlaylists} from '../api/Playlist.js'
 import AlbumCollection from '../components/Album/AlbumCollection.vue'
+import PlaylistCollection from '../components/Track/PlaylistCollection.vue';
+import ArtistCollection from '../components/Artist/ArtistCollection.vue'
 
 let tracks = ref([]);
 let albums = ref([]);
+let artists =ref([]);
+let playlists =ref([])
 
 onMounted( async () => {
     tracks.value = await fetchAllTracks()
     albums.value = await fetchAllAlbums()
-    console.log("Tracks: ", tracks.value,"Albums: ",albums.value)
+    artists.value = await fetchAllArtists()
+    playlists.value = await fetchAllPlaylists()
+    console.log("Tracks: ", tracks.value,"Albums: ",albums.value,"Artists:",artists.value,"Playlists: ",playlists.value)
 })
 </script>
 <style scoped>
