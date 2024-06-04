@@ -16,7 +16,7 @@
 </template> -->
 
 <template>
-        <div class="track flex-shrink-0 mx-10">
+        <div class="track flex-shrink-0 mr-10">
             <img src="/src/assets/pic/dua.jpeg" alt="Cover Image" class="w-60 h-60 rounded-lg">
             <h3 class="text-xl text-white mt-3">{{ track?.title || "TrackName" }}</h3>
             <p class="text-white">{{ track?.artist?.first_name }}</p>

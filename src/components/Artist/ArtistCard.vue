@@ -11,7 +11,7 @@
 </template> -->
 
 <template>
-    <div class="artist flex-shrink-0 mx-10">
+    <div class="artist flex-shrink-0 mr-10">
         <img src="/src/assets/pic/ha.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
         <h3 class="text-xl text-white mt-3 text-center">{{ artist?.first_name }}</h3>
     </div>
