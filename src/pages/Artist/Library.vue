@@ -20,7 +20,7 @@
 <script setup>
 import axios from 'axios'
 import { ref, onMounted } from 'vue';
-import { fetchAllTracks } from '../../api/Artist.js';
+import { fetchAllTracks } from '../../api/Track.js';
 import { fetchAllAlbums } from '../../api/Album.js';
 
 import AlbumCollection from '../../components/Album/AlbumCollection.vue'
