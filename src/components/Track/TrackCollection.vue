@@ -6,7 +6,6 @@
 
 
 <template>
-
     <div class="relative overflow-hidden">
         <div id="carousel" class="flex transition-transform ease-in-out duration-500">
             <SingleTrack v-for="track in tracks" :track="track" :key="track.id" />
