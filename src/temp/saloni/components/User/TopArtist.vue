@@ -5,48 +5,48 @@
          <div class="w-full overflow-hidden">
            <div id="carousel" class="flex transition-transform ease-in-out duration-500 bg-opacity-0">
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/ha.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
+                   <img src="/src/assets/pic/ha.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
                   
                    <p class="text-white text-center">Artist name</p>
                </div>
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/ade.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
+                   <img src="/src/assets/pic/ade.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
                    <p class="text-white text-center">Artist name</p>
                </div>
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/ar.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
+                   <img src="/src/assets/pic/ar.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
                    <p class="text-white text-center">Artist name</p>
                </div>
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/ji.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
+                   <img src="/src/assets/pic/ji.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
                    <p class="text-white text-center">Artist name</p>
                </div>
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/jo.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
+                   <img src="/src/assets/pic/jo.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
                    <p class="text-white text-center">Artist name</p>
                </div>
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/lana.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
+                   <img src="/src/assets/pic/lana.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
                    <p class="text-white text-center">Artist name</p>
                </div>
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/tay.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
+                   <img src="/src/assets/pic/tay.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
                    <p class="text-white text-center">Artist name</p>
                </div>
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/dua.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
+                   <img src="/src/assets/pic/dua.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
                    <p class="text-white text-center">Artist name</p>
                </div>
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/beat.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
+                   <img src="/src/assets/pic/beat.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
                    <p class="text-white text-center">Artist name</p>
                </div>
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/lana.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
+                   <img src="/src/assets/pic/lana.jpeg" alt="Cover Image" class="w-60 h-60 rounded-full">
                    <p class="text-white text-center">Artist name</p>
                </div>
                <div class="slides flex-shrink-0 mx-6">
-                   <img src="/public/lana.jpeg" alt="Cover Image" class="w-60 h-60 rounded-lg">
+                   <img src="/src/assets/pic/lana.jpeg" alt="Cover Image" class="w-60 h-60 rounded-lg">
                    <p class="text-white text-center">Artist name</p>
                </div>
            </div>
