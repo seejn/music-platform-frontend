@@ -11,7 +11,7 @@
         <div id="carousel" class="flex transition-transform ease-in-out duration-500">
             <ArtistCard v-for="artist in artists" :artist="artist" :key="artist.id" />
         </div>
-        <div class="w-full flex">
+        <div class="w-full">
             <Button collection="artist"/>
         </div>
     </div>
