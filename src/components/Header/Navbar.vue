@@ -10,7 +10,7 @@
 </template> -->
 
 <template>
-    <AdminNav />
+    <ArtistNav />
 </template> 
 
 <script>

@@ -1,44 +1,42 @@
-
 <!-- src/components/MainContent.vue -->
 <template>
-      <nav class="relative w-full">
-        <div class="bg-black text-white h-20 p-6 flex items-center justify-between">
-          <div>
-            <button
-              class="p-5 font-bold text-lg hover:text-orange-800"
-            >
-              &lt;
-            </button>
-            <button
-              class="p-5 font-bold text-lg hover:text-orange-800"
-            >
-              &gt;
-            </button>
-          </div>
-          <div class="relative flex items-center">
-           
-            <button
-              id="dropdownHoverButton"
-              class="relative p-6 text-white focus:outline-none font-medium rounded-full"
-              type="button"
-            >
-              <img src="/src/assets/pic/tay.jpg" alt="Tay" class="w-10 h-10 rounded-full" />
-            </button>
-            <!-- Dropdown menu -->
-            <div
-              class="absolute top-20 right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My Profile</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Logout</a>
-                </li>
-              </ul>
-            </div>
-          </div>
+  <nav class="relative w-full">
+    <div class="bg-black text-white h-20 p-6 flex items-center justify-between">
+      <div>
+        <button class="p-5 font-bold text-lg hover:text-orange-800">
+          &lt;
+        </button>
+        <button class="p-5 font-bold text-lg hover:text-orange-800">
+          &gt;
+        </button>
+      </div>
+      <div class="relative flex items-center">
+
+        <button id="dropdownHoverButton" class="relative p-6 text-white focus:outline-none font-medium rounded-full"
+          type="button">
+          <img src="/src/assets/pic/tay.jpg" alt="Tay" class="w-10 h-10 rounded-full" />
+        </button>
+        <!-- Dropdown menu -->
+        <div
+          class="absolute top-20 right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+            <li v-for="route in routes">
+              <RouterLink :to="route.path" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                {{ route.name }}</RouterLink>
+            </li>
+          </ul>
         </div>
-      </nav>
-  </template>
-  
+      </div>
+    </div>
+  </nav>
+</template>
+
+<script setup>
+import { userNavRoutes, commonRoutes } from '../../router.js'
+
+const routes = [
+  ...userNavRoutes,
+  commonRoutes[1]
+]
+console.log(routes)
+</script>

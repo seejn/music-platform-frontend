@@ -6,26 +6,17 @@
             Artist Management System
           </div>
           <ul class="absolute right-0 flex space-x-4 p-6">
-            <li>
-              <router-link to="#" class="p-6 font-lg text-lg hover:text-orange-800">Home</router-link>
+            <li v-for="route in routes">
+              <RouterLink to="route.path" class="p-6 font-lg text-lg hover:text-orange-800">{{ route.name }}</RouterLink>
             </li>
-            <li>
-              <router-link to="#" class="p-6 font-lg text-lg hover:text-orange-800">Artists</router-link>
-            </li>
-            <li>
-              <router-link to="#" class="p-6 font-lg text-lg hover:text-orange-800">Search</router-link>
-            </li>
-            <li>
-                <router-link to="#" class="p-6 font-lg text-lg hover:text-orange-800">Logout</router-link>
-              </li>
           </ul>
         </div>
       </nav>
     </div>
   </template>
   
-  <script>
-
+  <script setup>  
+    import { adminNavRoutes as routes } from '../../router';
   </script>
   
   <style scoped>
