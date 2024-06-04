@@ -7,7 +7,7 @@
     </div>
 </template> -->
 <template>
-    <div class="relative overflow-hidden">
+    <div class="mx-10 relative overflow-hidden">
         <div id="carousel" class="flex transition-transform ease-in-out duration-500">
             <ArtistCard v-for="artist in artists" :artist="artist" :key="artist.id" />
         </div>
