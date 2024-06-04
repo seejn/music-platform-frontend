@@ -4,7 +4,7 @@
     <div class="main min-h-screen flex justify-center items-center bg-black  ">
       <div class="container max-w-7xl w-full bg-white rounded-lg shadow-lg flex">
         <div class="w-2/3 ">
-          <img src="/src/assets/tay.jpg" alt="Tay" class=" w-full h-full object-cover" />
+          <img src="/src/assets/pic/tay.jpg" alt="Tay" class=" w-full h-full object-cover" />
         </div>
         <div class="w-1/3 p-8 flex items-center justify-center">
           <form @submit.prevent="submitForm" class="w-full">
@@ -47,29 +47,34 @@
   </template>
   
 <script>
-import Guest from './Navbar/Guest.vue'
+import Guest from '../Navbar/GuestNav.vue'
 import { useRouter } from 'vue-router'
+import { Login } from '../../../api/Auth';
+import { ref } from 'vue';
 
-export default {
-  name: 'Login',
-  components: {
+export default{
+  name:Login,
+  components:{
     Guest
   },
-  setup() {
-    const router = useRouter();
-    const navigatetoSignup = () => {
-      router.push({ name: "sign" });
+
+  setup(){
+    const email=ref('');
+    const password=ref('');
+    const router=ref('');
+
+    const navigatetoSignup(){
+      router.push({name:'signup'})
+
     }
-    return {
-      navigatetoSignup
-    };
-  },
+
+    const submitForm=async()=>{
+      try{
+          const response= await Login({ email:email.value,password:password.value
+          })
+      }
+    }
+  }
+  }
 };
 </script>
-
-<style>
-.login {
-  font-family: 'Inter', sans-serif;
-}
-</style>
-

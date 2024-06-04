@@ -5,7 +5,7 @@
     <div class="main min-h-screen flex justify-center items-center bg-black ">
       <div class="container max-w-7xl w-full bg-white rounded-lg shadow-lg flex">
         <div class="w-2/3">
-          <img src="/src/assets/ade.jpeg" alt="Billie" class="w-full h-full object-cover"/>
+          <img src="/src/assets/pic/harryy.jpg" alt="Harry" class="w-full h-full object-cover"/>
         </div>
         <div class="w-1/2 p-8">
           <form @submit.prevent="submitForm">
@@ -56,7 +56,7 @@
 import { ref } from 'vue';
 // import { useToast } from 'vue-toastification';
 import axios from 'axios';
-import Guest from '../components/Navbar/Guest.vue';
+import Guest from '../Navbar/GuestNav.vue'
 import { useRouter } from 'vue-router'
 
 
@@ -97,7 +97,7 @@ export default {
     ];
 
     const labelClasses = 'block text-sm font-medium text-gray-700 mb-2';
-    const inputClasses = 'form-input w-full rounded-md border border-gray-300 bg-white text-gray-900 p-1';
+    const inputClasses = 'form-input w-full rounded-md border border-blood bg-white text-gray-900 p-2';
 
     // const toast = useToast();
 

@@ -11,10 +11,10 @@
             <router-link to="/login" class="p-6 font-lg text-lg hover:text-orange-800">Login</router-link>
           </li>
           <li>
-            <router-link to="/sign" class="p-6 font-lg text-lg hover:text-orange-800">SignUp</router-link>
+            <router-link to="/signup" class="p-6 font-lg text-lg hover:text-orange-800">SignUp</router-link>
           </li>
           <li>
-            <router-link to="/sign-artist" class="p-6 font-lg text-lg hover:text-orange-800">For Artist</router-link>
+            <router-link to="/artist-signup" class="p-6 font-lg text-lg hover:text-orange-800">For Artist</router-link>
           </li>
       
         </ul>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Guest />
+    <GuestNav />
     <div class="main min-h-screen flex justify-center items-center bg-black">
       <div class="container max-w-7xl w-full bg-white rounded-lg shadow-lg flex">
         <div class="w-2/3">
@@ -46,13 +46,13 @@
 <script>
 import { ref } from 'vue';
 import axios from 'axios';
-import Guest from '../Navbar/GuestNav.vue';
+import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
 
 export default {
   name: 'Login',
   components: {
-    Guest,
+    GuestNav,
   },
   setup() {
     const info = ref({

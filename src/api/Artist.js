@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-export const fetchAllTracks = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/track/get_all_tracks/`
+export const fetchAllArtists = async () => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/roles/artists/`
     try{
         const response = await axios(url , {
             method: 'get',
@@ -11,5 +11,7 @@ export const fetchAllTracks = async () => {
         console.log(error)
         return error
     }
-}
 
+
+
+}
