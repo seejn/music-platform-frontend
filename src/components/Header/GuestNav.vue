@@ -1,5 +1,4 @@
 <template>
-
   <div class="guest w-full bg-black text-white">
       <nav class="bg-black text-white  h-20 p-6 flex items-center justify-between">
           <div class="container mx-auto p-6 flex justify-between items-center">

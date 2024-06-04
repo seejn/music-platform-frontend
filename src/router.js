@@ -6,8 +6,8 @@ import { createWebHistory, createRouter } from 'vue-router'
 
 export const adminNavRoutes = [
     {
-        path: '/admin/home',
-        name: 'Home',
+        path: '/admin/dashboard',
+        name: 'Dashboard',
     },
     {
         path: '/admin/artists',
@@ -59,8 +59,19 @@ export const landingRoute = [
     {
         path: '/',
         name: "LandingRoute",
-        component: () => import('./pages/Artist/Home.vue')
+        component: () => import('./pages/LandingPage.vue')
     }
+]
+
+export const sidebarRoutes = [
+    {
+        path: '/user/home',
+        name: "Home",
+    },
+    {
+        path: '/search',
+        name: "Search",
+    },
 ]
 
 export const routes = [

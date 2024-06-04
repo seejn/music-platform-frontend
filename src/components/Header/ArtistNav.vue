@@ -1,4 +1,3 @@
-<!-- src/components/MainContent.vue -->
 <template>
       <nav class=" h-full w-full">
         <div class="bg-black text-white h-20 p-6 flex items-center justify-between">
