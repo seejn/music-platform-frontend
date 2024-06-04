@@ -25,7 +25,7 @@
 
                 <section>
                     <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Playlist</h2>
-                    <PlaylistCollection :playlists="playlists"/>
+                    <!-- <PlaylistCollection :playlists="playlists"/> -->
                 </section>
             </main>
         </template>
