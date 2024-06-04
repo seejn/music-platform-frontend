@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const fetchAllPlaylist = async () => {
+export const fetchAllPlaylists = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/get_all_playlist/`
     try{
         const response = await axios(url , {

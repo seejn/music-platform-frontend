@@ -6,7 +6,6 @@
 
 <script setup>
 import Album from './Album.vue'
-import { defineProps  } from 'vue';
 
 const props = defineProps({
     albums: {

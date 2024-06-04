@@ -1,4 +1,3 @@
-<!-- src/components/MainContent.vue -->
 <template>
       <nav class=" h-full w-full">
         <div class="bg-black text-white h-20 p-6 flex items-center justify-between">
@@ -17,9 +16,9 @@
             </button>
           </div>
           <div class="relative flex items-center">
-            <button class="p-5 font-bold text-lg hover:text-orange-800">
+            <RouterLink to="/artist/upload" class="p-5 font-bold text-lg hover:text-orange-800">
               Upload
-            </button>
+            </RouterLink>
             <button
               id="dropdownHoverButton"
               @click="toggleDropdown"
@@ -34,11 +33,8 @@
               class="absolute top-20 right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
             >
               <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My Profile</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Logout</a>
+                <li v-for="route in routes">
+                  <RouterLink :to="route.path" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ route.name }}</RouterLink>
                 </li>
               </ul>
             </div>
@@ -47,37 +43,17 @@
       </nav>
   </template>
   
-  <script>
-  export default {
-    name: 'MainContent',
-    data() {
-      return {
-        isDropdownVisible: false
-      };
-    },
-    methods: {
-      toggleDropdown() {
-        this.isDropdownVisible = !this.isDropdownVisible;
-      },
-      handleClickOutside(event) {
-        if (!this.$el.contains(event.target)) {
-          this.isDropdownVisible = false;
-        }
-      },
-      goToPrevious() {
-        // Logic for previous button
-      },
-      goToNext() {
-        // Logic for next button
-      }
-    },
-    mounted() {
-      document.addEventListener('click', this.handleClickOutside);
-    },
-    beforeDestroy() {
-      document.removeEventListener('click', this.handleClickOutside);
-    }
-  };
+  <script setup>
+
+    import { ref } from 'vue';
+    import { userNavRoutes, commonRoutes  } from '../../router';
+
+    const routes = [
+      ...userNavRoutes,
+      commonRoutes[1]
+    ]
+
+    let isDropdownVisible = ref(true)
   </script>
   
   <style scoped>

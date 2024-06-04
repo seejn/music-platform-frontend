@@ -1,43 +1,87 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-export const navbarRoutes = [
+// component: () => import('./pages/Artist/Home.vue')
+// search 
+// logout 
+
+export const adminNavRoutes = [
     {
-        path: '/',
-        name: 'Home',
-        component: () => import('./pages/Artist/Home.vue')
+        path: '/admin/dashboard',
+        name: 'Dashboard',
     },
     {
-        path: '/browse',
-        name: 'Browse',
-        component: () => import('./pages/Artist/Browse.vue')
+        path: '/admin/artists',
+        name: 'Artists',
     },
-    {
-        path: '/artist/profile',
-        name: 'Profile',
-        component: () => import('./pages/Artist/Profile.vue')
-    },
+]
+
+export const artistNavRoutes = [
     {
         path: '/artist/upload',
         name: 'Upload',
-        component: () => import('./pages/Artist/Upload.vue')
     },
 ]
 
-export const sideBarroutes = [
-    
+export const userNavRoutes = [
     {
-        path: '/artist/library',
-        name: 'Library',
-        component: () => import('./pages/Artist/Library.vue')
-    },
-    {
-        path: '/artist/setting',
-        name: 'Setting',
-        component: () => import('./pages/Artist/Settings.vue')
+        path: '/user/profile',
+        name: 'My Profile',
     },
 ]
 
-export const routes = [...navbarRoutes, ...sideBarroutes]
+export const guestNavRoutes = [
+    {
+        path: '/login',
+        name: 'Login',
+    },
+    {
+        path: '/signup',
+        name: 'SignUp',
+    },
+    {
+        path: '/for-artist',
+        name: 'For Artist',
+    },
+]
+
+export const commonRoutes = [
+    {
+        path: '/search',
+        name: 'Search',
+    },
+    {
+        path: '/logout',
+        name: 'Logout',
+    },
+]
+
+export const landingRoute = [
+    {
+        path: '/',
+        name: "LandingRoute",
+        component: () => import('./pages/LandingPage.vue')
+    }
+]
+
+export const sidebarRoutes = [
+    {
+        path: '/user/home',
+        name: "Home",
+    },
+    {
+        path: '/search',
+        name: "Search",
+    },
+]
+
+export const routes = [
+    ...adminNavRoutes,
+    ...artistNavRoutes,
+    ...userNavRoutes,
+    ...guestNavRoutes,
+    ...commonRoutes,
+    ...landingRoute,
+]
 
 export default createRouter({
     history: createWebHistory(),

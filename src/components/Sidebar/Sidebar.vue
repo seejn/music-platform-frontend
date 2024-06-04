@@ -1,31 +1,5 @@
-<!-- <template>
-    <aside class="w-64 h-full bg-gray-800 text-white">
-      <div class="p-4">
-        <h1 class="text-2xl font-bold">My App</h1>
-        <ul class="mt-4">
-          <li class="py-2 hover:bg-gray-700">
-            <a href="#" class="block">Home</a>
-          </li>
-          <li class="py-2 hover:bg-gray-700">
-            <a href="#" class="block">Explore</a>
-          </li>
-          <li class="py-2 hover:bg-gray-700">
-            <a href="#" class="block">Playlist</a>
-          </li>
-          <li class="py-2 hover:bg-gray-700">
-            <a href="#" class="block">Settings</a>
-          </li>
-        </ul>
-      </div>
-    </aside>
-</template> -->
-
-
-
-<!-- src/components/Sidebar.vue -->
 <template>
-  <div class="sidebar  bg-black ">
-    <div class="sidebar1 bg-black text-white p-6 rounded-lg h-min">
+    <div class="sidebar1 bg-black text-white p-6 h-min">
       <nav>
         <ul class="space-y-6">
           <li>
@@ -41,7 +15,7 @@
         </ul>
       </nav>
     </div>
-    <div class="sidebar2 bg-black text-white p-6 rounded-lg overflow-y-auto h-min">
+    <div class="bg-black text-white p-6 overflow-y-auto">
       <nav>
         <ul class="space-y-6">
           <li>
@@ -199,7 +173,6 @@
         </ul>
       </nav>
     </div>
-  </div>
 </template>
 
 <script>
