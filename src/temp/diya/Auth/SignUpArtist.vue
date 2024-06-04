@@ -56,7 +56,7 @@
 import { ref } from 'vue';
 // import { useToast } from 'vue-toastification';
 import axios from 'axios';
-import Guest from '../Navbar/GuestNav.vue'
+import GuestNav from '../../components/Header/GuestNav.vue'
 import { useRouter } from 'vue-router'
 
 

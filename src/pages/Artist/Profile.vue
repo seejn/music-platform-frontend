@@ -1,49 +1,37 @@
 <template>
-    <Layout>
-        <template #Main>
-            <header class="profile-header text-white py-10">
-                <div class="container mx-auto px-6 text-center">
-                    <img src="https://via.placeholder.com/150" alt="Artist Name"
-                        class="w-32 h-32 rounded-full mx-auto border-4 border-white shadow-lg">
-                    <h1 class="text-4xl font-bold mt-4">Artist Name</h1>
-                    <p class="mt-2 text-lg italic">"A quote or highlight from the artist"</p>
-                    <div class="mt-4 flex justify-center space-x-4">
-                        <a href="https://facebook.com" class="text-white hover:text-gray-200"><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a href="https://twitter.com" class="text-white hover:text-gray-200"><i
-                                class="fab fa-twitter"></i></a>
-                        <a href="https://instagram.com" class="text-white hover:text-gray-200"><i
-                                class="fab fa-instagram"></i></a>
-                        <a href="https://youtube.com" class="text-white hover:text-gray-200"><i
-                                class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </header>
-
-            <section>
-                <h2 class="text-2xl font-bold my-4">Musics</h2>
-                <TrackCollection />
-            </section>
-            <section class="py-4">
-                <h2 class="text-2xl font-bold my-4">Albums</h2>
-                <AlbumCollection />
-            </section>
-            <section class="py-4">
-                <h2 class="text-2xl font-bold my-4">Popular Songs</h2>
-                <TrackCollection />
-            </section>
-        </template>
-    </Layout>
+  <Layout>
+    <template #Main>
+     <div class="p-6 pt-16 bg-black max-h-full flex-grow ">
+          <div class="flex flex-row">
+            <img src="/src/assets/pic/dua.jpeg" alt="" class="rounded-full border-2 border-white w-60 h-60">
+            <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
+              Username
+              <i @click="toggleEditForm" class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer"></i>
+            </p>
+            <p class="text-white mt-[11vw] -ml-[15vw]">4 Playlist</p>
+          </div>
+          <div class=" mt-8 rounded-lg glass-effect">
+            <TopArtist />
+            <UserSongs />
+            <UserPlaylist />
+          </div>
+        </div>
+      </template>
+      </Layout>
 </template>
-
 <script setup>
-import AlbumCollection from '../../components/Album/AlbumCollection.vue'
-import TrackCollection from '../../components/Track/TrackCollection.vue'
-</script>
+import TopArtist from '../../temp/saloni/components/User/TopArtist.vue'
+import UserSongs from '../../temp/saloni/components/User/UserSongs.vue'
+import UserPlaylist from '../../temp/saloni/components/User/UserPlaylist.vue'
 
+
+</script>
 <style scoped>
-.profile-header {
-    background: linear-gradient(135deg, rgba(29, 78, 216, 0.8), rgba(56, 189, 248, 0.8)), url('cover-image-url.jpg') no-repeat center center;
-    background-size: cover;
-}
-</style>
+  .glass-effect {
+    background-color: rgba(194, 186, 186, 0.384); 
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+    padding: 16px; 
+  }
+  </style>

@@ -34,13 +34,13 @@
 </template>
 
 <script setup>
-import TrackCollection from '../../components/Track/TrackCollection.vue'
-import Navbar from '../../components/Header/Navbar.vue'
-import Sidebar from '../../components/Sidebar/Sidebar.vue';
+import TrackCollection from '../components/Track/TrackCollection.vue'
+import Navbar from '../components/Header/Navbar.vue'
+import Sidebar from '../components/Sidebar/Sidebar.vue';
 import { ref, onMounted } from 'vue';
-import { fetchAllTracks } from '../../api/Track.js';
-import { fetchAllAlbums } from '../../api/Album.js';
-import AlbumCollection from '../../components/Album/AlbumCollection.vue'
+import { fetchAllTracks } from '../api/Track.js';
+import { fetchAllAlbums } from '../api/Album.js';
+import AlbumCollection from '../components/Album/AlbumCollection.vue'
 
 let tracks = ref([]);
 let albums = ref([]);

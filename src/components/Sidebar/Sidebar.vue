@@ -2,16 +2,16 @@
     <div class="sidebar1 bg-black text-white p-6 h-min">
       <nav>
         <ul class="space-y-6">
-          <li>
-            <router-link to="#" class="flex items-center text-lg leading-loose font-semibold hover:underline">
-              <i class="fas fa-home mr-3"></i>Home
+          <li v-for="route in routes">
+            <router-link :to="route.path" class="flex items-center text-lg leading-loose font-semibold hover:underline">
+              <i class="fas fa-home mr-3"></i>{{ route.name }}
             </router-link>
           </li>
-          <li>
+          <!-- <li>
             <router-link to="#" class="flex items-center text-lg leading-loose font-semibold hover:underline">
               <i class="fas fa-search mr-3"></i>Search
             </router-link>
-          </li>
+          </li> -->
         </ul>
       </nav>
     </div>
@@ -175,8 +175,7 @@
     </div>
 </template>
 
-<script>
-export default {
-  name: 'Sidebar'
-};
+<script setup>
+import {sidebarRoutes as routes} from '../../router.js'
+
 </script>

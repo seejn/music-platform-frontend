@@ -19,14 +19,18 @@ export const artistNavRoutes = [
     {
         path: '/artist/upload',
         name: 'Upload',
+        component: () => import('./pages/Artist/Upload.vue')
     },
+    {
+        path: '/artist/profile',
+        name: 'My Profile',
+        component: () => import('./pages/Artist/Profile.vue')
+    },
+    
 ]
 
 export const userNavRoutes = [
-    {
-        path: '/user/profile',
-        name: 'My Profile',
-    },
+
 ]
 
 export const guestNavRoutes = [
@@ -62,18 +66,20 @@ export const landingRoute = [
     {
         path: '/',
         name: "LandingRoute",
-        component: () => import('./pages/Artist/Home.vue')
+        component: () => import('./pages/Home.vue')
     }
 ]
 
 export const sidebarRoutes = [
     {
-        path: '/user/home',
+        path: '/home',
         name: "Home",
+        component: () => import('./pages/Home.vue')
     },
     {
         path: '/search',
         name: "Search",
+        component: () => import('./pages/Search.vue')
     },
 ]
 
@@ -84,6 +90,7 @@ export const routes = [
     ...guestNavRoutes,
     ...commonRoutes,
     ...landingRoute,
+    ...sidebarRoutes,
 ]
 
 export default createRouter({

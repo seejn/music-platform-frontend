@@ -46,10 +46,10 @@
   <script setup>
 
     import { ref } from 'vue';
-    import { userNavRoutes, commonRoutes  } from '../../router';
+    import { artistNavRoutes, commonRoutes  } from '../../router';
 
     const routes = [
-      ...userNavRoutes,
+      artistNavRoutes[1],
       commonRoutes[1]
     ]
 
