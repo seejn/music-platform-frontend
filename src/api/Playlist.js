@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from './accessTokenAxios'
 
 export const fetchAllPlaylists = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/get_all_playlist/`

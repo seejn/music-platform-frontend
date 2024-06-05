@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from './accessTokenAxios'
 
 export const fetchAllAlbums = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/album/get_all_albums/`
@@ -23,11 +23,6 @@ export const fetchAlbum = async () => {
         console.log(error)
         return error
     }
-
-
-
-
-    
 }
 export const creteAlbum = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/album/create/`

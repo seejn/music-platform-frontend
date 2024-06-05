@@ -21,10 +21,13 @@
         <div v-show="isDropdownVisible"
           class="absolute top-24 right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-            <li v-for="route in routes">
-              <RouterLink :to="route.path"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ route.name }}
-              </RouterLink>
+            <li>
+              <RouterLink :to="routes[1].path"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                {{routes[1].name}}</RouterLink>
+              <button @click="handleLogout"
+                class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Logout</button>
             </li>
           </ul>
         </div>
@@ -35,19 +38,22 @@
 
 <script setup>
 
-import { computed, ref } from 'vue';
-import { artistNavRoutes, commonRoutes } from '../../router';
+import { ref } from 'vue';
+import { artistNavRoutes as routes } from '../../router';
+import { Logout } from '../../api/Auth';
+import { useStore } from 'vuex'
 
-const routes = [
-  artistNavRoutes[1],
-  commonRoutes[1]
-]
+const store = useStore()
 
 let isDropdownVisible = ref(false)
 
 const toggleDropdown = () => {
   isDropdownVisible.value = !isDropdownVisible.value
   return isDropdownVisible
+}
+
+const handleLogout = async () => {
+  await Logout(store)
 }
 </script>
 
