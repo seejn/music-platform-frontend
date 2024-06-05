@@ -13,7 +13,7 @@ export const createUser = async (data) => {
 
 
 export const createArtist = async (data) => {
-  const url = `${import.meta.env.VITE_API_BASE_URL}/roles/create_artists/`;
+  const url = `${import.meta.env.VITE_API_BASE_URL}/roles/create_artist/`;
   try {
     const response = await axios.post(url, data);
     return response.data.data;
