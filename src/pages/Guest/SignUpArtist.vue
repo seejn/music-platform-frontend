@@ -67,7 +67,7 @@
 import { ref } from 'vue';
 import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
-import { createUser } from '../../api/Auth';
+import { createArtist} from '../../api/Auth';
 
 export default {
   name: 'Register',
@@ -99,13 +99,11 @@ export default {
 
     const submitForm = async () => {
       try {
-        const response = await createUser(info.value);
+        const response = await createArtist(info.value);
         console.log('User created successfully:', response);
         clearForm();
-        // Implement success toast or message here
       } catch (error) {
         console.error('User creation failed:', error);
-        // Implement error toast or message here
       }
     };
 
