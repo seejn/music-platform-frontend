@@ -14,14 +14,14 @@
         </button>
     </div>
 </template> -->
-
 <template>
-        <div class="track flex-shrink-0 mr-10">
-            <img src="/src/assets/pic/dua.jpeg" alt="Cover Image" class="w-60 h-60 rounded-lg">
-            <h3 class="text-xl text-white mt-3">{{ track?.title || "TrackName" }}</h3>
-            <p class="text-white">{{ track?.artist?.first_name }}</p>
-        </div>
-</template>
+    <div class="track flex-shrink-0 mx-5 hover:shadow-lg hover:shadow-red-800 hover:border-red-800 transition-all duration-300 rounded-lg p-6">
+      <img src="/src/assets/pic/dua.jpeg" alt="Cover Image" class="w-60 h-60 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110">
+      <h3 class="text-xl text-white mt-3 transition ease-in-out delay-150 hover:translate-x-3 hover:scale-110">{{ track?.title || "TrackName" }}</h3>
+      <p class="text-white">{{ track?.artist?.first_name }}</p>
+    </div>
+  </template>
+  
 
 <script setup>
 
