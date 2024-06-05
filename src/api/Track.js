@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from './accessTokenAxios'
 
 export const fetchAllTracks = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/get_all_tracks/`
@@ -8,8 +8,7 @@ export const fetchAllTracks = async () => {
         })
         return response.data.data
     }catch(error){
-        console.log(error)
-        return error
+        throw error
     }
 }
 export const fetchTracks = async () => {
@@ -20,8 +19,7 @@ export const fetchTracks = async () => {
         })
         return response.data.data
     }catch(error){
-        console.log(error)
-        return error
+        throw error
     }
 }
 export const createTrack = async () => {
@@ -32,8 +30,7 @@ export const createTrack = async () => {
         })
         return response.data.data
     }catch(error){
-        console.log(error)
-        return error
+        throw error
     }
 }
 export const updateTracks = async () => {
@@ -44,8 +41,7 @@ export const updateTracks = async () => {
         })
         return response.data.data
     }catch(error){
-        console.log(error)
-        return error
+        throw error
     }
 }
 export const deleteTracks = async () => {
@@ -56,8 +52,7 @@ export const deleteTracks = async () => {
         })
         return response.data.data
     }catch(error){
-        console.log(error)
-        return error
+        throw error
     }
 }
 
