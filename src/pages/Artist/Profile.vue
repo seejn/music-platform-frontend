@@ -6,10 +6,10 @@
           <div class="flex flex-row">
             <img :src="profileImageUrl" alt="" class="rounded-full border-2 border-white w-60 h-60">
             <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
-              {{ users.first_name }}{{ users.last_name }}
+              {{ users.first_name }} {{ users.last_name }}
               <i @click="toggleEditForm" class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer"></i>
             </p>
-            <p class="text-white mt-[11vw] -ml-[15vw]">{{ users.email }}</p>
+            <p class="text-white mt-[11vw] mt">{{ users.email }}</p>
           </div>
           <div class=" mt-8 rounded-lg glass-effect">
             <section>
