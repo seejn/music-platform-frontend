@@ -7,7 +7,10 @@
         </div>
         <div id="carousel"
             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 transition-transform ease-in-out duration-500">
-            <Album v-for="album in displayedAlbums" :album="album" :key="album.id" />
+            
+            <RouterLink v-for="album in displayedAlbums" :to="`/single-album/${album.id}`">
+                <Album  :album="album" :key="album.id" />
+            </RouterLink>
         </div>
     </div>
     
