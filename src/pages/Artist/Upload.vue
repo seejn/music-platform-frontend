@@ -6,7 +6,7 @@
             <img src="/src/assets/pic/vin2.png" alt="Background Image" class="h-full w-full object-cover">
           </div>
   
-          <div class="absolute top-0 left-1/2 transform -translate-x-1/2 my-16 p-6 rounded-3xl bg-black w-2/5 h-5/6 bg-opacity-85 border-2 border-red-800 z-10 hover:shadow-red-800 hover:shadow-lg transition-shadow duration-700">
+          <div class=" w-full sm:w-3/5 md:w-2/5 absolute top-0 left-1/2 transform -translate-x-1/2 my-16 p-6 rounded-3xl bg-black bg-opacity-85 border-2 border-red-800 z-10 hover:shadow-red-800 hover:shadow-lg transition-shadow duration-700">
             <div class="flex justify-center my-6">
               <button @click="showSongForm = true" :class="{'bg-red-800': showSongForm, 'bg-gray-700': !showSongForm}" class="px-4 py-2 rounded-l text-white hover:bg-red-800 hover:text-white">Upload Song</button>
               <button @click="showSongForm = false" :class="{'bg-red-800': !showSongForm, 'bg-gray-700': showSongForm}" class="px-4 py-2 rounded-r text-white hover:bg-red-800 hover:text-white">Upload Album</button>

@@ -60,13 +60,18 @@ export const commonRoutes = [
         path: '/logout',
         name: 'Logout',
     },
+    {
+        path: '/single-song',
+        name: 'SingleSong',
+        component: () => import('./pages/Track/SingleSong.vue')
+    }
 ]
 
 export const landingRoute = [
     {
         path: '/',
         name: "LandingRoute",
-        component: () => import('./pages/Home.vue')
+        component: () => import('./pages/Landing.vue')
     }
 ]
 

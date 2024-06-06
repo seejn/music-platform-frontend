@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from './accessTokenAxios'
 
 export const fetchAllArtists = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/roles/artists/`
@@ -9,6 +9,6 @@ export const fetchAllArtists = async () => {
         return response.data.data
     }catch(error){
         console.log(error)
-        return error
+        throw error
     }
 }

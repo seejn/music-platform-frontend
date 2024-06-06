@@ -43,16 +43,17 @@
 import { ref } from 'vue';
 import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex'
 import { Login } from '../../api/Auth';
 
 const email = ref('');
 const password = ref('');
 const router = useRouter();
+const store = useStore()
 
 const submitForm = async () => {
   try {
-    const response = await Login({ email: email.value, password: password.value });
-    console.log('Login successful:', response);
+    const response = await Login({ email: email.value, password: password.value }, store);
     router.push({ name: 'Home' }); 
   } catch (error) {
     console.error('Login failed:', error);

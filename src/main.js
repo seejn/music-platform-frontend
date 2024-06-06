@@ -11,6 +11,7 @@ import Sidebar from './components/Sidebar/Sidebar.vue'
 import Footer from './components/Footer/Footer.vue' 
 
 import router from './router.js'
+import store from './store/store.js'
 
 createApp(App)
 .component("Layout", Layout)
@@ -22,4 +23,5 @@ createApp(App)
 .component("Sidebar", Sidebar)
 .component("Footer", Footer)
 .use(router)
+.use(store)
 .mount('#app')

@@ -1,5 +1,8 @@
-import axios from 'axios'
+import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+// Fetch all tracks
 export const fetchAllTracks = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/get_all_tracks/`
     try{
@@ -8,8 +11,7 @@ export const fetchAllTracks = async () => {
         })
         return response.data.data
     }catch(error){
-        console.log(error)
-        return error
+        throw error
     }
 }
 export const fetchTracks = async () => {
@@ -20,48 +22,53 @@ export const fetchTracks = async () => {
         })
         return response.data.data
     }catch(error){
-        console.log(error)
-        return error
-    }
-}
-export const createTrack = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/track/create/`
-    try{
-        const response = await axios(url , {
-            method: 'post',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
-    }
-}
-export const updateTracks = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/track/update/${track_id}/`
-    try{
-        const response = await axios(url , {
-            method: 'patch',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
-    }
-}
-export const deleteTracks = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/track/update/${track_id}/`
-    try{
-        const response = await axios(url , {
-            method: 'delete',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+        throw error
     }
 }
 
+export const fetchTrack = async (trackId) => {
+    const url = `${API_BASE_URL}/track/${trackId}/`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+};
 
+// Create a new track
+export const createTrack = async (trackData) => {
+    const url = `${API_BASE_URL}/track/create/`;
+    try {
+        const response = await axios.post(url, trackData);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+};
 
+// Update a track by ID
+export const updateTrack = async (trackId, trackData) => {
+    const url = `${API_BASE_URL}/track/update/${trackId}/`;
+    try {
+        const response = await axios.put(url, trackData);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+};
 
-
+// Delete a track by ID
+export const deleteTrack = async (trackId) => {
+    const url = `${API_BASE_URL}/track/delete/${trackId}/`;
+    try {
+        const response = await axios.delete(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+};
