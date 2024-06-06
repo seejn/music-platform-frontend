@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <template #Main>
-      <p class="text-white">{{ album }}</p>
+      
       <header class="album-header text-white py-10">
         <div class="flex flex-row">
           <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg">
