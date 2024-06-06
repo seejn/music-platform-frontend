@@ -1,17 +1,14 @@
 <template>
   <Layout>
     <template #Main>
-      <!-- <div class="text-white">
-        
-      {{ track }}
-      </div> -->
+     
 
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
-          <img src="/src/assets/pic/dua.jpeg" alt="" class="border-2 border-white w-60 h-60">
+          <img :src="imageUrl" alt="" class="border-2 border-white w-60 h-60">
           <div class="ml-2 mt-[7vw]">
             <h1 class="text-4xl font-bold text-white">{{playlist.title}}</h1>
-            <p class="mt-2 text-lg italic">{{playlist.user.first_name}}</p>
+            <p class="mt-2 text-lg italic">{{playlist?.user?.first_name}}</p>
             <div class="mt-6 flex justify-center space-x-4">
               <!-- Three dots button for options -->
               <div class="relative">
@@ -45,7 +42,7 @@
           <tbody>
             <tr v-for="(track, index) in track" :key="index" class="relative">
               <td class="py-2 px-4 text-left border-b border-red-800">
-                <img :src="track.image" alt="Track Image" class="w-16 h-16">
+                <img :src="trackImage" alt="Track Image" class="w-16 h-16">
               </td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.artist.first_name}}</td>
@@ -81,7 +78,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref ,computed} from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchPlaylist } from '../api/Playlist';
 
@@ -146,8 +143,22 @@ const deleteTrack = async (trackId) => {
     console.error(error);
   }
 };
-</script>
+const imageUrl = computed(() => {
+  return `${import.meta.env.VITE_API_BASE_URL}${playlist.value.image || ''}`;
 
+
+  
+});
+
+const trackImage = computed(() => {
+  return `${import.meta.env.VITE_API_BASE_URL}${track.value.image || ''}`;
+
+
+  
+});
+
+
+</script>
 <style scoped>
 .playlist-header {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/src/assets/pic/album-cover-url.jpg') no-repeat center center;
