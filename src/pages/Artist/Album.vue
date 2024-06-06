@@ -43,7 +43,7 @@
                 <img :src="imageUrl" alt="Track Image" class="w-16 h-16">
               </td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.release_date }}</td>
+              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
             </tr>
           </tbody>

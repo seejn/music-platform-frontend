@@ -1,10 +1,7 @@
 <template>
   <Layout>
     <template #Main>
-      <div class="text-white">
-        
-      {{ playlist }}
-      </div>
+     
 
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
