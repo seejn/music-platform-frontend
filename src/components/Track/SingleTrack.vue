@@ -16,7 +16,7 @@
 </template> -->
 <template>
     <div class="track flex-shrink-0 mx-5 hover:shadow-lg hover:shadow-red-800 hover:border-red-800 transition-all duration-300 rounded-lg p-6">
-        <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg">
+      <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 object-cover">
       <h3 class="text-xl text-white mt-3 transition ease-in-out delay-150 hover:translate-x-3 hover:scale-110">{{ track?.title || "TrackName" }}</h3>
       <p class="text-white">{{ track?.artist?.first_name }}</p>
     </div>
@@ -27,15 +27,17 @@
 import { computed } from 'vue';
 
 
+import {computed} from 'vue'
+
 const props = defineProps({
     track: {
         type: Object,
         required: true
     }
 })
+
 const imageUrl =  computed(() => {
-    if(props.track.image)    return `${import.meta.env.VITE_API_BASE_URL}${props.track.image}`;
+    if(props.track.image) return `${import.meta.env.VITE_API_BASE_URL}${props.track.image}`;
     else return "/src/assets/placeholders/image.png"
 });
-
 </script>
