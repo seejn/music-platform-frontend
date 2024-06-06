@@ -4,7 +4,7 @@
       <p class="text-white">{{ album }}</p>
       <header class="album-header text-white py-10">
         <div class="flex flex-row">
-          <img src="/src/assets/pic/1.jpg" alt="" class="border-2 border-white w-60 h-60">
+          <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg">
           <div class="ml-2 mt-[7vw]">
             <h1 class="text-4xl font-bold">{{album.title  }}</h1>
             <p class="mt-2 text-lg italic">{{artist.first_name}} {{artist.last_name}}</p>
@@ -40,7 +40,7 @@
           <tbody>
             <tr v-for="(track, index) in tracks" :key="index">
               <td class="py-2 px-4 text-left border-b border-red-800">
-                <img :src="track.image" alt="Track Image" class="w-16 h-16">
+                <img :src="imageUrl" alt="Track Image" class="w-16 h-16">
               </td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.release_date }}</td>
@@ -55,6 +55,8 @@
 
 <script setup>
 import { ref } from 'vue';
+import { computed } from 'vue';
+
 import { useRoute } from 'vue-router';
 import { fetchAlbum } from '../../api/Album';
 
@@ -109,8 +111,11 @@ const toggleOptions = () => {
 //   { title: "Track 3", releaseDate: "2024-03-01", artist: "Artist 3", image: "/path/to/image3.jpg", duration: "3:30" },
 // ];
 
-</script>
 
+const imageUrl = computed(() => {
+  return `${import.meta.env.VITE_API_BASE_URL}${album.value.image || ''}`;
+});
+</script>
 <style scoped>
 .album-header {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('album-cover-url.jpg') no-repeat center center;
