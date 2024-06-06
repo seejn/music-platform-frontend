@@ -1,24 +1,18 @@
 <template>
   <Layout>
     <template #Main>
-
-      <div class="text-white">
-        {{ artist }}
-      </div>
+      <!-- <div class="text-white">
+        {{ artist.first_name }}
+      </div> -->
       <div class="flex flex-col" style="background-attachment: url('/public/con.jpeg');">
-
         <div class="flex flex-grow min-h-0">
-
-          <div class="flex-grow flex-row  bg-black relative">
-            <!-- <div class=" inset-0 opacity-20 z-0">
-                      <img src="/public/con.jpeg" alt="Background Image" class="w-full object-cover">
-                    </div> -->
+          <div class="flex-grow flex-row bg-black relative">
             <div class="relative mt-48 p-6 w-full bg-black bg-opacity-90 overflow-hidden z-10">
               <div class="flex items-center mb-5">
-                <img :src="imageUrl" alt="Conan Gray" class="rounded-full w-40 mr-4">
+                <img :src="imageUrl" alt="Artist Image" class="rounded-full w-40 mr-4">
                 <div>
-                  <p class="text-white text-5xl font-bold mb-3">{{ artist.first_name }}</p>
-                  <p class="text-white">{{artist.biography}}</p>
+                  <p class="text-white text-5xl font-bold mb-3">{{ artist.first_name }} {{ artist.last_name }}</p>
+                  <p class="text-white">{{ artist.biography }}</p>
                 </div>
               </div>
 
@@ -28,14 +22,23 @@
                   <thead>
                     <tr>
                       <th class="py-2 px-4 text-left">Title</th>
-                      <th class="py-2 px-4 text-left">Release Date</th>
+                     
                       <th class="py-2 px-4 text-left">Duration</th>
+
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(track, index) in tracks" :key="index">
-                      <td class="py-2 px-4 text-left border-b border-white">{{ track.title }}</td>
-                      <td class="py-2 px-4 text-left border-b border-white">{{ track.release_date }}</td>
+                   
+
+                      <td class="py-2 px-4 text-left border-b border-white flex items-center">
+                        <img class=" mx-6" :src="trackImageUrl(track.image) " width="50" height="50" >
+                            <span>
+                              {{ track.title }}
+                            </span>
+                        </td>
+                    
+
                       <td class="py-2 px-4 text-left border-b border-white">{{ track.duration }}</td>
                     </tr>
                   </tbody>
@@ -51,43 +54,56 @@
     </template>
   </Layout>
 </template>
+
 <script setup>
-import { ref ,computed} from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchArtist } from '../api/Artist';
-
+import { fetchArtistTrack } from '../api/Track';
 
 
 const route = useRoute();
-const artistId = ref(null);
+const artistId = ref(route.params.id);
 const artist = ref({});
-const album = ref({});
-const track = ref({});
-
-artistId.value = route.params.id;
+const tracks = ref([]);
 
 const fetchArtistData = async () => {
   try {
-    artist.value = await fetchArtist(artistId.value);
-    album.value = artist.value.album || [];
-    track.value = album.value.track || [];
+    const fetchedArtist = await fetchArtist(artistId.value);
+    artist.value = fetchedArtist;
+   
     console.log("artist value", artist.value);
-    console.log("album value", album.value);
 
-
-
-
+  } catch (error) {
+    console.log("Error fetching artist data:", error);
   }
-  catch (error) {
-    console.log("error fetching artist data");
-  }
-}
+};
 
 fetchArtistData();
+
+const fetchTracks=async()=>{
+  try{
+
+    const fetchedArtistTrack=await  fetchArtistTrack(artistId.value);
+    tracks.value=fetchedArtistTrack;
+    console.log("tracks value",track.value);
+
+    
+    
+  } catch (error) {
+    console.log("Error fetching artist tracks:", error);
+  }
+};
+fetchTracks();
 
 
 
 const imageUrl = computed(() => {
   return `${import.meta.env.VITE_API_BASE_URL}${artist.value.image || ''}`;
 });
+
+
+const trackImageUrl = (image) => {
+  return `${import.meta.env.VITE_API_BASE_URL}${image || ''}`;
+};
 </script>

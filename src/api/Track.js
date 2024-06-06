@@ -72,3 +72,13 @@ export const deleteTrack = async (trackId) => {
         return error;
     }
 };
+export const fetchArtistTrack = async (artistId) => {
+    const url = `${API_BASE_URL}/track/get_artist_track/${artistId}/`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+};
