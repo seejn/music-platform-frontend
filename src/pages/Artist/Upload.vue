@@ -17,23 +17,26 @@
               <form @submit.prevent="uploadSong">
                 <div class="mb-4">
                   <label for="songTitle" class="block text-white mb-2">Title</label>
-                  <input type="text" id="songTitle" v-model="songTitle" class="w-full p-2 rounded outline-none bg-gray-700 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  <input type="text" id="songTitle" v-model="song.title" class="w-full p-2 rounded outline-none bg-gray-700 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
                 </div>
                 <div class="mb-4">
                   <label for="songDuration" class="block text-white mb-2">Duration</label>
-                  <input type="number" id="songDuration" v-model="songDuration" class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  <input type="number" id="songDuration" v-model="song.duration" class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
                 </div>
                 <div class="mb-4">
                   <label for="songReleasedDate" class="block text-white mb-2">Released Date</label>
-                  <input type="date" id="songReleasedDate" v-model="songReleasedDate" class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  <input type="date" id="songReleasedDate" v-model="song.release_date" class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
                 </div>
                 <div class="mb-4">
                   <label for="songGenre" class="block text-white mb-2">Genre</label>
-                  <input type="text" id="songGenre" v-model="songGenre" class="w-full p-2 rounded bg-gray-700 outline-none text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  <select type="text" id="songGenre" v-model="song.genre" class="w-full p-2 rounded bg-gray-700 outline-none text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                    <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{genre.name }} </option>
+                  </select>
                 </div>
                 <div class="mb-4">
                   <label for="songFile" class="block text-white mb-2">Image</label>
                   <input type="file" id="songFile" @change="handleSongImageChange" class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800">
+
                 </div>
                 <button type="submit" class="ring-2 ring-red-800 text-white px-4 py-2 rounded hover:bg-red-800 hover:text-white">Upload Song</button>
               </form>
@@ -68,11 +71,15 @@
   </template>
 
 <script setup >
-import CreateAlbum from '../../components/Album/CreateAlbum.vue';
-import UploadTrack from '../../components/Track/UploadTrack.vue';
-import {
-    ref
-} from 'vue';
+
+import {ref} from 'vue';
+const song = ref({
+  title: '',
+  duration:'',
+  released_date: '',
+  artist: '',
+});
+
 
 const showSongForm = ref(true);
 </script>
