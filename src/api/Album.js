@@ -1,156 +1,114 @@
 import axios from './accessTokenAxios'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+// Fetch all albums
 export const fetchAllAlbums = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/album/get_all_albums/`
-    try{
-        const response = await axios(url , {
-            method: 'get',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+    const url = `${API_BASE_URL}/album/get_all_albums/`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
-}
-export const fetchAlbum = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/album/${album_id}/`
-    try{
-        const response = await axios(url , {
-            method: 'get',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+};
+
+export const fetchAlbum = async (albumId) => {
+    const url = `${API_BASE_URL}/album/${albumId}/`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
-}
-export const creteAlbum = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/album/create/`
-    try{
-        const response = await axios(url , {
-            method: 'post',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+};
+
+export const createAlbum = async (albumData) => {
+    const url = `${API_BASE_URL}/album/create/`;
+    try {
+        const response = await axios.post(url, albumData);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
+};
 
-
-
-
-    
-}
-export const UpdateAlbum = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/album/update/${album_id}/`
-    try{
-        const response = await axios(url , {
-            method: 'patch',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+export const updateAlbum = async (albumId, albumData) => {
+    const url = `${API_BASE_URL}/album/update/${albumId}/`;
+    try {
+        const response = await axios.put(url, albumData);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
+};
 
-
-
-
-    
-}
-export const DeleteAlbum = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/album/delete/${album_id}/`
-    try{
-        const response = await axios(url , {
-            method: 'delete',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+export const deleteAlbum = async (albumId) => {
+    const url = `${API_BASE_URL}/album/delete/${albumId}/`;
+    try {
+        const response = await axios.delete(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
+};
 
-
-
-
-    
-}
-export const UpdateTrack_Album = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/album/update_tracks_in_album/${album_id}/`
-    try{
-        const response = await axios(url , {
-            method: 'patch',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+export const updateTracksInAlbum = async (albumId, trackData) => {
+    const url = `${API_BASE_URL}/album/update_tracks_in_album/${albumId}/`;
+    try {
+        const response = await axios.put(url, trackData);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
+};
 
-
-
-
-    
-}
-export const DeleteTrack_Album = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/album/delete_tracks_from_album/${album_id}/`
-    try{
-        const response = await axios(url , {
-            method: 'delete',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+export const deleteTracksFromAlbum = async (albumId, trackIds) => {
+    const url = `${API_BASE_URL}/album/delete_tracks_from_album/${albumId}/`;
+    try {
+        const response = await axios.delete(url, { data: { track_ids: trackIds } });
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
+};
 
-
-}
-
-
-export const fetchAllFavouriteAlbum = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/album/favourite_album/get_all/`
-    try{
-        const response = await axios(url , {
-            method: 'delete',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+export const fetchAllUsersFavouriteAlbums = async () => {
+    const url = `${API_BASE_URL}/album/favourite_album/get_all/`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
+};
 
-
-}
-export const CreateFavouriteAlbum = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/album/favourite_album/create/`
-    try{
-        const response = await axios(url , {
-            method: 'post',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+export const createFavouriteAlbum = async (albumId) => {
+    const url = `${API_BASE_URL}/album/favourite_album/create/`;
+    try {
+        const response = await axios.post(url, { album_id: albumId });
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
+};
 
-
-}
-
-export const DeleteFavouriteAlbum = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/album/favourite_album/delete/${favourite_album_id}`
-    try{
-        const response = await axios(url , {
-            method: 'delete',
-        })
-        return response.data.data
-    }catch(error){
-        console.log(error)
-        return error
+export const deleteFavouriteAlbum = async (favouriteAlbumId) => {
+    const url = `${API_BASE_URL}/album/favourite_album/delete/${favouriteAlbumId}/`;
+    try {
+        const response = await axios.delete(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return error;
     }
-
-
-}
-
-
-    
+};

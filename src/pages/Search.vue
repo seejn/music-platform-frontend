@@ -1,48 +1,51 @@
 <template>
   <Layout>
     <template #Main>
+
       <div class="p-6">
         <input
-          v-model="searchQuery"
-          placeholder="Search for albums or artists..."
-          class="w-full p-4 mb-6 rounded-lg  bg-black text-white"
-        />
-        <div v-if="filteredResults.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div
-            v-for="result in filteredResults"
-            :key="result"
-            class="bg-black p-6 rounded-lg text-center text-white"
-          >
-            {{ result }}
-          </div>
+        v-model="searchQuery"
+      placeholder="Search for albums, artists, or playlists..."
+      class="w-full p-4 mb-6 rounded-lg bg-black text-white"
+    />
+    <div v-if="filteredResults.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div
+        v-for="(result, index) in filteredResults"
+        :key="index"
+        class="bg-black rounded-lg text-white"
+        >
+        <div class="p-4 border border-gray-800">
+          <!-- Depending on the type of result (song, artist, playlist), customize the card component -->
+          <h2 class="text-lg font-bold">{{ result.name }}</h2>
+          <p class="text-sm">{{ result.type }}</p>
+          <!-- You can add more details here -->
         </div>
-        <div v-else class="text-center text-white">
-          No results found.
-        </div>
-        <!-- <TopArtist :artist="topArtist"/> -->
       </div>
-    </template>
-  </Layout>
+    </div>
+    <div v-else class="text-center text-white">
+      No results found.
+    </div>
+  </div>
+</template>
+
+</Layout>
 </template>
 
 <script>
-import TopArtist from '../components/Track/TrackCollection.vue';
 export default {
-  components:{
-    TopArtist
-  },
   data() {
     return {
       searchQuery: '',
       mockData: [
-        'Billie',
-        'Taylor',
-        'No time to die',
-        'Watermelon Sugar',
-        'Sunflower',
-        'Sunflower-post',
-        'Daylight',
-        'Dua Lipa'
+        { name: 'Billie Eilish', type: 'Artist' },
+        { name: 'Taylor Swift', type: 'Artist' },
+        { name: 'No Time to Die', type: 'Song' },
+        { name: 'Watermelon Sugar', type: 'Song' },
+        { name: 'Sunflower', type: 'Song' },
+        { name: 'Sunflower (Post)', type: 'Song' },
+        { name: 'Daylight', type: 'Song' },
+        { name: 'Dua Lipa', type: 'Artist' },
+        // Add more mock data for playlists if needed
       ]
     };
   },
@@ -52,7 +55,7 @@ export default {
         return [];
       }
       return this.mockData.filter(item =>
-        item.toLowerCase().includes(this.searchQuery.toLowerCase())
+        item.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
   }

@@ -64,6 +64,16 @@ export const commonRoutes = [
         path: '/single-song',
         name: 'SingleSong',
         component: () => import('./pages/Track/SingleSong.vue')
+    },
+    {
+        path: '/single-album/:id',
+        name: 'SingleAlbum',
+        component: () => import('./pages/Artist/Album.vue')
+    },
+    {
+        path: '/single-playlist/:id',
+        name: 'SinglePlaylist',
+        component: () => import('./pages/Playlist.vue')
     }
 ]
 
@@ -88,6 +98,15 @@ export const sidebarRoutes = [
     },
 ]
 
+export const playlistRoutes = [
+    {
+        path: '/createplaylist',
+        name:"CreatePlaylist",
+        component: () => import('./pages/Artist/Create_Playlist.vue')
+    },
+
+]
+
 export const routes = [
     ...adminNavRoutes,
     ...artistNavRoutes,
@@ -96,6 +115,7 @@ export const routes = [
     ...commonRoutes,
     ...landingRoute,
     ...sidebarRoutes,
+    ...playlistRoutes
 ]
 
 export default createRouter({
