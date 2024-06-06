@@ -1,12 +1,17 @@
 <template>
   <Layout>
     <template #Main>
+      <!-- <div class="text-white">
+        
+      {{ track }}
+      </div> -->
+
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
           <img src="/src/assets/pic/dua.jpeg" alt="" class="border-2 border-white w-60 h-60">
           <div class="ml-2 mt-[7vw]">
-            <h1 class="text-4xl font-bold">Playlist Name</h1>
-            <p class="mt-2 text-lg italic">"A description or highlight of the playlist"</p>
+            <h1 class="text-4xl font-bold text-white">{{playlist.title}}</h1>
+            <p class="mt-2 text-lg italic">{{playlist.user.first_name}}</p>
             <div class="mt-6 flex justify-center space-x-4">
               <!-- Three dots button for options -->
               <div class="relative">
@@ -25,7 +30,7 @@
       </header>
 
       <section class="py-4">
-        <h2 class="text-2xl font-bold my-4">Tracks in this Album</h2>
+        <h2 class="text-2xl font-bold my-4">Tracks in this Playlist</h2>
         <table class="min-w-full bg-transparent text-white">
           <thead>
             <tr>
@@ -38,12 +43,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(track, index) in tracks" :key="index" class="relative">
+            <tr v-for="(track, index) in track" :key="index" class="relative">
               <td class="py-2 px-4 text-left border-b border-red-800">
                 <img :src="track.image" alt="Track Image" class="w-16 h-16">
               </td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.artist }}</td>
+              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.artist.first_name}}</td>
 
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
 
@@ -77,21 +82,49 @@
 
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
+import { useRoute } from 'vue-router';
+import { fetchPlaylist } from '../api/Playlist';
 
-const tracks = ref([
-  { id: 1, title: "Track 1", artist:"artist_name", duration: "3:45" },
-  { id: 2, title: "Track 2", artist:"artist_name", duration: "4:15" },
-  { id: 3, title: "Track 3", artist:"artist_name", duration: "3:30" },
-]);
+
+
+const route = useRoute();
+const playlistId=ref(null);
+const playlist=ref({})
+const track=ref({})
+playlistId.value=route.params.id;
+
+
+// const track = ref([
+//   { id: 1, title: "Track 1", artist:"artist_name", duration: "3:45" },
+//   { id: 2, title: "Track 2", artist:"artist_name", duration: "4:15" },
+//   { id: 3, title: "Track 3", artist:"artist_name", duration: "3:30" },
+// ]);
 
 const showOptions = ref({});
 const showPlaylists = ref({});
-const playlists = ref([
-  { name: "Playlist 1" },
-  { name: "Playlist 2" },
-  { name: "Playlist 3" }
-]);
+// const playlists = ref([
+//   { name: "Playlist 1" },
+//   { name: "Playlist 2" },
+//   { name: "Playlist 3" }
+// ]);
+
+
+
+const fetchPlaylistData = async () => {
+  try {
+    playlist.value = await fetchPlaylist(playlistId.value);
+    track.value = playlist.value.track || []
+    console.log("playlist value", playlist.value);
+    console.log("track value", track.value);
+
+
+    
+  } catch (error) {
+    console.log("Error fetching playlist", error);
+  }
+};
+
+fetchPlaylistData();
 
 const toggleOptions = (index) => {
   showOptions.value = { ...showOptions.value, [index]: !showOptions.value[index] };
@@ -107,8 +140,8 @@ const deleteTrack = async (trackId) => {
   try {
     const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/track/delete/${trackId}/`);
     console.log(response.data);
-    // Handle successful deletion, e.g., update the tracks array
-    tracks.value = tracks.value.filter(track => track.id !== trackId);
+    // Handle successful deletion, e.g., update the track array
+    track.value = track.value.filter(track => track.id !== trackId);
   } catch (error) {
     console.error(error);
   }
@@ -116,7 +149,7 @@ const deleteTrack = async (trackId) => {
 </script>
 
 <style scoped>
-.album-header {
+.playlist-header {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/src/assets/pic/album-cover-url.jpg') no-repeat center center;
   background-size: cover;
 }

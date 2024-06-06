@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './accessTokenAxios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -26,23 +26,19 @@ export const fetchTracks = async () => {
     }
 }
 
-export const fetchTrack = async (trackId) => {
-    const url = `${API_BASE_URL}/track/${trackId}/`;
-    try {
-        const response = await axios.get(url);
-        return response.data.data;
-    } catch (error) {
-        console.error(error);
-        return error;
-    }
-};
-
 // Create a new track
 export const createTrack = async (trackData) => {
     const url = `${API_BASE_URL}/track/create/`;
     try {
-        const response = await axios.post(url, trackData);
-        return response.data.data;
+        console.log("From CreateTrack: ", trackData)
+        const response = await axios.post(url, trackData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        const data = response.data.data
+        console.log(data)
+        return data;
     } catch (error) {
         console.error(error);
         return error;

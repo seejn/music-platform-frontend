@@ -1,12 +1,13 @@
 <template>
   <Layout>
     <template #Main>
+      <p class="text-white">{{ album }}</p>
       <header class="album-header text-white py-10">
         <div class="flex flex-row">
-          <img src="/src/assets/pic/album_cover.jpg" alt="" class="border-2 border-white w-60 h-60">
+          <img src="/src/assets/pic/1.jpg" alt="" class="border-2 border-white w-60 h-60">
           <div class="ml-2 mt-[7vw]">
-            <h1 class="text-4xl font-bold">Album Name</h1>
-            <p class="mt-2 text-lg italic">"A description or highlight of the album"</p>
+            <h1 class="text-4xl font-bold">{{album.title  }}</h1>
+            <p class="mt-2 text-lg italic">{{artist.first_name}} {{artist.last_name}}</p>
             <div class="mt-6 flex justify-center space-x-4" v-if="isArtist">
               <!-- Three dots button for options -->
               <div class="relative">
@@ -29,10 +30,10 @@
         <table class="min-w-full bg-transparent text-white">
           <thead>
             <tr>
+              <th class="py-2 px-4 text-left"></th>
+
               <th class="py-2 px-4 text-left">Title</th>
               <th class="py-2 px-4 text-left">Release Date</th>
-              <th class="py-2 px-4 text-left">Artist</th>
-              <th class="py-2 px-4 text-left">Image</th>
               <th class="py-2 px-4 text-left">Duration</th>
             </tr>
           </thead>
@@ -42,8 +43,7 @@
                 <img :src="track.image" alt="Track Image" class="w-16 h-16">
               </td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.releaseDate }}</td>
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.artist }}</td>
+              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.release_date }}</td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
             </tr>
           </tbody>
@@ -55,9 +55,40 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { fetchAlbum } from '../../api/Album';
+
+const route = useRoute();
+const albumId=ref(null);
+const album=ref({})
+const tracks=ref({})
+const artist=ref({})
+albumId.value=route.params.id;
+
+
+
+
 
 const showOptions = ref(false);
-const isArtist = ref(true); // Set to true if the user is the artist of the album
+const isArtist = ref(true);
+
+const fetchAlbumData = async () => {
+  try {
+    album.value = await fetchAlbum(albumId.value);
+    tracks.value = album.value.track || []
+    artist.value=album.value.artist
+    console.log("album value", album.value);
+    console.log("tracks value", tracks.value);
+    console.log("artist value", artist.value);
+
+
+    
+  } catch (error) {
+    console.log("Error fetching album", error);
+  }
+};
+
+fetchAlbumData();
 
 const editAlbum = () => {
   console.log('Editing album');
@@ -71,12 +102,12 @@ const toggleOptions = () => {
   showOptions.value = !showOptions.value;
 };
 
-// Mock data for demonstration
-const tracks = [
-  { title: "Track 1", releaseDate: "2024-01-01", artist: "Artist 1", image: "/path/to/image1.jpg", duration: "3:45" },
-  { title: "Track 2", releaseDate: "2024-02-01", artist: "Artist 2", image: "/path/to/image2.jpg", duration: "4:15" },
-  { title: "Track 3", releaseDate: "2024-03-01", artist: "Artist 3", image: "/path/to/image3.jpg", duration: "3:30" },
-];
+// // Mock data for demonstration
+// const tracks = [
+//   { title: "Track 1", releaseDate: "2024-01-01", artist: "Artist 1", image: "/path/to/image1.jpg", duration: "3:45" },
+//   { title: "Track 2", releaseDate: "2024-02-01", artist: "Artist 2", image: "/path/to/image2.jpg", duration: "4:15" },
+//   { title: "Track 3", releaseDate: "2024-03-01", artist: "Artist 3", image: "/path/to/image3.jpg", duration: "3:30" },
+// ];
 
 </script>
 
