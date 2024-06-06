@@ -17,7 +17,7 @@
               </div>
 
               <div class="bg-black bg-opacity-50 rounded-lg p-6 overflow-y-auto shadow-lg max-h-full">
-                <h2 class="text-2xl font-bold text-white mb-4">New tracks</h2>
+                <h2 class="text-2xl font-bold text-white mb-4">All tracks</h2>
                 <table class="min-w-full bg-transparent text-white">
                   <thead>
                     <tr>
