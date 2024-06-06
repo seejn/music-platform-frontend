@@ -98,6 +98,15 @@ export const sidebarRoutes = [
     },
 ]
 
+export const playlistRoutes = [
+    {
+        path: '/createplaylist',
+        name:"CreatePlaylist",
+        component: () => import('./pages/Artist/Create_Playlist.vue')
+    },
+
+]
+
 export const routes = [
     ...adminNavRoutes,
     ...artistNavRoutes,
@@ -106,6 +115,7 @@ export const routes = [
     ...commonRoutes,
     ...landingRoute,
     ...sidebarRoutes,
+    ...playlistRoutes
 ]
 
 export default createRouter({
