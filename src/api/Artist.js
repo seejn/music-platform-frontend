@@ -12,3 +12,13 @@ export const fetchAllArtists = async () => {
         throw error
     }
 }
+export const fetchArtist = async (userId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/roles/artist/${userId}/`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(`Error fetching artist with ID ${userId}:`, error);
+        throw error;
+    }
+}
