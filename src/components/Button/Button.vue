@@ -1,7 +1,7 @@
 <template>
   <div class=" w-full flex justify-between items-center">
-    <button @click="scrollLeft" class="bg-blue-500 text-white px-4 py-2 rounded mr-auto ">Previous</button>
-    <button @click="scrollRight" class="bg-blue-500 text-white px-4 py-2 rounded ml-auto ">Next</button>
+    <button @click="scrollLeft" class="bg-red-800 text-white px-4 py-2 rounded mr-auto ">Previous</button>
+    <button @click="scrollRight" class="bg-red-800 text-white px-4 py-2 hover:rounded ml-auto ">Next</button>
   </div>
 </template>
   
