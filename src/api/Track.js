@@ -2,6 +2,18 @@ import axios from './accessTokenAxios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+export const fetchArtistTracks = async (artistId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/track/get_artist_track/${artistId}/`
+    try{
+        const response = await axios(url , {
+            method: 'get',
+        })
+        return response.data.data
+    }catch(error){
+        throw error
+    }
+}
+
 // Fetch all tracks
 export const fetchAllTracks = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/get_all_tracks/`
@@ -14,6 +26,7 @@ export const fetchAllTracks = async () => {
         throw error
     }
 }
+
 export const fetchTracks = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/${track_id}/`
     try{

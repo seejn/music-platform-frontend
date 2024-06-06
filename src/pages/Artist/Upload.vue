@@ -35,14 +35,15 @@
               </div>
               <div class="mb-4">
                 <label for="songGenre" class="block text-white mb-2">Genre</label>
-                <select v-model="track.genre" name="genre" id="genre" class="w-full p-2 rounded bg-gray-700 outline-none text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                <select v-model="track.genre" name="genre" id="genre"
+                  class="w-full p-2 rounded bg-gray-700 outline-none text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
                   <option value="" disabled>Choose genre of track</option>
-                  <option v-for="genre in genres" :key="genre.id" value="genre.name">{{ genre.name }}</option>
+                  <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.name }}</option>
                 </select>
               </div>
               <div class="mb-4">
                 <label for="songFile" class="block text-white mb-2">Image</label>
-                <input type="file" id="songFile" @change="handleSongImageChange"
+                <input type="file" id="songFile" @change="handleTrackImageChange"
                   class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800">
               </div>
               <button type="submit"
@@ -53,7 +54,7 @@
 
           <div v-else class="bg-black bg-opacity-50 rounded-lg p-6 w-full shadow-lg">
             <h2 class="text-2xl font-bold text-red-800 mb-4">Upload Album</h2>
-            <form @submit.prevent="uploadAlbum">
+            <form @submit.prevent="handleAlbumUpload">
               <div class="mb-4">
                 <label for="albumTitle" class="block text-white mb-2">Title</label>
                 <input type="text" id="albumTitle" v-model="album.title"
@@ -66,13 +67,16 @@
               </div>
               <div class="mb-4">
                 <label for="albumCover" class="block text-white mb-2">Album Cover</label>
-                <input type="file" id="albumCover" @change="handleAlbumCoverChange"
+                <input type="file" id="albumCover" @change="handleAlbumImageChange"
                   class="w-full p-2 rounded outline-none bg-gray-700 focus:border-red-800 focus:ring-2 focus:ring-red-800 text-white caret-red-800 border border-gray-600">
               </div>
               <div class="mb-4">
                 <label for="albumFile" class="block text-white mb-2">Album Track</label>
-                <input type="file" id="albumFile" @change="handleAlbumFileChange"
-                  class="w-full p-2 rounded outline-none bg-gray-700 focus:border-red-800 focus:ring-2 focus:ring-red-800 text-white caret-red-800 border border-gray-600">
+                <select v-model="album.tracks" multiple name="genre" id="genre"
+                  class="w-full p-2 rounded bg-gray-700 outline-none text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  <option value="" disabled>Choose tracks</option>
+                  <option v-for="track in artistTracks" :key="track.id" :value="track.id">{{ track.title }}</option>
+                </select>
               </div>
               <button type="submit" class="ring-2 ring-red-800 text-white px-4 py-2 rounded hover:bg-red-800">Upload
                 Album</button>
@@ -89,10 +93,13 @@ import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
 import { createTrack } from '../../api/Track';
+import { fetchArtistTracks } from '../../api/Track';
 import { fetchGenres } from '../../api/Genre'
+import { createAlbum } from '../../api/Album';
 
 import CreateAlbum from '../../components/Album/CreateAlbum.vue';
 import UploadTrack from '../../components/Track/UploadTrack.vue';
+import { handleImageUpload } from '../../utils/imageUpload';
 
 const store = useStore()
 const user = computed(() => store.getters.getUser)
@@ -100,6 +107,8 @@ const user = computed(() => store.getters.getUser)
 const showSongForm = ref(true);
 
 const genres = ref([])
+const artistTracks = ref([])
+
 const loadGenres = async () => {
   try {
     genres.value = await fetchGenres();
@@ -108,30 +117,73 @@ const loadGenres = async () => {
   }
 };
 
+const loadArtistTracks = async () => {
+  try {
+    artistTracks.value = await fetchArtistTracks(user.value.id);
+  } catch (error) {
+    console.error("Failed to fetch artistTracks:", error);
+  }
+};
+
 const track = ref({
   title: "",
   duration: "",
   released_date: "",
   genre: "",
-  image: "",
   artist: user.value.id
 })
+
+const trackImageFile = ref(null);
+const albumImageFile = ref(null);
+
+const handleTrackImageChange = (event) => {
+  trackImageFile.value = event.target.files[0];
+};
+
+const handleAlbumImageChange = (event) => {
+  albumImageFile.value = event.target.files[0];
+};
 
 const album = ref({
   title: "",
   released_date: "",
+  artist: user.value.id,
+  tracks: []
 })
+
+const clearFields = (fields) => {
+  for (const key in fields.value) {
+    if (key !== "artist") fields.value[key] = ""
+  }
+}
+
 
 const handleTrackUpload = async () => {
   try {
-    const response = await createTrack(track.value)
+    const formData = handleImageUpload(track.value, trackImageFile.value)
+
+    const response = await createTrack(formData)
   } catch (error) {
     console.log(error)
   }
+  clearFields(track)
+}
+
+const handleAlbumUpload = async () => {
+  try {
+    const formData = handleImageUpload(album.value, albumImageFile.value)
+
+    const response = await createAlbum(formData)
+    console.log("create album", response)
+  } catch (error) {
+    console.log(error)
+  }
+  clearFields(album)
 }
 
 onMounted(() => {
   loadGenres()
+  loadArtistTracks()
 })
 
 </script>
