@@ -64,6 +64,16 @@ export const commonRoutes = [
         path: '/single-song',
         name: 'SingleSong',
         component: () => import('./pages/Track/SingleSong.vue')
+    },
+    {
+        path: '/single-album/:id',
+        name: 'SingleAlbum',
+        component: () => import('./pages/Artist/Album.vue')
+    },
+    {
+        path: '/single-playlist/:id',
+        name: 'SinglePlaylist',
+        component: () => import('./pages/Playlist.vue')
     }
 ]
 

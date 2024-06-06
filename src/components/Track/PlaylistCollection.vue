@@ -2,7 +2,12 @@
 
     <div class="relative overflow-hidden">
         <div id="carousel" class="flex transition-transform ease-in-out duration-500">
-            <SinglePlaylist v-for="playlist in playlists" :playlist="playlist" :key="playlist.id" />
+           
+           
+           <RouterLink v-for="playlist in playlists" :to="`/single-playlist/${playlist.id}`">
+            <SinglePlaylist  :playlist="playlist" :key="playlist.id" />
+
+           </RouterLink>
         </div>
         <div class="w-full flex" v-if="playlists.length>4">
             <Button collection="playlist" />
@@ -13,6 +18,7 @@
 <script setup>
 import SinglePlaylist from './SinglePlaylist.vue'
 import Button from '../Button/Button.vue'
+import { RouterLink } from 'vue-router';
 
 
 const props = defineProps({
