@@ -11,21 +11,35 @@
             <form @submit.prevent="submitForm" class="w-full">
               <div>
                 <h2 class="text-3xl font-bold mb-8 text-black text-center">Login</h2>
+
+
                 <div class="space-y-6">
                   <div class="form-group">
                     <label class="block text-lg font-medium text-gray-700 mb-2" for="email">Email</label>
-                    <input v-model="email" type="email" id="email" class="form-input w-full rounded-md border border-blood bg-white text-gray-900 p-2" />
+                    <input v-model="info.email" type="text" id="email" class="form-input w-full rounded-md border border-blood bg-white text-gray-900 p-2" />
+                    <p v-if="!info.email && formSubmitted" class="text-red-500 text-sm mt-2">Email is required.</p>
+                    <p v-if="info.email && !isEmailValid && formSubmitted" class="text-red-500 text-sm mt-2">Please enter a valid email address.</p>
                   </div>
+
+
                   <div class="form-group">
                     <label class="block text-lg font-medium text-gray-700 mb-2" for="password">Password</label>
-                    <input v-model="password" type="password" id="password" class="form-input w-full rounded-md border border-blood bg-white text-gray-900 p-2" />
+                    <input v-model="info.password" type="password" id="password" class="form-input w-full rounded-md border border-blood bg-white text-gray-900 p-2" />
+                    <p v-if="!info.password && formSubmitted" class="text-red-500 text-sm mt-2">Password is required.</p>
+                    <p v-if="info.password && loginFailed && formSubmitted" class="text-red-500 text-sm mt-2">Please enter the right password.</p>
                   </div>
+
+
                   <div class="form-submit flex justify-center mt-8">
                     <button type="submit" class="bg-white border-blood border-2 hover:bg-blood hover:text-white text-black font-bold py-2 px-4 rounded-full mb">Login</button>
                   </div>
+
+
                   <div class="flex justify-center mt-8">
                     <p>Don't have an account?</p>
                   </div>
+
+
                   <div class="flex justify-center mt-8">
                     <RouterLink to="/signup" class="bg-white border-blood border-2 hover:bg-blood hover:text-white text-black font-bold py-2 px-4 rounded-full mb">Signup</RouterLink>
                   </div>
@@ -40,23 +54,63 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, watch } from 'vue';
 import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex'
+import { useStore } from 'vuex';
 import { Login } from '../../api/Auth';
 
-const email = ref('');
-const password = ref('');
+const info = ref({
+  email: '',
+  password: ''
+});
+
+const formSubmitted = ref(false);
+const loginFailed = ref(false);
+
 const router = useRouter();
-const store = useStore()
+const store = useStore();
+
+const isEmailValid = computed(() => {
+  return /\S+@\S+\.\S+/.test(info.value.email);
+});
+
+
+watch(() => info.value.password, (newPassword) => {
+  if (loginFailed.value) {
+    loginFailed.value = false;
+  }
+});
+
+const clearForm = () => {
+  info.value.email = '';
+  info.value.password = '';
+  formSubmitted.value = false;
+  loginFailed.value = false;
+};
 
 const submitForm = async () => {
+  formSubmitted.value = true;
+  loginFailed.value = false;
+
+  if (!info.value.email || !info.value.password) {
+    console.error('Please fill in all required fields.');
+    return;
+  }
+
+  if (!isEmailValid.value) {
+    console.error('Please enter a valid email address.');
+    return;
+  }
+
   try {
-    const response = await Login({ email: email.value, password: password.value }, store);
-    router.push({ name: 'Home' }); 
+    const response = await Login({ email: info.value.email, password: info.value.password }, store);
+    console.log('User login successfully:', response);
+    router.push({ name: 'Home' });
+    clearForm();
   } catch (error) {
-    console.error('Login failed:', error);
+    console.error('User login failed:', error.message);
+    loginFailed.value = true;
   }
 };
 </script>
