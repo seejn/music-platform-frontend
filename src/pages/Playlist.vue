@@ -31,7 +31,6 @@
         <table class="min-w-full bg-transparent text-white">
           <thead>
             <tr>
-              <th class="py-2 px-4 text-left">Image</th>
               <th class="py-2 px-4 text-left">Title</th>
               <th class="py-2 px-4 text-left">Artist</th>
 
@@ -41,10 +40,12 @@
           </thead>
           <tbody>
             <tr v-for="(track, index) in track" :key="index" class="relative">
-              <td class="py-2 px-4 text-left border-b border-red-800">
-                <img :src="trackImage" alt="Track Image" class="w-16 h-16">
-              </td>
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
+              <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
+                <img class=" mx-6" :src="trackImageUrl(track.image) " width="50" height="50" >
+                    <span>
+                      {{ track.title }}
+                    </span>
+                </td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.artist.first_name}}</td>
 
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
@@ -150,15 +151,12 @@ const imageUrl = computed(() => {
   
 });
 
-const trackImage = computed(() => {
-  return `${import.meta.env.VITE_API_BASE_URL}${track.value.image || ''}`;
-
-
-  
-});
-
-
+const trackImageUrl = (image) => {
+  return `${import.meta.env.VITE_API_BASE_URL}${image || ''}`;
+};
 </script>
+
+
 <style scoped>
 .playlist-header {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/src/assets/pic/album-cover-url.jpg') no-repeat center center;
