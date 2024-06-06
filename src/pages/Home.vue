@@ -2,11 +2,7 @@
     <Layout>
         <template #Main>
             <main class="">
-                <section class=" text-white rounded-lg p-6 mb-8 mx-10 glass-effect">
-                    <h1 class="text-3xl font-bold mb-2">Welcome to MusicPlatform</h1>
-                    <p class="text-lg">Discover new music, listen to your favorite tracks, and explore curated
-                        playlists.</p>
-                </section>
+             
 
                 <section>
                     <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Songs for You</h2>
