@@ -26,17 +26,6 @@ export const fetchTracks = async () => {
     }
 }
 
-export const fetchTrack = async (trackId) => {
-    const url = `${API_BASE_URL}/track/${trackId}/`;
-    try {
-        const response = await axios.get(url);
-        return response.data.data;
-    } catch (error) {
-        console.error(error);
-        return error;
-    }
-};
-
 // Create a new track
 export const createTrack = async (trackData) => {
     const url = `${API_BASE_URL}/track/create/`;
