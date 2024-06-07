@@ -4,7 +4,7 @@
       
       <header class="album-header text-white py-10">
         <div class="flex flex-row">
-          <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg">
+          <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg border-4 border-red-800">
           <div class="ml-2 mt-[7vw]">
             <h1 class="text-4xl font-bold">{{album.title  }}</h1>
             <p class="mt-2 text-lg italic">{{artist.first_name}} {{artist.last_name}}</p>
