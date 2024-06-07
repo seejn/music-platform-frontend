@@ -4,22 +4,20 @@
       
       <header class="album-header text-white py-10">
         <div class="flex flex-row">
-          <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg">
+          <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg border-4 border-red-800">
           <div class="ml-2 mt-[7vw]">
             <h1 class="text-4xl font-bold">{{album.title  }}</h1>
             <p class="mt-2 text-lg italic">{{artist.first_name}} {{artist.last_name}}</p>
             <div class="mt-6 flex justify-center space-x-4" v-if="isArtist">
-              <!-- Three dots button for options -->
-              <div class="relative">
+              <!-- <div class="relative">
                 <button @click="toggleOptions" class="text-white bg-black rounded-md shadow-md text-md">
                   <i class="fas fa-ellipsis-v">...</i>
                 </button>
-                <!-- Options menu -->
                 <div v-if="showOptions" class="absolute top-10 right-0 bg-red rounded-md shadow-md py-2 w-40">
                   <button @click="editAlbum" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Edit</button>
                   <button @click="deleteAlbum" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Delete</button>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@
   
       <div v-for="album in albums" :key="album.id" class="mb-12">
         <div class="flex items-center mb-4">
-          <img :src="album.image" alt="Album Cover" class="w-24 h-24 mr-4 rounded-lg shadow-md">
+          <img :src="album.image" alt="Album Cover" class="w-24 h-24 mr-4 rounded-lg shadow-md border-2 border-red-800">
           <h2 class="text-2xl font-semibold">{{ album.name }}</h2>
           
         </div>

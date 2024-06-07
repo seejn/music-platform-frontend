@@ -40,9 +40,6 @@ const store = createStore({
     },
   },
   getters: {
-    // getUserId(state) {
-    //   return state.user.id;
-    // },
     isLoggedIn: state => state.isLoggedIn,
     getUser: state => state.user,
     getRole: state => state.role,

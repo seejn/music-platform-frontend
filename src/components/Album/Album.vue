@@ -7,8 +7,8 @@
 </template> -->
 
 <template>
-    <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4 glass-effect">
-        <img :src="imageUrl" alt="album Cover" class="w-full h-44 object-cover rounded-md mb-2" />
+    <div class="bg-gray-800 bg-opacity-50 rounded-lg p-4 glass-effect border-2 border-red-800 hover:shadow-lg hover:shadow-red-800 hover:border-red-800 transition-all duration-300">
+        <img :src="imageUrl" alt="album Cover" class="w-full h-44 object-cover rounded-md mb-2 " />
         <h3 class="text-xl font-bold text-white">{{ album.title }}</h3>
         <p class="text-white">{{ album.songCount }} Songs</p>
     </div>

@@ -1,15 +1,13 @@
 <template>
   <Layout>
     <template #Main>
-      <!-- <div class="text-white">
-        {{ artist.first_name }}
-      </div> -->
+  
       <div class="flex flex-col" style="background-attachment: url('/public/con.jpeg');">
         <div class="flex flex-grow min-h-0">
           <div class="flex-grow flex-row bg-black relative">
-            <div class="relative mt-48 p-6 w-full bg-black bg-opacity-90 overflow-hidden z-10">
+            <div class="relative mt-20 p-6 w-full bg-black bg-opacity-90 overflow-hidden z-10">
               <div class="flex items-center mb-5">
-                <img :src="imageUrl" alt="Artist Image" class="rounded-full w-40 mr-4">
+                <img :src="imageUrl" alt="Artist Image" class="rounded-full w-60 h-60 mr-4 object-cover border-4 border-red-800">
                 <div>
                   <p class="text-white text-5xl font-bold mb-3">{{ artist.first_name }} {{ artist.last_name }}</p>
                   <p class="text-white">{{ artist.biography }}</p>
@@ -29,9 +27,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="(track, index) in tracks" :key="index">
-                   
-
-                      <td class="py-2 px-4 text-left border-b border-white flex items-center">
+                      <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
                         <img class=" mx-6 object-cover" :src="trackImageUrl(track.image) " width="50" height="50" >
                             <span>
                               {{ track.title }}
@@ -39,7 +35,7 @@
                         </td>
                     
 
-                      <td class="py-2 px-4 text-left border-b border-white">{{ track.duration }}</td>
+                      <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
                     </tr>
                   </tbody>
                 </table>
