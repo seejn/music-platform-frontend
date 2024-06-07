@@ -17,7 +17,7 @@
               </div>
 
               <div class="bg-black bg-opacity-50 rounded-lg p-6 overflow-y-auto shadow-lg max-h-full">
-                <h2 class="text-2xl font-bold text-white mb-4">New tracks</h2>
+                <h2 class="text-2xl font-bold text-white mb-4">All tracks</h2>
                 <table class="min-w-full bg-transparent text-white">
                   <thead>
                     <tr>
@@ -29,10 +29,8 @@
                   </thead>
                   <tbody>
                     <tr v-for="(track, index) in tracks" :key="index">
-                   
-
                       <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
-                        <img class=" mx-6" :src="trackImageUrl(track.image) " width="50" height="50" >
+                        <img class=" mx-6 object-cover" :src="trackImageUrl(track.image) " width="50" height="50" >
                             <span>
                               {{ track.title }}
                             </span>

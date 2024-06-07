@@ -10,12 +10,10 @@
             <h1 class="text-4xl font-bold text-white">{{playlist.title}}</h1>
             <p class="mt-2 text-lg italic">{{playlist?.user?.first_name}}</p>
             <div class="mt-6 flex justify-center space-x-4">
-              <!-- Three dots button for options -->
               <div class="relative">
                 <button @click="toggleOptions" class="text-white bg-black rounded-md shadow-md text-md">
                   <i class="fas fa-ellipsis-v">...</i>
                 </button>
-                <!-- Options menu -->
                 <div v-if="showOptions" class="absolute top-10 right-0 bg-red rounded-md shadow-md py-2 w-40">
                   <button @click="editPlaylist" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Edit</button>
                   <button @click="deletePlaylist" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Delete</button>
@@ -31,20 +29,21 @@
         <table class="min-w-full bg-transparent text-white">
           <thead>
             <tr>
-              <th class="py-2 px-4 text-left">Image</th>
               <th class="py-2 px-4 text-left">Title</th>
               <th class="py-2 px-4 text-left">Artist</th>
 
               <th class="py-2 px-4 text-left">Duration</th>
-              <th class="py-2 px-4 text-left"></th> <!-- Column for buttons -->
+              <th class="py-2 px-4 text-left"></th> 
             </tr>
           </thead>
           <tbody>
             <tr v-for="(track, index) in track" :key="index" class="relative">
-              <td class="py-2 px-4 text-left border-b border-red-800">
-                <img :src="trackImage" alt="Track Image" class="w-16 h-16">
-              </td>
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
+              <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
+                <img class=" mx-6 object-cover" :src="trackImageUrl(track.image) " width="50" height="50" >
+                    <span>
+                      {{ track.title }}
+                    </span>
+                </td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.artist.first_name}}</td>
 
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
@@ -129,7 +128,6 @@ const toggleOptions = (index) => {
 
 const editTrack = (track) => {
   console.log('Editing track:', track.title);
-  // Implement the edit track logic here
 };
 
 const deleteTrack = async (trackId) => {
@@ -137,7 +135,6 @@ const deleteTrack = async (trackId) => {
   try {
     const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/track/delete/${trackId}/`);
     console.log(response.data);
-    // Handle successful deletion, e.g., update the track array
     track.value = track.value.filter(track => track.id !== trackId);
   } catch (error) {
     console.error(error);
@@ -150,15 +147,12 @@ const imageUrl = computed(() => {
   
 });
 
-const trackImage = computed(() => {
-  return `${import.meta.env.VITE_API_BASE_URL}${track.value.image || ''}`;
-
-
-  
-});
-
-
+const trackImageUrl = (image) => {
+  return `${import.meta.env.VITE_API_BASE_URL}${image || ''}`;
+};
 </script>
+
+
 <style scoped>
 .playlist-header {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/src/assets/pic/album-cover-url.jpg') no-repeat center center;
