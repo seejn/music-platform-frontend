@@ -32,7 +32,7 @@
                    
 
                       <td class="py-2 px-4 text-left border-b border-white flex items-center">
-                        <img class=" mx-6" :src="trackImageUrl(track.image) " width="50" height="50" >
+                        <img class=" mx-6 object-cover" :src="trackImageUrl(track.image) " width="50" height="50" >
                             <span>
                               {{ track.title }}
                             </span>

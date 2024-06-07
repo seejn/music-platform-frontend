@@ -41,7 +41,7 @@
           <tbody>
             <tr v-for="(track, index) in track" :key="index" class="relative">
               <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
-                <img class=" mx-6" :src="trackImageUrl(track.image) " width="50" height="50" >
+                <img class=" mx-6 object-cover" :src="trackImageUrl(track.image) " width="50" height="50" >
                     <span>
                       {{ track.title }}
                     </span>
@@ -130,7 +130,6 @@ const toggleOptions = (index) => {
 
 const editTrack = (track) => {
   console.log('Editing track:', track.title);
-  // Implement the edit track logic here
 };
 
 const deleteTrack = async (trackId) => {
@@ -138,7 +137,6 @@ const deleteTrack = async (trackId) => {
   try {
     const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/track/delete/${trackId}/`);
     console.log(response.data);
-    // Handle successful deletion, e.g., update the track array
     track.value = track.value.filter(track => track.id !== trackId);
   } catch (error) {
     console.error(error);
