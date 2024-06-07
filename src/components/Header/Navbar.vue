@@ -3,13 +3,13 @@
         <GuestNav />
     </span>
     <span v-else-if="isLoggedIn && role === 1">
-        <UserNav />
+        <UserNav :user="user" />
     </span>
     <span v-else-if="isLoggedIn && role === 2">
-        <ArtistNav />
+        <ArtistNav :user="user" />
     </span>
     <span v-else-if="isLoggedIn && role === 3">
-        <AdminNav />
+        <AdminNav :user="user" />
     </span>
 </template> 
 
