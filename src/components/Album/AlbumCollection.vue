@@ -19,7 +19,7 @@
 <script setup>
 
 import { ref, computed } from 'vue';
-import Album from './Album.vue'
+import Album from './AlbumCard.vue'
 
 const props = defineProps({
     albums: {

@@ -9,34 +9,49 @@
               {{ users.first_name }} {{ users.last_name }}
               <i @click="toggleEditForm" class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer"></i>
             </p>
-            <p class="text-white mt-[11vw] mt">{{ users.email }}</p>
+            <!-- <p class="text-white mt-[11vw] mt">{{ users.email }}</p> -->
           </div>
           <div class=" mt-8 rounded-lg glass-effect">
             <section>
-                    <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Artist</h2>
+                    <h2 class="text-3xl font-bold mb-4 text-white mt-10">Artist</h2>
                     <ArtistCollection :artists="artists"/>
               </section>
-            <UserSongs />
-            <UserPlaylist />
+            <TracksInTable :tracks="tracks" />
+            <section>
+                    <h2 class="text-3xl font-bold mb-4 text-white mt-10">Playlists</h2>
+                    <PlaylistCollection :playlists="playlists" />
+              </section>
+            <UserPlaylist :playlists="playlists" />
           </div>
         </div>
       </template>
       </Layout>
 </template>
 <script setup>
+import PlaylistCollection from '../../components/Track/PlaylistCollection.vue'
+import TracksInTable from '../../components/Track/TracksInTable.vue'
 import ArtistCollection from '../../components/Artist/ArtistCollection.vue'
+
 import UserSongs from '../../temp/saloni/components/User/UserSongs.vue'
 import UserPlaylist from '../../temp/saloni/components/User/UserPlaylist.vue'
+
 import { fetchAllArtists, fetchArtist } from '../../api/Artist';
+import { fetchArtistTracks } from '../../api/Track';
+import { fetchUserPlaylists } from '../../api/Playlist';
+
 import { ref,onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 
 const store=useStore();
-let artists =ref([]);
+
+const artists =ref([])
+const tracks = ref([])
+const playlists = ref([])
+
 const users=ref([])
 const userId = computed(() => store.getters.getUser.id); 
 
-const fetchArtistData = async ()=>{
+const loadArtistData = async ()=>{
   try{
     users.value= await fetchArtist(userId.value)
     console.log("user value", users.value);
@@ -47,11 +62,37 @@ const fetchArtistData = async ()=>{
   }
 }
 
+const loadArtistTracks = async () => {
+  try{
+    tracks.value = await fetchArtistTracks(userId.value)
+  }catch(error){
+    console.log(error)
+  }
+}
+
+const loadAllArtists = async () => {
+  try{
+    artists.value = await fetchAllArtists()
+    console.log("Artists: ",artists.value)
+  }catch(error){
+    console.log("From FetchAllArtists: ", error)
+  }
+}
+
+const loadUserPlaylists = async () => {
+  try{
+    playlists.value = await fetchUserPlaylists(userId.value)
+    console.log("load user playlists: ",playlists.value)
+  }catch(error){
+    console.log("From FetchAllArtists: ", error)
+  }
+}
 
 onMounted( async () => {
-  await fetchArtistData();
-    artists.value = await fetchAllArtists()
-    console.log("Artists:",artists.value)
+  await loadArtistData()
+  await loadArtistTracks()
+  await loadAllArtists()
+  await loadUserPlaylists()
 })
 
 const profileImageUrl = computed(() => {

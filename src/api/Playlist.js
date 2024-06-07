@@ -1,5 +1,16 @@
 import axios from './accessTokenAxios'
 
+export const fetchUserPlaylists = async (userId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/track/get_all_playlist/`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error('Error fetching playlists:', error);
+        throw error;
+    }
+}
+
 export const fetchAllPlaylists = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/get_all_playlist/`;
     try {
