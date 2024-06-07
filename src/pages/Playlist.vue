@@ -10,7 +10,7 @@
             <h1 class="text-4xl font-bold text-white">{{playlist.title}}</h1>
             <p class="mt-2 text-lg italic">{{playlist?.user?.first_name}}</p>
             <div class="mt-6 flex justify-center space-x-4">
-              <div class="relative">
+              <!-- <div class="relative">
                 <button @click="toggleOptions" class="text-white bg-black rounded-md shadow-md text-md">
                   <i class="fas fa-ellipsis-v">...</i>
                 </button>
@@ -18,7 +18,7 @@
                   <button @click="editPlaylist" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Edit</button>
                   <button @click="deletePlaylist" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Delete</button>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@
 
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
 
-              <td class="py-2 px-4 text-left border-b border-red-800">
+              <!-- <td class="py-2 px-4 text-left border-b border-red-800">
                 <div class="relative" @mouseover="showPlaylists[index] = true" @mouseleave="showPlaylists[index] = false">
                   <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleOptions(index)">
                     <i class="fas fa-ellipsis-v">...</i>
@@ -67,7 +67,7 @@
                   </button>
                   </div>
                 </div>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>
