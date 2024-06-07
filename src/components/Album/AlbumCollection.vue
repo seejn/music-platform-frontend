@@ -1,7 +1,7 @@
 <template>
     <div class="mx-10 relative">
         <div v-if="albums.length > 5" class="my-4 sticky top-0 ">
-            <button @click="toggleShowAll" class="px-4 py-2 bg-blue-500 text-white rounded">
+            <button @click="toggleShowAll" class="px-4 py-2 bg-red-800 text-white rounded">
                 {{ showAll ? 'See Less' : 'See More' }}
             </button>
         </div>
