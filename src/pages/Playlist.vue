@@ -10,12 +10,10 @@
             <h1 class="text-4xl font-bold text-white">{{playlist.title}}</h1>
             <p class="mt-2 text-lg italic">{{playlist?.user?.first_name}}</p>
             <div class="mt-6 flex justify-center space-x-4">
-              <!-- Three dots button for options -->
               <div class="relative">
                 <button @click="toggleOptions" class="text-white bg-black rounded-md shadow-md text-md">
                   <i class="fas fa-ellipsis-v">...</i>
                 </button>
-                <!-- Options menu -->
                 <div v-if="showOptions" class="absolute top-10 right-0 bg-red rounded-md shadow-md py-2 w-40">
                   <button @click="editPlaylist" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Edit</button>
                   <button @click="deletePlaylist" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Delete</button>
@@ -35,7 +33,7 @@
               <th class="py-2 px-4 text-left">Artist</th>
 
               <th class="py-2 px-4 text-left">Duration</th>
-              <th class="py-2 px-4 text-left"></th> <!-- Column for buttons -->
+              <th class="py-2 px-4 text-left"></th> 
             </tr>
           </thead>
           <tbody>
