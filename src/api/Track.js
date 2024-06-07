@@ -27,8 +27,8 @@ export const fetchAllTracks = async () => {
     }
 }
 
-export const fetchTracks = async () => {
-    const url = `${import.meta.env.VITE_API_BASE_URL}/track/${track_id}/`
+export const fetchTracks = async (trackId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/track/${trackId}/`
     try{
         const response = await axios(url , {
             method: 'get',
