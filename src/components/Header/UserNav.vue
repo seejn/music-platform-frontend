@@ -2,12 +2,12 @@
   <nav class="relative w-full">
     <div class="bg-black text-white h-20 p-6 flex items-center justify-between">
       <div>
-        <button class="p-5 font-bold text-lg hover:text-orange-800">
+        <!-- <button class="p-5 font-bold text-lg hover:text-orange-800">
           &lt;
         </button>
         <button class="p-5 font-bold text-lg hover:text-orange-800">
           &gt;
-        </button>
+        </button> -->
       </div>
       <div class="relative flex items-center">
 
