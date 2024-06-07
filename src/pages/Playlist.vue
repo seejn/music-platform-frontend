@@ -5,7 +5,7 @@
 
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
-          <img :src="imageUrl" alt="" class="border-2 border-white w-60 h-60">
+          <img :src="imageUrl" alt="" class=" w-60 h-60 border-4 border-red-800">
           <div class="ml-2 mt-[7vw]">
             <h1 class="text-4xl font-bold text-white">{{playlist.title}}</h1>
             <p class="mt-2 text-lg italic">{{playlist?.user?.first_name}}</p>

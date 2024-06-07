@@ -6,7 +6,7 @@
             </button>
         </div>
         <div id="carousel"
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 transition-transform ease-in-out duration-500">
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-14 ml-5 transition-transform ease-in-out duration-500">
             
             <RouterLink v-for="album in displayedAlbums" :to="`/single-album/${album.id}`">
                 <Album  :album="album" :key="album.id" />
