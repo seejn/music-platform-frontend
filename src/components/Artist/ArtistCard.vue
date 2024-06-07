@@ -1,6 +1,6 @@
 <template>
     <div class="artist flex-shrink-0 mr-10">
-        <img :src="imagesUrl" alt="Cover Image" class="w-60 h-60 rounded-full">
+        <img :src="imagesUrl" alt="Cover Image" class="w-60 h-60 rounded-full border-4 border-red-800">
         <h3 class="text-xl text-white mt-3 text-center">{{ artist?.first_name }}</h3>
     </div>
 

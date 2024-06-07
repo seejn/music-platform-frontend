@@ -31,7 +31,7 @@
                     <tr v-for="(track, index) in tracks" :key="index">
                    
 
-                      <td class="py-2 px-4 text-left border-b border-white flex items-center">
+                      <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
                         <img class=" mx-6" :src="trackImageUrl(track.image) " width="50" height="50" >
                             <span>
                               {{ track.title }}
@@ -39,7 +39,7 @@
                         </td>
                     
 
-                      <td class="py-2 px-4 text-left border-b border-white">{{ track.duration }}</td>
+                      <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
                     </tr>
                   </tbody>
                 </table>
