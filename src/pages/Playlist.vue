@@ -97,7 +97,7 @@ const props = defineProps({
     required: true
   }
 })
-
+const playlistId = ref(props.id)
 const searchTerm = ref('');
 const playlist = ref({});
 const tracks = ref([]);
@@ -255,7 +255,7 @@ const filterTracks = () => {
 
 // Lifecycle hook: fetch data on component mount
 onMounted(() => {
-  fetchPlaylistData(props.id);
+  fetchPlaylistData(playlistId.value);
   fetchTracks();
 });
 </script>
