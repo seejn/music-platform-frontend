@@ -2,7 +2,6 @@
   <Layout>
     <template #Main>
       <header class="album-header text-white py-10">
-        {{ albumId }}
         <div class="flex flex-row">
           <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg border-4 border-red-800">
           <div class="ml-2 mt-[7vw] relative">
@@ -47,7 +46,6 @@
         <table class="min-w-full bg-transparent text-white">
           <thead>
             <tr>
-              <th class="py-2 px-4 text-left"></th>
               <th class="py-2 px-4 text-left">Title</th>
               <th class="py-2 px-4 text-left">Release Date</th>
               <th class="py-2 px-4 text-left">Duration</th>
@@ -56,9 +54,6 @@
           </thead>
           <tbody>
             <tr v-for="(track, index) in tracks" :key="index" class="relative">
-              <td class="py-2 px-4 text-left border-b border-red-800">
-                <img :src="imageUrl" alt="Track Image" class="w-16 h-16 object-cover">
-              </td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
               <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
@@ -92,7 +87,6 @@ import { ref, computed, watch, onMounted } from 'vue';
 
 import { fetchAlbum, updateAlbum, createFavouriteAlbum } from '../../api/Album';
 
-import { useRoute } from 'vue-router';
 import { deleteTrack, updateTrack } from "../../api/Track";
 import EditTracks from '../Artist/EditTracks.vue';
 import { fetchGenres } from '../../api/Genre';
@@ -104,11 +98,6 @@ const props = defineProps({
     required: true
   }
 });
-
-const route = useRoute();
-
-const albumId = ref(props.id)
-const albumId = ref(route.params.id);
 
 const album = ref({})
 const tracks = ref({})
@@ -164,7 +153,7 @@ const isAlbumOwner = computed(() => {
 const updateTrackData = async (updatedTrack) => {
   try {
     await updateTrack(updatedTrack.id, updatedTrack);
-    fetchAlbumData();
+    fetchAlbumData(props.id);
     showEditForm.value = false;
   } catch (error) {
     console.error("Error updating track", error);
@@ -174,7 +163,7 @@ const updateTrackData = async (updatedTrack) => {
 const saveTrack = async (updatedTrack) => {
   try {
     await updateTrack(updatedTrack);
-    fetchAlbumData();
+    fetchAlbumData(props.id);
     showEditForm.value = false;
   } catch (error) {
     console.error("Error updating track", error);
