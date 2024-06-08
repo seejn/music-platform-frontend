@@ -8,8 +8,6 @@ export const adminNavRoutes = [
     {
         path: '/admin/dashboard',
         name: 'Dashboard',
-        component: () => import('./pages/Admin/Dash.vue')
-
     },
     {
         path: '/admin/artists',
@@ -119,11 +117,7 @@ export const sidebarRoutes = [
         name: "Search",
         component: () => import('./pages/Search.vue')
     },
-    {
-        path: '/sidebar',
-        name:"SideBar",
-        component: () => import('./components/Sidebar/Sidebar.vue')
-    }
+   
 ]
 
 export const playlistRoutes = [
