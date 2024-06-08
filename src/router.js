@@ -13,6 +13,11 @@ export const adminNavRoutes = [
         path: '/admin/artists',
         name: 'Artists',
     },
+    {
+        path: '/admin/all-tours/',
+        name: 'TourPage',
+        component: () => import('./pages/Admin/TourPage.vue')
+    },
 ]
 
 export const artistNavRoutes = [
@@ -87,6 +92,7 @@ export const commonRoutes = [
         name: 'SingleArtist',
         component: () => import('./pages/ArtistPage.vue')
     },
+  
 ]
 
 export const landingRoute = [

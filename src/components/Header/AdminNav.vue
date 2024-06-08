@@ -6,9 +6,12 @@
             Artist Management System
           </div>
           <ul class="absolute right-0 flex space-x-4 p-6">
-            <li v-for="route in routes">
-              <RouterLink to="route.path" class="p-6 font-lg text-lg hover:text-orange-800">{{ route.name }}</RouterLink>
-            </li>
+            <RouterLink to="/admin/dashboard" class="p-5 font-bold text-lg hover:text-orange-800">
+          Dashboard
+        </RouterLink>
+        <RouterLink to="/admin/all-tours" class="p-5 font-bold text-lg hover:text-orange-800">
+          Tour
+        </RouterLink>
           </ul>
         </div>
       </nav>
