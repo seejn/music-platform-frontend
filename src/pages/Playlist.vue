@@ -87,7 +87,7 @@ import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import Layout from './Layout.vue';
-import { fetchPlaylist, createPlaylist, updatePlaylist } from '../api/Playlist'; // Update playlist API to include update function
+import { fetchPlaylist, createPlaylist, updatePlaylist, addRemoveTrackFromPlaylist } from '../api/Playlist'; // Update playlist API to include update function
 import { fetchAllTracks } from '../api/Track';
 
 // Define reactive variables and functions
@@ -186,7 +186,7 @@ const addTrackToPlaylist = async (trackId) => {
 
         // Assuming updatePlaylist function sends PUT or PATCH request
 
-        const newPlaylist = await updatePlaylist(playlistId.value, updatedData);
+        const newPlaylist = await addRemoveTrackFromPlaylist(playlistId.value, updatedData);
         playlist.value = newPlaylist.data
         console.log("After track added: ", playlist)
         notification.value.message = 'Track added to playlist';
@@ -218,7 +218,7 @@ const removeTrack = async (trackId) => {
     console.log("remove track : ", trackId)
     console.log("remove track : ", updatedData)
 
-    const newPlaylist = await updatePlaylist(playlistId.value, updatedData);
+    const newPlaylist = await addRemoveTrackFromPlaylist(playlistId.value, updatedData);
     playlist.value = newPlaylist.data
     console.log("After track remove: ", playlist)
     notification.value.message = 'Track removed from playlist';
