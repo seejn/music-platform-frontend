@@ -7,7 +7,7 @@
           </div>
           <ul class="absolute right-0 flex space-x-4 p-6">
             <li v-for="route in routes">
-              <RouterLink to="route.path" class="p-6 font-lg text-lg hover:text-orange-800">{{ route.name }}</RouterLink>
+              <RouterLink to="admin/artists" class="p-6 font-lg text-lg hover:text-orange-800">{{ route.name }}</RouterLink>
             </li>
           </ul>
         </div>
