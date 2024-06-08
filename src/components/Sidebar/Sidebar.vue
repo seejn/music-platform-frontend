@@ -17,7 +17,6 @@
           <router-link to="#" class="flex items-center text-2xl leading-loose font-semibold hover:underline">
             <i class="fas fa-book mr-3 bg-slate-300"></i>Library
           </router-link>
-          <i class="fas fa-plus ml-3"></i>
           <router-link :to="{ path: '/createplaylist' }">
             <svg class="w-5 h-5 fill-current text-white ml-16 cursor-pointer" viewBox="0 0 24 24">
               <path fill="none" d="M0 0h24v24H0z"/>
