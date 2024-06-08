@@ -35,6 +35,9 @@
                     </button>
                     <div v-if="showOptions[trackIndex]" class=" bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-2">
                       <button @click="editTrack(track)" class="w-full text-left px-4 py-2">Edit</button>
+                      <div v-if="showEditForm">
+                        <EditSingleTrack :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
+                      </div>
                       <button @click="deleteTrackData(track.id)" class="w-full text-left px-4 py-2">Delete</button>
                     </div>
                   </td>
@@ -151,9 +154,10 @@ const loadGenres = async () => {
   const editTrack = (track) => {
     showEditForm.value = true;
   };
-  const updateTrackData = async (updatedTrack) => {
+  const saveTrack = async (updatedTrack) => {
     try {
-      await updateTrack(updatedTrack.id, updatedTrack);
+        console.log("from save track",updatedTrack.id)
+      await updateTrack(updatedTrack);
       fetchArtistSongs();
       showEditForm.value = false;
     } catch (error) {

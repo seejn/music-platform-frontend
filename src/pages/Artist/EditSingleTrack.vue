@@ -81,7 +81,7 @@ export default {
 
             const genre_id = genre.id;
             console.log(genre_id)
-            const artist_id = artist;
+            const artist_id = artist.id;
 
             const updatedTrack = {
                 ...rest,        
