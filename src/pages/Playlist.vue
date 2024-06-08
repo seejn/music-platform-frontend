@@ -77,17 +77,19 @@
 </template>
 
 <script setup>
-import { ref ,computed} from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, computed, watch, onMounted} from 'vue';
 import { fetchPlaylist } from '../api/Playlist';
 
 
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+})
 
-const route = useRoute();
-const playlistId=ref(null);
 const playlist=ref({})
 const track=ref({})
-playlistId.value=route.params.id;
 
 
 // const track = ref([
@@ -106,9 +108,9 @@ const showPlaylists = ref({});
 
 
 
-const fetchPlaylistData = async () => {
+const fetchPlaylistData = async (playlistId) => {
   try {
-    playlist.value = await fetchPlaylist(playlistId.value);
+    playlist.value = await fetchPlaylist(playlistId);
     track.value = playlist.value.track || []
     console.log("playlist value", playlist.value);
     console.log("track value", track.value);
@@ -120,7 +122,6 @@ const fetchPlaylistData = async () => {
   }
 };
 
-fetchPlaylistData();
 
 const toggleOptions = (index) => {
   showOptions.value = { ...showOptions.value, [index]: !showOptions.value[index] };
@@ -150,6 +151,14 @@ const imageUrl = computed(() => {
 const trackImageUrl = (image) => {
   return `${import.meta.env.VITE_API_BASE_URL}${image || ''}`;
 };
+
+watch(() => props.id, (newId) => {
+  fetchPlaylistData(newId)
+})
+
+onMounted(() => {
+  fetchPlaylistData(props.id);
+})
 </script>
 
 

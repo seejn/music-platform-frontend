@@ -1,13 +1,13 @@
 <template>
   <Layout>
     <template #Main>
-      
       <header class="album-header text-white py-10">
+        {{ albumId }}
         <div class="flex flex-row">
           <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg border-4 border-red-800">
           <div class="ml-2 mt-[7vw]">
-            <h1 class="text-4xl font-bold">{{album.title  }}</h1>
-            <p class="mt-2 text-lg italic">{{artist.first_name}} {{artist.last_name}}</p>
+            <h1 class="text-4xl font-bold">{{ album.title }}</h1>
+            <p class="mt-2 text-lg italic">{{ artist.first_name }} {{ artist.last_name }}</p>
             <div class="mt-6 flex justify-center space-x-4" v-if="isArtist">
               <!-- <div class="relative">
                 <button @click="toggleOptions" class="text-white bg-black rounded-md shadow-md text-md">
@@ -53,42 +53,38 @@
 
 <script setup>
 import { ref } from 'vue';
-import { computed } from 'vue';
+import { computed, watch, onMounted } from 'vue';
 
-import { useRoute } from 'vue-router';
 import { fetchAlbum } from '../../api/Album';
 
-const route = useRoute();
-const albumId=ref(null);
-const album=ref({})
-const tracks=ref({})
-const artist=ref({})
-albumId.value=route.params.id;
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+});
 
-
-
-
+const albumId = ref(props.id)
+const album = ref({})
+const tracks = ref({})
+const artist = ref({})
 
 const showOptions = ref(false);
 const isArtist = ref(true);
 
-const fetchAlbumData = async () => {
+const fetchAlbumData = async (albumId) => {
   try {
-    album.value = await fetchAlbum(albumId.value);
+    album.value = await fetchAlbum(albumId);
     tracks.value = album.value.track || []
-    artist.value=album.value.artist
+    artist.value = album.value.artist
     console.log("album value", album.value);
     console.log("tracks value", tracks.value);
     console.log("artist value", artist.value);
-
-
-    
   } catch (error) {
     console.log("Error fetching album", error);
   }
 };
 
-fetchAlbumData();
 
 const editAlbum = () => {
   console.log('Editing album');
@@ -101,6 +97,14 @@ const deleteAlbum = () => {
 const toggleOptions = () => {
   showOptions.value = !showOptions.value;
 };
+
+watch(() => props.id, (newId) => {
+  fetchAlbumData(newId)
+})
+
+onMounted(() => {
+  fetchAlbumData(props.id);
+})
 
 // // Mock data for demonstration
 // const tracks = [

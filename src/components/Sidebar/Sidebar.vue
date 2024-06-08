@@ -26,7 +26,7 @@
           </router-link>
         </li>
 
-        <li class="flex items-center space-x-6">
+        <li class="flex flex-col md:flex-col lg:flex-row items-center space-x-6">
           <button @click="fetchPlaylists" :class="{'bg-gray-700': showPlaylists}" class="rounded-full border border-gray-700 px-5 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
             Playlist
           </button>
@@ -37,14 +37,14 @@
         
         <template v-if="showPlaylists">
           <li v-for="playlist in playlists" :key="playlist.id">
-            <router-link :to="'/single-playlist/' + playlist.id" class="flex items-center text-lg leading-loose font-semibold hover:underline">
+            <router-link :to="{name: 'SinglePlaylist', params: {id: playlist.id}}" class="flex items-center text-lg leading-loose font-semibold hover:underline">
               <img :src="playlist.image" alt="Playlist" class="w-8 h-8 mr-3 rounded-full" />{{ playlist.title }}
             </router-link>
           </li>
         </template>
         <template v-else>
           <li v-for="album in albums" :key="album.id">
-            <router-link :to="'/single-album/' + album.id" class="flex items-center text-lg leading-loose font-semibold hover:underline">
+            <router-link :to="{name: 'SingleAlbum', params: {id: album.id}}" class="flex items-center text-lg leading-loose font-semibold hover:underline">
               <img :src="album.image" alt="Album" class="w-8 h-8 mr-3 rounded-full" />{{ album.title }}
             </router-link>
           </li>

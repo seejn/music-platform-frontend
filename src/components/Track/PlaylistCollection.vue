@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import SinglePlaylist from './SinglePlaylist.vue'
+import SinglePlaylist from './SinglePlaylistCard.vue'
 import Button from '../Button/Button.vue'
 import { RouterLink } from 'vue-router';
 
