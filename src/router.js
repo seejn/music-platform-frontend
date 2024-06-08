@@ -117,7 +117,11 @@ export const sidebarRoutes = [
         name: "Search",
         component: () => import('./pages/Search.vue')
     },
-   
+    // {
+    //     path: '/sidebar',
+    //     name:"SideBar",
+    //     component: () => import('./components/Sidebar/Sidebar.vue')
+    // }
 ]
 
 export const playlistRoutes = [

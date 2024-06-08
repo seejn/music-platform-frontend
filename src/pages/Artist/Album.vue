@@ -102,6 +102,7 @@ const props = defineProps({
   }
 });
 
+const albumId = ref(props.id)
 const album = ref({})
 const tracks = ref({})
 const artist = ref({})
@@ -242,7 +243,7 @@ watch(() => props.id, (newId) => {
 })
 
 onMounted(() => {
-  fetchAlbumData(props.id);
+  fetchAlbumData(albumId.value);
   loadGenres();
 })
 
