@@ -26,6 +26,11 @@ export const artistNavRoutes = [
         name: 'My Profile',
         component: () => import('./pages/Artist/Profile.vue')
     },
+    {
+        path:'/artist/library',
+        name:'Library',
+        component: () => import(`./pages/Artist/Library.vue`)
+    }
     
 ]
 
