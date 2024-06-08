@@ -11,7 +11,7 @@
             <RouterLink v-for="album in displayedAlbums" :to="`/single-album/${album.id}`">
                 <Album  :album="album" :key="album.id" />
             </RouterLink>
-        </div>
+        </div>      
     </div>
     
 </template>
