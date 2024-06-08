@@ -13,6 +13,9 @@
         <RouterLink to="/artist/upload" class="p-5 font-bold text-lg hover:text-orange-800">
           Upload
         </RouterLink>
+        <RouterLink to="/artist/library" class="p-5 font-bold text-lg hover:text-orange-800">
+          Library
+        </RouterLink>
         <button id="dropdownHoverButton" @click="toggleDropdown"
           class="relative p-6 text-white focus:outline-none font-medium rounded-full" type="button">
           <img :src="getImageUrl" alt="Tay" class="w-10 h-10 rounded-full" />

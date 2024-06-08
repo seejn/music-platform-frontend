@@ -88,16 +88,16 @@ const loadUserPlaylists = async () => {
   }
 }
 
-onMounted( async () => {
-  await loadArtistData()
-  await loadArtistTracks()
-  await loadAllArtists()
-  await loadUserPlaylists()
-})
-
 const profileImageUrl = computed(() => {
   return users.value.image ? `${import.meta.env.VITE_API_BASE_URL}${users.value.image}` : '/path/to/default/image.png';
 });
+
+onMounted( () => {
+  loadArtistData()
+  loadArtistTracks()
+  loadAllArtists()
+  loadUserPlaylists()
+})
 </script>
 <style scoped>
   .glass-effect {

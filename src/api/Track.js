@@ -14,7 +14,6 @@ export const fetchArtistTracks = async (artistId) => {
     }
 }
 
-// Fetch all tracks
 export const fetchAllTracks = async () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/get_all_tracks/`
     try{
@@ -39,7 +38,6 @@ export const fetchTracks = async (trackId) => {
     }
 }
 
-// Create a new track
 export const createTrack = async (trackData) => {
     const url = `${API_BASE_URL}/track/create/`;
     try {
@@ -54,23 +52,26 @@ export const createTrack = async (trackData) => {
         return data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
 
-// Update a track by ID
-export const updateTrack = async (trackId, trackData) => {
-    const url = `${API_BASE_URL}/track/update/${trackId}/`;
+export const updateTrack = async (trackData) => {
+    const url = `${API_BASE_URL}/track/update/${trackData.id}/`;
+
+    console.log("from updated track: ", url)
+    console.log("from updated track: ", trackData)
+
+    // return
     try {
         const response = await axios.put(url, trackData);
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
 
-// Delete a track by ID
 export const deleteTrack = async (trackId) => {
     const url = `${API_BASE_URL}/track/delete/${trackId}/`;
     try {
@@ -78,6 +79,17 @@ export const deleteTrack = async (trackId) => {
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
+    }
+};
+
+export const fetchArtistTrack = async (artistId) => {
+    const url = `${API_BASE_URL}/track/get_artist_track/${artistId}/`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
     }
 };

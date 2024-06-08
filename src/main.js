@@ -9,6 +9,8 @@ import AdminNav from './components/Header/AdminNav.vue'
 import GuestNav from './components/Header/GuestNav.vue'
 import Sidebar from './components/Sidebar/Sidebar.vue' 
 import Footer from './components/Footer/Footer.vue' 
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
 
 import router from './router.js'
 import store from './store/store.js'
