@@ -50,7 +50,7 @@ const fetchArtistData = async ()=>{
 
 onMounted( async () => {
   await fetchArtistData();
-    artists.value = await fetchAllArtists()
+    artists.value =  await fetchAllArtists()
     console.log("Artists:",artists.value)
 })
 

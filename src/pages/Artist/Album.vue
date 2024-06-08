@@ -54,7 +54,6 @@
 <script setup>
 import { ref } from 'vue';
 import { computed } from 'vue';
-
 import { useRoute } from 'vue-router';
 import { fetchAlbum } from '../../api/Album';
 
