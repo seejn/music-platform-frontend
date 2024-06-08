@@ -29,19 +29,12 @@
 
                 <div class="mb-4">
                     <label for="songGenre" class="block text-white mb-2">Genre</label>
-                    <select v-model="track.genre" name="genre" id="genre" @input="clearError('genre')"
+                    <select v-model="track.genre.id" name="genre" id="genre" @input="clearError('genre')"
                         class="w-full p-2 rounded bg-gray-700 outline-none text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
                         <option value="" disabled>Choose genre of track</option>
                         <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.name }}</option>
                     </select>
                     <span v-if="trackErrors.genre" class="text-red-500">{{ trackErrors.genre }}</span>
-                </div>
-
-                <div class="mb-4">
-                    <label for="songFile" class="block text-white mb-2">Image</label>
-                    <input type="file" id="songFile" @change="handleTrackImageChange" @input="clearError('image')"
-                        class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
-                    <span v-if="trackErrors.image" class="text-red-500">{{ trackErrors.image }}</span>
                 </div>
 
                 <div class="mb-4 flex justify-between">
