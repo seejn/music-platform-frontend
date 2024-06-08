@@ -1,174 +1,233 @@
 <template>
   <Layout>
     <template #Main>
-     
-
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
-          <img :src="imageUrl" alt="" class=" w-60 h-60 border-4 border-red-800">
+          <img :src="imageUrl" alt="" class="w-60 h-60 border-4 border-red-800">
           <div class="ml-2 mt-[7vw]">
-            <h1 class="text-4xl font-bold text-white">{{playlist.title}}</h1>
-            <p class="mt-2 text-lg italic">{{playlist?.user?.first_name}}</p>
+            <h1 class="text-4xl font-bold text-white">{{ playlist.title }} #{{ playlist.id }}</h1>
+            <p class="mt-2 text-lg italic">{{ playlist?.user?.first_name }}</p>
             <div class="mt-6 flex justify-center space-x-4">
-              <!-- <div class="relative">
-                <button @click="toggleOptions" class="text-white bg-black rounded-md shadow-md text-md">
-                  <i class="fas fa-ellipsis-v">...</i>
-                </button>
-                <div v-if="showOptions" class="absolute top-10 right-0 bg-red rounded-md shadow-md py-2 w-40">
-                  <button @click="editPlaylist" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Edit</button>
-                  <button @click="deletePlaylist" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Delete</button>
-                </div>
-              </div> -->
+              <button @click="savePlaylist" class="mt-2 px-4 py-4 bg-red-700 text-white rounded"
+                      :disabled="playlist.tracks && playlist.tracks.length === 0">
+                Save Playlist
+              </button>
             </div>
           </div>
         </div>
       </header>
 
-      <section class="py-4">
-        <h2 class="text-2xl font-bold my-4">Tracks in this Playlist</h2>
-        <table class="min-w-full bg-transparent text-white">
-          <thead>
-            <tr>
-              <th class="py-2 px-4 text-left">Title</th>
-              <th class="py-2 px-4 text-left">Artist</th>
+      <main class="flex-grow bg-black p-8 flex flex-col space-y-4">
+        <div v-if="playlist.tracks && playlist.tracks.length > 0">
+          <div class="overflow-y-auto max-h-screen">
+            <h2 class="text-2xl font-bold mb-4 text-white text-center">Playlist</h2>
+            <table class="min-w-full bg-black text-white">
+              <thead>
+                <tr>
+                  <th class="py-2 px-4 border-b-2 border-red-700">Title</th>
+                  <th class="py-2 px-4 border-b-2 border-red-700">Release Date</th>
+                  <th class="py-2 px-4 border-b-2 border-red-700">Duration</th>
+                  <th class="py-2 px-4 border-b-2 border-red-700">Singer</th>
+                  <th class="py-2 px-4 border-b-2 border-red-700">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="track in playlist.tracks" :key="track.id" class="text-center">
+                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track.title }}</td>
+                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ formatDate(track.released_date) }}</td>
+                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track.duration }}</td>
+                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.artist?.first_name }}</td>
+                  <td class="py-2 px-4 border-b border-red-700 text-center">
+                    <button @click="removeTrack(track.id)" class="text-white border-2 py-1 px-4 border-blood rounded-full">Remove</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-              <th class="py-2 px-4 text-left">Duration</th>
-              <th class="py-2 px-4 text-left"></th> 
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(track, index) in track" :key="index" class="relative">
-              <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
-                <img class=" mx-6 object-cover" :src="trackImageUrl(track.image) " width="50" height="50" >
-                    <span>
-                      {{ track.title }}
-                    </span>
-                </td>
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.artist.first_name}}</td>
+        <div>
+          <h2 class="text-2xl font-bold mb-4 text-white">Search Tracks</h2>
+          <div class="p-1 mb-4">
+            <input type="text" v-model="searchTerm" placeholder="Search..." class="w-full p-2 border border-gray-300 rounded-md bg-black text-white" @input="filterTracks">
+          </div>
 
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
+          <div class="overflow-y-auto max-h-screen" v-if="searchTerm && filteredTracks.length > 0">
+            <ul>
+              <li v-for="track in filteredTracks" :key="track.id" class="py-2 px-4 bg-zinc-900 text-white shadow-md mb-2 flex items-center justify-between">
+                <span>{{ track.title }}</span>
+                <span v-if="addedTracks.has(track.id)" class="text-red-500">Added Track</span>
+                <button @click="addTrackToPlaylist(track.id)" :disabled="addedTracks.has(track.id)" class="text-white border-2 py-1 px-4 border-blood rounded-full">Add</button>
+              </li>
+            </ul>
+          </div>
 
-              <!-- <td class="py-2 px-4 text-left border-b border-red-800">
-                <div class="relative" @mouseover="showPlaylists[index] = true" @mouseleave="showPlaylists[index] = false">
-                  <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleOptions(index)">
-                    <i class="fas fa-ellipsis-v">...</i>
-                  </button>
-                  <div v-if="showOptions[index]" class="absolute top-10 right-0 bg-black  text-white rounded-md shadow-md py-2 w-40">
-                    <button @click="editTrack(track)" class="block w-full text-left px-4 py-2 ">Edit</button>
-                    <button @click="deleteTrack(track.id)" class="block w-full text-left px-4 py-2 ">Delete</button>
-                    <button @click="AddtoPlaylist(track.id)" class="block w-full text-left px-4 py-2 ">AddtoPlaylist
+          <div v-else-if="searchTerm && filteredTracks.length === 0" class="text-center text-white">No tracks found</div>
+          <div v-else class="text-center text-white">Start searching to see results</div>
 
-                    <div v-if="showPlaylists[index]" class="bg-black py-2 px-4 rounded-md shadow-md absolute top-0 right-0 mt-10">
-                      <p class="text-white">My Playlists:</p>
-                      <ul class="text-white">
-                        <li v-for="(playlist, idx) in playlists" :key="idx">{{ playlist.name }}</li>
-                      </ul>
-                    </div>
-                  </button>
-                  </div>
-                </div>
-              </td> -->
-            </tr>
-          </tbody>
-        </table>
-      </section>
+          <!-- Notification -->
+          <div v-if="notification.visible" class="absolute top-10 right-10 bg-red-500 text-white p-3 rounded">
+            {{ notification.message }}
+          </div>
+        </div>
+
+      </main>
     </template>
   </Layout>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted} from 'vue';
-import { fetchPlaylist } from '../api/Playlist';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
+import Layout from './Layout.vue';
+import { fetchPlaylist, createPlaylist, updatePlaylist } from '../api/Playlist'; // Update playlist API to include update function
+import { fetchAllTracks } from '../api/Track';
 
+// Define reactive variables and functions
+const route = useRoute()
+const playlistId = ref(route.params.id);
 
-const props = defineProps({
-  id: {
-    type: String,
-    required: true
-  }
-})
+const searchTerm = ref('');
+const playlist = ref({
+  tracks: [], // Initialize tracks array
+});
+const tracks = ref([]);
 
-const playlist=ref({})
-const track=ref({})
-
-
-// const track = ref([
-//   { id: 1, title: "Track 1", artist:"artist_name", duration: "3:45" },
-//   { id: 2, title: "Track 2", artist:"artist_name", duration: "4:15" },
-//   { id: 3, title: "Track 3", artist:"artist_name", duration: "3:30" },
-// ]);
-
-const showOptions = ref({});
-const showPlaylists = ref({});
-// const playlists = ref([
-//   { name: "Playlist 1" },
-//   { name: "Playlist 2" },
-//   { name: "Playlist 3" }
-// ]);
-
-
-
-const fetchPlaylistData = async (playlistId) => {
-  try {
-    playlist.value = await fetchPlaylist(playlistId);
-    track.value = playlist.value.track || []
-    console.log("playlist value", playlist.value);
-    console.log("track value", track.value);
-
-
-    
-  } catch (error) {
-    console.log("Error fetching playlist", error);
-  }
-};
-
-
-const toggleOptions = (index) => {
-  showOptions.value = { ...showOptions.value, [index]: !showOptions.value[index] };
-};
-
-const editTrack = (track) => {
-  console.log('Editing track:', track.title);
-};
-
-const deleteTrack = async (trackId) => {
-  console.log('Deleting track with ID:', trackId);
-  try {
-    const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/track/delete/${trackId}/`);
-    console.log(response.data);
-    track.value = track.value.filter(track => track.id !== trackId);
-  } catch (error) {
-    console.error(error);
-  }
-};
-const imageUrl = computed(() => {
-  return `${import.meta.env.VITE_API_BASE_URL}${playlist.value.image || ''}`;
-
-
-  
+const filteredTracks = ref([]);
+const addedTracks = new Set();
+const notification = ref({
+  message: '',
+  visible: false,
 });
 
-const trackImageUrl = (image) => {
-  return `${import.meta.env.VITE_API_BASE_URL}${image || ''}`;
+// Define imageUrl
+const imageUrl = ref(''); // Replace with the actual image URL or a placeholder URL
+
+
+
+
+// Fetch playlist data
+const fetchPlaylistData = async () => {
+  try {
+    playlist.value = await fetchPlaylist(playlistId.value);
+    // playlist.value = playlist.value.tracks || []; 
+    tracks.value = playlist.value.tracks; 
+    playlist.value.tracks.forEach(track => {
+      addedTracks.add(track.id); // Add existing tracks to addedTracks Set
+    });
+    filterTracks();
+  } catch (error) {
+    console.error("Error fetching playlist", error);
+  }
 };
 
-watch(() => props.id, (newId) => {
-  fetchPlaylistData(newId)
-})
+// Fetch all tracks
+const fetchTracks = async () => {
+  try {
+    const response = await axios.get('http://localhost:8000/track/get_all_tracks/');
+    tracks.value = response.data.data || [];
+    console.log('Fetched tracks successfully:', tracks.value);
+    filterTracks();
+  } catch (error) {
+    console.error('Error fetching tracks:', error);
+  }
+};
 
+// Lifecycle hook: fetch data on component mount
 onMounted(() => {
-  fetchPlaylistData(props.id);
-})
+  fetchPlaylistData();
+  fetchTracks();
+});
+
+// Save playlist
+const savePlaylist = async () => {
+  const formData = new FormData();
+  formData.append('title', playlist.value.title);
+  formData.append('user', playlist.value.user.id);
+
+
+  try {
+    if (playlist.value.id) {
+      await updatePlaylist(playlist.value.id, formData); // Update existing playlist
+    } else {
+      const response = await createPlaylist(formData); // Create new playlist
+      playlist.value.id = response.data.id;
+    }
+
+    console.log('Playlist saved successfully');
+
+
+    notification.value.message = 'Playlist saved successfully';
+  } catch (error) {
+    console.error('Error saving playlist:', error);
+    notification.value.message = 'Failed to save playlist';
+  }
+};
+
+// Add track to playlist and update database
+const addTrackToPlaylist = async (trackId) => {
+  const track = tracks.value.find(item => item.id === trackId);
+  if (track) {
+    if (addedTracks.has(track.id)) {
+      notification.value.message = 'Track already added';
+      notification.value.visible = true;
+    } else {
+      try {
+        playlist.value.tracks.push(track.id); // Update playlist tracks
+        addedTracks.add(track.id);
+        // Add the track to the playlist and update the backend
+       const updatedData = {
+        track: playlist.value.tracks
+       }
+
+        // Assuming updatePlaylist function sends PUT or PATCH request
+        
+        const newPlaylist =await updatePlaylist(playlistId.value, updatedData);
+        playlist.value = newPlaylist
+        notification.value.message = 'Track added to playlist';
+        notification.value.visible = true;
+      } catch (error) {
+        console.error('Error adding track to playlist:', error);
+        notification.value.message = 'Failed to add track to playlist';
+        notification.value.visible = true;
+      }
+    }
+  }
+};
+
+// Remove track from playlist
+const removeTrack = async (trackId) => {
+  try {
+    await axios.delete(`http://localhost:8000/playlist/${playlist.value.id}/remove_track/${trackId}/`);
+
+    playlist.value.tracks = playlist.value.tracks.filter(track => {
+      if (track.id === trackId) {
+        addedTracks.delete(track.id);
+        return false;
+      }
+      return true;
+    });
+  } catch (error) {
+    console.error('Error removing track from playlist:', error);
+    notification.value.message = 'Failed to remove track from playlist';
+    notification.value.visible = true;
+  }
+};
+
+// Format date
+const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};
+
+// Filter tracks based on search term
+const filterTracks = () => {
+  const regex = new RegExp('^' + searchTerm.value, 'i');
+  if (searchTerm.value.trim() === '') {
+    filteredTracks.value = tracks.value;
+  } else {
+    filteredTracks.value = tracks.value.filter(track => regex.test(track.title));
+  }
+};
 </script>
-
-
-<style scoped>
-.playlist-header {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/src/assets/pic/album-cover-url.jpg') no-repeat center center;
-  background-size: cover;
-}
-
-.hover\:bg-gray-700:hover {
-  background-color: #4a4a4a;
-}
-</style>
