@@ -9,7 +9,7 @@
             <p class="mt-2 text-lg italic">{{ playlist?.user?.first_name }}</p>
             <div class="mt-6 flex justify-center space-x-4">
               <button @click="savePlaylist" class="mt-2 px-4 py-4 bg-red-700 text-white rounded"
-                      :disabled="playlist.tracks && playlist.tracks.length === 0">
+                :disabled="playlist.tracks && playlist.tracks.length === 0">
                 Save Playlist
               </button>
             </div>
@@ -18,9 +18,9 @@
       </header>
 
       <main class="flex-grow bg-black p-8 flex flex-col space-y-4">
-        <div v-if="playlist.tracks && playlist.tracks.length > 0">
+        <div v-if="playlist.track && playlist.track.length > 0">
           <div class="overflow-y-auto max-h-screen">
-            <h2 class="text-2xl font-bold mb-4 text-white text-center">Playlist</h2>
+            <h2 class="text-2xl font-bold mb-4 text-white text-center">Playlist Tracks</h2>
             <table class="min-w-full bg-black text-white">
               <thead>
                 <tr>
@@ -32,13 +32,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="track in playlist.tracks" :key="track.id" class="text-center">
+                <tr v-if="playlist.track" v-for="track in playlist.track" :key="track.id" class="text-center">
                   <td class="py-2 px-4 border-b border-red-700 text-center">{{ track.title }}</td>
-                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ formatDate(track.released_date) }}</td>
+                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ formatDate(track.released_date) || '' }}
+                  </td>
                   <td class="py-2 px-4 border-b border-red-700 text-center">{{ track.duration }}</td>
                   <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.artist?.first_name }}</td>
                   <td class="py-2 px-4 border-b border-red-700 text-center">
-                    <button @click="removeTrack(track.id)" class="text-white border-2 py-1 px-4 border-blood rounded-full">Remove</button>
+                    <button @click="removeTrack(track.id)"
+                      class="text-white border-2 py-1 px-4 border-blood rounded-full">Remove</button>
                   </td>
                 </tr>
               </tbody>
@@ -49,20 +51,24 @@
         <div>
           <h2 class="text-2xl font-bold mb-4 text-white">Search Tracks</h2>
           <div class="p-1 mb-4">
-            <input type="text" v-model="searchTerm" placeholder="Search..." class="w-full p-2 border border-gray-300 rounded-md bg-black text-white" @input="filterTracks">
+            <input type="text" v-model="searchTerm" placeholder="Search..."
+              class="w-full p-2 border border-gray-300 rounded-md bg-black text-white" @input="filterTracks">
           </div>
 
-          <div class="overflow-y-auto max-h-screen" v-if="searchTerm && filteredTracks.length > 0">
+          <div class="overflow-y-auto max-h-screen" v-if="searchTerm && filteredTracks?.length > 0">
             <ul>
-              <li v-for="track in filteredTracks" :key="track.id" class="py-2 px-4 bg-zinc-900 text-white shadow-md mb-2 flex items-center justify-between">
+              <li v-for="track in filteredTracks" :key="track.id"
+                class="py-2 px-4 bg-zinc-900 text-white shadow-md mb-2 flex items-center justify-between">
                 <span>{{ track.title }}</span>
-                <span v-if="addedTracks.has(track.id)" class="text-red-500">Added Track</span>
-                <button @click="addTrackToPlaylist(track.id)" :disabled="addedTracks.has(track.id)" class="text-white border-2 py-1 px-4 border-blood rounded-full">Add</button>
+                <span v-if="addedTracks.includes(track.id)" class="text-red-500">Added</span>
+                <button @click="addTrackToPlaylist(track.id)" :disabled="addedTracks.includes(track.id)"
+                  class="text-white border-2 py-1 px-4 border-blood rounded-full">Add</button>
               </li>
             </ul>
           </div>
 
-          <div v-else-if="searchTerm && filteredTracks.length === 0" class="text-center text-white">No tracks found</div>
+          <div v-else-if="searchTerm && filteredTracks?.length === 0" class="text-center text-white">No tracks found
+          </div>
           <div v-else class="text-center text-white">Start searching to see results</div>
 
           <!-- Notification -->
@@ -77,7 +83,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import Layout from './Layout.vue';
@@ -85,17 +91,19 @@ import { fetchPlaylist, createPlaylist, updatePlaylist } from '../api/Playlist';
 import { fetchAllTracks } from '../api/Track';
 
 // Define reactive variables and functions
-const route = useRoute()
-const playlistId = ref(route.params.id);
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+})
 
 const searchTerm = ref('');
-const playlist = ref({
-  tracks: [], // Initialize tracks array
-});
+const playlist = ref({});
 const tracks = ref([]);
 
 const filteredTracks = ref([]);
-const addedTracks = new Set();
+const addedTracks = ref([]);
 const notification = ref({
   message: '',
   visible: false,
@@ -108,15 +116,12 @@ const imageUrl = ref(''); // Replace with the actual image URL or a placeholder 
 
 
 // Fetch playlist data
-const fetchPlaylistData = async () => {
+const fetchPlaylistData = async (playlistId) => {
   try {
-    playlist.value = await fetchPlaylist(playlistId.value);
-    // playlist.value = playlist.value.tracks || []; 
-    tracks.value = playlist.value.tracks; 
-    playlist.value.tracks.forEach(track => {
-      addedTracks.add(track.id); // Add existing tracks to addedTracks Set
+    playlist.value = await fetchPlaylist(playlistId);
+    playlist.value.track.forEach(track => {
+      addedTracks.value.push(track.id); // Add existing tracks to addedTracks Set
     });
-    filterTracks();
   } catch (error) {
     console.error("Error fetching playlist", error);
   }
@@ -128,17 +133,15 @@ const fetchTracks = async () => {
     const response = await axios.get('http://localhost:8000/track/get_all_tracks/');
     tracks.value = response.data.data || [];
     console.log('Fetched tracks successfully:', tracks.value);
-    filterTracks();
   } catch (error) {
     console.error('Error fetching tracks:', error);
   }
 };
 
-// Lifecycle hook: fetch data on component mount
-onMounted(() => {
-  fetchPlaylistData();
-  fetchTracks();
-});
+watch(() => props.id, (newId) => {
+  fetchPlaylistData(newId)
+})
+
 
 // Save playlist
 const savePlaylist = async () => {
@@ -169,22 +172,23 @@ const savePlaylist = async () => {
 const addTrackToPlaylist = async (trackId) => {
   const track = tracks.value.find(item => item.id === trackId);
   if (track) {
-    if (addedTracks.has(track.id)) {
+    if (addedTracks.value.includes(track.id)) {
       notification.value.message = 'Track already added';
       notification.value.visible = true;
     } else {
       try {
-        playlist.value.tracks.push(track.id); // Update playlist tracks
-        addedTracks.add(track.id);
+        playlist.value.track.push(track.id); // Update playlist tracks
+        addedTracks.value.push(track.id);
         // Add the track to the playlist and update the backend
-       const updatedData = {
-        track: playlist.value.tracks
-       }
+        const updatedData = {
+          track: addedTracks.value
+        }
 
         // Assuming updatePlaylist function sends PUT or PATCH request
-        
-        const newPlaylist =await updatePlaylist(playlistId.value, updatedData);
-        playlist.value = newPlaylist
+
+        const newPlaylist = await updatePlaylist(playlistId.value, updatedData);
+        playlist.value = newPlaylist.data
+        console.log("After track added: ", playlist)
         notification.value.message = 'Track added to playlist';
         notification.value.visible = true;
       } catch (error) {
@@ -199,15 +203,27 @@ const addTrackToPlaylist = async (trackId) => {
 // Remove track from playlist
 const removeTrack = async (trackId) => {
   try {
-    await axios.delete(`http://localhost:8000/playlist/${playlist.value.id}/remove_track/${trackId}/`);
+    const playlistData = playlist.value.track
+    const afterTrackRemoved = playlistData
+      .filter(track => track.id !== trackId)
+      .map(track => track.id);
 
-    playlist.value.tracks = playlist.value.tracks.filter(track => {
-      if (track.id === trackId) {
-        addedTracks.delete(track.id);
-        return false;
-      }
-      return true;
-    });
+
+
+    addedTracks.value = afterTrackRemoved
+
+    const updatedData = {
+      track: addedTracks.value
+    }
+    console.log("remove track : ", trackId)
+    console.log("remove track : ", updatedData)
+
+    const newPlaylist = await updatePlaylist(playlistId.value, updatedData);
+    playlist.value = newPlaylist.data
+    console.log("After track remove: ", playlist)
+    notification.value.message = 'Track removed from playlist';
+    notification.value.visible = true;
+
   } catch (error) {
     console.error('Error removing track from playlist:', error);
     notification.value.message = 'Failed to remove track from playlist';
@@ -223,11 +239,23 @@ const formatDate = (dateString) => {
 
 // Filter tracks based on search term
 const filterTracks = () => {
-  const regex = new RegExp('^' + searchTerm.value, 'i');
-  if (searchTerm.value.trim() === '') {
+    console.log(tracks)
+  const trimmedSearchTerm = searchTerm.value.trim();
+
+  console.log(trimmedSearchTerm === '')
+
+  if (trimmedSearchTerm === '') {
     filteredTracks.value = tracks.value;
   } else {
-    filteredTracks.value = tracks.value.filter(track => regex.test(track.title));
+    const regex = new RegExp(trimmedSearchTerm, 'i');
+    filteredTracks.value = tracks.value?.filter(track => regex.test(track.title));
   }
 };
+
+
+// Lifecycle hook: fetch data on component mount
+onMounted(() => {
+  fetchPlaylistData(props.id);
+  fetchTracks();
+});
 </script>
