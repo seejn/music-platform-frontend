@@ -10,7 +10,7 @@ export const fetchAllAlbums = async () => {
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
 
@@ -21,7 +21,7 @@ export const fetchAlbum = async (albumId) => {
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
 
@@ -32,7 +32,7 @@ export const createAlbum = async (albumData) => {
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
 
@@ -43,7 +43,7 @@ export const updateAlbum = async (albumId, albumData) => {
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
 
@@ -54,7 +54,7 @@ export const deleteAlbum = async (albumId) => {
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
 
@@ -65,7 +65,7 @@ export const updateTracksInAlbum = async (albumId, trackData) => {
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
 
@@ -76,7 +76,7 @@ export const deleteTracksFromAlbum = async (albumId, trackIds) => {
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
 
@@ -87,20 +87,22 @@ export const fetchAllUsersFavouriteAlbums = async () => {
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
 
-export const createFavouriteAlbum = async (albumId) => {
+export const createFavouriteAlbum = async (userId, albumId) => { 
     const url = `${API_BASE_URL}/album/favourite_album/create/`;
     try {
-        const response = await axios.post(url, { album_id: albumId });
-        return response.data.data;
+        const response = await axios.post(url, { user_id: userId, album: albumId }); 
+        return response.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
+
+
 
 export const deleteFavouriteAlbum = async (favouriteAlbumId) => {
     const url = `${API_BASE_URL}/album/favourite_album/delete/${favouriteAlbumId}/`;
@@ -109,6 +111,6 @@ export const deleteFavouriteAlbum = async (favouriteAlbumId) => {
         return response.data.data;
     } catch (error) {
         console.error(error);
-        return error;
+        throw error;
     }
 };
