@@ -6,6 +6,7 @@
           <img src="/src/assets/pic/vin2.png" alt="Background Image" class="h-full w-full object-cover">
         </div>
 
+
         <div class=" w-full sm:w-3/5 md:w-2/5 absolute top-0 left-1/2 transform -translate-x-1/2 my-16 p-6 rounded-3xl bg-black bg-opacity-85 border-2 border-red-800 z-10 hover:shadow-red-800 hover:shadow-lg transition-shadow duration-700">
           <div class="flex justify-center my-6">
             <button @click="showSongForm = true" :class="{ 'bg-red-800': showSongForm, 'bg-gray-700': !showSongForm }"
@@ -13,6 +14,7 @@
             <button @click="showSongForm = false" :class="{ 'bg-red-800': !showSongForm, 'bg-gray-700': showSongForm }"
               class="px-4 py-2 rounded-r text-white hover:bg-red-800 hover:text-white">Upload Album</button>
           </div>
+
 
           <div v-if="showSongForm" class="bg-black bg-opacity-50 rounded-lg p-3 w-full shadow-lg">
             <h2 class="text-2xl font-bold text-red-800 mb-4">Upload Song</h2>
@@ -25,6 +27,7 @@
                 <span v-if="trackErrors.title" class="text-red-500">{{ trackErrors.title }}</span>
               </div>
 
+
               <div class="mb-4">
                 <label for="songDuration" class="block text-white mb-2">Duration</label>
                 <input type="text" id="songDuration" v-model="track.duration" @input="clearError('track', 'duration')"
@@ -32,12 +35,15 @@
                 <span v-if="trackErrors.duration" class="text-red-500">{{ trackErrors.duration }}</span>
               </div>
 
+
               <div class="mb-4">
                 <label for="songReleasedDate" class="block text-white mb-2">Released Date</label>
                 <input type="date" id="songReleasedDate" v-model="track.released_date" @input="clearError('track', 'released_date')"
                   class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
                 <span v-if="trackErrors.released_date" class="text-red-500">{{ trackErrors.released_date }}</span>
+                <span v-if="isFutureDate(track.released_date)" class="text-red-500">Select a date before today</span>
               </div>
+
 
               <div class="mb-4">
                 <label for="songGenre" class="block text-white mb-2">Genre</label>
@@ -49,17 +55,20 @@
                 <span v-if="trackErrors.genre" class="text-red-500">{{ trackErrors.genre }}</span>
               </div>
 
+
               <div class="mb-4">
                 <label for="songFile" class="block text-white mb-2">Image</label>
                 <input type="file" id="songFile" @change="handleTrackImageChange" @input="clearError('track', 'image')"
-                  class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800">
+                  class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
                 <span v-if="trackErrors.image" class="text-red-500">{{ trackErrors.image }}</span>
               </div>
+
 
               <button type="submit"
                 class="ring-2 ring-red-800 text-white px-4 py-2 rounded hover:bg-red-800 hover:text-white">Upload Song</button>
             </form>
           </div>
+
 
           <div v-else class="bg-black bg-opacity-50 rounded-lg p-6 w-full shadow-lg">
             <h2 class="text-2xl font-bold text-red-800 mb-4">Upload Album</h2>
@@ -71,12 +80,15 @@
                 <span v-if="albumErrors.title" class="text-red-500">{{ albumErrors.title }}</span>
               </div>
 
+
               <div class="mb-4">
                 <label for="albumReleasedDate" class="block text-white mb-2">Released Date</label>
                 <input type="date" id="albumReleasedDate" v-model="album.released_date" @input="clearError('album', 'released_date')"
                   class="w-full p-2 rounded outline-none bg-gray-700 border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 text-white caret-red-800">
                 <span v-if="albumErrors.released_date" class="text-red-500">{{ albumErrors.released_date }}</span>
+                <span v-if="isFutureDate(album.released_date)" class="text-red-500">Select a date before today</span>
               </div>
+
 
               <div class="mb-4">
                 <label for="albumCover" class="block text-white mb-2">Album Cover</label>
@@ -84,6 +96,8 @@
                   class="w-full p-2 rounded outline-none bg-gray-700 focus:border-red-800 focus:ring-2 focus:ring-red-800 text-white caret-red-800 border border-gray-600">
                 <span v-if="albumErrors.image" class="text-red-500">{{ albumErrors.image }}</span>
               </div>
+
+
               <div class="mb-4">
                 <label for="albumFile" class="block text-white mb-2">Album Track</label>
                 <select v-model="album.tracks" multiple name="genre" id="genre" @input="clearError('album', 'tracks')"
@@ -93,6 +107,8 @@
                 </select>
                 <span v-if="albumErrors.tracks" class="text-red-500">{{ albumErrors.tracks }}</span>
               </div>
+
+
               <button type="submit" class="ring-2 ring-red-800 text-white px-4 py-2 rounded hover:bg-red-800">Upload Album</button>
             </form>
           </div>
@@ -110,6 +126,7 @@ import { createTrack } from '../../api/Track';
 import { fetchArtistTracks } from '../../api/Track';
 import { fetchGenres } from '../../api/Genre';
 import { createAlbum } from '../../api/Album';
+
 
 import { handleImageUpload } from '../../utils/imageUpload';
 
@@ -205,11 +222,18 @@ const validateFields = (fields, errors) => {
   return isValid;
 };
 
+const isFutureDate = (date) => {
+  const today = new Date();
+  const selectedDate = new Date(date);
+  return selectedDate > today;
+};
+
 const handleTrackUpload = async () => {
   if (!validateFields(track, trackErrors)) return;
   try {
     const formData = handleImageUpload(track.value, trackImageFile.value);
     const response = await createTrack(formData);
+    console.log("create track", response);
   } catch (error) {
     console.log(error);
   }

@@ -18,7 +18,7 @@
         </RouterLink>
         <button id="dropdownHoverButton" @click="toggleDropdown"
           class="relative p-6 text-white focus:outline-none font-medium rounded-full" type="button">
-          <img src="/src/assets/pic/tay.jpg" alt="Tay" class="w-10 h-10 rounded-full" />
+          <img :src="getImageUrl" alt="Tay" class="w-10 h-10 rounded-full" />
         </button>
         <!-- Dropdown menu -->
         <div v-show="isDropdownVisible"
@@ -41,10 +41,15 @@
 
 <script setup>
 
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { artistNavRoutes as routes } from '../../router';
 import { Logout } from '../../api/Auth';
 import { useStore } from 'vuex'
+
+const props = defineProps({
+  user: Object,
+  required: true
+})
 
 const store = useStore()
 
@@ -58,6 +63,11 @@ const toggleDropdown = () => {
 const handleLogout = async () => {
   await Logout(store)
 }
+
+const getImageUrl = computed(() => {
+  console.log("props.user",props)
+  return `${import.meta.env.VITE_API_BASE_URL}${props.user?.image}`
+})
 </script>
 
 <style scoped>
