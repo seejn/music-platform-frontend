@@ -8,10 +8,15 @@ export const adminNavRoutes = [
     {
         path: '/admin/dashboard',
         name: 'Dashboard',
+        component: () => import('./pages/Admin/Dash.vue')
+
     },
     {
         path: '/admin/artists',
         name: 'Artists',
+        component: () => import('./pages/Admin/ArtistTable.vue')
+
+        
     },
     {
         path: '/admin/all-tours/',

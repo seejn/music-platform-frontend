@@ -68,8 +68,11 @@
                       <div v-if="showEditForm">
                         <EditTracks :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
                       </div>
+
                       <button @click="deleteTrackData(track.id)" class="block w-full text-left px-4 py-2">Delete</button>
                     </div>
+                    <button @click="reportedTrack(track.id)" class="block w-full text-left px-4 py-2">Report</button>
+
                     <button class="block w-full text-left px-4 py-2">Playlist</button>
                   </div>
                 </div>
@@ -87,7 +90,7 @@ import { ref, computed, watch, onMounted } from 'vue';
 
 import { fetchAlbum, updateAlbum, createFavouriteAlbum } from '../../api/Album';
 
-import { deleteTrack, updateTrack } from "../../api/Track";
+import { deleteTrack, reportTrack, updateTrack } from "../../api/Track";
 import EditTracks from '../Artist/EditTracks.vue';
 import { fetchGenres } from '../../api/Genre';
 import { useStore } from 'vuex';
@@ -178,6 +181,15 @@ const deleteTrackData = async (trackId) => {
     console.error("Error deleting track", error);
   }
 };
+const reportedTrack= async(trackId)=>{
+  try {
+    await reportTrack(trackId);
+
+  }catch(error){
+    console.error("Error reporting track", error);
+
+  }
+};
 
 const toggleOptions = () => {
   showOptions.value = !showOptions.value;
@@ -221,6 +233,9 @@ const toggleEditMode = () => {
 const clearError = (field) => {
   console.log(`Clearing error for ${field}`);
 };
+
+
+
 
 watch(() => props.id, (newId) => {
   fetchAlbumData(newId)
