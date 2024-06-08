@@ -101,6 +101,11 @@ export const sidebarRoutes = [
         name: "Search",
         component: () => import('./pages/Search.vue')
     },
+    {
+        path: '/sidebar',
+        name:"SideBar",
+        component: () => import('./components/Sidebar/Sidebar.vue')
+    }
 ]
 
 export const playlistRoutes = [
@@ -110,7 +115,9 @@ export const playlistRoutes = [
         component: () => import('./pages/Artist/Create_Playlist.vue')
     },
 
+
 ]
+
 
 export const routes = [
     ...adminNavRoutes,
