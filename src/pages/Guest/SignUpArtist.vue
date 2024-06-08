@@ -130,7 +130,7 @@
 import { ref, computed, watch } from 'vue';
 import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
-import { createUser } from '../../api/Auth';
+import { createArtist, createUser } from '../../api/Auth';
 
 export default {
   name: 'Register',
@@ -229,7 +229,7 @@ export default {
         }
 
 
-        const response = await createUser(info.value);
+        const response = await createArtist(info.value);
         console.log('User created successfully:', response);
         clearForm();
       } catch (error) {
