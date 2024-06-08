@@ -93,3 +93,15 @@ export const fetchArtistTrack = async (artistId) => {
         throw error;
     }
 };
+export const reportTrack = async (trackId) => {
+    // const url = `${API_BASE_URL}/track/get_artist_track/${artistId}/`;
+    try {
+        // const response = await axios.post(url);
+        console.log("you reported track",trackId)
+
+        // return response.data.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
