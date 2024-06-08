@@ -1,139 +1,116 @@
 <template>
   <Layout>
     <template #Main>
-      <div>
-        <h2 class="text-2xl font-bold mb-4 text-white">Search</h2>
-        <div class="p-1 mb-4">
+      <main class="">
+      
+
+        <section class="p-1 mb-4 mx-10">
           <input
             type="text"
             v-model="searchTerm"
             placeholder="Search..."
-            class="w-100 p-2 border border-gray-300 rounded-md bg-black text-white"
+            class="w-full p-2 border border-gray-300 rounded-md bg-black text-white"
             @input="filterResults"
           />
+        </section>
+
+        <div v-if="searchTerm" class="mx-10">
+          <section v-if="filteredTracks.length > 0">
+            <h2 class="text-3xl font-bold mb-4 text-white">Songs for You</h2>
+            <TrackCollection :tracks="filteredTracks" />
+          </section>
+
+          <section v-if="filteredArtists.length > 0">
+            <h2 class="text-3xl font-bold mb-4 text-white">Artists</h2>
+            <ArtistCollection :artists="filteredArtists" />
+          </section>
+
+          <section v-if="filteredAlbums.length > 0">
+            <h2 class="text-3xl font-bold mb-4 text-white">Albums</h2>
+            <AlbumCollection :albums="filteredAlbums" />
+          </section>
+
+          <section v-if="filteredPlaylists.length > 0">
+            <h2 class="text-3xl font-bold mb-4 text-white">Playlists</h2>
+            <PlaylistCollection :playlists="filteredPlaylists" />
+          </section>
+
+          <div
+            v-if="!filteredTracks.length && !filteredArtists.length && !filteredAlbums.length && !filteredPlaylists.length"
+            class="text-center text-white"
+          >
+            No results found
+          </div>
         </div>
-
-        <div class="overflow-y-auto max-h-screen" v-if="searchTerm">
-          <div v-if="filteredArtists.length > 0">
-            <h3 class="text-xl font-bold text-white">Artists</h3>
-            <ul>
-              <li
-                v-for="artist in filteredArtists"
-                :key="artist.id"
-                class="py-2 px-4 bg-zinc-900 text-white shadow-md mb-2 flex items-center justify-between"
-              >
-                <span>{{ artist.first_name }} {{ artist.last_name }}</span> 
-              </li>
-            </ul>
-          </div>
-
-          <div v-if="filteredTracks.length > 0">
-            <h3 class="text-xl font-bold text-white">Tracks</h3>
-            <ul>
-              <li
-                v-for="track in filteredTracks"
-                :key="track.id"
-                class="py-2 px-4 bg-zinc-900 text-white shadow-md mb-2 flex items-center justify-between"
-              >
-                <span>{{ track.title }}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div v-if="filteredAlbums.length > 0">
-            <h3 class="text-xl font-bold text-white">Albums</h3>
-            <ul>
-              <li
-                v-for="album in filteredAlbums"
-                :key="album.id"
-                class="py-2 px-4 bg-zinc-900 text-white shadow-md mb-2 flex items-center justify-between"
-              >
-                <span>{{ album.title }}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div v-if="filteredPlaylists.length > 0">
-            <h3 class="text-xl font-bold text-white">Playlists</h3>
-            <ul>
-              <li
-                v-for="playlist in filteredPlaylists"
-                :key="playlist.id"
-                class="py-2 px-4 bg-zinc-900 text-white shadow-md mb-2 flex items-center justify-between"
-              >
-                <span>{{ playlist.title }}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div v-if="!filteredArtists.length && !filteredTracks.length && !filteredAlbums.length && !filteredPlaylists.length" class="text-center text-white">No results found</div>
-        </div>
-      </div>
+      </main>
     </template>
   </Layout>
 </template>
 
-<script>
-import { ref, watch, onMounted } from 'vue';
+<script setup>
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-export default {
-  data() {
-    return {
-      searchTerm: '',
-      tracks: [],
-      artists: [],
-      albums: [],
-      playlists: [],
-      filteredTracks: [],
-      filteredArtists: [],
-      filteredAlbums: [],
-      filteredPlaylists: [],
-      playlist: []
-    };
-  },
-  methods: {
+import TrackCollection from '../components/Track/TrackCollection.vue'
+import AlbumCollection from '../components/Album/AlbumCollection.vue'
+import PlaylistCollection from '../components/Track/PlaylistCollection.vue';
+import ArtistCollection from '../components/Artist/ArtistCollection.vue'
 
-    async fetchData() {
-      try {
-        const [tracksResponse, artistsResponse, albumsResponse, playlistsResponse] = await Promise.all([
-          axios.get('http://localhost:8000/track/get_all_tracks/'),
-          axios.get('http://localhost:8000/roles/artists/'),
-          axios.get('http://localhost:8000/album/get_all_albums/'),
-          axios.get('http://localhost:8000/track/get_all_playlist/')
-        ]);
+let searchTerm = ref('');
+let tracks = ref([]);
+let albums = ref([]);
+let artists = ref([]);
+let playlists = ref([]);
+let filteredTracks = ref([]);
+let filteredArtists = ref([]);
+let filteredAlbums = ref([]);
+let filteredPlaylists = ref([]);
 
-        this.tracks = tracksResponse.data.data || [];
-        this.artists = artistsResponse.data.data || [];
-        this.albums = albumsResponse.data.data || [];
-        this.playlists = playlistsResponse.data.data || [];
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    },
-    filterResults() {
-      const searchTerm = this.searchTerm.trim().toLowerCase();
-      if (searchTerm === '') {
-        this.filteredTracks = [];
-        this.filteredArtists = [];
-        this.filteredAlbums = [];
-        this.filteredPlaylists = [];
-      } else {
-        this.filteredTracks = this.tracks.filter(track => track.title && track.title.trim().toLowerCase().startsWith(searchTerm));
-        this.filteredArtists = this.artists.filter(artist => (artist.first_name && artist.first_name.trim().toLowerCase().startsWith(searchTerm)) ||
-                                                              (artist.last_name && artist.last_name.trim().toLowerCase().startsWith(searchTerm)));
-        this.filteredAlbums = this.albums.filter(album => album.title && album.title.trim().toLowerCase().startsWith(searchTerm));
-        this.filteredPlaylists = this.playlists.filter(playlist => playlist.title && playlist.title.trim().toLowerCase().startsWith(searchTerm));
-      }
-    },
-  },
-  watch: {
-    searchTerm(newVal) {
-      this.filterResults();
-    },
-  },
-  mounted() {
-    this.fetchData();
-  },
+const fetchData = async () => {
+  try {
+    const [tracksResponse, artistsResponse, albumsResponse, playlistsResponse] = await Promise.all([
+      axios.get('http://localhost:8000/track/get_all_tracks/'),
+      axios.get('http://localhost:8000/roles/artists/'),
+      axios.get('http://localhost:8000/album/get_all_albums/'),
+      axios.get('http://localhost:8000/track/get_all_playlist/')
+    ]);
+
+    tracks.value = tracksResponse.data.data || [];
+    artists.value = artistsResponse.data.data || [];
+    albums.value = albumsResponse.data.data || [];
+    playlists.value = playlistsResponse.data.data || [];
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
 };
+
+const filterResults = () => {
+  const term = searchTerm.value.trim().toLowerCase();
+  if (term === '') {
+    filteredTracks.value = [];
+    filteredArtists.value = [];
+    filteredAlbums.value = [];
+    filteredPlaylists.value = [];
+  } else {
+    filteredTracks.value = tracks.value.filter(track => track.title && track.title.trim().toLowerCase().includes(term));
+    filteredArtists.value = artists.value.filter(artist => (artist.first_name && artist.first_name.trim().toLowerCase().includes(term)) ||
+                                                          (artist.last_name && artist.last_name.trim().toLowerCase().includes(term)));
+    filteredAlbums.value = albums.value.filter(album => album.title && album.title.trim().toLowerCase().includes(term));
+    filteredPlaylists.value = playlists.value.filter(playlist => playlist.title && playlist.title.trim().toLowerCase().includes(term));
+  }
+};
+
+onMounted(() => {
+  fetchData();
+});
 </script>
+
+<style scoped>
+.glass-effect {
+  background-color: rgba(194, 186, 186, 0.384);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 16px;
+}
+</style>
