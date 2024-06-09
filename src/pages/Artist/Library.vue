@@ -30,15 +30,18 @@
                   <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
                   <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
                   <td class="py-2 px-4 text-left border-b border-red-800 flex space-x-2 relative">
-                    <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleOptions(trackIndex)">
-                      <i class="fas fa-ellipsis-v">...</i>
-                    </button>
-                    <div v-if="showOptions[trackIndex]" class=" bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-2">
-                      <button @click="editTrack(track)" class="w-full text-left px-4 py-2">Edit</button>
-                      <div v-if="showEditForm">
-                        <EditSingleTrack :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
-                      </div>
-                      <button @click="deleteTrackData(track.id)" class="w-full text-left px-4 py-2">Delete</button>
+                    <button class="bg-black text-white rounded-md shadow-md text-md" @click="toggleOptions(trackIndex)">
+            <i class="fas fa-ellipsis-v">...</i>
+          </button>
+          <div
+            v-if="showOptions[trackIndex]"
+            class="dropdown-options bg-white text-black rounded-md shadow-md py-2 w-40 z-10"
+          >
+            <button @click="editTrack(track)" class="w-full text-left px-4 py-2">Edit</button>
+            <div v-if="showEditForm">
+              <EditSingleTrack :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
+            </div>
+            <button @click="deleteTrackData(track.id)" class="w-full text-left px-4 py-2">Delete</button>
                     </div>
                   </td>
                 </tr>
@@ -222,5 +225,9 @@ const deleteArtistAlbum = async (albumId) => {
 .flex.items-center.relative .absolute {
     top: 100%;
     right: 0;
+}
+.dropdown-options {
+  position: relative;
+  left:50px;/* Adjust this value to position the dropdown further to the right */
 }
 </style>
