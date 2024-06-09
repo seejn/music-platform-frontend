@@ -6,10 +6,6 @@ import { createWebHistory, createRouter } from 'vue-router'
 
 export const adminNavRoutes = [
     {
-        path: '/admin/dashboard',
-        name: 'Dashboard',
-    },
-    {
         path: '/admin/artists',
         name: 'Artists',
         component: () => import('./pages/Admin/ArtistTable.vue')

@@ -40,7 +40,7 @@
           </section>
   
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Playlist</h2>
+            <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Your Favourite Playlists</h2>
             <PlaylistCollection :playlists="playlists" />
           </section>
         </main>
@@ -58,7 +58,7 @@
   import { fetchAllTracks } from "../api/Track.js";
   import { fetchAllAlbums } from "../api/Album.js";
   import { fetchAllArtists } from "../api/Artist.js";
-  import { fetchAllPlaylists } from "../api/Playlist.js";
+  
   
   import TrackCollection from "../components/Track/TrackCollection.vue";
   import AlbumCollection from "../components/Album/AlbumCollection.vue";
@@ -66,24 +66,31 @@
   import ArtistCollection from "../components/Artist/ArtistCollection.vue";
   import { fetchAllTours } from "../api/Tour.js";
   
-  let tracks = ref([]);
-  let albums = ref([]);
-  let artists = ref([]);
-  let playlists = ref([]);
-  let artistTours = ref([]);
 
-  
-  onMounted(async () => {
-    tracks.value = await fetchAllTracks();
-    albums.value = await fetchAllAlbums();
-    artists.value = await fetchAllArtists();
-    playlists.value = await fetchAllPlaylists();
-  });
-  onMounted(async () => {
-  artistTours.value = await fetchAllTours();
-  initSwiper();
-});
-  
+import { useStore } from 'vuex';
+import {fetchUserFavouritePlaylists } from '../api/Playlist.js'
+
+
+// import FavouritePlaylistCollection from '../components/Track/FavouritePlaylistCollection.vue';
+
+const store = useStore()
+const user = store.getters.getUser
+let tracks = ref([]);
+let albums = ref([]);
+let artists =ref([]);
+let playlists = ref([]);
+let artistTours = ref([]);
+let favouriteplaylists =ref([]);
+
+
+const loadfavouriteplaylist = async(userId) =>{
+  console.log("Load favourite playlist",userId)
+    const response = await fetchUserFavouritePlaylists(userId)
+    favouriteplaylists.value = response
+    playlists.value=favouriteplaylists.value.playlist
+    console.log(playlists.value)
+}
+
 const initSwiper = () => {
     new Swiper(".swiper-container", {
   loop: false, 
@@ -99,9 +106,27 @@ const initSwiper = () => {
   },
 });
 };
-  </script>
-  
-  <style scoped>
+
+
+onMounted( async () => {
+  try{
+    tracks.value = await fetchAllTracks()
+    albums.value = await fetchAllAlbums()
+    artists.value = await fetchAllArtists();
+    artistTours.value = await fetchAllTours();
+
+  }
+  catch(error){
+    console.error(error)
+  }
+    initSwiper();
+    loadfavouriteplaylist(user.id)
+    // favouriteplaylists.value = await fetchUserFavouritePlaylists(user.id)
+    console.log("Tracks: ", tracks.value,"Albums: ",albums.value,"Artists:",artists.value,"FavouritePlaylists: ",favouriteplaylists.value.playlist)
+
+})
+</script>
+<style scoped>
   .glass-effect {
     background-color: rgba(194, 186, 186, 0.384);
     backdrop-filter: blur(10px);
