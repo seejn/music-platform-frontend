@@ -10,10 +10,10 @@
         </button> -->
       </div>
       <div class="relative flex items-center">
-        <RouterLink to="/artist/upload" class="p-5 font-bold text-lg hover:text-orange-800">
+        <RouterLink to="/artist/upload" class="p-5 font-bold text-lg hover:text-red-800">
           Upload
         </RouterLink>
-        <RouterLink to="/artist/library" class="p-5 font-bold text-lg hover:text-orange-800">
+        <RouterLink to="/artist/library" class="p-5 font-bold text-lg hover:text-red-800">
           Library
         </RouterLink>
         <button id="dropdownHoverButton" @click="toggleDropdown"
