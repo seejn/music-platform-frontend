@@ -10,7 +10,7 @@
           <ArtistCard :artist="artist" />
         </RouterLink>
       </div>
-      <div class="w-full my-5">
+      <div class="w-full my-10 ">
         <Button collection="artist"/>
       </div>
     </div>

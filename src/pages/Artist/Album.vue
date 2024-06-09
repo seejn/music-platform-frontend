@@ -102,6 +102,7 @@ const props = defineProps({
   }
 });
 
+const albumId = ref(props.id)
 const album = ref({})
 const tracks = ref({})
 const artist = ref({})
@@ -181,16 +182,15 @@ const deleteTrackData = async (trackId) => {
     console.error("Error deleting track", error);
   }
 };
-const reportedTrack= async(trackId)=>{
+const reportedTrack = async (trackId) => {
   try {
     await reportTrack(trackId);
-
-  }catch(error){
+    fetchAlbumData(albumId.value); 
+    console.log("Track reported successfully!");
+  } catch (error) {
     console.error("Error reporting track", error);
-
   }
 };
-
 const toggleOptions = () => {
   showOptions.value = !showOptions.value;
 };
@@ -242,7 +242,7 @@ watch(() => props.id, (newId) => {
 })
 
 onMounted(() => {
-  fetchAlbumData(props.id);
+  fetchAlbumData(albumId.value);
   loadGenres();
 })
 

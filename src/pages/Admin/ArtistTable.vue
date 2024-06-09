@@ -22,10 +22,9 @@
               <td class="py-2 px-4 border-b">{{ artist.dob }}</td>
               <td class="py-2 px-4 border-b">{{ artist.gender }}</td>
               <td class="py-2 px-4 border-b">
-                <button @click="handleTourAction(artist.id)" class="bg-blue-500 text-white px-4 py-2 rounded">Tour</button>
-              </td>
-              <td class="py-2 px-4 border-b">
-                <button @click="Library(artist.id)" class="bg-blue-500 text-white px-4 py-2 rounded">Library</button>
+                <RouterLink :to="{ name: 'artist-library', params: { id: artist.id } }">
+                  <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">Library</button>
+                </RouterLink>
               </td>
             </tr>
           </tbody>
@@ -38,6 +37,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { fetchAllArtists } from '../../api/Artist';
+import { RouterLink } from 'vue-router';
 
 const artists = ref([]);
 
@@ -51,16 +51,6 @@ const fetchArtist = async () => {
 
 const getImageUrl = (image) => {
   return `${import.meta.env.VITE_API_BASE_URL}${image}`;
-};
-
-const handleTourAction = (id) => {
-  alert(`Action for artist with id: ${id}`);
-  // Implement your action handler logic here
-};
-
-const Library = (id) => {
-  alert(`Library action for artist with id: ${id}`);
-  // Implement your library handler logic here
 };
 
 onMounted(fetchArtist);

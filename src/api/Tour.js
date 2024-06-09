@@ -5,6 +5,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const fetchAllTours = async () =>{
     const url = `${import.meta.env.VITE_API_BASE_URL}/tour/get_all_tours/`
     try{
+        console.log("ALL Tours")
         const response = await axios(url , {
             method: 'get',
         })
@@ -27,13 +28,14 @@ export const fetchArtistTour = async (artistId) =>{
 }
 
 export const createTour = async (tourData) => {
+    console.log(tourData);
     const url = `${API_BASE_URL}/tour/create/`;
     try {
         console.log("From CreateTour: ", tourData)
         const response = await axios.post(url, tourData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+          headers:{
+            "Content-Type":"multipart/form-data"
+          }
         });
         const data = response.data.data
         console.log(data)

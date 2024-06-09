@@ -5,7 +5,6 @@ import { createWebHistory, createRouter } from 'vue-router'
 // logout 
 
 export const adminNavRoutes = [
-
     {
         path: '/admin/artists',
         name: 'Artists',
@@ -14,10 +13,20 @@ export const adminNavRoutes = [
         
     },
     {
+        path:'/admin/user-reports',
+        name:'UserReports',
+        component: () => import('./pages/Admin/UserReports.vue')
+    },
+    {
         path: '/admin/all-tours/',
         name: 'TourPage',
         component: () => import('./pages/Admin/TourPage.vue')
     },
+    {
+        path: '/artist-library/:id',
+        name: 'artist-library',
+        component: ()=>import('./pages/Admin/ArtistLibrary.vue')
+    }
 ]
 
 export const artistNavRoutes = [
@@ -40,7 +49,11 @@ export const artistNavRoutes = [
 ]
 
 export const userNavRoutes = [
-
+    {
+        path: '/user/profile',
+        name: 'Profile',
+        component: () => import(`./pages/User/UserProfile.vue`)
+    },
 ]
 
 export const guestNavRoutes = [
@@ -114,11 +127,11 @@ export const sidebarRoutes = [
         name: "Search",
         component: () => import('./pages/Search.vue')
     },
-    {
-        path: '/sidebar',
-        name:"SideBar",
-        component: () => import('./components/Sidebar/Sidebar.vue')
-    }
+    // {
+    //     path: '/sidebar',
+    //     name:"SideBar",
+    //     component: () => import('./components/Sidebar/Sidebar.vue')
+    // }
 ]
 
 export const playlistRoutes = [

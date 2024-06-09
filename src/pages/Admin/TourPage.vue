@@ -1,56 +1,222 @@
 <template>
-<Layout>
-    <template #Main>
-        <section class="py-4">
-            <h2 class="text-2xl font-bold my-4 text-white">Tours by Artists</h2>
-            <div class="flex flex-row">
-                        <button @click="showAddTour = true" class=" border-2 border-red-800 text-white hover:ring-2 hover:ring-red-800  hover:text-white py-3 px-3 rounded-lg  mb-4 flex felx-end block">Add Tour</button>
-                    </div>
-            <div class="flex-grow p-6">
-                <div class=" rounded-lg p-6">
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div v-for="tour in tours" :key="tour.id" class=" p-4 rounded-lg shadow-lg border-2 border-red-800">
-                            <div class="mr-4 flex-shrink-0">
-                                <img :src="tour.artist ? imageUrl(tour.artist) : ''" alt="Artist Image" class="w-25 h-24 rounded-lg">
-                            </div>
-                            <h5 class="text-white text-xl">{{ tour ? tour.title : 'Unknown Title' }}</h5>
-                            <h3 class="text-white text-lg font-semibold">{{ tour.artist ? tour.artist.first_name + ' ' + tour.artist.last_name : 'Unknown Artist' }}</h3>
-                            <p class="text-gray-400">Date: {{ tour.date }}</p>
-                            <p class="text-gray-400">Location: {{ tour.location }}</p>
-                            <p class="text-gray-400">Venue: {{ tour.venue }}</p>
-                            <p class="text-gray-400">Time: {{ tour.time }}</p>
-                            <div class="mt-4 flex justify-end ">
-                                <button @click="updateSong(song.id)" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800  hover:text-white text-white font-bold py-2 px-4 rounded mr-2">Update</button>
-                                <button @click="deleteSong(song.id)" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800  hover:text-white text-white font-bold py-2 px-4 rounded">Delete</button>
+    <Layout>
+        <template #Main>
+            <section class="py-4">
+                <h2 class="text-2xl font-bold my-4 text-white">Tours by Artists</h2>
+                <div class="flex flex-row">
+                    <button @click="showAddTour = true"
+                        class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-800 hover:text-white py-3 px-3 rounded-lg mb-4 flex flex-end block">
+                        Add Tour
+                    </button>
+                </div>
+                <div class="flex-grow p-6">
+                    <div class="rounded-lg p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div v-for="tour in tours" :key="tour.id"
+                                class="p-4 rounded-lg shadow-lg border-2 border-red-800">
+                                <div class="mr-4 flex-shrink-0">
+                                    <img :src="tour.artist ? imageUrl(tour.artist) : ''" alt="Artist Image"
+                                        class="w-25 h-24 rounded-lg">
+                                </div>
+                                <h5 class="text-white text-xl">{{ tour ? tour.title : 'Unknown Title' }}</h5>
+                                <h3 class="text-white text-lg font-semibold">{{ tour.artist ? tour.artist.first_name + ' ' + tour.artist.last_name : 'Unknown Artist' }}</h3>
+                                <p class="text-gray-400">Date: {{ tour.date }}</p>
+                                <p class="text-gray-400">Location: {{ tour.location }}</p>
+                                <p class="text-gray-400">Venue: {{ tour.venue }}</p>
+                                <p class="text-gray-400">Time: {{ tour.time }}</p>
+                                <div class="mt-4 flex justify-end">
+                                    <button @click="editTour(tour)"
+                                        class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">Update</button>
+                                    <button @click="deletedTour(tour.id)"
+                                        class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </section>
+
+            <div v-if="showAddTour" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+                <div class="max-w-md mx-auto bg-black p-5 rounded-md shadow-md text-white">
+                    <h2 class="text-xl font-semibold mb-4">Enter Event Details</h2>
+                    <form @submit.prevent="tourCreate">
+                        <div class="mb-4 text-white">
+                            <label for="artist" class="block">Artist:</label>
+                            <select v-model="tour.artist_id" id="artist" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                                <option v-for="artist in artists" :key="artist?.id" :value="artist?.id">
+                                    {{ artist?.first_name }} {{ artist?.last_name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-4 text-white">
+                            <label for="title" class="block">Name:</label>
+                            <input type="text" v-model="tour.title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                        </div>
+                        <div class="mb-4 text-white">
+                            <label for="date" class="block">Date:</label>
+                            <input type="date" v-model="tour.date" id="date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                        </div>
+                        <div class="mb-4 text-white">
+                            <label for="location" class="block">Location:</label>
+                            <input type="text" v-model="tour.location" id="location" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                        </div>
+                        <div class="mb-4 text-white">
+                            <label for="venue" class="block">Venue:</label>
+                            <input type="text" v-model="tour.venue" id="venue" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                        </div>
+                        <div class="mb-4 text-white">
+                            <label for="time" class="block">Time:</label>
+                            <input type="time" v-model="tour.time" id="time" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                        </div>
+                        <button type="submit" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded">Submit</button>
+                        <button @click="showAddTour = false" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded">
+                      Cancel
+                        </button>
+                    </form>
+                </div>
             </div>
+            
+            <!-- Edit Tour Form -->
+            <div v-if="showEditTour" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+                <div class="max-w-md mx-auto bg-black p-5 rounded-md shadow-md text-white">
+                    
+                    <h2 class="text-xl font-semibold mb-4">Update Event Details</h2>
+                  
+                    <form @submit.prevent="updatedTour">
+                        <div class="mb-4 text-white">
+                            <label for="title" class="block">Name:</label>
+                            <input type="text" v-model="tour.title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                        </div>
+                        <div class="mb-4 text-white">
+                            <label for="date" class="block">Date:</label>
+                            <input type="date" v-model="tour.date" id="date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                        </div>
+                        <div class="mb-4 text-white">
+                            <label for="location" class="block">Location:</label>
+                            <input type="text" v-model="tour.location" id="location" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                        </div>
+                        <div class="mb-4 text-white">
+                            <label for="venue" class="block">Venue:</label>
+                            <input type="text" v-model="tour.venue" id="venue" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                        </div>
+                        <div class="mb-4 text-white">
+                            <label for="time" class="block">Time:</label>
+                            <input type="time" v-model="tour.time" id="time" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                        </div>
+                        <button type="submit" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px- rounded">Update</button>
+                        <button @click="showEditTour = false" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded">
+                      Cancel
+                        </button>
 
-        </section>
-    </template>
-</Layout>
+                    </form>
+                </div>
+            </div>
+        </template>
+    </Layout>
 </template>
-
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { fetchAllTours, createTour } from '../../api/Tour';
-import { fetchAllArtists } from '../../api/Artist'; 
+import { fetchAllTours, createTour, updateTour, deleteTour } from '../../api/Tour';
+import { fetchAllArtists } from '../../api/Artist';
+
 const tours = ref([]);
 const artists = ref([]);
+const showAddTour = ref(false);
+const showEditTour = ref(false);
 
+const tour = ref({
+    id: null,
+    artist_id: '',
+    title: '',
+    date: '',
+    location: '',
+    venue: '',
+    time: ''
+});
 
+const tourErrors = ref({
+    artist_id: "",
+    title: "",
+    date: "",
+    location: "",
+    venue: "",
+    time: ""
+});
+
+const tourCreate = async () => {
+    try {
+        const response = await createTour(tour.value);
+        console.log("created tour", response);
+        showAddTour.value = false;
+        tours.value = await fetchAllTours();
+    } catch (error) {
+        console.error("Error creating tour:", error);
+        if (error.response && error.response.data) {
+            const errors = error.response.data.errors;
+            if (errors) {
+                for (const key in errors) {
+                    if (Object.hasOwnProperty.call(errors, key)) {
+                        if (key in tourErrors.value) {
+                            tourErrors.value[key] = errors[key].join(', ');
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+
+const editTour = (selectedTour) => {
+    tour.value = { ...selectedTour };
+    showEditTour.value = true;
+};
+
+const updatedTour = async () => {
+    try {
+        const response = await updateTour(tour.value);
+        console.log("updated tour", response);
+        showEditTour.value = false;
+        tours.value = await fetchAllTours();
+    } catch (error) {
+        console.error("Error updating tour:", error);
+        if (error.response && error.response.data) {
+            const errors = error.response.data.errors;
+            if (errors) {
+                for (const key in errors) {
+                    if (Object.hasOwnProperty.call(errors, key)) {
+                        if (key in tourErrors.value) {
+                            tourErrors.value[key] = errors[key].join(', ');
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+
+const deletedTour = async (id) => {
+    try {
+        const response = await deleteTour(id);
+        console.log("deleted tour", response);
+        tours.value = await fetchAllTours();
+    } catch (error) {
+        console.error("Error deleting tour:", error);
+    }
+};
 
 onMounted(async () => {
-  try {
-    tours.value = await fetchAllTours();
-    artists.value = await fetchAllArtists();
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
+    try {
+        artists.value = await fetchAllArtists();
+        console.log("from mounted", artists.value);
+    } catch (error) {
+        console.error('Error fetching artists:', error);
+    }
+    try {
+        tours.value = await fetchAllTours();
+    } catch (error) {
+        console.error('Error fetching tours:', error);
+    }
 });
 
 const imageUrl = (artist) => {
