@@ -10,7 +10,7 @@
       </ul>
     </nav>
   </div>
-  <div class="bg-black text-white p-6 overflow-y-auto h-full">
+  <div class="bg-black text-white p-6 h-full">
     <nav>
       <ul class="space-y-8">
         <li class="flex items-center mb-4">
@@ -37,7 +37,7 @@
         <template v-if="showPlaylists">
           <li v-for="playlist in playlists" :key="playlist.id">
             <router-link :to="{name: 'SinglePlaylist', params: {id: playlist.id}}" class="flex items-center text-lg leading-loose font-semibold hover:underline">
-              <img :src="playlist.image" alt="Playlist" class="w-8 h-8 mr-3 rounded-full" />{{ playlist.title }}
+              <img :src="playlist.image" alt="Playlist" class="w-8 h-8 mr-3 rounded-full" />{{ playlist.title }} #{{ playlist.id }}
             </router-link>
           </li>
         </template>
@@ -55,27 +55,25 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { useRouter } from 'vue-router' // Import useRouter from vue-router
+import { useRouter } from 'vue-router' 
 import { sidebarRoutes as routes } from '../../router.js'
-import { createPlaylist, updatePlaylist } from '../../api/Playlist.js'; // Adjust the path based on your project structure
+import { createPlaylist, updatePlaylist, fetchAllPlaylists } from '../../api/Playlist.js'; 
 import axios from 'axios'
 
-const router = useRouter() // Initialize useRouter
+const router = useRouter() 
 
 const showPlaylists = ref(true)
 const playlists = ref([])
 const albums = ref([])
 const createdPlaylist= ref({})
 
-const fetchPlaylists = () => {
-  axios.get('http://localhost:8000/track/get_all_playlist/')
-    .then(response => {
-      playlists.value = response.data.data
-      showPlaylists.value = true
-    })
-    .catch(error => {
-      console.error('Error fetching playlists:', error)
-    })
+const fetchPlaylists = async () => {
+  try {
+    playlists.value = await fetchAllPlaylists()
+    showPlaylists.value = true
+  } catch (error) {
+    console.error('Error fetching playlists:', error)
+  }
 }
 
 const fetchAlbums = () => {
@@ -90,13 +88,13 @@ const fetchAlbums = () => {
 }
 
 const handleCreatePlaylist = async () => {
-  const playlistName = "My Playlist";  // Name of the playlist
+  const playlistName = "My Playlist";  
   const newPlaylist = {
     title: playlistName,
   }
 
   try {
-    const created = await createPlaylist(newPlaylist); // Creating the playlist
+    const created = await createPlaylist(newPlaylist); 
     createdPlaylist.value = created; 
     fetchPlaylists()
 
@@ -104,7 +102,6 @@ const handleCreatePlaylist = async () => {
     console.error('Error creating playlist:', error)
   }
 }
-
 
 watch(() => createdPlaylist.value, (newVal) => {
   console.log("newval",newVal)
