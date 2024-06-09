@@ -9,7 +9,7 @@
 
            </RouterLink>
         </div>
-        <div class="w-full flex" v-if="playlists.length>4">
+        <div class="w-full flex">
             <Button collection="playlist" />
         </div>
     </div>

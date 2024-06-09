@@ -44,11 +44,6 @@ import { getProfileImageUrl } from '../../utils/imageUrl';
 
 import { userNavRoutes as routes } from '../../router';
 
-const props = defineProps({
-  user: Object,
-  required: true
-});
-
 
 
 const props = defineProps({
