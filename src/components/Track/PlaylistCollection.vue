@@ -4,7 +4,7 @@
         <div id="carousel" class="flex transition-transform ease-in-out duration-500">
            
            
-           <RouterLink v-for="playlist in playlists" :to="`/single-playlist/${playlist.id}`">
+           <RouterLink v-for="playlist in playlists" :to="`/single-playlist/${playlist.id}`" class="playlist-link">
             <SinglePlaylist  :playlist="playlist" :key="playlist.id" />
 
            </RouterLink>
@@ -28,3 +28,11 @@ const props = defineProps({
     }
 })
 </script>
+  
+<style scoped>
+.playlist-link {
+  display: block;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+</style>
