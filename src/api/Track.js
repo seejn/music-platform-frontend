@@ -93,11 +93,24 @@ export const fetchArtistTrack = async (artistId) => {
         throw error;
     }
 };
+
 export const reportTrack = async (trackId) => {
+    const url = `${API_BASE_URL}/report/report_track/${trackId}/`;
+    try {
+        const response = await axios.get(url);
+        console.log("You reported track", trackId);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+export const banTracks = async (trackId) => {
     // const url = `${API_BASE_URL}/track/get_artist_track/${artistId}/`;
     try {
         // const response = await axios.post(url);
-        console.log("you reported track",trackId)
+        console.log("you banned track",trackId)
 
         // return response.data.data;
     } catch (error) {
@@ -105,3 +118,4 @@ export const reportTrack = async (trackId) => {
         throw error;
     }
 };
+
