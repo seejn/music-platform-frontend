@@ -2,14 +2,11 @@
 
     <div class=" mx-10 relative overflow-hidden">
         <div id="carousel" class="flex transition-transform ease-in-out duration-500">
-           
-           
-           <RouterLink v-for="playlist in playlists" :to="`/single-playlist/${playlist.id}`">
-            <SinglePlaylist  :playlist="playlist" :key="playlist.id" />
-
+           <RouterLink v-for="playlist in playlists" :to="`/single-playlist/${playlist.id}`" class="playlist-link">
+            <SinglePlaylist  :playlist="playlist" :key="playlist.id" class="border-2 border-red-800"/>
            </RouterLink>
         </div>
-        <div class="w-full flex">
+        <div class="w-full flex mt-10 ">
             <Button collection="playlist" />
         </div>
     </div>
@@ -28,3 +25,10 @@ const props = defineProps({
     }
 })
 </script>
+<style scoped>
+  .playlist-link {
+    display: block;
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+  </style>

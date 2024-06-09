@@ -50,9 +50,8 @@
   
   <script setup>
   import { ref, onMounted } from "vue";
-  import Swiper from "swiper"; // Import Swiper
-  import "swiper/swiper-bundle.css"; // Import Swiper styles
-  
+  import Swiper from "swiper"; 
+  import "swiper/swiper-bundle.css";
   import Navbar from "../components/Header/Navbar.vue";
   import Sidebar from "../components/Sidebar/Sidebar.vue";
   
@@ -113,19 +112,19 @@ const initSwiper = () => {
   .tour-container {
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: auto; /* Enable horizontal scrolling */
-    scrollbar-width: none; /* Hide scrollbar */
-    -ms-overflow-style: none; /* Hide scrollbar (IE and Edge) */
+    overflow-x: auto; 
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
   }
   .tour-card {
     flex: 0 0 auto;
     width: 300px; 
-    height: 200px;/* Adjust card width */
+    height: 200px;
     margin-right: 30px;
-    margin-left:30px; /* Adjust margin between cards */
+    margin-left:30px; 
   }
   .tour-card:last-child {
-    margin-right: 0; /* Remove margin from last card */
+    margin-right: 0; 
   }
   .border-red-800 {
     border-color: #dc2626;

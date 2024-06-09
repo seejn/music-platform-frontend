@@ -1,9 +1,3 @@
-<!-- <template>
-    <div class="w-4xl mx-auto">
-        <SingleTrack v-for="track in tracks" :track="track" :key="track.id"/>
-    </div>
-</template> -->
-
 
 <template>
     <div class="mx-10 relative overflow-hidden">

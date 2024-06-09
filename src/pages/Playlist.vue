@@ -58,7 +58,7 @@
           <div class="overflow-y-auto max-h-screen" v-if="searchTerm && filteredTracks?.length > 0">
             <ul>
               <li v-for="track in filteredTracks" :key="track.id"
-                class="py-2 px-4 bg-zinc-900 text-white shadow-md mb-2 flex items-center justify-between">
+                class="py-2 px-4 bg-black text-white shadow-md mb-2 flex items-center justify-between">
                 <span>{{ track.title }}</span>
                 <span v-if="addedTracks.includes(track.id)" class="text-red-500">Added</span>
                 <button @click="addTrackToPlaylist(track.id)" :disabled="addedTracks.includes(track.id)"

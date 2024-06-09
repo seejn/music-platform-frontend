@@ -1,5 +1,5 @@
 <template>
-  <nav class=" h-full w-full">
+  <nav class="h-full w-full">
     <div class="bg-black text-white h-20 p-6 flex items-center justify-between">
       <div>
         <!-- <button class="p-5 font-bold text-lg hover:text-orange-800" @click="goToPrevious">
@@ -18,7 +18,7 @@
         </RouterLink>
         <button id="dropdownHoverButton" @click="toggleDropdown"
           class="relative p-6 text-white focus:outline-none font-medium rounded-full" type="button">
-          <img :src="getProfileImageUrl(props.user.image)" alt="Tay" class="w-10 h-10 rounded-full" />
+          <img :src="getProfileImageUrl(props.user.image)" alt="Profile" class="w-10 h-10 rounded-full" />
         </button>
         <!-- Dropdown menu -->
         <div v-show="isDropdownVisible"
@@ -40,8 +40,7 @@
 </template>
 
 <script setup>
-
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { artistNavRoutes as routes } from '../../router';
 import { Logout } from '../../api/Auth';
 import { useStore } from 'vuex'
