@@ -7,8 +7,12 @@
           <img :src="profileImageUrl" alt="" class="rounded-full border-2 border-white w-60 h-60">
           <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
             {{ users.first_name }} {{ users.last_name }}
-            <button @click="toggleEditForm" class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">Edit</button>
+            <button @click="toggleEditForm" class="border-2 border-red-800 text-white -mt-9 hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">Edit</button>
           </p>
+     
+        </div>
+        <div class="ml-10">
+          <p class="text-white text-xl "> {{ users.dob }} {{ users.gender}}</p>
         </div>
         <div class="mt-8 rounded-lg glass-effect">
           <section>
