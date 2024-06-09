@@ -77,10 +77,11 @@ const loadAllArtists = async () => {
 }
 
 const loadUserPlaylists = async () => {
-  try {
-    playlists.value = await fetchUserPlaylists(userId.value)
-    console.log("load user playlists: ", playlists.value)
-  } catch (error) {
+  try{
+    const response = await fetchUserPlaylists(userId.value)
+    playlists.value = response.track
+    console.log("load user playlists: ",playlists.value)
+  }catch(error){
     console.log("From FetchAllArtists: ", error)
   }
 }
