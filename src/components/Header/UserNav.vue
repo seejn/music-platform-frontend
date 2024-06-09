@@ -14,7 +14,7 @@
         <button id="dropdownHoverButton" @click="toggleDropdown" 
           class="relative p-6 text-white focus:outline-none font-medium rounded-full"
           type="button">
-          <img src="/src/assets/pic/tay.jpg" alt="Tay" class="w-10 h-10 rounded-full" />
+          <img :src="getProfileImageUrl(props.user.profile)" alt="Tay" class="w-10 h-10 rounded-full" />
         </button>
         <!-- Dropdown menu -->
         <div v-show="isDropdownVisible"
@@ -37,7 +37,16 @@ import { ref } from 'vue';
 import { Logout } from '../../api/Auth';
 import { useStore } from 'vuex'
 
+import { getProfileImageUrl } from '../../utils/imageUrl';
+
 const store = useStore()
+
+const props = defineProps({
+  user: {
+    type: Object,
+    required: true
+  }
+})
 
 let isDropdownVisible = ref(false)
 
