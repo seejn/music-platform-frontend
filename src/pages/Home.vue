@@ -27,6 +27,7 @@
                     <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Playlist</h2>
                     <PlaylistCollection :playlists="playlists"/>
                 </section>
+
             </main>
         </template>
     </Layout>
@@ -34,31 +35,44 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-
+import { useStore } from 'vuex';
 import Navbar from '../components/Header/Navbar.vue'
 import Sidebar from '../components/Sidebar/Sidebar.vue';
 
 import { fetchAllTracks } from '../api/Track.js';
 import { fetchAllAlbums } from '../api/Album.js';
 import { fetchAllArtists } from '../api/Artist.js';
-import {fetchAllPlaylists} from '../api/Playlist.js'
+import {fetchUserFavouritePlaylists } from '../api/Playlist.js'
+
+
 
 import TrackCollection from '../components/Track/TrackCollection.vue'
 import AlbumCollection from '../components/Album/AlbumCollection.vue'
 import PlaylistCollection from '../components/Track/PlaylistCollection.vue';
 import ArtistCollection from '../components/Artist/ArtistCollection.vue'
+// import FavouritePlaylistCollection from '../components/Track/FavouritePlaylistCollection.vue';
 
+const store = useStore()
+const user = store.getters.getUser
 let tracks = ref([]);
 let albums = ref([]);
 let artists =ref([]);
-let playlists =ref([])
+let playlists = ref([]);
 
+let favouriteplaylists =ref([]);
+const loadfavouriteplaylist = async(userId) =>{
+    const response = await fetchUserFavouritePlaylists(userId)
+    favouriteplaylists.value = response
+    playlists.value=favouriteplaylists.value.playlist
+    console.log(playlists.value)
+}
 onMounted( async () => {
     tracks.value = await fetchAllTracks()
     albums.value = await fetchAllAlbums()
-    artists.value = await fetchAllArtists()
-    playlists.value = await fetchAllPlaylists()
-    console.log("Tracks: ", tracks.value,"Albums: ",albums.value,"Artists:",artists.value,"Playlists: ",playlists.value)
+    loadfavouriteplaylist(user.id)
+    // favouriteplaylists.value = await fetchUserFavouritePlaylists(user.id)
+    console.log("Tracks: ", tracks.value,"Albums: ",albums.value,"Artists:",artists.value,"FavouritePlaylists: ",favouriteplaylists.value.playlist)
+
 })
 </script>
 <style scoped>
