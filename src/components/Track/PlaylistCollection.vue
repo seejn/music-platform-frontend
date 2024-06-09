@@ -25,10 +25,11 @@ const props = defineProps({
     }
 })
 </script>
+  
 <style scoped>
-  .playlist-link {
-    display: block;
-    flex-shrink: 0;
-    margin-right: 10px;
-  }
-  </style>
+.playlist-link {
+  display: block;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+</style>

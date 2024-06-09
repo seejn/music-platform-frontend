@@ -182,16 +182,15 @@ const deleteTrackData = async (trackId) => {
     console.error("Error deleting track", error);
   }
 };
-const reportedTrack= async(trackId)=>{
+const reportedTrack = async (trackId) => {
   try {
     await reportTrack(trackId);
-
-  }catch(error){
+    fetchAlbumData(albumId.value); 
+    console.log("Track reported successfully!");
+  } catch (error) {
     console.error("Error reporting track", error);
-
   }
 };
-
 const toggleOptions = () => {
   showOptions.value = !showOptions.value;
 };

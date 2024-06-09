@@ -17,10 +17,20 @@ export const adminNavRoutes = [
         
     },
     {
+        path:'/admin/user-reports',
+        name:'UserReports',
+        component: () => import('./pages/Admin/UserReports.vue')
+    },
+    {
         path: '/admin/all-tours/',
         name: 'TourPage',
         component: () => import('./pages/Admin/TourPage.vue')
     },
+    {
+        path: '/artist-library/:id',
+        name: 'artist-library',
+        component: ()=>import('./pages/Admin/ArtistLibrary.vue')
+    }
 ]
 
 export const artistNavRoutes = [
