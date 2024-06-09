@@ -17,7 +17,7 @@
         <h3 class="text-xl text-white mt-3">{{ playlist?.title || "TrackName" }}</h3>
         <!-- <p class="text-white">{{ playlist?.user }}</p>
         <p class="text-white">{{ playlist?.track }}</p> -->
-        <p class="text-white">{{ playlist.songCount }} Songs</p>
+        <p class="text-white">{{ playlist.track.length }} Songs</p>
 
     </div>
 
