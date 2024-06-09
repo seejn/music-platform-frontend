@@ -24,3 +24,18 @@ export const fetchArtist = async (artistId) => {
         throw error;
     }
 };
+export const updateArtist = async (artistData) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/roles/artist_personal_info/${artistData.id}/`;
+
+    console.log("from updated artist: ", url)
+    console.log("from updated artist: ", artistData)
+
+    // return
+    try {
+        const response = await axios.put(url, artistData);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
