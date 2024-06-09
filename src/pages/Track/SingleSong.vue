@@ -44,6 +44,19 @@
                   <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.artist?.first_name }}</td>
                 
                   <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
+                  <td class="py-2 px-4 text-left border-b border-red-800 relative">
+                    <div class="flex items-center space-x-2">
+                      <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(index)">
+                        <i class="fas fa-ellipsis-v">...</i>
+                      </button>
+                      <div v-if="showTrackOptions[index]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
+                  
+                        <button @click="reportedTrack(track.id)" class="block w-full text-left px-4 py-2">Report</button>
+    
+                        <button class="block w-full text-left px-4 py-2">Playlist</button>
+                      </div>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -57,12 +70,18 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { fetchTracks } from '../../api/Track';
+import { fetchTracks, reportTrack } from '../../api/Track';
 
 const route = useRoute();
 const trackId = ref(route.params.id);
 const track = ref({});
 const lyricsLines = ref([]);
+const showTrackOptions = ref({});
+
+const toggleTrackOptions = (index) => {
+  showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
+};
+
 
 const fetchTrackData = async () => {
   try {
@@ -76,7 +95,14 @@ const fetchTrackData = async () => {
 const imgUrl = computed(() => {
   return `${import.meta.env.VITE_API_BASE_URL}${track.value.image || ''}`;
 });
+const reportedTrack= async(trackId)=>{
+  try {
+    await reportTrack(trackId);
+  }catch(error){
+    console.error("Error reporting track", error);
 
+  }
+};
 onMounted(() => {
   fetchTrackData();
 

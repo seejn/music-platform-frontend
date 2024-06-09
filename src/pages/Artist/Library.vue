@@ -15,21 +15,21 @@
                 </div>
              
                 <div class="overflow-x-auto">
-                    <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-7/12">
+                    <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
                         <thead class="bg-zinc-800">
                             <tr>
-                                <th class="px-4 py-2 text-left">Title</th>
-                                <th class="px-4 py-2 text-left">Duration</th>
-                                <th class="px-4 py-2 text-left">Released Date</th>
-                                <th class="px-4 py-2 text-left"></th>
+                                <th class="py-2 px-4 text-left border-b border-red-800 ">Title</th>
+                                <th class="py-2 px-4 text-left border-b border-red-800 ">Duration</th>
+                                <th class="py-2 px-4  text-left border-b border-red-800 ">Released Date</th>
+                                <th class="py-2 px-4 text-left border-b border-red-800 "></th>
                             </tr>
                         </thead>
                         <tbody>
                 <tr class="last:border-0">
-                  <td class="px-4 py-2">{{ track.title }}</td>
-                  <td class="px-4 py-2">{{ track.duration }}</td>
-                  <td class="px-4 py-2">{{ track.released_date }}</td>
-                  <td class="px-4 py-2 flex space-x-2 relative">
+                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
+                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
+                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
+                  <td class="py-2 px-4 text-left border-b border-red-800 flex space-x-2 relative">
                     <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleOptions(trackIndex)">
                       <i class="fas fa-ellipsis-v">...</i>
                     </button>
@@ -66,23 +66,23 @@
 
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-11/12">
+                    <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
                         <thead class="bg-zinc-800">
                             <tr>
-                                <th class="py-2 px-4 text-center w-1/5">Cover</th>
-                                <th class="py-2 px-4 text-center w-1/5">Title</th>
-                                <th class="py-2 px-4 text-center w-1/5">Duration</th>
-                                <th class="py-2 px-4 text-center w-1/5">Released Date</th>
+                                <th class="py-2 px-4 text-left border-b border-red-800 w-1/5">Cover</th>
+                                <th class="py-2 px-4 text-left border-b border-red-800 w-1/5">Title</th>
+                                <th class="py-2 px-4 text-left border-b border-red-800 w-1/5">Duration</th>
+                                <th class="py-2 px-4 text-left border-b border-red-800 w-1/5">Released Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(track, trackIndex) in album.track" :key="track.id">
-                                <td class="py-2 px-4 text-center">
+                                <td class="py-2 px-4 text-left border-b border-red-800">
                                     <img :src="getImageUrl(track.image)" alt="Track Image" class="w-16 h-16 object-cover">
                                 </td>
-                                <td class="py-2 px-4 text-center">{{ track.title }}</td>
-                                <td class="py-2 px-4 text-center">{{ track.duration }}</td>
-                                <td class="py-2 px-4 text-center">{{ track.released_date }}</td>
+                                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
+                                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
+                                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
                             </tr>
                         </tbody>
                     </table>

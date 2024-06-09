@@ -12,6 +12,9 @@ export const adminNavRoutes = [
     {
         path: '/admin/artists',
         name: 'Artists',
+        component: () => import('./pages/Admin/ArtistTable.vue')
+
+        
     },
     {
         path: '/admin/all-tours/',
@@ -118,11 +121,11 @@ export const sidebarRoutes = [
         name: "Search",
         component: () => import('./pages/Search.vue')
     },
-    {
-        path: '/sidebar',
-        name:"SideBar",
-        component: () => import('./components/Sidebar/Sidebar.vue')
-    }
+    // {
+    //     path: '/sidebar',
+    //     name:"SideBar",
+    //     component: () => import('./components/Sidebar/Sidebar.vue')
+    // }
 ]
 
 export const playlistRoutes = [
