@@ -21,6 +21,9 @@
           class="absolute top-24 right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
             <li>
+              <RouterLink :to="routes[0].path"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                {{routes[0].name}}</RouterLink>
               <button @click="handleLogout"
                 class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                 Logout</button>
@@ -32,14 +35,21 @@
   </nav>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import { Logout } from '../../api/Auth';
-import { useStore } from 'vuex'
 
+<script setup>
+import { ref, computed } from 'vue';
+import { Logout } from '../../api/Auth';
+import { useStore } from 'vuex';
 import { getProfileImageUrl } from '../../utils/imageUrl';
 
-const store = useStore()
+import { userNavRoutes as routes } from '../../router';
+
+const props = defineProps({
+  user: Object,
+  required: true
+});
+
+
 
 const props = defineProps({
   user: {
@@ -47,17 +57,21 @@ const props = defineProps({
     required: true
   }
 })
+const store = useStore()
 
 let isDropdownVisible = ref(false)
 
 const toggleDropdown = () => {
-  isDropdownVisible.value = !isDropdownVisible.value
-  return isDropdownVisible
-}
+  isDropdownVisible.value = !isDropdownVisible.value;
+};
 
 const handleLogout = async () => {
-  await Logout(store)
-}
+  await Logout(store);
+};
+
+const getImageUrl = computed(() => {
+  return `${import.meta.env.VITE_API_BASE_URL}${props.user?.image}`;
+});
 </script>
 
 <style scoped>
