@@ -40,7 +40,7 @@
           </section>
   
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Playlist</h2>
+            <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Your Favourite Playlists</h2>
             <PlaylistCollection :playlists="playlists" />
           </section>
         </main>
@@ -58,7 +58,7 @@
   import { fetchAllTracks } from "../api/Track.js";
   import { fetchAllAlbums } from "../api/Album.js";
   import { fetchAllArtists } from "../api/Artist.js";
-  import { fetchAllPlaylists } from "../api/Playlist.js";
+  
   
   import TrackCollection from "../components/Track/TrackCollection.vue";
   import AlbumCollection from "../components/Album/AlbumCollection.vue";
@@ -84,6 +84,7 @@ let favouriteplaylists =ref([]);
 
 
 const loadfavouriteplaylist = async(userId) =>{
+  console.log("Load favourite playlist",userId)
     const response = await fetchUserFavouritePlaylists(userId)
     favouriteplaylists.value = response
     playlists.value=favouriteplaylists.value.playlist
@@ -108,13 +109,16 @@ const initSwiper = () => {
 
 
 onMounted( async () => {
+  try{
     tracks.value = await fetchAllTracks()
     albums.value = await fetchAllAlbums()
     artists.value = await fetchAllArtists();
-    playlists.value = await fetchAllPlaylists();
     artistTours.value = await fetchAllTours();
 
-
+  }
+  catch(error){
+    console.error(error)
+  }
     initSwiper();
     loadfavouriteplaylist(user.id)
     // favouriteplaylists.value = await fetchUserFavouritePlaylists(user.id)

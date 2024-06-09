@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <LandingLayout>
     <template #Main>
       <div class="relative w-full h-full">
         <img src="/src/assets/pic/banner.png" alt="Banner" class="w-full h-full object-cover">
@@ -10,5 +10,8 @@
         </div>
       </div>
     </template>
-  </Layout>
+  </LandingLayout>
 </template>
+<script setup>
+import LandingLayout from './LandingLayout.vue'
+</script>
