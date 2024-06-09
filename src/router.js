@@ -40,7 +40,11 @@ export const artistNavRoutes = [
 ]
 
 export const userNavRoutes = [
-
+    {
+        path: '/user/profile',
+        name: 'My Profile',
+        component: () => import('./pages/User/UserProfile.vue')
+    },
 ]
 
 export const guestNavRoutes = [
