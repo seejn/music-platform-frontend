@@ -16,6 +16,8 @@
     "swiper": "^11.1.4",
     "vue": "^3.4.21",
     "vue-router": "^4.3.2",
+    "vue-toastify": "^1.9.0",
+    "vue3-toastification": "^0.0.1-beta",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
