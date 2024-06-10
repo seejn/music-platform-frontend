@@ -3,7 +3,7 @@
         <div>
           <div class="rounded-xl">  
             <div class="justify-around">
-              <div class="card w-11/12 ml-10 mb-8 bg-zinc-600">
+              <div class="card w-11/12 ml-10 mb-8 bg-zinc-600 hover:bg-zinc-500">
                 <h2 class="text-3xl font-semibold mb-4 text-center text-white">Male-Female Ratio per Album</h2>
                 <div class="chart-container">
                   <Bar :data="albumMaleFemaleRatioData" :options="chartOptions" />
