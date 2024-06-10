@@ -4,22 +4,30 @@
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
           <div class="relative group">
+
             <img :src="imageUrl" alt="Playlist Image" class="w-60 h-60 border-4 border-red-800">
             <div
               class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
               @click="triggerFileInput">
-              <span class="text-white">Choose Photo</span>
+              <span class="text-white" v-show="isPlaylistOwner">Choose Photo</span>
             </div>
             <input type="file" ref="fileInput" class="hidden" @change="onImageChange">
           </div>
 
-          <div class="ml-2 mt-[7vw]">
+          <div class="ml-4 mt-[3vw]">
             <template v-if="!editing">
               <p class="font-bold text-white text-5xl align-text-bottom">
                 {{ playlist.title }} #{{ playlist.id }}
+                <span v-show="isPlaylistOwner">
                 <button @click="toggleEditForm">
                   <i class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer"></i>
                 </button>
+              </span>
+                <span v-show="isPlaylistOwner">
+                <button @click="deletePlaylistConfirm">
+                  <i class="fa fa-trash fa-2xs ml-5" aria-hidden="true"></i>
+                </button>
+              </span>
               </p>
             </template>
 
@@ -38,24 +46,28 @@
               </form>
             </template>
 
-            <p class="mt-2 text-lg italic flex items-center">
-              {{ playlist?.user?.first_name }}
-              <span v-if="!isPlaylistFavourite">
-                <button @click="addToFavourite">
-                  <i class="fa-regular fa-heart ml-2"></i>
-                </button>
-              </span>
-              <span v-else>
-                <button @click="removeFromFavouritePlaylist">
-                  <i class="fa-solid fa-heart ml-2"></i>
-                </button>
-              </span>
+            <p class="mt-4 italic flex items-center text-2xl">
+              {{ playlist?.user?.first_name }} {{ playlist?.user?.last_name }} 
             </p>
 
-            <div class="mt-6 flex justify-center space-x-4">
+            <div class="mt-4">
+              <span v-if="!isPlaylistFavourite">
+                <button @click="addToFavourite">
+                  <i class="fa-regular fa-3x fa-heart ml-1"></i>
+                </button>
+              </span>
+
+              <span v-else>
+                <button @click="removeFromFavouritePlaylist">
+                  <i class="fa-solid fa-3x fa-heart ml-1"></i>
+                </button>
+              </span>
+              
+              <span v-show="isPlaylistOwner">
               <button @click="showPrivacyPopup = true">
-                <i class="mt-5 fa fa-ellipsis-h" aria-hidden="true"></i>
+                <i class="fa fa-user fa-3x ml-11" aria-hidden="true"></i>
               </button>
+            </span>
             </div>
           </div>
         </div>
@@ -114,8 +126,6 @@
           <div v-else-if="searchTerm && filteredTracks?.length === 0" class="text-center text-white">No tracks found
           </div>
           <div v-else class="text-center text-white">Start searching to see results</div>
-
-          <!-- Notification -->
           <div v-if="notification.visible" class="absolute top-10 right-10 bg-red-500 text-white p-3 rounded">
             {{ notification.message }}
           </div>
@@ -124,12 +134,12 @@
         <transition name="fade">
           <div v-if="showImageForm"
             class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
-            <div class="bg-white p-8 rounded-lg">
-              <h2 class="text-2xl font-bold mb-4">Save Image</h2>
-              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-gray-200 mb-4">
+            <div class="bg-black p-8 rounded-lg">
+              <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
+              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
               <div class="flex justify-end space-x-4">
-                <button @click="saveImage" class="px-4 py-2 bg-blue-500 text-white rounded-md">Save</button>
-                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Cancel</button>
+                <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-black rounded-md">Save</button>
+                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-blood rounded-md">Cancel</button>
               </div>
             </div>
           </div>
@@ -141,26 +151,26 @@
     </template>
   </Layout>
 </template>
-
 <script setup>
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import { ref, watch, onMounted, defineProps } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 import Layout from './Layout.vue';
-import PrivacyPopup from './PrivacyPopup.vue'; 
+import PrivacyPopup from './PrivacyPopup.vue';
 import {
   fetchPlaylist,
   createPlaylist,
   updatePlaylist,
   addRemoveTrackFromPlaylist,
-  removePlaylistFromFavouritePlaylist
+  removePlaylistFromFavouritePlaylist,
+  deletePlaylist as deletePlaylistApi
 } from '../api/Playlist.js';
 import { fetchAllTracks } from '../api/Track';
 import defaultImageUrl from '../assets/placeholders/image.png';
-import { createFavouritePlaylist, checkFavouritePlaylist } from '../api/Playlist.js'; 
+import { createFavouritePlaylist, checkFavouritePlaylist } from '../api/Playlist.js';
 import { useStore } from 'vuex';
-
 
 const props = defineProps({
   id: {
@@ -168,7 +178,6 @@ const props = defineProps({
     required: true
   }
 });
-
 
 const store = useStore();
 const user = store.getters.getUser;
@@ -182,15 +191,21 @@ const notification = ref({
   message: '',
   visible: false,
 });
+const fileInput = ref(null);
 const isPlaylistFavourite = ref(false);
 const imageUrl = ref(defaultImageUrl);
 const imageFile = ref(null);
 const showImageForm = ref(false);
-const showPrivacyPopup = ref(false);  
-
-
+const showPrivacyPopup = ref(false);
 const editing = ref(false);
 const editedTitle = ref('');
+
+const router = useRouter();
+
+const isPlaylistOwner = computed(() => {
+  const userId = store.getters.getUser.id;
+  return userId === playlist.value?.user?.id;
+});
 
 
 const isFavouritePlaylistByUser = async (userId, playlistId) => {
@@ -201,7 +216,6 @@ const isFavouritePlaylistByUser = async (userId, playlistId) => {
     toast.error('Error checking favourite playlist:');
   }
 };
-
 
 const fetchPlaylistData = async (playlistId) => {
   try {
@@ -321,7 +335,7 @@ const formatDate = (dateString) => {
 };
 
 const triggerFileInput = () => {
-  $refs.fileInput.click();
+  fileInput.value.click();  // Use fileInput.value instead of $refs.fileInput
 };
 
 const onImageChange = (event) => {
@@ -418,17 +432,31 @@ const removeFromFavouritePlaylist = async () => {
   }
 };
 
+const deletePlaylistConfirm = async () => {
+  try {
+    const response = await deletePlaylistApi(playlistId.value);
+    console.log('Response from deletePlaylist:', response);
+    notification.value.message = 'Playlist deleted successfully';
+    notification.value.visible = true;
+    // Redirect to home page after successful deletion
+    router.push('/Home');
+  } catch (error) {
+    console.error('Error deleting playlist:', error);
+    notification.value.message = 'Failed to delete playlist';
+    notification.value.visible = true;
+  }
+};
+
 const filterTracks = () => {
   const trimmedSearchTerm = searchTerm.value.trim();
 
   if (trimmedSearchTerm === '') {
     filteredTracks.value = tracks.value;
   } else {
-    const regex = new RegExp(trimmedSearchTerm, 'i');
+    const regex = new RegExp(trimmedSearchTerm, 'i'); // Corrected syntax
     filteredTracks.value = tracks.value?.filter((track) => regex.test(track.title));
   }
 };
-
 
 onMounted(() => {
   fetchPlaylistData(playlistId.value);
@@ -436,9 +464,15 @@ onMounted(() => {
   isFavouritePlaylistByUser(user.id, playlistId.value);
 });
 
-
 </script>
 
-<style scoped>
-</style>
 
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to  {
+  opacity: 0;
+}
+</style>

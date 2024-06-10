@@ -5,9 +5,16 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {colors:{
-      blood:'#8A0303'
-    }},
+    extend: {
+      colors: {
+        gray: '#e7e1de',
+        stonegray:'#d6d3d1',
+        black: '#10100d',
+        pink: '#ff0040',
+        lightpink:'#fbcfe8',
+        rose:'#fb7185'
+      },
+    },
   },
   plugins: [],
 }

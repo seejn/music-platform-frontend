@@ -1,39 +1,78 @@
 <template>
-    <div class="relative overflow-hidden mx-10">
-      <div id="carousel" class="flex transition-transform ease-in-out duration-500">
-        <RouterLink
+  <div class="relative overflow-hidden mx-10">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div
+          class="swiper-slide artist-link"
           v-for="artist in artists"
-          :to="`/single-artist/${artist.id}`"
           :key="artist.id"
-          class="artist-link"
         >
-          <ArtistCard :artist="artist" />
-        </RouterLink>
+          <RouterLink :to="`/single-artist/${artist.id}`">
+            <ArtistCard :artist="artist" />
+          </RouterLink>
+        </div>
       </div>
-      <div class="w-full my-10 ">
-        <Button collection="artist"/>
-      </div>
+      <!-- Add Pagination -->
+      <div class="swiper-pagination"></div>
+  
     </div>
-  </template>
-  
-  <script setup>
-  import { RouterLink } from 'vue-router';
-  import Button from '../Button/Button.vue';
-  import ArtistCard from './ArtistCard.vue';
-  
-  const props = defineProps({
-    artists: {
-      type: Array,
-      required: true
-    }
-  });
-  </script>
-  
-  <style scoped>
-  .artist-link {
-    display: block;
-    flex-shrink: 0;
-    margin-right: 10px;
+  </div>
+</template>
+
+<script setup>
+import { onMounted } from 'vue';
+import { RouterLink } from 'vue-router';
+import Swiper from 'swiper';
+import 'swiper/swiper-bundle.css';
+import ArtistCard from './ArtistCard.vue';
+
+const props = defineProps({
+  artists: {
+    type: Array,
+    required: true
   }
-  </style>
-  
+});
+
+const initSwiper = () => {
+  new Swiper('.swiper-container', {
+    loop: true,
+    slidesPerView: 4,
+    spaceBetween: 10,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+  });
+};
+
+onMounted(() => {
+  initSwiper();
+});
+</script>
+
+<style scoped>
+.artist-link {
+  display: block;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

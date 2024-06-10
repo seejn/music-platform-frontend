@@ -31,7 +31,7 @@
 
 
                   <div class="form-submit flex justify-center mt-8">
-                    <button type="submit" class="bg-white border-blood border-2 hover:bg-blood hover:text-white text-black font-bold py-2 px-4 rounded-full mb">Login</button>
+                    <button type="submit" class="bg-white border-red-800 border-2 hover:bg-red-800 hover:text-white text-black font-bold py-2 px-4 rounded-full mb">Login</button>
                   </div>
 
 
@@ -41,7 +41,7 @@
 
 
                   <div class="flex justify-center mt-8">
-                    <RouterLink to="/signup" class="bg-white border-blood border-2 hover:bg-blood hover:text-white text-black font-bold py-2 px-4 rounded-full mb">Signup</RouterLink>
+                    <RouterLink to="/signup" class="bg-white border-red-800 border-2 hover:bg-red-800 hover:text-white text-black font-bold py-2 px-4 rounded-full mb">Signup</RouterLink>
                   </div>
                 </div>
               </div>
@@ -61,7 +61,10 @@ import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { Login } from '../../api/Auth';
+import { useToast } from 'vue3-toastify';
 
+
+const toast=useToast({position:'bottom-right'})
 const info = ref({
   email: '',
   password: ''
@@ -109,6 +112,7 @@ const submitForm = async () => {
     const response = await Login({ email: info.value.email, password: info.value.password }, store);
     toast.success("Login successful");
     router.push({ name: 'Home' });
+    toast.success("Login successfully")
     clearForm();
   } catch (error) {
     toast.error("Login not successful");

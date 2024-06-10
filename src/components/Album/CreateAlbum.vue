@@ -25,7 +25,7 @@
                 <textarea id="album-description" name="album-description" rows="4" required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md"></textarea>
             </div>
-            <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md">Create Album</button>
+            <button type="submit" class="w-full bg-red-800 text-white px-4 py-2 rounded-md">Create Album</button>
         </form>
     </section>
 </template>

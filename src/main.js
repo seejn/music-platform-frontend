@@ -12,6 +12,7 @@ import Footer from './components/Footer/Footer.vue'
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 
+
 import router from './router.js'
 import store from './store/store.js'
 

@@ -1,11 +1,11 @@
 <template>
     <div v-if="isModalOpen" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white p-4 rounded-lg shadow-lg w-72">
-        <h2 class="text-lg font-bold mb-4">Change Your Privacy</h2>
-        <button @click="changePlaylistPrivacy(0)" class="block w-full text-left py-2 px-4 hover:bg-gray-200">
+      <div class="bg-black p-4 rounded-lg shadow-lg w-72">
+        <h2 class="text-lg font-bold mb-4 text-white">Change Your Privacy</h2>
+        <button @click="changePlaylistPrivacy(0)" class="block w-full text-left text-white py-2 px-4 hover:bg-gray-500">
           Public
         </button>
-        <button @click="changePlaylistPrivacy(1)" class="block w-full text-left py-2 px-4 hover:bg-gray-200">
+        <button @click="changePlaylistPrivacy(1)" class="block w-full text-left text-white py-2 px-4 hover:bg-gray-500">
           Private
         </button>
       </div>
