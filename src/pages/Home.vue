@@ -40,16 +40,16 @@
         </section>
 
         <section>
-          <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Favourite Playlists</h2>
-          <span v-if="favouriteplaylists?.playlist?.length > 0">
-            <PlaylistCollection :playlists="favouriteplaylists.playlist" />
-          </span>
-          <span>
-            <h2 class="text-xl text-center mb-4 text-white mx-10 mt-10">No Favourite Playlists Added</h2>
-            <h1></h1>
-          </span>
-          <span>
+          <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Playlists</h2>
+     
+        
+          <span v-if="playlists.length>0">
+            <PlaylistCollection :playlists="playlists" />
 
+            
+          </span>
+          <span v-else>
+            <h2 class="text-xl text-center mb-4 text-white mx-10 mt-10">No Playlists Found</h2>
           </span>
         </section>
 
@@ -79,7 +79,6 @@ import { fetchFavouriteArtistTour } from "../api/Tour.js";
 
 
 import { useStore } from 'vuex';
-import { fetchUserFavouritePlaylists } from '../api/Playlist.js'
 import { fetchUserFavouriteAlbums } from '../api/Album.js'
 
 
@@ -90,7 +89,7 @@ const user = store.getters.getUser
 let tracks = ref([]);
 let albums = ref([]);
 let artists = ref([]);
-let favouriteplaylists = ref([]);
+let playlists = ref([]);
 let artistTours = ref([]);
 
 
@@ -117,7 +116,7 @@ onMounted(async () => {
     tracks.value = await fetchAllTracks()
     albums.value = await fetchAllAlbums()
     artists.value = await fetchAllArtists();
-    favouriteplaylists.value = await fetchUserFavouritePlaylists(user.id)
+    playlists.value = await fetchAllPlaylists(user.id)
     artistTours.value = await fetchFavouriteArtistTour(user.id);
 
   }
