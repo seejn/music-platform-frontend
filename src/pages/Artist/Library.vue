@@ -131,9 +131,9 @@ const genres = ref([]);
 const fetchArtistSongs = async () => {
     try {
         tracks.value = await fetchArtistTrack(artistId.value);
-        console.log("Artist tracks:", tracks.value);
+        console.log("Artist tracks", tracks.value);
     } catch (error) {
-        toast.error("Error fetching tracks:", error);
+        toast.error("Error fetching tracks");
     }
 };
 
@@ -146,14 +146,14 @@ const fetchArtistAlbums = async () => {
             console.log(`Tracks for album ${album.title}:`, album.track);
         });
     } catch (error) {
-        toast.error('Error fetching artist albums:', error);
+        toast.error('Error fetching artist albums:');
     }
 };
 const loadGenres = async () => {
     try {
       genres.value = await fetchGenres();
     } catch (error) {
-      toast.error("Failed to fetch genres:", error);
+      toast.error("Failed to fetch genres:");
     }
   };
   const editTrack = (track) => {
@@ -169,7 +169,7 @@ const loadGenres = async () => {
       fetchArtistSongs();
       showEditForm.value = false;
     } catch (error) {
-      toast.error("Error updating track", error);
+      toast.error("Error updating track");
     }
   };
   const deleteTrackData = async (trackId) => {
@@ -185,7 +185,7 @@ const loadGenres = async () => {
   
       tracks.value=updatedTrack;
     } catch (error) {
-      toast.error("Error deleting track", error);
+      toast.error("Error deleting track");
     }
   };
 onMounted( () => {
@@ -219,7 +219,7 @@ const deleteArtistAlbum = async (albumId) => {
 
         albums.value = updatedAlbum;
     } catch (error) {
-        toast.error("Error deleting track", error);
+        toast.error("Error deleting track");
     }
 };
 </script>
