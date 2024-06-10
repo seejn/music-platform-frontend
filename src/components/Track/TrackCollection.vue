@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-10 relative overflow-hidden">
+  <div class="mx-17 relative overflow-hidden">
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide track-link my-5 " v-for="track in tracks" :key="track.id">

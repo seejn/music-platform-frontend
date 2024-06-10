@@ -61,7 +61,6 @@ import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { Login } from '../../api/Auth';
-
 const info = ref({
   email: '',
   password: ''

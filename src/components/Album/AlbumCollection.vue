@@ -1,25 +1,26 @@
 <template>
-    <div class="mx-10 relative">
-        <div v-if="albums.length > 5" class="my-4 sticky top-0 ">
-            <button @click="toggleShowAll" class="px-4 py-2 bg-red-800 text-white rounded">
-                {{ showAll ? 'See Less' : 'See More' }}
-            </button>
-        </div>
-        <div id="carousel"
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-14 ml-5 transition-transform ease-in-out duration-500">
-            
-            <RouterLink v-for="album in displayedAlbums" :to="`/single-album/${album.id}`" class="album-link">
-                <Album  :album="album" :key="album.id" />
+<div class="mx-17 relative overflow-hidden">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide album-link my-5 " v-for="album in albums" :key="album.id">
+            <RouterLink :to="`/single-album/${album.id}`">
+                <Album :album="album" class="border-2 border-red-800  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110" />
             </RouterLink>
-        </div>      
+        </div>   
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
     </div>
     
 </template>
 
 <script setup>
 
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Album from './AlbumCard.vue'
+import Swiper from 'swiper';
+import 'swiper/swiper-bundle.css';
+import { RouterLink } from 'vue-router';
 
 const props = defineProps({
     albums: {
@@ -28,13 +29,42 @@ const props = defineProps({
     }
 })
 
-let showAll = ref(false)
 
-const toggleShowAll = () => {
-    showAll.value = !showAll.value
-}
-
-const displayedAlbums = computed(() => {
-    return showAll.value ? props.albums : props.albums.slice(0, 5);
-});
+  const initSwiper = () => {
+    new Swiper('.swiper-container', {
+      loop: true,
+      slidesPerView: 4,
+      spaceBetween: 10,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+    });
+  };
+  
+  onMounted(() => {
+    initSwiper();
+  });
 </script>
+<style scoped>
+ .album-link {
+    display: block;
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+  
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

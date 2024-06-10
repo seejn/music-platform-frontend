@@ -30,7 +30,7 @@
       const response = await updatePlaylistPrivacy(props.id, { playlist_type: playlist_type });
       console.log('Response from updatePlaylist:', response);
       console.log('Playlist updated successfully');
-      isModalOpen.value = false; // Close the modal
+      isModalOpen.value = false; 
     } catch (error) {
       console.error('Error updating playlist:', error);
     }

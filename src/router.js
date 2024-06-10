@@ -128,12 +128,18 @@ export const sidebarRoutes = [
     {
         path: '/home',
         name: "Home",
-        component: () => import('./pages/Home.vue')
+        component: () => import('./pages/Home.vue'),
+        meta: {
+            iconClass: "fa-solid fa-home mr-3"
+        }
     },
     {
         path: '/search',
         name: "Search",
-        component: () => import('./pages/Search.vue')
+        component: () => import('./pages/Search.vue'),
+        meta: {
+            iconClass: "fa-solid fa-magnifying-glass mr-3" // fa-magnifying
+        }
     },
     // {
     //     path: '/sidebar',

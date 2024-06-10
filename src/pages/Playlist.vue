@@ -84,7 +84,7 @@
                   <th class="py-2 px-4 border-b-2 border-red-700">Release Date</th>
                   <th class="py-2 px-4 border-b-2 border-red-700">Duration</th>
                   <th class="py-2 px-4 border-b-2 border-red-700">Singer</th>
-                  <th class="py-2 px-4 border-b-2 border-red-700">Actions</th>
+                  <th class="py-2 px-4 border-b-2 border-red-700" v-show="isPlaylistOwner">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -94,7 +94,7 @@
                   </td>
                   <td class="py-2 px-4 border-b border-red-700 text-center">{{ track.duration }}</td>
                   <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.artist?.first_name }}</td>
-                  <td class="py-2 px-4 border-b border-red-700 text-center">
+                  <td class="py-2 px-4 border-b border-red-700 text-center" v-show="isPlaylistOwner">
                     <button @click="removeTrack(track.id)"
                       class="text-white border-2 py-1 px-4 border-blood rounded-full">Remove</button>
                   </td>
@@ -104,7 +104,7 @@
           </div>
         </div>
 
-        <div>
+        <div v-show="isPlaylistOwner">
           <h2 class="text-2xl font-bold mb-4 text-white">Search Tracks</h2>
           <div class="p-1 mb-4">
             <input type="text" v-model="searchTerm" placeholder="Search..."
@@ -126,9 +126,9 @@
           <div v-else-if="searchTerm && filteredTracks?.length === 0" class="text-center text-white">No tracks found
           </div>
           <div v-else class="text-center text-white">Start searching to see results</div>
-          <div v-if="notification.visible" class="absolute top-10 right-10 bg-red-500 text-white p-3 rounded">
+          <!-- <div v-if="notification.visible" class="absolute top-10 right-10 bg-red-500 text-white p-3 rounded">
             {{ notification.message }}
-          </div>
+          </div> -->
         </div>
 
         <transition name="fade">
@@ -154,7 +154,7 @@
 <script setup>
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
-import { ref, watch, onMounted, defineProps, computed } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import Layout from './Layout.vue';
@@ -167,6 +167,7 @@ import {
   removePlaylistFromFavouritePlaylist,
   deletePlaylist as deletePlaylistApi
 } from '../api/Playlist.js';
+
 import { fetchAllTracks } from '../api/Track';
 import defaultImageUrl from '../assets/placeholders/image.png';
 import { createFavouritePlaylist, checkFavouritePlaylist } from '../api/Playlist.js';
