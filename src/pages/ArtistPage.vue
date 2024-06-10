@@ -29,6 +29,19 @@
                         <span>{{ track.title }}</span>
                       </td>
                       <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
+                      <td class="py-2 px-4 text-left border-b border-red-800 relative">
+                        <div class="flex items-center space-x-2">
+                          <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(index)">
+                            <i class="fas fa-ellipsis-v">...</i>
+                          </button>
+                          <div v-if="showTrackOptions[index]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
+                      
+                            <button @click="reportedTrack(track.id)" class="block w-full text-left px-4 py-2">Report</button>
+        
+                            <button class="block w-full text-left px-4 py-2">Playlist</button>
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -50,11 +63,28 @@ import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchArtist } from '../api/Artist';
 import { fetchArtistTracks } from '../api/Track';
+import {reportTrack} from '../api/Reports';
+
 
 const route = useRoute();
 const artistId = ref(Number(route.params.id)); // Ensure artistId is a Number
 const artist = ref({});
 const tracks = ref([]);
+const showTrackOptions = ref({});
+
+const toggleTrackOptions = (index) => {
+  showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
+};
+
+const reportedTrack= async(trackId)=>{
+  try {
+    await reportTrack(trackId);
+  }catch(error){
+    console.error("Error reporting track", error);
+
+  }
+};
+
 
 const fetchArtistData = async () => {
   try {

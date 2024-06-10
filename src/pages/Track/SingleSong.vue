@@ -13,12 +13,8 @@
               <div class="text-white">
                 <p>{{ track?.artist?.first_name }}</p>
               </div>
-              <div class="text-white">
-                <p>{{ track?.album?.title }}</p>
-              </div>
-              <div class="text-white">
-                <p>{{ track.duration }}</p>
-              </div>
+              
+             
             </div>
           </div>
         </div>
@@ -70,8 +66,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { fetchTracks, reportTrack } from '../../api/Track';
-
+import { fetchTracks  } from '../../api/Track';
+import {reportTrack} from '../../api/Reports';
 const route = useRoute();
 const trackId = ref(route.params.id);
 const track = ref({});
@@ -95,6 +91,7 @@ const fetchTrackData = async () => {
 const imgUrl = computed(() => {
   return `${import.meta.env.VITE_API_BASE_URL}${track.value.image || ''}`;
 });
+
 const reportedTrack= async(trackId)=>{
   try {
     await reportTrack(trackId);
