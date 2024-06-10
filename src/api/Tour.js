@@ -72,3 +72,16 @@ export const deleteTour = async (tourId) => {
         throw error;
     }
 };
+
+export const fetchFavouriteArtistTour = async (userId) =>{
+    const url = `${import.meta.env.VITE_API_BASE_URL}/tour/get_favorite_tour/${userId}/`
+    try{
+        const response = await axios(url , {
+            method: 'get',
+        })
+        console.log("Tour data:",response.data.data)
+        return response.data.data
+    }catch(error){
+        throw error
+    }
+}

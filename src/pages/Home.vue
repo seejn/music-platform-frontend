@@ -49,7 +49,7 @@
   </template>
   
   <script setup>
-  import { ref, onMounted } from "vue";
+  import { ref, onMounted ,computed } from "vue";
   import Swiper from "swiper"; 
   import "swiper/swiper-bundle.css";
   import Navbar from "../components/Header/Navbar.vue";
@@ -64,7 +64,7 @@
   import AlbumCollection from "../components/Album/AlbumCollection.vue";
   import PlaylistCollection from "../components/Track/PlaylistCollection.vue";
   import ArtistCollection from "../components/Artist/ArtistCollection.vue";
-  import { fetchAllTours } from "../api/Tour.js";
+  import { fetchFavouriteArtistTour } from "../api/Tour.js";
   
 
 import { useStore } from 'vuex';
@@ -113,7 +113,7 @@ onMounted( async () => {
     tracks.value = await fetchAllTracks()
     albums.value = await fetchAllAlbums()
     artists.value = await fetchAllArtists();
-    artistTours.value = await fetchAllTours();
+    artistTours.value = await fetchFavouriteArtistTour(user.id);
 
   }
   catch(error){
