@@ -61,10 +61,8 @@ import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { Login } from '../../api/Auth';
-// import { useToast } from 'vue3-toastify';
 
 
-// const toast=useToast({position:'bottom-right'})
 const info = ref({
   email: '',
   password: ''
