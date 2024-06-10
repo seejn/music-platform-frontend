@@ -1,17 +1,13 @@
 <template>
-    <div class="mx-10 relative">
-        <div v-if="albums.length > 5" class="my-4 sticky top-0 ">
-            <button @click="toggleShowAll" class="px-4 py-2 bg-red-800 text-white rounded">
-                {{ showAll ? 'See Less' : 'See More' }}
-            </button>
-        </div>
-        <div id="carousel"
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-14 ml-5 transition-transform ease-in-out duration-500">
-            
+<div class=" mx-10 relative overflow-hidden">
+        <div id="carousel" class="flex transition-transform ease-in-out duration-500">
             <RouterLink v-for="album in displayedAlbums" :to="`/single-album/${album.id}`" class="album-link">
-                <Album  :album="album" :key="album.id" />
+                <Album  :album="album" :key="album.id" class="border-2 border-red-800" />
             </RouterLink>
-        </div>      
+        </div>   
+        <div class="w-full flex mt-10 ">
+            <Button collection="album" />
+        </div>   
     </div>
     
 </template>
@@ -19,7 +15,9 @@
 <script setup>
 
 import { ref, computed } from 'vue';
+import Button from '../Button/Button.vue'
 import Album from './AlbumCard.vue'
+import { RouterLink } from 'vue-router';
 
 const props = defineProps({
     albums: {
@@ -38,3 +36,10 @@ const displayedAlbums = computed(() => {
     return showAll.value ? props.albums : props.albums.slice(0, 5);
 });
 </script>
+<style scoped>
+.album-link {
+  display: block;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+</style>
