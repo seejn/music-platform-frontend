@@ -17,38 +17,43 @@
                 <h2 class="text-2xl font-bold text-white mb-4">All tracks</h2>
                 <table class="min-w-full bg-transparent text-white">
                   <thead>
-                    <tr>
+                    <tr class="text-center">
                       <th class="py-2 px-4 text-left"></th>
                       <th class="py-2 px-4 text-left">Title</th>
                       <th class="py-2 px-4 text-left">Duration</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(track, index) in tracks" :key="index">
+                    <tr v-for="(track, index) in tracks" :key="index" class="text-center">
                       <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
-                        <img class="mx-6 object-cover" :src="trackImageUrl(track.image)" width="40" height="40">
-                        <span>{{ track.title }}</span>
+                        <img class=" object-cover w-16 h-16" :src="trackImageUrl(track.image)" >
                       </td>
-                      <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
-                      <td class="py-2 px-4 text-left border-b border-red-800 relative">
-                        <div class="flex items-center space-x-2">
-                          <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(index)">
-                            <i class="fas fa-ellipsis-v">...</i>
-                          </button>
-                          <div v-if="showTrackOptions[index]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
-                      
-                            <button @click="reportedTrack(track.id)" class="block w-full text-left px-4 py-2">Report</button>
-        
-                            <button class="block w-full text-left px-4 py-2">Playlist</button>
-                          </div>
-                        </div>
-                      </td>
+                      <td class="py-2  text-left border-b border-red-800">{{ track.title }}</td>
+                      <td class="py-2  text-left border-b border-red-800">{{ track.duration }}</td>
+                      <td class="py-2 text-left border-b border-red-800 relative">
+    <div class="flex items-center space-x-2 relative">
+      <button 
+        class="text-white bg-black rounded-md shadow-md text-md -ml-6" 
+        @click="toggleTrackOptions(index)"
+      >
+        <i class="fas fa-ellipsis-v">...</i>
+      </button>
+      <div 
+        v-if="showTrackOptions[index]" 
+        class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8"
+      >
+        <button @click="reportedTrack(track.id)" class="block w-full text-left px-4 py-2">Report</button>
+        <button class="block w-full text-left px-4 py-2">Playlist</button>
+      </div>
+    </div>
+  </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <div class="bg-opacity-0">
+              <div  class="bg-opacity-0">
                 <ArtistTour :artistId="Number(artistId)" />
+         
               </div>
             </div>
           </div>
@@ -120,3 +125,13 @@ const trackImageUrl = (image) => {
   return `${import.meta.env.VITE_API_BASE_URL}${image || ''}`;
 };
 </script>
+<style scoped>
+.flex.items-center.relative {
+  position: relative;
+}
+
+button {
+  position: relative;
+  z-index: 20;
+}
+</style>

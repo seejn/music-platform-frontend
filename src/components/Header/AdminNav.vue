@@ -18,7 +18,7 @@
         </RouterLink>
         <RouterLink to="/admin/user-reports" class="p-5 font-bold text-lg hover:text-orange-800">
           Report Songs
-          </RouterLink>
+                </RouterLink>
         <RouterLink to="/admin/banned-songs" class="p-5 font-bold text-lg hover:text-orange-800">
           Banned Songs </RouterLink>
         <div class="relative flex items-center">
