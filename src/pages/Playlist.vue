@@ -84,7 +84,7 @@
                   <th class="py-2 px-4 border-b-2 border-red-700">Release Date</th>
                   <th class="py-2 px-4 border-b-2 border-red-700">Duration</th>
                   <th class="py-2 px-4 border-b-2 border-red-700">Singer</th>
-                  <th class="py-2 px-4 border-b-2 border-red-700">Actions</th>
+                  <th class="py-2 px-4 border-b-2 border-red-700" v-show="isPlaylistOwner">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -94,7 +94,7 @@
                   </td>
                   <td class="py-2 px-4 border-b border-red-700 text-center">{{ track.duration }}</td>
                   <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.artist?.first_name }}</td>
-                  <td class="py-2 px-4 border-b border-red-700 text-center">
+                  <td class="py-2 px-4 border-b border-red-700 text-center" v-show="isPlaylistOwner">
                     <button @click="removeTrack(track.id)"
                       class="text-white border-2 py-1 px-4 border-blood rounded-full">Remove</button>
                   </td>
