@@ -3,16 +3,31 @@
     <template #Main>
       {{ users }}
       <div class="p-6 pt-16 bg-black max-h-full flex-grow">
-        <div class="flex flex-row">
-          <img :src="profileImageUrl" alt="" class="rounded-full border-2 border-white w-60 h-60">
+        <div class="flex flex-row relative">
+          <img
+            :src="profileImageUrl"
+            alt="Profile Image"
+            class="rounded-full border-2 border-white w-60 h-60 cursor-pointer"
+            @mouseover="showEditButton = true"
+            @mouseout="showEditButton = false"
+            @click="openFileInput"
+          />
+          <button
+            v-if="showEditButton"
+            @click="openFileInput"
+            class="absolute bottom-0 right-0 bg-white text-black rounded-full p-1"
+          >
+            Edit
+          </button>
           <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
             {{ users.first_name }} {{ users.last_name }}
-            <button @click="toggleEditForm" class="border-2 border-red-800 text-white -mt-9 hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">Edit</button>
+            <button
+              @click="toggleEditForm"
+              class="border-2 border-red-800 text-white -mt-9 hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2"
+            >
+              Edit
+            </button>
           </p>
-     
-        </div>
-        <div class="ml-10">
-          <p class="text-white text-xl "> {{ users.dob }} {{ users.gender}}</p>
         </div>
         <div class="mt-8 rounded-lg glass-effect">
           <section>
@@ -32,89 +47,124 @@
   <UpdateProfile :show="showEditForm" :user="users" @close="toggleEditForm" @update="updateArtistDetails" />
 </template>
 
-<script setup>
-import UpdateProfile from './UpdateProfile.vue'
-import PlaylistCollection from '../../components/Track/PlaylistCollection.vue'
-import TracksInTable from '../../components/Track/TracksInTable.vue'
-import ArtistCollection from '../../components/Artist/ArtistCollection.vue'
-import UserPlaylist from '../../temp/saloni/components/User/UserPlaylist.vue'
-import { fetchAllArtists, fetchArtist } from '../../api/Artist'
-import { fetchArtistTracks } from '../../api/Track'
-import { fetchUserPlaylists } from '../../api/Playlist'
-import { updateArtist } from '../../api/Artist'
-import { ref, onMounted, computed } from 'vue'
-import { useStore } from 'vuex'
 
-const store = useStore()
-const artists = ref([])
-const tracks = ref([])
-const playlists = ref([])
-const showEditForm = ref(false)
-const users = ref([])
-const userId = computed(() => store.getters.getUser.id)
+
+
+<script setup>
+import UpdateProfile from './UpdateProfile.vue';
+import PlaylistCollection from '../../components/Track/PlaylistCollection.vue';
+import TracksInTable from '../../components/Track/TracksInTable.vue';
+import ArtistCollection from '../../components/Artist/ArtistCollection.vue';
+import UserPlaylist from '../../temp/saloni/components/User/UserPlaylist.vue';
+import { fetchAllArtists, fetchArtist, updateArtist } from '../../api/Artist';
+import { fetchArtistTracks } from '../../api/Track';
+import { fetchUserPlaylists } from '../../api/Playlist';
+import { ref, onMounted, computed } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+const artists = ref([]);
+const tracks = ref([]);
+const playlists = ref([]);
+const showEditForm = ref(false);
+const showEditButton = ref(false);
+const users = ref({});
+const userId = computed(() => store.getters.getUser.id);
 
 const loadArtistData = async () => {
   try {
-    users.value = await fetchArtist(userId.value)
-    console.log("user value", users.value)
+    users.value = await fetchArtist(userId.value);
+    updateProfileImageUrl();
   } catch (error) {
-    console.log("Error fetching user", error)
-    console.log("user id:", userId.value)
+    console.log('Error fetching user', error);
+    console.log('user id:', userId.value);
   }
-}
+};
 
 const loadArtistTracks = async () => {
   try {
-    tracks.value = await fetchArtistTracks(userId.value)
+    tracks.value = await fetchArtistTracks(userId.value);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 const loadAllArtists = async () => {
   try {
-    artists.value = await fetchAllArtists()
-    console.log("Artists: ", artists.value)
+    artists.value = await fetchAllArtists();
+    console.log('Artists: ', artists.value);
   } catch (error) {
-    console.log("From FetchAllArtists: ", error)
+    console.log('From FetchAllArtists: ', error);
   }
-}
+};
 
 const loadUserPlaylists = async () => {
-  try{
-    const response = await fetchUserPlaylists(userId.value)
-    playlists.value = response.track
-    console.log("load user playlists: ",playlists.value)
-  }catch(error){
-    console.log("From FetchAllArtists: ", error)
+  try {
+    const response = await fetchUserPlaylists(userId.value);
+    playlists.value = response.track;
+    console.log('load user playlists: ', playlists.value);
+  } catch (error) {
+    console.log('From FetchAllArtists: ', error);
   }
-}
+};
 
-const profileImageUrl = computed(() => {
-  return users.value.image ? `${import.meta.env.VITE_API_BASE_URL}${users.value.image}` : '/path/to/default/image.png'
-})
+const profileImageUrl = ref('');
+
+const updateProfileImageUrl = () => {
+  profileImageUrl.value = users.value.image
+    ? `${import.meta.env.VITE_API_BASE_URL}${users.value.image}`
+    : '/src/assets/pic/blong.jpeg';
+};
 
 const toggleEditForm = () => {
-  console.log(toggleEditForm)
-  showEditForm.value = !showEditForm.value
-}
+  showEditForm.value = !showEditForm.value;
+};
 
 const updateArtistDetails = async (updatedUser) => {
   try {
-    console.log(updatedUser.id)
-    await updateArtist(updatedUser)
-    users.value = updatedUser
-    showEditForm.value = false
+    const response = await updateArtist(updatedUser);
+    users.value = response;
+    updateProfileImageUrl();
+    showEditForm.value = false;
   } catch (error) {
-    console.error("Error updating user:", error)
+    console.error('Error updating user:', error);
   }
-}
+};
+
+const openFileInput = () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.addEventListener('change', handleFileChange);
+  input.click();
+};
+
+const handleFileChange = async (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    try {
+      // Create FormData object
+      const formData = new FormData();
+      formData.append('id', userId.value);
+      formData.append('image', file);
+      formData.append('first_name', users.value.first_name);
+      formData.append('last_name', users.value.last_name);
+      formData.append('dob', users.value.dob);
+      formData.append('gender', users.value.gender);
+      const response = await updateArtist(formData);
+
+      users.value = response;
+      updateProfileImageUrl();
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  }
+};
 
 onMounted(() => {
-  loadArtistData()
-  loadArtistTracks()
-  loadAllArtists()
-  loadUserPlaylists()
-})
+  loadArtistData();
+  loadArtistTracks();
+  loadAllArtists();
+  loadUserPlaylists();
+});
 </script>
-

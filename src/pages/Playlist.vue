@@ -3,14 +3,58 @@
     <template #Main>
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
-          <img :src="imageUrl" alt="" class="w-60 h-60 border-4 border-red-800">
+          <div class="relative group">
+            <img :src="imageUrl" alt="Playlist Image" class="w-60 h-60 border-4 border-red-800">
+            <div
+              class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+              @click="triggerFileInput">
+              <span class="text-white">Choose Photo</span>
+            </div>
+            <input type="file" ref="fileInput" class="hidden" @change="onImageChange">
+          </div>
+
           <div class="ml-2 mt-[7vw]">
-            <h1 class="text-4xl font-bold text-white">{{ playlist.title }} #{{ playlist.id }}</h1>
-            <p class="mt-2 text-lg italic">{{ playlist?.user?.first_name }}</p>
+            <template v-if="!editing">
+              <p class="font-bold text-white text-5xl align-text-bottom">
+                {{ playlist.title }} #{{ playlist.id }}
+                <button @click="toggleEditForm">
+                  <i class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer"></i>
+                </button>
+              </p>
+            </template>
+
+            <template v-else>
+              <form @submit.prevent="saveChanges" class="flex items-center">
+                <input id="editTitle" v-model="editedTitle" type="text"
+                  class="bg-white text-black font-bold text-5xl align-text-bottom w-72" />
+                <div class="flex items-center space-x-4 mt-2">
+                  <button type="submit" class="rounded-full p-2 bg-black text-white" title="Save Changes">
+                    <i class="far fa-check-circle fa-2xl ml-3 cursor-pointer"></i>
+                  </button>
+                  <button type="button" @click="cancelEdit" class="rounded-full p-2 bg-black text-white" title="Cancel">
+                    <i class="far fa-times-circle fa-2xl ml-3 cursor-pointer"></i>
+                  </button>
+                </div>
+              </form>
+            </template>
+
+            <p class="mt-2 text-lg italic flex items-center">
+              {{ playlist?.user?.first_name }}
+              <span v-if="!isPlaylistFavourite">
+                <button @click="addToFavourite">
+                  <i class="fa-regular fa-heart ml-2"></i>
+                </button>
+              </span>
+              <span v-else>
+                <button @click="removeFromFavouritePlaylist">
+                  <i class="fa-solid fa-heart ml-2"></i>
+                </button>
+              </span>
+            </p>
+
             <div class="mt-6 flex justify-center space-x-4">
-              <button @click="savePlaylist" class="mt-2 px-4 py-4 bg-red-700 text-white rounded"
-                :disabled="playlist.tracks && playlist.tracks.length === 0">
-                Save Playlist
+              <button @click="showPrivacyPopup = true">
+                <i class="mt-5 fa fa-ellipsis-h" aria-hidden="true"></i>
               </button>
             </div>
           </div>
@@ -58,7 +102,7 @@
           <div class="overflow-y-auto max-h-screen" v-if="searchTerm && filteredTracks?.length > 0">
             <ul>
               <li v-for="track in filteredTracks" :key="track.id"
-                class="py-2 px-4 bg-zinc-900 text-white shadow-md mb-2 flex items-center justify-between">
+                class="py-2 px-4 bg-black text-white shadow-md mb-2 flex items-center justify-between">
                 <span>{{ track.title }}</span>
                 <span v-if="addedTracks.includes(track.id)" class="text-red-500">Added</span>
                 <button @click="addTrackToPlaylist(track.id)" :disabled="addedTracks.includes(track.id)"
@@ -77,57 +121,106 @@
           </div>
         </div>
 
+        <!-- Form for saving the image -->
+        <transition name="fade">
+          <div v-if="showImageForm"
+            class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
+            <div class="bg-white p-8 rounded-lg">
+              <h2 class="text-2xl font-bold mb-4">Save Image</h2>
+              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-gray-200 mb-4">
+              <div class="flex justify-end space-x-4">
+                <button @click="saveImage" class="px-4 py-2 bg-blue-500 text-white rounded-md">Save</button>
+                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </transition>
+
+        <!-- Privacy Popup -->
+        <PrivacyPopup v-if="showPrivacyPopup" :id="playlistId"/>
+
       </main>
     </template>
   </Layout>
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, watch, onMounted, defineProps } from 'vue';
 import axios from 'axios';
 import Layout from './Layout.vue';
-import { fetchPlaylist, createPlaylist, updatePlaylist, addRemoveTrackFromPlaylist } from '../api/Playlist'; // Update playlist API to include update function
+import PrivacyPopup from './PrivacyPopup.vue'; 
+import {
+  fetchPlaylist,
+  createPlaylist,
+  updatePlaylist,
+  addRemoveTrackFromPlaylist,
+  removePlaylistFromFavouritePlaylist
+} from '../api/Playlist.js';
 import { fetchAllTracks } from '../api/Track';
+import defaultImageUrl from '../assets/placeholders/image.png';
+import { createFavouritePlaylist, checkFavouritePlaylist } from '../api/Playlist.js'; 
+import { useStore } from 'vuex';
 
-// Define reactive variables and functions
+
 const props = defineProps({
   id: {
     type: String,
     required: true
   }
-})
-const playlistId = ref(props.id)
+});
+
+
+const store = useStore();
+const user = store.getters.getUser;
+const playlistId = ref(props.id);
 const searchTerm = ref('');
 const playlist = ref({});
 const tracks = ref([]);
-
 const filteredTracks = ref([]);
 const addedTracks = ref([]);
 const notification = ref({
   message: '',
   visible: false,
 });
+const isPlaylistFavourite = ref(false);
+const imageUrl = ref(defaultImageUrl);
+const imageFile = ref(null);
+const showImageForm = ref(false);
+const showPrivacyPopup = ref(false);  
 
-// Define imageUrl
-const imageUrl = ref(''); // Replace with the actual image URL or a placeholder URL
+
+const editing = ref(false);
+const editedTitle = ref('');
 
 
-
-
-// Fetch playlist data
-const fetchPlaylistData = async (playlistId) => {
+const isFavouritePlaylistByUser = async (userId, playlistId) => {
   try {
-    playlist.value = await fetchPlaylist(playlistId);
-    playlist.value.track.forEach(track => {
-      addedTracks.value.push(track.id); // Add existing tracks to addedTracks Set
-    });
+    const response = await checkFavouritePlaylist(userId, playlistId);
+    isPlaylistFavourite.value = response.is_favourite;
+    console.log(response);
   } catch (error) {
-    console.error("Error fetching playlist", error);
+    console.error('Error checking favourite playlist:', error);
   }
 };
 
-// Fetch all tracks
+
+const fetchPlaylistData = async (playlistId) => {
+  try {
+    playlist.value = await fetchPlaylist(playlistId);
+    console.log('Fetched playlist:', playlist.value);
+    if (playlist.value.imageUrl) {
+      imageUrl.value = playlist.value.imageUrl;
+    } else {
+      imageUrl.value = defaultImageUrl;
+    }
+    playlist.value.track.forEach((track) => {
+      addedTracks.value.push(track.id);
+    });
+  } catch (error) {
+    console.error('Error fetching playlist:', error);
+  }
+};
+
 const fetchTracks = async () => {
   try {
     const response = await axios.get('http://localhost:8000/track/get_all_tracks/');
@@ -138,57 +231,58 @@ const fetchTracks = async () => {
   }
 };
 
+// Watching props for changes
 watch(() => props.id, (newId) => {
-  fetchPlaylistData(newId)
-})
+  fetchPlaylistData(newId);
+  isFavouritePlaylistByUser(user.id, newId);
+});
 
-
-// Save playlist
+// Saving playlist data
 const savePlaylist = async () => {
   const formData = new FormData();
   formData.append('title', playlist.value.title);
   formData.append('user', playlist.value.user.id);
-
+  if (imageFile.value) {
+    formData.append('image', imageFile.value);
+  }
 
   try {
     if (playlist.value.id) {
-      await updatePlaylist(playlist.value.id, formData); // Update existing playlist
+      await updatePlaylist(playlist.value.id, formData);
     } else {
-      const response = await createPlaylist(formData); // Create new playlist
+      const response = await createPlaylist(formData);
       playlist.value.id = response.data.id;
     }
 
     console.log('Playlist saved successfully');
-
-
     notification.value.message = 'Playlist saved successfully';
+    notification.value.visible = true;
   } catch (error) {
     console.error('Error saving playlist:', error);
     notification.value.message = 'Failed to save playlist';
+    notification.value.visible = true;
   }
 };
 
-// Add track to playlist and update database
+// Adding a track to the playlist
 const addTrackToPlaylist = async (trackId) => {
-  const track = tracks.value.find(item => item.id === trackId);
+  const track = tracks.value.find((item) => item.id === trackId);
   if (track) {
     if (addedTracks.value.includes(track.id)) {
       notification.value.message = 'Track already added';
       notification.value.visible = true;
     } else {
       try {
-        playlist.value.track.push(track.id); // Update playlist tracks
+        playlist.value.track.push(track);
         addedTracks.value.push(track.id);
-        // Add the track to the playlist and update the backend
-        const updatedData = {
-          track: addedTracks.value
-        }
 
-        // Assuming updatePlaylist function sends PUT or PATCH request
+        const updatedData = {
+          track: addedTracks.value,
+        };
 
         const newPlaylist = await addRemoveTrackFromPlaylist(playlistId.value, updatedData);
-        playlist.value = newPlaylist.data
-        console.log("After track added: ", playlist)
+        playlist.value = newPlaylist.data;
+
         notification.value.message = 'Track added to playlist';
         notification.value.visible = true;
       } catch (error) {
@@ -200,30 +294,25 @@ const addTrackToPlaylist = async (trackId) => {
   }
 };
 
-// Remove track from playlist
+// Removing a track from the playlist
 const removeTrack = async (trackId) => {
   try {
-    const playlistData = playlist.value.track
+    const playlistData = playlist.value.track;
     const afterTrackRemoved = playlistData
-      .filter(track => track.id !== trackId)
-      .map(track => track.id);
+      .filter((track) => track.id !== trackId)
+      .map((track) => track.id);
 
-
-
-    addedTracks.value = afterTrackRemoved
+    addedTracks.value = afterTrackRemoved;
 
     const updatedData = {
-      track: addedTracks.value
-    }
-    console.log("remove track : ", trackId)
-    console.log("remove track : ", updatedData)
+      track: addedTracks.value,
+    };
 
     const newPlaylist = await addRemoveTrackFromPlaylist(playlistId.value, updatedData);
-    playlist.value = newPlaylist.data
-    console.log("After track remove: ", playlist)
+    playlist.value = newPlaylist.data;
+
     notification.value.message = 'Track removed from playlist';
     notification.value.visible = true;
-
   } catch (error) {
     console.error('Error removing track from playlist:', error);
     notification.value.message = 'Failed to remove track from playlist';
@@ -231,31 +320,143 @@ const removeTrack = async (trackId) => {
   }
 };
 
-// Format date
+// Formatting date
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-// Filter tracks based on search term
-const filterTracks = () => {
-    console.log(tracks)
-  const trimmedSearchTerm = searchTerm.value.trim();
+// Triggering file input
+const triggerFileInput = () => {
+  $refs.fileInput.click();
+};
 
-  console.log(trimmedSearchTerm === '')
+// Handling image change
+const onImageChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    imageFile.value = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imageUrl.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+    showImageForm.value = true;
+  }
+};
+
+// Saving image
+const saveImage = async () => {
+  try {
+    const formData = new FormData();
+    formData.append('image', imageFile.value);
+    await saveImageToPlaylist(formData);
+
+    showImageForm.value = false;
+    notification.value.message = 'Image saved successfully';
+    notification.value.visible = true;
+  } catch (error) {
+    console.error('Error saving image:', error);
+    notification.value.message = 'Failed to save image';
+    notification.value.visible = true;
+  }
+};
+
+// Saving image to playlist
+const saveImageToPlaylist = async (formData) => {
+  try {
+    await updatePlaylist(playlist.value.id, formData);
+  } catch (error) {
+    console.error('Error saving image to playlist:', error);
+    throw new Error('Failed to save image to playlist');
+  }
+};
+
+// Cancelling image selection
+const cancelImage = () => {
+  imageUrl.value = playlist.value.imageUrl ? playlist.value.imageUrl : defaultImageUrl;
+  showImageForm.value = false;
+};
+
+// Edit form toggling
+const toggleEditForm = () => {
+  editing.value = !editing.value;
+  if (editing.value) {
+    editedTitle.value = playlist.value.title;
+  }
+};
+
+// Saving changes
+const saveChanges = async () => {
+  playlist.value.title = editedTitle.value;
+  await savePlaylist();
+  editing.value = false;
+};
+
+// Cancelling edit
+const cancelEdit = () => {
+  editing.value = false;
+  editedTitle.value = playlist.value.title;
+};
+
+// Adding to favourites
+const addToFavourite = async () => {
+  isPlaylistFavourite.value = true;
+  try {
+    const favouritePlaylistData = {
+      user_id: user.id,
+      playlist: playlist.value.id,
+    };
+
+    const response = await createFavouritePlaylist(favouritePlaylistData);
+    console.log('Response from addToFavourite:', response);
+    notification.value.message = 'Playlist added to favourites';
+    notification.value.visible = true;
+  } catch (error) {
+    console.error('Error adding playlist to favourites:', error);
+    notification.value.message = 'Failed to add playlist to favourites';
+    notification.value.visible = true;
+  }
+};
+
+// Removing from favourites
+const removeFromFavouritePlaylist = async () => {
+  isPlaylistFavourite.value = false;
+  try {
+    const response = await removePlaylistFromFavouritePlaylist(user.id, playlistId.value);
+    console.log('Response from removeFromFavouritePlaylist', response);
+    notification.value.message = 'Playlist removed from favourites';
+    notification.value.visible = true;
+  } catch (error) {
+    console.error('Error removing playlist from favourites:', error);
+    notification.value.message = 'Failed to remove playlist from favourites';
+    notification.value.visible = true;
+  }
+};
+
+// Filtering tracks
+const filterTracks = () => {
+  const trimmedSearchTerm = searchTerm.value.trim();
 
   if (trimmedSearchTerm === '') {
     filteredTracks.value = tracks.value;
   } else {
     const regex = new RegExp(trimmedSearchTerm, 'i');
-    filteredTracks.value = tracks.value?.filter(track => regex.test(track.title));
+    filteredTracks.value = tracks.value?.filter((track) => regex.test(track.title));
   }
 };
 
 
-// Lifecycle hook: fetch data on component mount
 onMounted(() => {
   fetchPlaylistData(playlistId.value);
   fetchTracks();
+  isFavouritePlaylistByUser(user.id, playlistId.value);
 });
+
+
 </script>
+
+<style scoped>
+/* Add your component scoped styles here */
+</style>
+

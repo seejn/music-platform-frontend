@@ -1,8 +1,4 @@
-<!-- <template>
-    <div class="w-4xl mx-auto">
-        <SingleTrack v-for="track in tracks" :track="track" :key="track.id"/>
-    </div>
-</template> -->
+
 
 
 <template>

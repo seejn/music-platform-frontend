@@ -29,7 +29,7 @@
             <h2 class="text-3xl font-bold mb-4 text-white">Albums</h2>
             <AlbumCollection :albums="filteredAlbums" />
           </section>
-
+          
           <section v-if="filteredPlaylists.length > 0">
             <h2 class="text-3xl font-bold mb-4 text-white">Playlists</h2>
             <PlaylistCollection :playlists="filteredPlaylists" />

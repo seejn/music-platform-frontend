@@ -10,7 +10,7 @@
       </ul>
     </nav>
   </div>
-  <div class="bg-black text-white p-6 overflow-y-auto h-full">
+  <div class="bg-black text-white p-6 h-full">
     <nav>
       <ul class="space-y-8">
         <li class="flex items-center mb-4">
@@ -71,7 +71,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { useRouter } from 'vue-router' // Import useRouter from vue-router
+import { useRouter } from 'vue-router' 
 import { sidebarRoutes as routes } from '../../router.js'
 import { createPlaylist, updatePlaylist, fetchUserPlaylists } from '../../api/Playlist.js'; // Adjust the path based on your project structure
 import { fetchArtistAlbums } from '../../api/Album.js';
@@ -134,7 +134,7 @@ const loadUserAlbums = async () => {
 // }
 
 const handleCreatePlaylist = async () => {
-  const playlistName = "My Playlist";  // Name of the playlist
+  const playlistName = "My Playlist";  
   const newPlaylist = {
     title: playlistName,
   }
@@ -148,7 +148,6 @@ const handleCreatePlaylist = async () => {
     console.error('Error creating playlist:', error)
   }
 }
-
 
 watch(() => createdPlaylist.value, (newVal) => {
   console.log("newval", newVal)
