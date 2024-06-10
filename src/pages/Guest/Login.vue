@@ -106,12 +106,12 @@ const submitForm = async () => {
 
   try {
     const response = await Login({ email: info.value.email, password: info.value.password }, store);
-    toast.success("Login successful");
+    // toast.success("Login successful");
     router.push({ name: 'Home' });
     // toast.success("Login successfully")
     clearForm();
   } catch (error) {
-    toast.error("Login not successful");
+    // toast.error("Login not successful");
     loginFailed.value = true;
   }
 };
