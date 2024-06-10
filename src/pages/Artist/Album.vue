@@ -4,7 +4,7 @@
       <header class="album-header text-white py-10">
         <div class="flex flex-row">
           <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg border-4 border-red-800">
-          <div class="ml-2 mt-[7vw] relative">
+          <div class="ml-4 mt-[3vw] relative">
             <h1 v-if="!editMode" class="text-4xl font-bold">{{ album.title }}</h1>
             <p class="mt-2 text-lg italic">{{ artist.first_name }} {{ artist.last_name }}</p>
 
@@ -22,23 +22,7 @@
               </span>
 
           </div>
-            <div class="mt-6 flex space-x-4" v-if="isArtist">
-              <div class="relative">
-                <button @click="toggleOptions" class="text-white bg-black rounded-md shadow-md text-md">
-                  <i class="fas fa-ellipsis-v">...</i>
-                </button>
-                <div v-if="showOptions" class="absolute top-10 right-0 bg-red-600 rounded-md shadow-md py-2 w-40 z-20">
-                  <div v-show="isAlbumOwner">
-                    <button @click="toggleEditMode" class="block w-full text-left px-4 py-2 hover:bg-red-400">
-                      Edit
-                    </button>
-                  </div>
-                  <button @click="favoriteAlbumHandler" class="block w-full text-left px-4 py-2 hover:bg-red-400">
-                    Favorite Album
-                  </button>
-                </div>
-              </div>
-            </div>
+
             <div class="flex items-center justify-center w-full mt-6">
               <form v-if="editMode" @submit.prevent="handleAlbumEdit" class="w-full max-w-md bg-black p-6 rounded z-10">
                 <div class="mb-4">
@@ -57,7 +41,7 @@
       
 
       <section class="py-4">
-        <h2 class="text-2xl font-bold my-4">Tracks in this Album</h2>
+        <h2 class="text-2xl font-bold my-4 text-white">Tracks in this Album</h2>
         <table class="min-w-full bg-transparent text-white">
           <thead>
             <tr>
