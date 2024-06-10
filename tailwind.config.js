@@ -7,12 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        gray: '#e7e1de',
+        gray: '#E7E8E8',
         stonegray:'#d6d3d1',
         black: '#10100d',
-        pink: '#ff0040',
         lightpink:'#fbcfe8',
-        rose:'#fb7185'
+        rose:'#fb7185',
+        green:'#6E9F8F',
+        peach:'#F17361',
+        darkgreen:'#224234',
+        darkgray:'#AAACA6',
       },
     },
   },
