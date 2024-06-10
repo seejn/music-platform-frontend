@@ -59,10 +59,7 @@ import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { Login } from '../../api/Auth';
-import { useToast } from 'vue3-toastify';
 
-
-const toast=useToast({position:'bottom-right'})
 const info = ref({
   email: '',
   password: ''
@@ -110,11 +107,11 @@ const submitForm = async () => {
     const response = await Login({ email: info.value.email, password: info.value.password }, store);
     console.log('User login successfully:', response);
     router.push({ name: 'Home' });
-    toast.success("Login successfully")
+    
     clearForm();
   } catch (error) {
     console.error('User login failed:', error.message);
-    toast.success("Login unsuccessfully")
+    
     loginFailed.value = true;
   }
 };

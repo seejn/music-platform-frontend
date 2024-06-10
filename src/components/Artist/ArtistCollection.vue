@@ -37,7 +37,7 @@ const initSwiper = () => {
   new Swiper('.swiper-container', {
     loop: true,
     slidesPerView: 4,
-    spaceBetween: 10,
+    spaceBetween: 5,
     pagination: {
       el: '.swiper-pagination',
       clickable: true,

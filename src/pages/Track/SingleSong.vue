@@ -7,7 +7,6 @@
           <div class="ml-5 mt-40">
             <p class="font-bold text-white text-5xl align-text-bottom">
               {{ track.title }}
-              <i @click="toggleEditForm" class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer"></i>
             </p>
             <div class="flex flex-col space-y-2 mt-4 md:flex-row md:space-x-4 md:space-y-0">
               <div class="text-white">
@@ -24,6 +23,7 @@
             <table class="min-w-full bg-transparent text-white">
               <thead>
                 <tr>
+                  <th class="py-2 px-4 text-left">...</th>
                   <th class="py-2 px-4 text-left">Title</th>
                   <th class="py-2 px-4 text-left">Release Date</th>
                   <th class="py-2 px-4 text-left">Artist</th>
