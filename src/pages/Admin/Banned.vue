@@ -54,12 +54,7 @@
   const fetchBannedTracksData = async () => {
     try {
       const response = await getAllBannedTracks();
-      if(response.length<=0){
-
-      }
-
-
-      bannedTracks.value = response.data;
+      bannedTracks.value = response;
     } catch (error) {
       toast.error("Error fetching banned tracks");
     }
