@@ -1,37 +1,74 @@
-
-
-
 <template>
     <div class="mx-10 relative overflow-hidden">
-        <div id="carousel" class="flex transition-transform ease-in-out duration-500">
-            <RouterLink v-for="track in tracks" :to="`/single-song/${track.id}`" class="track-link">
-            <SingleTrack  :track="track" :key="track.id" class="border-2 border-red-800" />
-        </RouterLink>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div
+            class="swiper-slide track-link"
+            v-for="track in tracks"
+            :key="track.id"
+          >
+            <RouterLink :to="`/single-song/${track.id}`">
+              <SingleTrack :track="track" class="border-2 border-red-800" />
+            </RouterLink>
+          </div>
         </div>
-        <div class="w-full mt-10 flex">
-            <Button collection="track"/>
-        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
     </div>
-</template>
-
-<script setup>
-import Button from '../Button/Button.vue'
-import SingleTrack from './SingleTrack.vue'
-import { RouterLink } from 'vue-router';
-
-const props = defineProps({
+  </template>
+  
+  <script setup>
+  import { onMounted } from 'vue';
+  import { RouterLink } from 'vue-router';
+  import Swiper from 'swiper';
+  import 'swiper/swiper-bundle.css';
+  import SingleTrack from './SingleTrack.vue';
+  
+  const props = defineProps({
     tracks: {
-        type: Array,
-        required: true
+      type: Array,
+      required: true
     }
-})
-
-</script>
-
-<style scoped>
+  });
+  
+  const initSwiper = () => {
+    new Swiper('.swiper-container', {
+      loop: true,
+      slidesPerView: 4,
+      spaceBetween: 10,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+    });
+  };
+  
+  onMounted(() => {
+    initSwiper();
+  });
+  </script>
+  
+  <style scoped>
   .track-link {
     display: block;
     flex-shrink: 0;
     margin-right: 10px;
   }
+  
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   </style>
+  
