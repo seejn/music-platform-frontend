@@ -1,7 +1,7 @@
 <template>
 <div class="rounded-lg">
 <div class="justify-center">
-<div class="card  ml-10 mb-10 w-11/12 my-10 bg-zinc-700">
+<div class="card  ml-10 mb-10 w-11/12 my-10 bg-zinc-700 hover:bg-zinc-500">
   <h2 class="text-3xl font-semibold mb-4 text-center text-white">
     Genre Distribution
   </h2>
@@ -93,7 +93,7 @@ export default {
       plugins: {
         legend: {
           labels: {
-            color: '#fffff'
+            color: '#00000'
           }
         },
         tooltip: {
