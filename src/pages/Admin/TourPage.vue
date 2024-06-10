@@ -76,7 +76,6 @@
                 </div>
             </div>
             
-            <!-- Edit Tour Form -->
             <div v-if="showEditTour" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
                 <div class="max-w-md mx-auto bg-black p-5 rounded-md shadow-md text-white">
                     
@@ -126,7 +125,6 @@ const showAddTour = ref(false);
 const showEditTour = ref(false);
 
 const tour = ref({
-    id: null,
     artist_id: '',
     title: '',
     date: '',
@@ -149,7 +147,7 @@ const tourCreate = async () => {
         const response = await createTour(tour.value);
         console.log("created tour", response);
         showAddTour.value = false;
-        tours.value = await fetchAllTours();
+        tours.value = [...tours.value,response];
     } catch (error) {
         console.error("Error creating tour:", error);
         if (error.response && error.response.data) {
@@ -199,7 +197,8 @@ const deletedTour = async (id) => {
     try {
         const response = await deleteTour(id);
         console.log("deleted tour", response);
-        tours.value = await fetchAllTours();
+        const toursafterdeletion=tours.value.filter(tour=>tour.id!=id)
+        tours.value=toursafterdeletion;
     } catch (error) {
         console.error("Error deleting tour:", error);
     }

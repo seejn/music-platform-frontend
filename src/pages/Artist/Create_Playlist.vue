@@ -133,7 +133,7 @@ export default {
       }
     },
     filterTracks() {
-      const regex = new RegExp('^' + this.searchTerm, 'i'); // Starts with search term
+      const regex = new RegExp('^' + this.searchTerm, 'i'); 
       if (this.searchTerm.trim() === '') {
         this.filteredTracks = [];
       } else {

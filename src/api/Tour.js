@@ -34,7 +34,7 @@ export const createTour = async (tourData) => {
         console.log("From CreateTour: ", tourData)
         const response = await axios.post(url, tourData, {
           headers:{
-            "Content-Type":"multipart/form-data"
+            "Content-Type":"application/json"
           }
         });
         const data = response.data.data
