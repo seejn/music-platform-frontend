@@ -6,28 +6,28 @@
           <div class="mb-4">
             <label for="firstName" class="block text-white mb-2">First Name</label>
             <input type="text" id="firstName" v-model="cuser.first_name" @input="clearError('first_name')"
-              class="w-full p-2 rounded outline-none bg-gray-700 text-white focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+              class="w-full p-2 rounded outline-none bg-gray-700 text-black font-bold focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
             <span v-if="errors.first_name" class="text-red-500">{{ errors.first_name }}</span>
           </div>
           
           <div class="mb-4">
             <label for="lastName" class="block text-white mb-2">Last Name</label>
             <input type="text" id="lastName" v-model="cuser.last_name" @input="clearError('last_name')"
-              class="w-full p-2 rounded outline-none bg-gray-700 text-white focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+              class="w-full p-2 rounded outline-none bg-gray-700 text-black font-bold focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
             <span v-if="errors.last_name" class="text-red-500">{{ errors.last_name }}</span>
           </div>
        
           <div class="mb-4">
             <label for="dob" class="block text-white mb-2">Date of Birth</label>
             <input type="date" id="dob" v-model="cuser.dob" @input="clearError('dob')"
-              class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+              class="w-full p-2 rounded outline-none bg-gray-700 text-black font-bold border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
             <span v-if="errors.dob" class="text-red-500">{{ errors.dob }}</span>
           </div>
      
           <div class="mb-4">
             <label for="gender" class="block text-white mb-2">Gender</label>
             <select v-model="cuser.gender" id="gender" @input="clearError('gender')"
-              class="w-full p-2 rounded bg-gray-700 outline-none text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+              class="w-full p-2 rounded bg-gray-700 outline-none text-black font-bold border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
               <option value="" disabled>Select gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
