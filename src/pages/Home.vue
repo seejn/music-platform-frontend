@@ -41,7 +41,16 @@
 
         <section>
           <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Favourite Playlists</h2>
-          <PlaylistCollection :playlists="favouriteplaylists.playlist" />
+          <span v-if="favouriteplaylists?.playlist?.length > 0">
+            <PlaylistCollection :playlists="favouriteplaylists.playlist" />
+          </span>
+          <span>
+            <h2 class="text-xl text-center mb-4 text-white mx-10 mt-10">No Favourite Playlists Added</h2>
+            <h1></h1>
+          </span>
+          <span>
+
+          </span>
         </section>
 
       </main>
