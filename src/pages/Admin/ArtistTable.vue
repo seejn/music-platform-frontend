@@ -2,26 +2,26 @@
   <Layout>
     <template #Main>
       <div class="p-4">
-        <h1 class="text-2xl font-bold mb-4">Artists List</h1>
-        <table class="w-full bg-black text-white">
-          <thead class="w-full border-b">
+        <h1 class="text-2xl font-bold mb-4 text-white">Artists List</h1>
+        <table class="w-full bg-black text-white text-center">
+          <thead class="w-full border-b text-xl">
             <tr>
-              <th class="py-2 px-4 border-b">Image</th>
-              <th class="py-2 px-4 border-b">Name</th>
-              <th class="py-2 px-4 border-b">Date of Birth</th>
-              <th class="py-2 px-4 border-b">Gender</th>
-              <th class="py-2 px-4 border-b">Actions</th>
+              <th class="py-2 px-4 border-b border-b-red-800">Image</th>
+              <th class="py-2 px-4 border-b border-b-red-800">Name</th>
+              <th class="py-2 px-4 border-b border-b-red-800">Date of Birth</th>
+              <th class="py-2 px-4 border-b border-b-red-800">Gender</th>
+              <th class="py-2 px-4 border-b border-b-red-800">Actions</th>
             </tr>
           </thead>
           <tbody class="text-white">
             <tr v-for="artist in artists" :key="artist.id">
-              <td class="py-2 px-4 border-b">
-                <img class="mx-6 object-cover rounded-full" :src="getImageUrl(artist.image)" alt="Artist Image" width="50" height="50">
+              <td class="py-2 px-4 border-b border-b-red-800 flex justify-center items-center">
+                <img class="mx-6 object-cover rounded-full items-center w-28 h-28" :src="getImageUrl(artist.image)" alt="Artist Image">
               </td>
-              <td class="py-2 px-4 border-b">{{ artist.first_name }} {{ artist.last_name }}</td>
-              <td class="py-2 px-4 border-b">{{ artist.dob }}</td>
-              <td class="py-2 px-4 border-b">{{ artist.gender }}</td>
-              <td class="py-2 px-4 border-b">
+              <td class="py-2 px-4 border-b border-b-red-800">{{ artist.first_name }} {{ artist.last_name }}</td>
+              <td class="py-2 px-4 border-b border-b-red-800">{{ artist.dob }}</td>
+              <td class="py-2 px-4 border-b border-b-red-800">{{ artist.gender }}</td>
+              <td class="py-2 px-4 border-b border-b-red-800">
                 <RouterLink :to="{ name: 'artist-library', params: { id: artist.id } }">
                   <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">Library</button>
                 </RouterLink>
