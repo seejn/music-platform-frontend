@@ -7,6 +7,21 @@
           <div class="ml-2 mt-[7vw] relative">
             <h1 v-if="!editMode" class="text-4xl font-bold">{{ album.title }}</h1>
             <p class="mt-2 text-lg italic">{{ artist.first_name }} {{ artist.last_name }}</p>
+
+            <div class="mt-4">
+              <span v-if="!isAlbumFavourite">
+                <button @click="addToFavourite">
+                  <i class="fa-regular fa-3x fa-heart ml-1"></i>
+                </button>
+              </span>
+
+              <span v-else>
+                <button @click="removeFromFavouriteAlbum">
+                  <i class="fa-solid fa-3x fa-heart ml-1"></i>
+                </button>
+              </span>
+
+          </div>
             <div class="mt-6 flex space-x-4" v-if="isArtist">
               <div class="relative">
                 <button @click="toggleOptions" class="text-white bg-black rounded-md shadow-md text-md">
@@ -98,14 +113,20 @@ import EditTracks from '../Artist/EditTracks.vue';
 import { fetchGenres } from '../../api/Genre';
 import { useStore } from 'vuex';
 import {reportTrack} from '../../api/Reports';
+import { removeAlbumFromFavouriteAlbum ,checkFavouriteAlbum} from '../../api/Album'
 
 
+const store = useStore()
 const props = defineProps({
   id: {
     type: String,
     required: true
   }
 });
+
+const user = store.getters.getUser
+
+const isAlbumFavourite = ref(false);
 
 const albumId = ref(props.id)
 const album = ref({})
@@ -115,7 +136,6 @@ const genres = ref([]);
 
 
 
-const store = useStore();
 
 const showEditForm = ref(false);
 const showOptions = ref(false);
@@ -123,6 +143,14 @@ const showTrackOptions = ref({});
 const editMode = ref(false);
 const isArtist = ref(true);
 
+const isFavouriteAlbumByUser = async (userId, albumId) => {
+  try {
+    const response = await checkFavouriteAlbum(userId, albumId);
+    isAlbumFavourite.value = response.is_favourite;
+  } catch (error) {
+    toast.error('Error checking favourite lbum:');
+  }
+};
 
 const imageUrl = computed(() => {
   return `${import.meta.env.VITE_API_BASE_URL}${album.value.image || ''}`;
@@ -213,13 +241,47 @@ const toggleTrackOptions = (index) => {
 const favoriteAlbumHandler = async () => {
   try {
     const userId = store.getters.getUser.id;
-    await createFavouriteAlbum(userId, albumId.value);
+    await fetchAllUsersFavouriteAlbums(userId, albumId.value);
     toast.success("Album favorited successfully!");
   } catch (error) {
     toast.error("Error favoriting album")  ;
 
   }
 };
+
+const addToFavourite = async () => {
+  isAlbumFavourite.value = true;
+  try {
+    const favouriteAlbumData = {
+      user_id: user.id,
+      album: album.value.id,
+    };
+
+    const response = await createFavouriteAlbum(favouriteAlbumData);
+    console.log('Response from addToFavourite:', response);
+    notification.value.message = 'Album added to favourites';
+    notification.value.visible = true;
+  } catch (error) {
+    toast.error('Error adding Album to favourites:');
+    notification.value.message = 'Failed to add Album to favourites';
+    notification.value.visible = true;
+  }
+};
+
+const removeFromFavouriteAlbum = async () => {
+  isAlbumFavourite.value = false;
+  try {
+    const response = await removeAlbumFromFavouriteAlbum(user.id, albumId.value);
+    console.log('Response from removeFromFavouriteAlbum', response);
+    notification.value.message = 'Album removed from favourites';
+    notification.value.visible = true;
+  } catch (error) {
+    console.error('Error removing album from favourites:', error);
+    notification.value.message = 'Failed to remove album from favourites';
+    notification.value.visible = true;
+  }
+};
+
 
 const handleAlbumEdit = async () => {
   try {
@@ -250,11 +312,13 @@ const clearError = (field) => {
 
 watch(() => props.id, (newId) => {
   fetchAlbumData(newId)
+  isFavouriteAlbumByUser(user.id, newId);
 })
 
 onMounted(() => {
   fetchAlbumData(albumId.value);
   loadGenres();
+  isFavouriteAlbumByUser(user.id, albumId.value);
 })
 
 </script>
