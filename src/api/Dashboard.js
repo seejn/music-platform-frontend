@@ -13,7 +13,7 @@ export const fetchAllArtistsSongPlaylistCounts = async () => {
 }
 
 export const fetchAllArtistsAlbumFavorites = async () => {
-    const url = `${API_BASE_URL}/stats/artists/album/favorites`;
+    const url = `${API_BASE_URL}/stats/artists/albums/favorites/`;
     try {
         const response = await axios.get(url);
         return response.data;
