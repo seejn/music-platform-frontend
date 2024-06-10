@@ -30,6 +30,11 @@ export const adminNavRoutes = [
         path: '/artist-library/:id',
         name: 'artist-library',
         component: ()=>import('./pages/Admin/ArtistLibrary.vue')
+    },
+    {
+        path: '/admin/banned-songs/',
+        name: 'BannedSongs',
+        component: ()=>import('./pages/Admin/Banned.vue')
     }
 ]
 

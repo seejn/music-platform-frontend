@@ -90,10 +90,12 @@ import { ref, computed, watch, onMounted } from 'vue';
 
 import { fetchAlbum, updateAlbum, createFavouriteAlbum } from '../../api/Album';
 
-import { deleteTrack, reportTrack, updateTrack } from "../../api/Track";
+import { deleteTrack,  updateTrack } from "../../api/Track";
 import EditTracks from '../Artist/EditTracks.vue';
 import { fetchGenres } from '../../api/Genre';
 import { useStore } from 'vuex';
+import {reportTrack} from '../../api/Reports';
+
 
 const props = defineProps({
   id: {

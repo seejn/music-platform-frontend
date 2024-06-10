@@ -106,6 +106,22 @@ export const reportTrack = async (trackId) => {
     }
 };
 
+
+
+export const fetchReportsCount = async (trackId) => {
+    const url = `${API_BASE_URL}/report/report_track/${trackId}`;
+    try {
+      const response = await axios.get(url);
+      console.log("hi this is api", response); 
+      return response.data.length; }
+    catch(error){
+      console.error("Error fetching report count:", error);
+      return 0;}
+
+    }
+  ;
+  
+
 export const banTracks = async (trackId) => {
     // const url = `${API_BASE_URL}/track/get_artist_track/${artistId}/`;
     try {
@@ -118,4 +134,3 @@ export const banTracks = async (trackId) => {
         throw error;
     }
 };
-
