@@ -13,7 +13,8 @@ export const adminNavRoutes = [
     {
         path:'/admin/user-reports',
         name:'UserReports',
-        component: () => import('./pages/Admin/UserReports.vue')
+        // component: () => import('./pages/Admin/UserReports.vue')
+        component: () => import('./pages/Admin/UserReportsV2.vue')
     },
     {
         path: '/admin/all-tours/',

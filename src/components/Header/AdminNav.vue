@@ -5,22 +5,6 @@
         <div class="absolute left-0 p-6 text-3xl font-semibold">
           Artist Management System
         </div>
-        <ul class="absolute right-0 flex space-x-4 p-6">
-          <RouterLink to="/admin/dashboard" class="p-5 font-bold text-lg hover:text-red-800">
-            Dashboard
-          </RouterLink>
-          <RouterLink to="/admin/artists" class="p-5 font-bold text-lg hover:text-red-800">
-            Artist
-          </RouterLink>
-          <RouterLink to="/admin/all-tours" class="p-5 font-bold text-lg hover:text-red-800">
-            Tour
-          </RouterLink>
-          <RouterLink to="/admin/user-reports" class="p-5 font-bold text-lg hover:text-red-800">
-            Reported songs
-          </RouterLink>
-          <RouterLink to="/admin/banned-songs" class="p-5 font-bold text-lg hover:text-red-800">
-            Banned Songs </RouterLink>
-        </ul>
       </div>
       <ul class="absolute right-0 flex space-x-4 p-6">
         <RouterLink to="/admin/artists" class="p-5 font-bold text-lg hover:text-orange-800">
