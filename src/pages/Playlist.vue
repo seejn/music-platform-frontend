@@ -126,9 +126,9 @@
           <div v-else-if="searchTerm && filteredTracks?.length === 0" class="text-center text-white">No tracks found
           </div>
           <div v-else class="text-center text-white">Start searching to see results</div>
-          <div v-if="notification.visible" class="absolute top-10 right-10 bg-red-500 text-white p-3 rounded">
+          <!-- <div v-if="notification.visible" class="absolute top-10 right-10 bg-red-500 text-white p-3 rounded">
             {{ notification.message }}
-          </div>
+          </div> -->
         </div>
 
         <transition name="fade">
