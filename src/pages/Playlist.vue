@@ -121,7 +121,6 @@
           </div>
         </div>
 
-        <!-- Form for saving the image -->
         <transition name="fade">
           <div v-if="showImageForm"
             class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
@@ -136,7 +135,6 @@
           </div>
         </transition>
 
-        <!-- Privacy Popup -->
         <PrivacyPopup v-if="showPrivacyPopup" :id="playlistId"/>
 
       </main>
@@ -231,13 +229,11 @@ const fetchTracks = async () => {
   }
 };
 
-// Watching props for changes
 watch(() => props.id, (newId) => {
   fetchPlaylistData(newId);
   isFavouritePlaylistByUser(user.id, newId);
 });
 
-// Saving playlist data
 const savePlaylist = async () => {
   const formData = new FormData();
   formData.append('title', playlist.value.title);
@@ -264,7 +260,6 @@ const savePlaylist = async () => {
   }
 };
 
-// Adding a track to the playlist
 const addTrackToPlaylist = async (trackId) => {
   const track = tracks.value.find((item) => item.id === trackId);
   if (track) {
@@ -294,7 +289,6 @@ const addTrackToPlaylist = async (trackId) => {
   }
 };
 
-// Removing a track from the playlist
 const removeTrack = async (trackId) => {
   try {
     const playlistData = playlist.value.track;
@@ -320,18 +314,15 @@ const removeTrack = async (trackId) => {
   }
 };
 
-// Formatting date
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-// Triggering file input
 const triggerFileInput = () => {
   $refs.fileInput.click();
 };
 
-// Handling image change
 const onImageChange = (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -345,7 +336,6 @@ const onImageChange = (event) => {
   }
 };
 
-// Saving image
 const saveImage = async () => {
   try {
     const formData = new FormData();
@@ -362,7 +352,6 @@ const saveImage = async () => {
   }
 };
 
-// Saving image to playlist
 const saveImageToPlaylist = async (formData) => {
   try {
     await updatePlaylist(playlist.value.id, formData);
@@ -372,13 +361,11 @@ const saveImageToPlaylist = async (formData) => {
   }
 };
 
-// Cancelling image selection
 const cancelImage = () => {
   imageUrl.value = playlist.value.imageUrl ? playlist.value.imageUrl : defaultImageUrl;
   showImageForm.value = false;
 };
 
-// Edit form toggling
 const toggleEditForm = () => {
   editing.value = !editing.value;
   if (editing.value) {
@@ -386,20 +373,17 @@ const toggleEditForm = () => {
   }
 };
 
-// Saving changes
 const saveChanges = async () => {
   playlist.value.title = editedTitle.value;
   await savePlaylist();
   editing.value = false;
 };
 
-// Cancelling edit
 const cancelEdit = () => {
   editing.value = false;
   editedTitle.value = playlist.value.title;
 };
 
-// Adding to favourites
 const addToFavourite = async () => {
   isPlaylistFavourite.value = true;
   try {
@@ -419,7 +403,6 @@ const addToFavourite = async () => {
   }
 };
 
-// Removing from favourites
 const removeFromFavouritePlaylist = async () => {
   isPlaylistFavourite.value = false;
   try {
@@ -434,7 +417,6 @@ const removeFromFavouritePlaylist = async () => {
   }
 };
 
-// Filtering tracks
 const filterTracks = () => {
   const trimmedSearchTerm = searchTerm.value.trim();
 
@@ -457,6 +439,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Add your component scoped styles here */
 </style>
 

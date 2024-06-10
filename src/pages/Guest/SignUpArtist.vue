@@ -127,6 +127,8 @@
 </template>
 
 <script>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import { ref, computed, watch } from 'vue';
 import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
@@ -230,10 +232,10 @@ export default {
 
 
         const response = await createArtist(info.value);
-        console.log('User created successfully:', response);
+        toast.success('Artist created successfully');
         clearForm();
       } catch (error) {
-        console.error('User creation failed:', error.message);
+        toast.error('Artist creation failed');
       }
     };
 

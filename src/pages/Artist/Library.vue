@@ -97,6 +97,8 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import EditSingleTrack from './EditSingleTrack.vue'
 import {
     ref,
@@ -131,7 +133,7 @@ const fetchArtistSongs = async () => {
         tracks.value = await fetchArtistTrack(artistId.value);
         console.log("Artist tracks:", tracks.value);
     } catch (error) {
-        console.log("Error fetching tracks:", error);
+        toast.error("Error fetching tracks:", error);
     }
 };
 
@@ -144,14 +146,14 @@ const fetchArtistAlbums = async () => {
             console.log(`Tracks for album ${album.title}:`, album.track);
         });
     } catch (error) {
-        console.error('Error fetching artist albums:', error);
+        toast.error('Error fetching artist albums:', error);
     }
 };
 const loadGenres = async () => {
     try {
       genres.value = await fetchGenres();
     } catch (error) {
-      console.error("Failed to fetch genres:", error);
+      toast.error("Failed to fetch genres:", error);
     }
   };
   const editTrack = (track) => {
@@ -159,12 +161,15 @@ const loadGenres = async () => {
   };
   const saveTrack = async (updatedTrack) => {
     try {
+
         console.log("from save track",updatedTrack.id)
       await updateTrack(updatedTrack);
+      toast.success("updating track Successful");
+
       fetchArtistSongs();
       showEditForm.value = false;
     } catch (error) {
-      console.error("Error updating track", error);
+      toast.error("Error updating track", error);
     }
   };
   const deleteTrackData = async (trackId) => {
@@ -180,7 +185,7 @@ const loadGenres = async () => {
   
       tracks.value=updatedTrack;
     } catch (error) {
-      console.error("Error deleting track", error);
+      toast.error("Error deleting track", error);
     }
   };
 onMounted( () => {
@@ -202,8 +207,10 @@ const toggleOptions = (key) => {
 const deleteArtistAlbum = async (albumId) => {
     try {
         const response = await deleteAlbum(albumId);
-        console.log(response);
+        toast.success(" deleting track Successful");
+
         const updatedAlbum = albums.value.filter((album) => {
+
             if (album.id !== albumId) {
                 return album;
 
@@ -212,7 +219,7 @@ const deleteArtistAlbum = async (albumId) => {
 
         albums.value = updatedAlbum;
     } catch (error) {
-        console.error("Error deleting track", error);
+        toast.error("Error deleting track", error);
     }
 };
 </script>
@@ -228,6 +235,6 @@ const deleteArtistAlbum = async (albumId) => {
 }
 .dropdown-options {
   position: relative;
-  left:50px;/* Adjust this value to position the dropdown further to the right */
+  left:50px;
 }
 </style>
