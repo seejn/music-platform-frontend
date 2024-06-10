@@ -4,11 +4,12 @@
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
           <div class="relative group">
+
             <img :src="imageUrl" alt="Playlist Image" class="w-60 h-60 border-4 border-red-800">
             <div
               class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
               @click="triggerFileInput">
-              <span class="text-white">Choose Photo</span>
+              <span class="text-white" v-show="isPlaylistOwner">Choose Photo</span>
             </div>
             <input type="file" ref="fileInput" class="hidden" @change="onImageChange">
           </div>
