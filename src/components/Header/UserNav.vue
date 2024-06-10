@@ -10,11 +10,10 @@
         </button> -->
       </div>
       <div class="relative flex items-center">
-
         <button id="dropdownHoverButton" @click="toggleDropdown" 
           class="relative p-6 text-white focus:outline-none font-medium rounded-full"
           type="button">
-          <img :src="getProfileImageUrl(props.user.profile)" alt="Tay" class="w-10 h-10 rounded-full" />
+          <img :src="getProfileImageUrl(props.user.image)" alt="Tay" class="w-10 h-10 rounded-full" />
         </button>
         <!-- Dropdown menu -->
         <div v-show="isDropdownVisible"
@@ -63,10 +62,6 @@ const toggleDropdown = () => {
 const handleLogout = async () => {
   await Logout(store);
 };
-
-const getImageUrl = computed(() => {
-  return `${import.meta.env.VITE_API_BASE_URL}${props.user?.image}`;
-});
 </script>
 
 <style scoped>
