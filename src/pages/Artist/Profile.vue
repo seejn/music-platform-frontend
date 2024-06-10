@@ -1,7 +1,6 @@
 <template>
   <Layout>
     <template #Main>
-      {{ users }}
       <div class="p-6 pt-16 bg-black max-h-full flex-grow">
         <div class="flex flex-row relative">
           <img
@@ -31,7 +30,7 @@
         </div>
         <div class="mt-8 rounded-lg glass-effect">
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Artist</h2>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10 ">Artist</h2>
             <ArtistCollection :artists="artists" />
           </section>
           <TracksInTable :tracks="tracks" />
@@ -39,7 +38,6 @@
             <h2 class="text-3xl font-bold mb-4 text-white mt-10">Playlists</h2>
             <PlaylistCollection :playlists="playlists" />
           </section>
-          <UserPlaylist :playlists="playlists" />
         </div>
       </div>
     </template>
@@ -51,6 +49,8 @@
 
 
 <script setup>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import UpdateProfile from './UpdateProfile.vue';
 import PlaylistCollection from '../../components/Track/PlaylistCollection.vue';
 import TracksInTable from '../../components/Track/TracksInTable.vue';
@@ -76,7 +76,7 @@ const loadArtistData = async () => {
     users.value = await fetchArtist(userId.value);
     updateProfileImageUrl();
   } catch (error) {
-    console.log('Error fetching user', error);
+    toast.error('Error fetching user');
     console.log('user id:', userId.value);
   }
 };
@@ -85,7 +85,7 @@ const loadArtistTracks = async () => {
   try {
     tracks.value = await fetchArtistTracks(userId.value);
   } catch (error) {
-    console.log(error);
+    toast.error('Error fetching artist data');
   }
 };
 
@@ -94,7 +94,7 @@ const loadAllArtists = async () => {
     artists.value = await fetchAllArtists();
     console.log('Artists: ', artists.value);
   } catch (error) {
-    console.log('From FetchAllArtists: ', error);
+    toast.error('Error fetching artist');
   }
 };
 
@@ -104,7 +104,7 @@ const loadUserPlaylists = async () => {
     playlists.value = response.track;
     console.log('load user playlists: ', playlists.value);
   } catch (error) {
-    console.log('From FetchAllArtists: ', error);
+    toast.error('Error loading playlist');
   }
 };
 
@@ -127,7 +127,7 @@ const updateArtistDetails = async (updatedUser) => {
     updateProfileImageUrl();
     showEditForm.value = false;
   } catch (error) {
-    console.error('Error updating user:', error);
+    toast.error('Error updating user:');
   }
 };
 
@@ -143,7 +143,6 @@ const handleFileChange = async (event) => {
   const file = event.target.files[0];
   if (file) {
     try {
-      // Create FormData object
       const formData = new FormData();
       formData.append('id', userId.value);
       formData.append('image', file);
@@ -156,7 +155,7 @@ const handleFileChange = async (event) => {
       users.value = response;
       updateProfileImageUrl();
     } catch (error) {
-      console.error('Error uploading image:', error);
+      toast.error('Error uploading image:');
     }
   }
 };

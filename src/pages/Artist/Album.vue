@@ -86,6 +86,9 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
 import { ref, computed, watch, onMounted } from 'vue';
 
 import { fetchAlbum, updateAlbum, createFavouriteAlbum } from '../../api/Album';
@@ -142,7 +145,7 @@ const loadGenres = async () => {
   try {
     genres.value = await fetchGenres();
   } catch (error) {
-    console.error("Failed to fetch genres:", error);
+  toast.error("no genres found")  ;
   }
 };
 
@@ -162,7 +165,8 @@ const updateTrackData = async (updatedTrack) => {
     fetchAlbumData(props.id);
     showEditForm.value = false;
   } catch (error) {
-    console.error("Error updating track", error);
+    toast.error("Error updating track")  ;
+
   }
 };
 
@@ -172,7 +176,8 @@ const saveTrack = async (updatedTrack) => {
     fetchAlbumData(props.id);
     showEditForm.value = false;
   } catch (error) {
-    console.error("Error updating track", error);
+    toast.error("Error updating track")  ;
+    
   }
 };
 
@@ -181,16 +186,18 @@ const deleteTrackData = async (trackId) => {
     await deleteTrack(trackId);
     tracks.value = tracks.value.filter((track) => track.id !== trackId);
   } catch (error) {
-    console.error("Error deleting track", error);
+    toast.error("Error deleting track")  ;
+
   }
 };
 const reportedTrack = async (trackId) => {
   try {
     await reportTrack(trackId);
     fetchAlbumData(albumId.value); 
-    console.log("Track reported successfully!");
+    toast.success("Track reported successfully!");
   } catch (error) {
-    console.error("Error reporting track", error);
+    toast.error("Error reporting track")  ;
+
   }
 };
 const toggleOptions = () => {
@@ -207,9 +214,10 @@ const favoriteAlbumHandler = async () => {
   try {
     const userId = store.getters.getUser.id;
     await createFavouriteAlbum(userId, albumId.value);
-    console.log("Album favorited successfully!");
+    toast.success("Album favorited successfully!");
   } catch (error) {
-    console.error("Error favoriting album:", error);
+    toast.error("Error favoriting album")  ;
+
   }
 };
 
@@ -221,7 +229,8 @@ const handleAlbumEdit = async () => {
     await updateAlbum(albumId.value, updateData);
     editMode.value = false; 
   } catch (error) {
-    console.error('Error updating album:', error);
+    toast.error("Error updating album")  ;
+
   }
 };
 

@@ -35,6 +35,8 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import { ref, onMounted } from 'vue';
 import { getAllReportedTracks } from '../../api/Reports';
 
@@ -48,7 +50,7 @@ const fetchReportedTracksData = async () => {
     reportedTracks.value = response;
     console.log(reportedTracks.value)
   } catch (error) {
-    console.error("Error fetching reported tracks:", error);
+    toast.error("Error fetching reported tracks");
   }
 };
 

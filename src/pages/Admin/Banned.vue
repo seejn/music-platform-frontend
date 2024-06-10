@@ -33,6 +33,7 @@
                   </td>
                   <td class="py-2 px-4 text-left border-b border-red-800">{{ report.track.is_banned ? 'Yes' : 'No' }}</td>
                 </tr>
+                <tr v-show="bannedTracks.length==0"><td colspan="7" class=" text-center"> <h1 >No banned Tracks</h1></td></tr>
               </tbody>
             </table>
           </div>
@@ -42,6 +43,8 @@
   </template>
   
   <script setup>
+  import { toast } from 'vue3-toastify';
+  import 'vue3-toastify/dist/index.css';
   import { ref, onMounted } from 'vue';
   import { getAllBannedTracks, getUnBannedTracksOfArtist } from '../../api/Reports';
   
@@ -51,9 +54,9 @@
   const fetchBannedTracksData = async () => {
     try {
       const response = await getAllBannedTracks();
-      bannedTracks.value = response.data;
+      bannedTracks.value = response;
     } catch (error) {
-      console.error("Error fetching banned tracks:", error);
+      toast.error("Error fetching banned tracks");
     }
   };
   
@@ -64,9 +67,10 @@
   const unbanTrack = async (trackId) => {
     try {
       await getUnBannedTracksOfArtist(trackId);
+      toast.success("Track unban successful");
       fetchBannedTracksData();
     } catch (error) {
-      console.error("Error unbanning track:", error);
+      toast.error("Error unbanning track" );
     }
   };
   </script>

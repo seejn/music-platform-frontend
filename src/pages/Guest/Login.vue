@@ -54,6 +54,8 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import { ref, computed, watch } from 'vue';
 import GuestNav from '../../components/Header/GuestNav.vue';
 import { useRouter } from 'vue-router';
@@ -105,13 +107,12 @@ const submitForm = async () => {
 
   try {
     const response = await Login({ email: info.value.email, password: info.value.password }, store);
-    console.log('User login successfully:', response);
+    toast.success("Login successful");
     router.push({ name: 'Home' });
-    
+    // toast.success("Login successfully")
     clearForm();
   } catch (error) {
-    console.error('User login failed:', error.message);
-    
+    toast.error("Login not successful");
     loginFailed.value = true;
   }
 };

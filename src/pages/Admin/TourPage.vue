@@ -81,6 +81,8 @@
                     
                     <h2 class="text-xl font-semibold mb-4">Update Event Details</h2>
                   
+                    {{ tour }}
+
                     <form @submit.prevent="updatedTour">
                         <div class="mb-4 text-white">
                             <label for="title" class="block">Name:</label>
@@ -115,6 +117,8 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import { ref, onMounted } from 'vue';
 import { fetchAllTours, createTour, updateTour, deleteTour } from '../../api/Tour';
 import { fetchAllArtists } from '../../api/Artist';
@@ -144,24 +148,15 @@ const tourErrors = ref({
 
 const tourCreate = async () => {
     try {
+        console.log("Before creating tour",tour.value)
+
         const response = await createTour(tour.value);
-        console.log("created tour", response);
+        toast.success("created tour");
         showAddTour.value = false;
         tours.value = [...tours.value,response];
     } catch (error) {
-        console.error("Error creating tour:", error);
-        if (error.response && error.response.data) {
-            const errors = error.response.data.errors;
-            if (errors) {
-                for (const key in errors) {
-                    if (Object.hasOwnProperty.call(errors, key)) {
-                        if (key in tourErrors.value) {
-                            tourErrors.value[key] = errors[key].join(', ');
-                        }
-                    }
-                }
-            }
-        }
+        toast.error("Error creating tour");
+      
     }
 };
 
@@ -173,34 +168,30 @@ const editTour = (selectedTour) => {
 const updatedTour = async () => {
     try {
         const response = await updateTour(tour.value);
-        console.log("updated tour", response);
+        toast.success("updated tour");
+        // console.log(response)
+        // console.log(tours.value)
         showEditTour.value = false;
-        tours.value = await fetchAllTours();
+        const updatedTour = tours.value.map((tour) => {
+            if(tour.id === response.id) return response
+            else return tour
+        })
+        tours.value = updatedTour
+        console.log(tours.value)
     } catch (error) {
-        console.error("Error updating tour:", error);
-        if (error.response && error.response.data) {
-            const errors = error.response.data.errors;
-            if (errors) {
-                for (const key in errors) {
-                    if (Object.hasOwnProperty.call(errors, key)) {
-                        if (key in tourErrors.value) {
-                            tourErrors.value[key] = errors[key].join(', ');
-                        }
-                    }
-                }
-            }
-        }
+        toast.error("Error updating tour");
+    
     }
 };
 
 const deletedTour = async (id) => {
     try {
         const response = await deleteTour(id);
-        console.log("deleted tour", response);
+        toast.success("deleted tour");
         const toursafterdeletion=tours.value.filter(tour=>tour.id!=id)
         tours.value=toursafterdeletion;
     } catch (error) {
-        console.error("Error deleting tour:", error);
+        toast.error("Error deleting tour", );
     }
 };
 
@@ -209,12 +200,12 @@ onMounted(async () => {
         artists.value = await fetchAllArtists();
         console.log("from mounted", artists.value);
     } catch (error) {
-        console.error('Error fetching artists:', error);
+        toast.error('Error fetching artists:', error);
     }
     try {
         tours.value = await fetchAllTours();
     } catch (error) {
-        console.error('Error fetching tours:', error);
+        toast.error('Error fetching tours:', error);
     }
 });
 

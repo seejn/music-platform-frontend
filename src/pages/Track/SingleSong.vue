@@ -64,6 +64,9 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchTracks  } from '../../api/Track';
@@ -84,7 +87,7 @@ const fetchTrackData = async () => {
     track.value = await fetchTracks(trackId.value);
     console.log("track value", track.value);
   } catch (error) {
-    console.error(error);
+    toast.error("Error fetching track");
   }
 };
 
@@ -96,7 +99,7 @@ const reportedTrack= async(trackId)=>{
   try {
     await reportTrack(trackId);
   }catch(error){
-    console.error("Error reporting track", error);
+    toast.error("Error reporting track");
 
   }
 };
