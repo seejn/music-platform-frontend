@@ -20,7 +20,7 @@
                 </div>
               </div>
             </div>
-            <!-- Add Pagination -->
+ 
             <div class="swiper-pagination"></div>
           </div>
         </section>
