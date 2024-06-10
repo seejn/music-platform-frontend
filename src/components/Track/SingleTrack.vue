@@ -19,7 +19,7 @@
       <img :src="imageUrl" alt="Cover Image" class="w-full h-full object-cover">
       <div class="absolute bottom-0 left-0 w-full p-3 bg-black bg-opacity-50 text-white">
         <h3 class="text-xl">{{ track?.title || "TrackName" }}</h3>
-        <p>{{ track?.artist?.first_name }}</p>
+        <p>{{ track?.artist?.first_name }} {{ track?.artist?.last_name }}</p>
       </div>
     </div>
   </template>
