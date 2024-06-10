@@ -20,10 +20,10 @@
                                 </div>
                                 <h5 class="text-white text-xl">{{ tour ? tour.title : 'Unknown Title' }}</h5>
                                 <h3 class="text-white text-lg font-semibold">{{ tour.artist ? tour.artist.first_name + ' ' + tour.artist.last_name : 'Unknown Artist' }}</h3>
-                                <p class="text-gray-400">Date: {{ tour.date }}</p>
-                                <p class="text-gray-400">Location: {{ tour.location }}</p>
-                                <p class="text-gray-400">Venue: {{ tour.venue }}</p>
-                                <p class="text-gray-400">Time: {{ tour.time }}</p>
+                                <p class="text-white">Date: {{ tour.date }}</p>
+                                <p class="text-white">Location: {{ tour.location }}</p>
+                                <p class="text-white">Venue: {{ tour.venue }}</p>
+                                <p class="text-white">Time: {{ tour.time }}</p>
                                 <div class="mt-4 flex justify-end">
                                     <button @click="editTour(tour)"
                                         class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">Update</button>
