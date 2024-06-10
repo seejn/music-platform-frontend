@@ -243,12 +243,9 @@ const addToFavourite = async () => {
 
     const response = await createFavouriteAlbum(favouriteAlbumData);
     console.log('Response from addToFavourite:', response);
-    notification.value.message = 'Album added to favourites';
-    notification.value.visible = true;
+    toast.success('Album added to favourites');
   } catch (error) {
     toast.error('Error adding Album to favourites:');
-    notification.value.message = 'Failed to add Album to favourites';
-    notification.value.visible = true;
   }
 };
 
@@ -257,12 +254,12 @@ const removeFromFavouriteAlbum = async () => {
   try {
     const response = await removeAlbumFromFavouriteAlbum(user.id, albumId.value);
     console.log('Response from removeFromFavouriteAlbum', response);
-    notification.value.message = 'Album removed from favourites';
-    notification.value.visible = true;
+    toast.success('Album removed from favourites');
+
   } catch (error) {
     console.error('Error removing album from favourites:', error);
-    notification.value.message = 'Failed to remove album from favourites';
-    notification.value.visible = true;
+    toast.error ('Failed to remove album from favourites');
+  
   }
 };
 
