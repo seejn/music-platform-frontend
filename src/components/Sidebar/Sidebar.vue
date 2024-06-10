@@ -4,7 +4,7 @@
       <ul class="space-y-4">
         <li v-for="route in routes" :key="route.path">
           <router-link :to="route.path" class="flex items-center text-2xl leading-loose font-semibold hover:text-red-800">
-            <i class="fas fa-home mr-3"></i>{{ route.name }}
+            <i :class="route.meta.iconClass"></i>{{ route.name }}
           </router-link>
         </li>
       </ul>
