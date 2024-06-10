@@ -62,7 +62,6 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { Login } from '../../api/Auth';
 
-
 const info = ref({
   email: '',
   password: ''
@@ -110,7 +109,7 @@ const submitForm = async () => {
     const response = await Login({ email: info.value.email, password: info.value.password }, store);
     toast.success("Login successful");
     router.push({ name: 'Home' });
-    toast.success("Login successfully")
+    // toast.success("Login successfully")
     clearForm();
   } catch (error) {
     toast.error("Login not successful");

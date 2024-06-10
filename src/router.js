@@ -9,8 +9,6 @@ export const adminNavRoutes = [
         path: '/admin/artists',
         name: 'Artists',
         component: () => import('./pages/Admin/ArtistTable.vue')
-
-        
     },
     {
         path:'/admin/user-reports',
@@ -31,7 +29,12 @@ export const adminNavRoutes = [
         path: '/admin/banned-songs/',
         name: 'BannedSongs',
         component: ()=>import('./pages/Admin/Banned.vue')
-    }
+    },
+    {
+        path: '/admin/dashboard/',
+        name: 'Dahboard',
+        component: () => import('./pages/Admin/Dashboard.vue')
+    },
 ]
 
 export const artistNavRoutes = [

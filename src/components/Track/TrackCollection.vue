@@ -1,23 +1,18 @@
 <template>
-    <div class="mx-10 relative overflow-hidden">
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          <div
-            class="swiper-slide track-link"
-            v-for="track in tracks"
-            :key="track.id"
-          >
-            <RouterLink :to="`/single-song/${track.id}`">
-              <SingleTrack :track="track" class="border-2 border-red-800" />
-            </RouterLink>
-          </div>
+  <div class="mx-10 relative overflow-hidden">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide track-link my-5 " v-for="track in tracks" :key="track.id">
+          <RouterLink :to="`/single-song/${track.id}`">
+            <SingleTrack :track="track" class="border-2 border-red-800  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110" />
+          </RouterLink>
         </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
       </div>
+      <!-- Add Pagination -->
+      <div class="swiper-pagination"></div>
     </div>
-  </template>
-  
+  </div>
+</template>
   <script setup>
   import { onMounted } from 'vue';
   import { RouterLink } from 'vue-router';

@@ -3,7 +3,7 @@
     <h3 class="text-white text-2xl mb-10">Tour details</h3>
     <div class="flex flex-wrap">
       <div v-for="tour in tours" :key="tour.id" class="flex-grow max-w-md ml-4 mb-4">
-        <div class="border-2 border-red-800 bg-black shadow-lg overflow-hidden">
+        <div class="border-2 border-red-800  bg-black shadow-lg overflow-hidden">
           <div class="px-6 py-4">
             <div class="text-sm text-white">{{ tour.title }}</div>
             <div class="mt-4 text-white">

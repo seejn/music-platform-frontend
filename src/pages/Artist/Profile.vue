@@ -1,7 +1,6 @@
 <template>
   <Layout>
     <template #Main>
-      {{ users }}
       <div class="p-6 pt-16 bg-black max-h-full flex-grow">
         <div class="flex flex-row relative">
           <img
@@ -31,7 +30,7 @@
         </div>
         <div class="mt-8 rounded-lg glass-effect">
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Artist</h2>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10 ">Artist</h2>
             <ArtistCollection :artists="artists" />
           </section>
           <TracksInTable :tracks="tracks" />
@@ -39,7 +38,6 @@
             <h2 class="text-3xl font-bold mb-4 text-white mt-10">Playlists</h2>
             <PlaylistCollection :playlists="playlists" />
           </section>
-          <UserPlaylist :playlists="playlists" />
         </div>
       </div>
     </template>

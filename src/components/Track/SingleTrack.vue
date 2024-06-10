@@ -15,13 +15,14 @@
     </div>
 </template> -->
 <template>
-    <div class="track flex-shrink-0 mx-5 hover:shadow-lg hover:shadow-red-800 hover:border-red-800 transition-all duration-300 rounded-lg p-6">
-      <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 object-cover">
-      <h3 class="text-xl text-white mt-3 transition ease-in-out delay-150 hover:translate-x-3 hover:scale-110">{{ track?.title || "TrackName" }}</h3>
-      <p class="text-white">{{ track?.artist?.first_name }}</p>
+    <div class="track relative flex-shrink-0 mx-5 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-red-800 hover:border-red-800 transition-all duration-300">
+      <img :src="imageUrl" alt="Cover Image" class="w-full h-full object-cover">
+      <div class="absolute bottom-0 left-0 w-full p-3 bg-black bg-opacity-50 text-white">
+        <h3 class="text-xl">{{ track?.title || "TrackName" }}</h3>
+        <p>{{ track?.artist?.first_name }}</p>
+      </div>
     </div>
   </template>
-  
 
 <script setup>
 import { computed } from 'vue';
@@ -40,3 +41,19 @@ const imageUrl =  computed(() => {
     else return "/src/assets/placeholders/image.png"
 });
 </script>
+
+
+<style scoped>
+.track {
+  width: 300px;  /* Set the desired fixed width */
+  height: 300px; /* Set the desired fixed height */
+}
+
+.track img {
+  object-fit: cover;
+}
+
+.track h3, .track p {
+  margin: 0; /* Remove default margins for consistency */
+}
+</style>
