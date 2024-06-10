@@ -15,10 +15,27 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue'
+  import { onMounted, ref } from 'vue'
   import { Bar } from 'vue-chartjs'
   
- 
+import { fetchAllArtistsAlbumFavorites } from '../../api/Dashboard';
+  
+  const bargraphdata=ref([]);
+  const loadAllAlbumFavouriteData=async()=>{
+    const response= await fetchAllArtistsAlbumFavorites();
+    console.log(response);
+    const label=response.map((res)=>res.albums.title  )
+    console.log(label);
+
+
+  }
+  onMounted(()=>{
+
+    loadAllAlbumFavouriteData();
+  })
+  
+
+
   const albumMaleFemaleRatioData = ref({
     labels: ['Album One', 'Album Two', 'Album Three', 'Album Four', 'Album Five'],
     datasets: [
