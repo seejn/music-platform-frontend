@@ -152,7 +152,9 @@
   </Layout>
 </template>
 <script setup>
-import { ref, watch, onMounted, computed } from 'vue';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+import { ref, watch, onMounted, defineProps } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import Layout from './Layout.vue';
@@ -210,16 +212,15 @@ const isFavouritePlaylistByUser = async (userId, playlistId) => {
   try {
     const response = await checkFavouritePlaylist(userId, playlistId);
     isPlaylistFavourite.value = response.is_favourite;
-    console.log(response);
   } catch (error) {
-    console.error('Error checking favourite playlist:', error);
+    toast.error('Error checking favourite playlist:');
   }
 };
 
 const fetchPlaylistData = async (playlistId) => {
   try {
     playlist.value = await fetchPlaylist(playlistId);
-    console.log('Fetched playlist:', playlist.value);
+    toast.success('Fetched playlist');
     if (playlist.value.imageUrl) {
       imageUrl.value = playlist.value.imageUrl;
     } else {
@@ -229,7 +230,7 @@ const fetchPlaylistData = async (playlistId) => {
       addedTracks.value.push(track.id);
     });
   } catch (error) {
-    console.error('Error fetching playlist:', error);
+    toast.error('Error fetching playlist');
   }
 };
 
@@ -237,9 +238,9 @@ const fetchTracks = async () => {
   try {
     const response = await axios.get('http://localhost:8000/track/get_all_tracks/');
     tracks.value = response.data.data || [];
-    console.log('Fetched tracks successfully:', tracks.value);
+    toast.success('Fetched tracks successfully');
   } catch (error) {
-    console.error('Error fetching tracks:', error);
+    toast.error('Error fetching tracks:');
   }
 };
 
@@ -264,11 +265,11 @@ const savePlaylist = async () => {
       playlist.value.id = response.data.id;
     }
 
-    console.log('Playlist saved successfully');
+    toast.success('Playlist saved successfully');
     notification.value.message = 'Playlist saved successfully';
     notification.value.visible = true;
   } catch (error) {
-    console.error('Error saving playlist:', error);
+    toast.error('Error saving playlist');
     notification.value.message = 'Failed to save playlist';
     notification.value.visible = true;
   }
@@ -295,7 +296,7 @@ const addTrackToPlaylist = async (trackId) => {
         notification.value.message = 'Track added to playlist';
         notification.value.visible = true;
       } catch (error) {
-        console.error('Error adding track to playlist:', error);
+        toast.error('Error adding track to playlist');
         notification.value.message = 'Failed to add track to playlist';
         notification.value.visible = true;
       }
@@ -322,7 +323,7 @@ const removeTrack = async (trackId) => {
     notification.value.message = 'Track removed from playlist';
     notification.value.visible = true;
   } catch (error) {
-    console.error('Error removing track from playlist:', error);
+    toast.error('Error removing track from playlist:');
     notification.value.message = 'Failed to remove track from playlist';
     notification.value.visible = true;
   }
@@ -370,7 +371,7 @@ const saveImageToPlaylist = async (formData) => {
   try {
     await updatePlaylist(playlist.value.id, formData);
   } catch (error) {
-    console.error('Error saving image to playlist:', error);
+    toast.error('Error saving image to playlist:');
     throw new Error('Failed to save image to playlist');
   }
 };
@@ -411,7 +412,7 @@ const addToFavourite = async () => {
     notification.value.message = 'Playlist added to favourites';
     notification.value.visible = true;
   } catch (error) {
-    console.error('Error adding playlist to favourites:', error);
+    toast.error('Error adding playlist to favourites:');
     notification.value.message = 'Failed to add playlist to favourites';
     notification.value.visible = true;
   }

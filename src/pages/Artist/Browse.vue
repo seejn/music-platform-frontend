@@ -1,7 +1,6 @@
 <template>
     <Layout>
         <template #Main>
-            <!-- Main Content Area -->
             <div class="bg-white rounded-lg shadow p-6 mb-8">
                 <h2 class="text-2xl font-bold mb-4">Search Music</h2>
                 <div class="flex mb-4">
@@ -11,7 +10,6 @@
                 </div>
             </div>
 
-            <!-- Search Filters -->
             <section class="bg-white rounded-lg shadow p-6 mb-8">
                 <h3 class="text-xl font-bold mb-4">Filters</h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -27,7 +25,6 @@
                         <option value="pop">Pop</option>
                         <option value="rock">Rock</option>
                         <option value="jazz">Jazz</option>
-                        <!-- Add more genres as needed -->
                     </select>
                     <select class="p-2 border border-gray-300 rounded">
                         <option value="">Release Date</option>

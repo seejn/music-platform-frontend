@@ -119,6 +119,8 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
@@ -142,7 +144,7 @@ const loadGenres = async () => {
   try {
     genres.value = await fetchGenres();
   } catch (error) {
-    console.error("Failed to fetch genres:", error);
+    toasr.error("Failed to fetch genres:");
   }
 };
 
@@ -150,7 +152,7 @@ const loadArtistTracks = async () => {
   try {
     artistTracks.value = await fetchArtistTracks(user.value.id);
   } catch (error) {
-    console.error("Failed to fetch artistTracks:", error);
+    toast.error("Failed to fetch artistTracks:");
   }
 };
 
@@ -233,9 +235,9 @@ const handleTrackUpload = async () => {
   try {
     const formData = handleImageUpload(track.value, trackImageFile.value);
     const response = await createTrack(formData);
-    console.log("create track", response);
+    toast.success(" created track");
   } catch (error) {
-    console.log(error);
+    toast.error("Error to create track");
   }
   clearFields(track);
 };
@@ -245,9 +247,9 @@ const handleAlbumUpload = async () => {
   try {
     const formData = handleImageUpload(album.value, albumImageFile.value);
     const response = await createAlbum(formData);
-    console.log("create album", response);
+    toast.success(" created Album");
   } catch (error) {
-    console.log(error);
+    toast.error("Error to create Album");
   }
   clearFields(album);
 };

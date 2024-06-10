@@ -85,6 +85,8 @@
 </template>
 
 <script>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import axios from 'axios';
 
 export default {
@@ -129,7 +131,7 @@ export default {
         const response = await axios.get('http://localhost:8000/track/get_all_tracks/');
         this.tracks = response.data.data; 
       } catch (error) {
-        console.error('Error fetching tracks:', error);
+        toast.error('Error fetching tracks:');
       }
     },
     filterTracks() {

@@ -58,6 +58,8 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import ArtistTour from '../components/Tour/ArtistTour.vue';
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -67,7 +69,7 @@ import {reportTrack} from '../api/Reports';
 
 
 const route = useRoute();
-const artistId = ref(Number(route.params.id)); // Ensure artistId is a Number
+const artistId = ref(Number(route.params.id)); 
 const artist = ref({});
 const tracks = ref([]);
 const showTrackOptions = ref({});
@@ -80,7 +82,7 @@ const reportedTrack= async(trackId)=>{
   try {
     await reportTrack(trackId);
   }catch(error){
-    console.error("Error reporting track", error);
+    toast.error("Error reporting track");
 
   }
 };
@@ -90,9 +92,8 @@ const fetchArtistData = async () => {
   try {
     const fetchedArtist = await fetchArtist(artistId.value);
     artist.value = fetchedArtist;
-    console.log("artist value", artist.value);
   } catch (error) {
-    console.log("Error fetching artist data:", error);
+    toast.error("Error fetching artist data");
   }
 };
 
@@ -104,7 +105,7 @@ const fetchTracks = async () => {
     tracks.value = fetchedArtistTracks;
     console.log("tracks value", tracks.value);
   } catch (error) {
-    console.log("Error fetching artist tracks:", error);
+    toast.error("Error fetching artist tracks");
   }
 };
 
