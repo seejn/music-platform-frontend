@@ -104,7 +104,7 @@
           </div>
         </div>
 
-        <div>
+        <div v-show="isPlaylistOwner">
           <h2 class="text-2xl font-bold mb-4 text-white">Search Tracks</h2>
           <div class="p-1 mb-4">
             <input type="text" v-model="searchTerm" placeholder="Search..."
