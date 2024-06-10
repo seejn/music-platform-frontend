@@ -1,7 +1,7 @@
 <template>
     <div v-if="show" class="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center">
       <div class="bg-black bg-opacity-50 rounded-lg p-3 w-full max-w-lg shadow-lg border-2 border-red-800">
-        <h2 class="text-2xl font-bold text-red-800 mb-4">Edit User/Artist</h2>
+        <h2 class="text-2xl font-bold text-red-800 mb-4">Edit Profile</h2>
         <form @submit.prevent="handleFormSubmit">
           <div class="mb-4">
             <label for="firstName" class="block text-white mb-2">First Name</label>
