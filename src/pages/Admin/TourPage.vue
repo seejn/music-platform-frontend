@@ -81,6 +81,8 @@
                     
                     <h2 class="text-xl font-semibold mb-4">Update Event Details</h2>
                   
+                    {{ tour }}
+
                     <form @submit.prevent="updatedTour">
                         <div class="mb-4 text-white">
                             <label for="title" class="block">Name:</label>
@@ -146,6 +148,8 @@ const tourErrors = ref({
 
 const tourCreate = async () => {
     try {
+        console.log("Before creating tour",tour.value)
+
         const response = await createTour(tour.value);
         toast.success("created tour");
         showAddTour.value = false;
@@ -165,8 +169,15 @@ const updatedTour = async () => {
     try {
         const response = await updateTour(tour.value);
         toast.success("updated tour");
+        // console.log(response)
+        // console.log(tours.value)
         showEditTour.value = false;
-        tours.value = await fetchAllTours();
+        const updatedTour = tours.value.map((tour) => {
+            if(tour.id === response.id) return response
+            else return tour
+        })
+        tours.value = updatedTour
+        console.log(tours.value)
     } catch (error) {
         toast.error("Error updating tour");
     

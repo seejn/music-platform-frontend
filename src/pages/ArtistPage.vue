@@ -18,6 +18,7 @@
                 <table class="min-w-full bg-transparent text-white">
                   <thead>
                     <tr>
+                      <th class="py-2 px-4 text-left"></th>
                       <th class="py-2 px-4 text-left">Title</th>
                       <th class="py-2 px-4 text-left">Duration</th>
                     </tr>
@@ -25,7 +26,7 @@
                   <tbody>
                     <tr v-for="(track, index) in tracks" :key="index">
                       <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
-                        <img class="mx-6 object-cover" :src="trackImageUrl(track.image)" width="50" height="50">
+                        <img class="mx-6 object-cover" :src="trackImageUrl(track.image)" width="40" height="40">
                         <span>{{ track.title }}</span>
                       </td>
                       <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>

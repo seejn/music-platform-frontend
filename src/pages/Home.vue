@@ -9,7 +9,7 @@
               <div class="swiper-slide " v-for="(tour, index) in artistTours" :key="index">
               
                 <div
-                  class="tour-card  bg-black bg-opacity-80 p-4 mt-5 rounded-lg mb-5 shadow-md  border-2 text-center  text-white border-red-800"
+                  class="tour-card  bg-black bg-opacity-80 p-4 mt-5 rounded-lg mb-5 shadow-md  border-2 text-center hover:shadow-xl hover:shadow-red-800 hover:border-red-800 transition-all duration-300 text-white border-red-800"
                 >
                   <h3 class="text-2xl font-bold">{{ tour.title }} Tour</h3>
                   <h3 class="text-xl semi-bold">{{ tour?.artist?.details?.stagename }}</h3>
