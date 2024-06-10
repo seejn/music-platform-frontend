@@ -34,15 +34,17 @@
             <ArtistCollection :artists="artists" />
           </section>
   
+
           <section>
             <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Albums</h2>
             <AlbumCollection :albums="albums" />
           </section>
-  
+
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Your Favourite Playlists</h2>
+            <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Playlists</h2>
             <PlaylistCollection :playlists="playlists" />
           </section>
+
         </main>
       </template>
     </Layout>
@@ -58,6 +60,7 @@
   import { fetchAllTracks } from "../api/Track.js";
   import { fetchAllAlbums } from "../api/Album.js";
   import { fetchAllArtists } from "../api/Artist.js";
+  import { fetchAllPlaylists } from "../api/Playlist.js";
   
   
   import TrackCollection from "../components/Track/TrackCollection.vue";
@@ -69,6 +72,7 @@
 
 import { useStore } from 'vuex';
 import {fetchUserFavouritePlaylists } from '../api/Playlist.js'
+import {fetchUserFavouriteAlbums } from '../api/Album.js'
 
 
 // import FavouritePlaylistCollection from '../components/Track/FavouritePlaylistCollection.vue';
@@ -80,16 +84,8 @@ let albums = ref([]);
 let artists =ref([]);
 let playlists = ref([]);
 let artistTours = ref([]);
-let favouriteplaylists =ref([]);
 
 
-const loadfavouriteplaylist = async(userId) =>{
-  console.log("Load favourite playlist",userId)
-    const response = await fetchUserFavouritePlaylists(userId)
-    favouriteplaylists.value = response
-    playlists.value=favouriteplaylists.value.playlist
-    console.log(playlists.value)
-}
 
 const initSwiper = () => {
     new Swiper(".swiper-container", {
@@ -113,6 +109,7 @@ onMounted( async () => {
     tracks.value = await fetchAllTracks()
     albums.value = await fetchAllAlbums()
     artists.value = await fetchAllArtists();
+    playlists.value = await fetchAllPlaylists();
     artistTours.value = await fetchFavouriteArtistTour(user.id);
 
   }
@@ -120,9 +117,10 @@ onMounted( async () => {
     console.error(error)
   }
     initSwiper();
-    loadfavouriteplaylist(user.id)
+  
+
     // favouriteplaylists.value = await fetchUserFavouritePlaylists(user.id)
-    console.log("Tracks: ", tracks.value,"Albums: ",albums.value,"Artists:",artists.value,"FavouritePlaylists: ",favouriteplaylists.value.playlist)
+    console.log("Tracks: ", tracks.value,"Albums: ",albums.value,"Artists:",artists.value,"Playlists:",playlists.value,"FavouriteAlbums: ",favouritealbums.value.album)
 
 })
 </script>

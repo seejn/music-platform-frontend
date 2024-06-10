@@ -102,18 +102,38 @@ export const fetchAllUsersFavouriteAlbums = async () => {
     }
 };
 
-export const createFavouriteAlbum = async (userId, albumId) => { 
-    const url = `${API_BASE_URL}/album/favourite_album/create/`;
+export const fetchUserFavouriteAlbums = async (userId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/album/user_favourite_album/${userId}`;
     try {
-        const response = await axios.post(url, { user_id: userId, album: albumId }); 
-        return response.data;
+        const response = await axios.get(url);
+        return response.data.data;
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching favourite albums:', error);
         throw error;
     }
-};
+}
 
-
+export const createFavouriteAlbum = async (favouriteAlbumData) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/album/favourite_album/create/`;
+    try {
+      const response = await axios.post(url, favouriteAlbumData);
+      console.log('Response from createFavouriteAlbum:', response); 
+      return response.data;
+    } catch (error) {
+      console.error('Error creating album:', error);
+      throw error;
+    }
+  };
+  export const removeAlbumFromFavouriteAlbum = async (userId,albumId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/album/remove_album_from_favourite_album/user/${userId}/album/${albumId}/`;
+    try {
+        const response = await axios.delete(url);
+        return response.data;
+    } catch (error) {
+        console.error(`Error remove album from favourite album :`, error);
+        throw error;
+    }
+}
 
 export const deleteFavouriteAlbum = async (favouriteAlbumId) => {
     const url = `${API_BASE_URL}/album/favourite_album/delete/${favouriteAlbumId}/`;
@@ -125,3 +145,15 @@ export const deleteFavouriteAlbum = async (favouriteAlbumId) => {
         throw error;
     }
 };
+
+
+export const checkFavouriteAlbum = async (userId,albumId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/album/check_favourite_album/user/${userId}/album/${albumId}/`;
+    try {
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        console.error(`Error checking album with ID :`, error);
+        throw error;
+    }
+}

@@ -35,8 +35,12 @@
           </section>
           <TracksInTable :tracks="tracks" />
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Playlists</h2>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
             <PlaylistCollection :playlists="playlists" />
+          </section>
+          <section>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10"> Favourite Albums</h2>
+            <AlbumCollection :albums="albums" />
           </section>
         </div>
       </div>
@@ -55,22 +59,35 @@ import UpdateProfile from './UpdateProfile.vue';
 import PlaylistCollection from '../../components/Track/PlaylistCollection.vue';
 import TracksInTable from '../../components/Track/TracksInTable.vue';
 import ArtistCollection from '../../components/Artist/ArtistCollection.vue';
+
 import UserPlaylist from '../../temp/saloni/components/User/UserPlaylist.vue';
 import { fetchAllArtists, fetchArtist, updateArtist } from '../../api/Artist';
 import { fetchArtistTracks } from '../../api/Track';
 import { fetchUserPlaylists } from '../../api/Playlist';
 import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
+import AlbumCollection from '../../components/Album/AlbumCollection.vue';
+import {fetchUserFavouriteAlbums } from '../../api/Album.js'
+import {fetchUserFavouritePlaylists } from '../../api/Playlist.js'
+import Swiper from "swiper"; 
+import "swiper/swiper-bundle.css";
+
+
 
 const store = useStore();
+const user = store.getters.getUser
+
 const artists = ref([]);
 const tracks = ref([]);
-const playlists = ref([]);
 const showEditForm = ref(false);
 const showEditButton = ref(false);
 const users = ref({});
 const userId = computed(() => store.getters.getUser.id);
 
+let albums = ref([]);
+let playlists = ref([]);
+let favouriteplaylists =ref([]);
+let favouritealbums =ref([]);
 const loadArtistData = async () => {
   try {
     users.value = await fetchArtist(userId.value);
@@ -98,15 +115,22 @@ const loadAllArtists = async () => {
   }
 };
 
-const loadUserPlaylists = async () => {
-  try {
-    const response = await fetchUserPlaylists(userId.value);
-    playlists.value = response.track;
-    console.log('load user playlists: ', playlists.value);
-  } catch (error) {
-    toast.error('Error loading playlist');
-  }
-};
+const loadfavouriteplaylist = async(userId) =>{
+  console.log("Load favourite playlist",userId)
+    const response = await fetchUserFavouritePlaylists(userId)
+    favouriteplaylists.value = response
+    playlists.value=favouriteplaylists.value.playlist
+    console.log(playlists.value)
+}
+
+const loadfavouritealbum = async(userId) =>{
+  console.log("Load favourite album",userId)
+    const response = await fetchUserFavouriteAlbums(userId)
+    favouritealbums.value = response
+    albums.value=favouritealbums.value.album
+    console.log(albums.value)
+}
+
 
 const profileImageUrl = ref('');
 
@@ -159,11 +183,27 @@ const handleFileChange = async (event) => {
     }
   }
 };
-
+const initSwiper = () => {
+    new Swiper(".swiper-container", {
+  loop: false, 
+  slidesPerView: "4", 
+  spaceBetween: 10,
+  autoplay: {
+    delay: 3000, 
+    disableOnInteraction: false, 
+  },
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true, 
+  },
+});
+};
 onMounted(() => {
   loadArtistData();
   loadArtistTracks();
   loadAllArtists();
-  loadUserPlaylists();
+  loadfavouriteplaylist(user.id)
+  loadfavouritealbum(user.id)
+
 });
 </script>
