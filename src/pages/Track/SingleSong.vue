@@ -4,13 +4,13 @@
       <div class="p-6 pt-16 bg-black max-h-full flex-grow">
         <div class="flex flex-col items-center md:flex-row md:items-start">
           <img :src="imgUrl" alt="" class="rounded-lg border-2 border-red-800 w-60 h-60 mb-6 md:mb-0">
-          <div class="ml-5 mt-40">
+          <div class="ml-5 mt-20">
             <p class="font-bold text-white text-5xl align-text-bottom">
               {{ track.title }}
             </p>
-            <div class="flex flex-col space-y-2 mt-4 md:flex-row md:space-x-4 md:space-y-0">
-              <div class="text-white">
-                <p>{{ track?.artist?.first_name }}</p>
+            <div class="mt-4">
+              <div class="mt-4 italic flex items-center text-2xl text-white">
+                <p>{{ track?.artist?.first_name }} {{ track?.artist?.last_name }}</p>
               </div>
               
              
