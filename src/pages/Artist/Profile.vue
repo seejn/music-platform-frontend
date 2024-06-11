@@ -1,39 +1,53 @@
 <template>
   <Layout>
     <template #Main>
+      <header class="playlist-header text-white py-10">
 
-      <div class="relative z-10">
-        <UpdateProfile :show="showEditForm" :user="user" @close="toggleEditForm" @update="updateArtistDetails" />
-      </div>
-      <div class="p-6 pt-16 bg-black max-h-full flex-grow">
-        <div class="flex flex-row relative">
-          <img :src="getProfileImageUrl(user.image)" alt="Profile Image"
-            class="rounded-full border-2 border-white w-60 h-60 cursor-pointer" @mouseover="showEditButton = true"
-            @mouseout="showEditButton = false" @click="openFileInput" />
-          <button v-if="showEditButton" @click="openFileInput"
-            class="absolute bottom-0 right-0 bg-white text-black rounded-full p-1">
-            Edit
-          </button>
-          <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
-            {{ user.first_name }} {{ user.last_name }}
-            <button @click="toggleEditForm"
-              class="border-2 border-red-800 text-white -mt-9 hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">
-              Edit
-            </button>
-          </p>
+        <div class="relative z-10">
+          <UpdateProfile :show="showEditForm" :user="user" @close="toggleEditForm" @update="updateArtistDetails" />
         </div>
+
+        <div class="p-6 pt-16 bg-black max-h-full flex-grow">
+          <div class="flex flex-row">
+            <div class="relative group">
+              <img :src="getProfileImageUrl(user?.image)" alt="Artist Image"
+                class="w-60 h-60 border-4 rounded-full border-red-800">
+              <div
+                class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                @click="triggerFileInput">
+                <span class="text-white" v-show="isArtistOwner">Choose Photo</span>
+              </div>
+              <input type="file" ref="fileInput" class="hidden" @change="onImageChange">
+            </div>
+
+
+            <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
+              {{ user?.first_name }} {{ user?.last_name }}
+              <button @click="toggleEditForm"
+                class="border-2 border-red-800 text-white -mt-9 hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">
+                Edit
+              </button>
+            </p>
+
+          </div>
+
+
+
+        </div>
+
+      </header>
+      <main class="flex-grow bg-black p-8 flex flex-col space-y-4">
         <div class="mt-8 rounded-lg glass-effect">
           <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10 ">Artist</h2>
             <span v-if="artists?.length > 0">
-              
               <ArtistCollection :artists="artists" />
             </span>
             <span v-else class="font-bold text-xl text-center text-white">
               <h2>No Artists Available</h2>
             </span>
           </section>
-          
+
           <TracksInTable :tracks="tracks" />
 
           <section>
@@ -55,19 +69,37 @@
               <h2>No Albums Available</h2>
             </span>
           </section>
+
         </div>
-      </div>
+        <transition name="fade">
+          <div v-if="showImageForm"
+            class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
+            <div class="bg-black p-8 rounded-lg">
+              <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
+              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
+              <div class="flex justify-end space-x-4">
+                <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Save</button>
+                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </main>
     </template>
+
+
   </Layout>
+
 </template>
 
 
 
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import { toast } from 'vue3-toastify';
+import { useRouter } from 'vue-router';
 import 'vue3-toastify/dist/index.css';
 
 import UpdateProfile from './UpdateProfile.vue';
@@ -77,16 +109,13 @@ import ArtistCollection from '../../components/Artist/ArtistCollection.vue';
 import UserPlaylist from '../../temp/saloni/components/User/UserPlaylist.vue';
 import AlbumCollection from '../../components/Album/AlbumCollection.vue';
 
-import { fetchAllArtists, fetchArtist, updateArtist } from '../../api/Artist';
+import { fetchAllArtists, fetchArtist, updateArtist, updateArtistProfileImage } from '../../api/Artist';
 import { fetchArtistTracks } from '../../api/Track';
-import { fetchUserPlaylists } from '../../api/Playlist';
 import { fetchUserFavouriteAlbums } from '../../api/Album.js'
 import { fetchUserFavouritePlaylists } from '../../api/Playlist.js'
 
 import { getProfileImageUrl } from '../../utils/imageUrl.js';
-
-import Swiper from "swiper";
-import "swiper/swiper-bundle.css";
+import defaultImageUrl from '../../assets/placeholders/image.png';
 
 
 
@@ -95,20 +124,38 @@ const store = useStore();
 
 const artists = ref([]);
 const tracks = ref([]);
+const user = ref(store.getters.getUser);
+const artist = ref({});
 const showEditForm = ref(false);
+const fileInput = ref(null);
+
+const imageUrl = ref(defaultImageUrl);
+const imageFile = ref(null);
+const showImageForm = ref(false);
 const showEditButton = ref(false);
-const user = ref(store.getters.getUser)
+
+const router = useRouter();
 let albums = ref([]);
 let playlists = ref([]);
 let favouriteplaylists = ref([]);
 let favouritealbums = ref([]);
-const loadArtistData = async () => {
+
+const isArtistOwner = computed(() => {
+  return user.id === artists.value?.id;
+});
+
+
+const loadArtistData = async (artistId) => {
   try {
-    user.value = await fetchArtist(user.value.id);
-    updateProfileImageUrl();
+    artist.value = await fetchArtist(artistId);
+    toast.success('Fetched artist');
+    if (artist.value.imageUrl) {
+      imageUrl.value = artist.value.imageUrl;
+    } else {
+      imageUrl.value = defaultImageUrl;
+    }
   } catch (error) {
-    toast.error('Error fetching user');
-    console.log('user id:', user.value.id);
+    toast.error('Error fetching playlist');
   }
 };
 
@@ -145,6 +192,57 @@ const loadfavouritealbum = async (userId) => {
   console.log(albums.value)
 }
 
+const triggerFileInput = () => {
+  fileInput.value.click();
+};
+
+const onImageChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    imageFile.value = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imageUrl.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+    showImageForm.value = true;
+  }
+};
+
+const saveImage = async () => {
+  try {
+    const formData = new FormData();
+    formData.append('image', imageFile.value);
+    console.log(formData)
+    const response = await saveImageToArtist(formData);
+
+    console.log("saveImage", response)
+
+    user.value = response
+    window.localStorage.setItem("user", JSON.stringify(user.value))
+    showImageForm.value = false;
+    toast.success("Images saved successfully")
+  } catch (error) {
+    toast.error("Failed to save the image")
+  }
+};
+
+const saveImageToArtist = async (formData) => {
+  try {
+    // console.log(user.value.id);
+    console.log(formData);
+    return await updateArtistProfileImage(user.value.id, formData);
+  } catch (error) {
+    toast.error('Error saving image to artist:');
+  }
+};
+const cancelImage = () => {
+  imageUrl.value = artist.value.imageUrl ? artist.value.imageUrl : defaultImageUrl;
+  showImageForm.value = false;
+};
+
+
+
 const toggleEditForm = () => {
   showEditForm.value = !showEditForm.value;
 };
@@ -160,13 +258,7 @@ const updateArtistDetails = async (updatedUser) => {
   }
 };
 
-const openFileInput = () => {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-  input.addEventListener('change', handleFileChange);
-  input.click();
-};
+
 
 const handleFileChange = async (event) => {
   const file = event.target.files[0];
@@ -203,8 +295,10 @@ const initSwiper = () => {
     },
   });
 };
+
+
 onMounted(() => {
-  loadArtistData();
+  loadArtistData(user.value.id);
   loadArtistTracks();
   loadAllArtists();
   loadfavouriteplaylist(user.value.id)
@@ -212,3 +306,14 @@ onMounted(() => {
 
 });
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
