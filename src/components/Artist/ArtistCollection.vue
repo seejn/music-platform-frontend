@@ -1,5 +1,5 @@
 <template>
-  <div class="relative overflow-hidden mx-10">
+  <div class="relative overflow-hidden mx-10 ">
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div

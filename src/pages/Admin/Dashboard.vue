@@ -1,7 +1,6 @@
 <template>
   <AdminLayout>
     <template #Main>
-      <button @click="showChart">Click</button>
       <h6 class="text-center text-4xl mx-10 mb-10 text-white">Dashboard</h6>
       <div class="flex justify-between">
 
@@ -146,7 +145,7 @@ const artistPopularityDataForPie = ref({
     {
       label: 'Number of Plays',
       data: total_fav_count.value,
-      backgroundColor: ["#dedad2", "#e4bcad", "#df979e", "#d7658b", "#c80064"],
+      backgroundColor: ["#f9b8ae", "#f69ba6", "#f27e9e", "#ef6295", "#ec458d"],
       borderColor: '#ffffff',
       borderWidth: 1
     }
