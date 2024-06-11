@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <AdminLayout>
     <template #Main>
       <button @click="showChart">Click</button>
       <h6 class="text-center text-4xl mx-10 mb-10 text-white">Dashboard</h6>
@@ -57,7 +57,7 @@
      
       </div>
     </template>
-  </Layout>
+  </AdminLayout>
 </template>
 
 
@@ -78,6 +78,7 @@ import {
 import Layout from '../Layout.vue';
 
 import { Bar, Pie } from 'vue-chartjs'
+import AdminLayout from '../AdminLayout.vue';
 
 
 const dataLoaded = ref(false)
