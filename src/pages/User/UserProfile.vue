@@ -5,7 +5,7 @@
               <UpdateUserProfile :show="showEditForm" :user="user" @close="toggleEditForm"
                   @update="updateUserDetails" />
           </div>
-          <div class="p-6 pt-16 bg-black max-h-full flex-grow relative z-10">
+          <div class="p-6 pt-16 bg-black max-h-full flex-grow relative z-1">
               <div class="flex flex-row">
                   <div class="relative group">
                       <img :src="getProfileImageUrl(user?.image)" alt="Artist Image" 
