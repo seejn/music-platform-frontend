@@ -82,6 +82,18 @@ export const addRemoveTrackFromPlaylist = async (playlistId, playlistData) => {
         throw error;
     }
 }
+export const addTrackFromPlaylist = async (playlistId, playlistData) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/track/add_track_to_playlist/${playlistId}/`;
+    try {
+    console.log("playlistData", playlistData);
+        const response = await axios.patch(url, playlistData);
+        return response.data;
+    } catch (error) {
+        console.error(`Error updating playlist with ID ${playlistId}:`, error);
+        throw error;
+    }
+}
+
 
 export const deletePlaylist = async (playlistId) => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/delete_playlist/${playlistId}/`;

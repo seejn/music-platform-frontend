@@ -112,7 +112,7 @@ import { fetchGenres } from '../../api/Genre';
 import { useStore } from 'vuex';
 import { reportTrack } from '../../api/Reports';
 import { removeAlbumFromFavouriteAlbum, checkFavouriteAlbum } from '../../api/Album';
-import { fetchUserPlaylists, updatePlaylist } from '../../api/Playlist'; 
+import { fetchUserPlaylists, updatePlaylist, addTrackFromPlaylist } from '../../api/Playlist'; 
 import { addRemoveTrackFromPlaylist } from '../../api/Playlist'; 
 
 const store = useStore();
@@ -217,11 +217,11 @@ const deleteTrackData = async (trackId) => {
 
 const reportedTrack = async (trackId) => {
   try {
-    await reportTrack(trackId);
-    fetchAlbumData(albumId.value);
-    toast.success("Track reported successfully!");
-  } catch (error) {
-    toast.error("Error reporting track");
+    const response = await reportTrack(trackId, user.id);
+    console.log(response)
+    toast.success(response.message);
+  }catch(error){
+    toast.error(error.message);
   }
 };
 
@@ -270,7 +270,7 @@ const removeFromFavouriteAlbum = async () => {
 const addTrackToPlaylist = async (playlistId, trackId) => {
   try {
     const playlistData = { track: trackId };
-    await addRemoveTrackFromPlaylist(playlistId, playlistData); 
+    await addTrackFromPlaylist(playlistId, playlistData); 
     toast.success('Track added to playlist successfully');
   } catch (error) {
     toast.error('Error adding track to playlist');

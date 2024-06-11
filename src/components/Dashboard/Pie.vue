@@ -54,7 +54,7 @@ export default {
         {
           label: 'Number of Plays',
           data: [1500, 1200, 1100, 900, 700],
-          backgroundColor: ["#dedad2", "#e4bcad", "#df979e", "#d7658b", "#c80064"],
+          backgroundColor: ["#f9b8ae", "#e4bcad", "#df979e", "#d7658b", "#c80064"],
           borderColor: '#ffffff',
           borderWidth: 1
         }

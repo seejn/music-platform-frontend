@@ -9,13 +9,21 @@
               <div class="swiper-slide " v-for="(tour, index) in artistTours" :key="index">
 
                 <div
-                  class="tour-card  bg-black bg-opacity-80 p-4 mt-5 rounded-lg mb-5 shadow-md  border-2 text-center hover:shadow-xl hover:shadow-red-800 hover:border-red-800 transition-all duration-300 text-white border-red-800">
-                  <h3 class="text-2xl font-bold">{{ tour.title }} Tour</h3>
-                  <h3 class="text-xl semi-bold">{{ tour?.artist?.details?.stagename }}</h3>
-                  <p>Date: {{ tour.date }}</p>
-                  <p>Venue: {{ tour.venue }}</p>
-                  <p>City: {{ tour.location }}</p>
-                  <p>time: {{ tour.time }}</p>
+                  class="tour-card h-56 bg-black bg-opacity-80 p-4 mt-5 rounded-lg mb-5 shadow-md  border-2 text-center hover:shadow-xl hover:shadow-red-800 hover:border-red-800 transition-all duration-300 text-white border-red-800">
+                    
+                    <div class="flex flex-row h-2/5">
+          <div class=" w-24 h-24">
+            <img :src="tour.artist ? imageUrl(tour.artist) : ''" alt="Artist Image" class="rounded-lg border-2 border-white">
+          </div>
+          <div class=" mx-2 flex-grow text-center">
+            <h5 class="text-white text-xl">{{ tour ? tour.title : 'Unknown Title' }}</h5>
+            <h3 class="text-white text-lg font-semibold">{{ tour.artist ? tour.artist.first_name + ' ' + tour.artist.last_name : 'Unknown Artist' }}</h3>
+            <p class="text-white text-lg">Date : {{ tour.date }}</p>
+            <p class="text-white text-lg">Location : {{ tour.location }}</p>
+            <p class="text-white text-lg">Venue : {{ tour.venue }}</p>
+            <p class="text-white text-lg">Time : {{ (tour.time)  }}</p>
+          </div>
+        </div>
                 </div>
               </div>
             </div>
@@ -41,12 +49,12 @@
 
         <section>
           <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Playlists</h2>
-     
-        
-          <span v-if="playlists.length>0">
+
+
+          <span v-if="playlists.length > 0">
             <PlaylistCollection :playlists="playlists" />
 
-            
+
           </span>
           <span v-else>
             <h2 class="text-xl text-center mb-4 text-white mx-10 mt-10">No Playlists Found</h2>
@@ -128,6 +136,9 @@ onMounted(async () => {
 
 
 })
+const imageUrl = (artist) => {
+  return `${import.meta.env.VITE_API_BASE_URL}${artist.image || "/src/assets/pic/ch.jpeg"}`;
+};
 </script>
 <style scoped>
 .glass-effect {
@@ -148,8 +159,7 @@ onMounted(async () => {
 
 .tour-card {
   flex: 0 0 auto;
-  width: 300px;
-  height: 200px;
+  width: 400px;
   margin-right: 30px;
   margin-left: 30px;
 }

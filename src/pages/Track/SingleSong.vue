@@ -12,8 +12,8 @@
               <div class="mt-4 italic flex items-center text-2xl text-white">
                 <p>{{ track?.artist?.first_name }} {{ track?.artist?.last_name }}</p>
               </div>
-              
-             
+
+
             </div>
           </div>
         </div>
@@ -23,7 +23,6 @@
             <table class="min-w-full bg-transparent text-white">
               <thead>
                 <tr>
-                  <th class="py-2 px-4 text-left">...</th>
                   <th class="py-2 px-4 text-left">Title</th>
                   <th class="py-2 px-4 text-left">Release Date</th>
                   <th class="py-2 px-4 text-left">Artist</th>
@@ -38,20 +37,32 @@
                   <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
                   <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
                   <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.artist?.first_name }}</td>
-                
+
                   <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
                   <td class="py-2 px-4 text-left border-b border-red-800 relative">
                     <div class="flex items-center space-x-2">
-                      <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(index)">
-                        <i class="fas fa-ellipsis-v">...</i>
-                      </button>
-                      <div v-if="showTrackOptions[index]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
-                  
-                        <button @click="reportedTrack(track.id)" class="block w-full text-left px-4 py-2">Report</button>
-    
-                        <button class="block w-full text-left px-4 py-2">Playlist</button>
+                      <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(0)">
+                    <i class="fas fa-ellipsis-v">...</i>
+                  </button>
+                  <div v-if="showTrackOptions[0]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
+
+
+                   
+                      <button v-if="!showPlaylistOptions[0]" @click="reportedTrack(track.id)"
+                        class="block w-full text-left px-4 py-2">Report</button>
+                      <div @click="togglePlaylistOptions(0)">
+                        <button v-if="!showPlaylistOptions[0]"
+                          class="block w-full text-left px-4 py-2">Playlist</button>
+                        <div v-if="showPlaylistOptions[0]"
+                          class="bg-black text-white rounded-md shadow-md py-2 w-full mt-2">
+                          <div v-for="playlist in playlists" :key="playlist.id">
+                            <button @click="addTrackToPlaylist(playlist.id, track.id)"
+                              class="block w-full text-left px-4 py-2">{{ playlist.title }}</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
+</div>
                   </td>
                 </tr>
               </tbody>
@@ -65,23 +76,52 @@
 
 <script setup>
 import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
 
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { fetchTracks  } from '../../api/Track';
-import {reportTrack} from '../../api/Reports';
+import { fetchTracks } from '../../api/Track';
+import { reportTrack } from '../../api/Reports';
+import { fetchUserPlaylists, addTrackFromPlaylist } from '../../api/Playlist';
+
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const user = store.getters.getUser
+
 const route = useRoute();
 const trackId = ref(route.params.id);
+const playlists = ref([]);
+
 const track = ref({});
 const lyricsLines = ref([]);
 const showTrackOptions = ref({});
+const showPlaylistOptions = ref({});
+const showEditForm = ref(false);
+const showOptions = ref(false);
 
-const toggleTrackOptions = (index) => {
-  showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
+
+
+
+const reportedTrack = async (trackId) => {
+  try {
+    await reportTrack(trackId);
+    fetchAlbumData(albumId.value);
+    toast.success("Track reported successfully!");
+  } catch (error) {
+    toast.error("Error reporting track");
+  }
 };
-
-
+const addTrackToPlaylist = async (playlistId, trackId) => {
+  try {
+    const playlistData = { track: trackId };
+    await addTrackFromPlaylist(playlistId, playlistData);
+    toast.success('Track added to playlist successfully');
+  } catch (error) {
+    toast.error('Error adding track to playlist');
+    console.error(`Error adding track ${trackId} to playlist ${playlistId}:`, error);
+  }
+};
 const fetchTrackData = async () => {
   try {
     track.value = await fetchTracks(trackId.value);
@@ -95,16 +135,44 @@ const imgUrl = computed(() => {
   return `${import.meta.env.VITE_API_BASE_URL}${track.value.image || ''}`;
 });
 
-const reportedTrack= async(trackId)=>{
-  try {
-    await reportTrack(trackId);
-  }catch(error){
-    toast.error("Error reporting track");
 
+
+const loadUserPlaylists = async () => {
+  try {
+    playlists.value = await fetchUserPlaylists(user.id);
+  } catch (error) {
+    toast.error("Error fetching user playlists");
   }
 };
+const reportedTrack= async(trackId)=>{
+  try {
+    const response = await reportTrack(trackId, user.id);
+    console.log(response)
+    toast.success(response.message);
+    
+  }catch(error){
+    toast.error(error.message);
+  }
+};
+
+const toggleTrackOptions = () => {
+  showTrackOptions.value = { ...showTrackOptions.value, [0]: !showTrackOptions.value[0] };
+  if (!showTrackOptions.value[0]) {
+    showPlaylistOptions.value[0] = false; 
+  }
+};
+
+const togglePlaylistOptions = () => {
+  showPlaylistOptions.value = { ...showPlaylistOptions.value, [0]: !showPlaylistOptions.value[0] };
+  if (showPlaylistOptions.value[0]) {
+    showTrackOptions.value[0] = true; 
+  }
+};
+
 onMounted(() => {
   fetchTrackData();
+  loadUserPlaylists();
+
 
 });
 

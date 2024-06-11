@@ -11,20 +11,16 @@
               <tr>
                 <th class="py-2 px-4  border-b border-red-800">Title</th>
                 <th class="py-2 px-4  border-b border-red-800">Artist</th>
-                <th class="py-2 px-4  border-b border-red-800">Duration</th>
-                <th class="py-2 px-4  border-b border-red-800">Released Date</th>
-                <th class="py-2 px-4  border-b border-red-800">Reports</th>
+                <th class="py-2 px-4  border-b border-red-800">Report Count</th>
                 <th class="py-2 px-4  border-b border-red-800">Is Banned</th>
               </tr>
             </thead>
             <tbody class="text-center">
               <tr v-for="(report, reportIndex) in reportedTracks" :key="report.id">
-                <td class="py-2 px-4 border-b border-red-800">{{ report.track.title }}</td>
-                <td class="py-2 px-4 border-b border-red-800">{{ report.track.artist.first_name }} {{ report.track.artist.last_name }}</td>
-                <td class="py-2 px-4 border-b border-red-800">{{ report.track.duration }}</td>
-                <td class="py-2 px-4 border-b border-red-800">{{ report.track.released_date }}</td>
+                <td class="py-2 px-4 border-b border-red-800">{{ report.track__title }}</td>
+                <td class="py-2 px-4 border-b border-red-800">{{ report.artist_first_name }} {{ report.artist_last_name }}</td>
                 <td class="py-2 px-4 border-b border-red-800">{{ report.report_count }}</td>
-                <td class="py-2 px-4 border-b border-red-800">{{ report.track.is_banned ? 'Yes' : 'No' }}</td>
+                <td class="py-2 px-4 border-b border-red-800">{{ report.is_banned ? 'Yes' : 'No' }}</td>
               </tr>
             </tbody>
           </table>

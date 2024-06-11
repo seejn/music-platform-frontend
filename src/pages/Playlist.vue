@@ -20,12 +20,12 @@
                 {{ playlist?.title }} 
                 <span v-show="isPlaylistOwner">
                 <button @click="toggleEditForm">
-                  <i class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer"></i>
+                  <i class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer w-5 h-5"></i>
                 </button>
               </span>
                 <span v-show="isPlaylistOwner">
-                <button @click="deletePlaylistConfirm">
-                  <i class="fa fa-trash fa-2xs ml-5" aria-hidden="true"></i>
+                <button @click="deletePlaylistConfirm"> 
+                  <i class="fa fa-trash fa-2xs ml-5 w-5 h-5" aria-hidden="true"></i>
                 </button>
               </span>
               </p>
@@ -37,10 +37,10 @@
                   class="bg-white text-black font-bold text-5xl align-text-bottom w-72" />
                 <div class="flex items-center space-x-4 mt-2">
                   <button type="submit" class="rounded-full p-2 bg-black text-white" title="Save Changes">
-                    <i class="far fa-check-circle fa-2xl ml-3 cursor-pointer"></i>
+                    <i class="far fa-check-circle fa-2xl ml-3 cursor-pointer w-5 h-5"></i>
                   </button>
                   <button type="button" @click="cancelEdit" class="rounded-full p-2 bg-black text-white" title="Cancel">
-                    <i class="far fa-times-circle fa-2xl ml-3 cursor-pointer"></i>
+                    <i class="far fa-times-circle fa-2xl ml-3 cursor-pointer w-5 h-5"></i>
                   </button>
                 </div>
               </form>
@@ -53,19 +53,19 @@
             <div class="mt-4">
               <span v-if="!isPlaylistFavourite">
                 <button @click="addToFavourite">
-                  <i class="fa-regular fa-3x fa-heart ml-1"></i>
+                  <i class="fa-regular fa-3x fa-heart ml-1 w-5 h-5"></i>
                 </button>
               </span>
 
               <span v-else>
                 <button @click="removeFromFavouritePlaylist">
-                  <i class="fa-solid fa-3x fa-heart ml-1"></i>
+                  <i class="fa-solid fa-3x fa-heart ml-1 w-6 h-6"></i>
                 </button>
               </span>
               
               <span v-show="isPlaylistOwner">
               <button @click="showPrivacyPopup = true">
-                <i class="fa fa-user fa-3x ml-11" aria-hidden="true"></i>
+                <i class="fa fa-user fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
               </button>
             </span>
             </div>
@@ -91,7 +91,6 @@
               </thead>
               <tbody>
                 <tr v-if="playlist?.track" v-for="track in playlist?.track" :key="track?.id" class="text-center">
-                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.title }}</td>
 
                   <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.title }}</td>
                   <td class="py-2 px-4 border-b border-red-700 text-center">{{ formatDate(track?.released_date) || '' }}

@@ -80,14 +80,26 @@
 <script setup>
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+
 import ArtistTour from '../components/Tour/ArtistTour.vue';
-import { ref, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+
 import { fetchArtist } from '../api/Artist';
 import { fetchArtistTracks } from '../api/Track';
 import { reportTrack } from '../api/Reports';
 import { addRemoveTrackFromPlaylist } from '../api/Playlist';
+import { fetchUserPlaylists } from '../api/Playlist'; 
 
+import { useStore } from 'vuex'
+
+const store = useStore()
+const user = store.getters.getUser
+
+const store = useStore();
+
+const user = store.getters.getUser;
 
 const route = useRoute();
 const artistId = ref(Number(route.params.id));
@@ -96,16 +108,24 @@ const artist = ref({});
 const tracks = ref([]);
 const showTrackOptions = ref({});
 const showPlaylistOptions = ref({});
+
 const toggleTrackOptions = (index) => {
   showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
+  if (!showTrackOptions.value[index]) {
+    showPlaylistOptions.value[index] = false;
+  }
 };
+
 
 const reportedTrack = async (trackId) => {
   try {
-    await reportTrack(trackId);
-  } catch (error) {
-    toast.error("Error reporting track");
-
+    const response = await reportTrack(trackId, user.id);
+    console.log(response)
+    toast.success(response.message);
+    
+  }catch(error){
+    console.log(error)
+    toast.error(error.message);
   }
 };
 
@@ -133,6 +153,14 @@ const fetchTracks = async () => {
 
 fetchTracks();
 
+const loadUserPlaylists = async () => {
+  try {
+    playlists.value = await fetchUserPlaylists(user.id);
+  } catch (error) {
+    toast.error("Error fetching user playlists");
+  }
+};
+
 const imageUrl = computed(() => {
   return `${import.meta.env.VITE_API_BASE_URL}${artist.value.image || ''}`;
 });
@@ -140,13 +168,13 @@ const imageUrl = computed(() => {
 const trackImageUrl = (image) => {
   return `${import.meta.env.VITE_API_BASE_URL}${image || ''}`;
 };
+
 const togglePlaylistOptions = (index) => {
   showPlaylistOptions.value = { ...showPlaylistOptions.value, [index]: !showPlaylistOptions.value[index] };
   if (showPlaylistOptions.value[index]) {
     showTrackOptions.value[index] = true;
   }
 };
-
 const addTrackToPlaylist = async (playlistId, trackId) => {
   try {
     const playlistData = { track: trackId };
@@ -157,6 +185,12 @@ const addTrackToPlaylist = async (playlistId, trackId) => {
     console.error(`Error adding track ${trackId} to playlist ${playlistId}:`, error);
   }
 };
+
+onMounted(() => {
+
+  loadUserPlaylists();
+});
+
 
 </script>
 <style scoped>
