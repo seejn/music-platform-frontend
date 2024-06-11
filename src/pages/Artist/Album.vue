@@ -204,12 +204,11 @@ const deleteTrackData = async (trackId) => {
 };
 const reportedTrack = async (trackId) => {
   try {
-    await reportTrack(trackId);
-    fetchAlbumData(albumId.value); 
-    toast.success("Track reported successfully!");
-  } catch (error) {
-    toast.error("Error reporting track")  ;
-
+    const response = await reportTrack(trackId, user.id);
+    console.log(response)
+    toast.success(response.message);
+  }catch(error){
+    toast.error(error.message);
   }
 };
 const toggleOptions = () => {
