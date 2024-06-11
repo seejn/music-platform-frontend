@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <AdminLayout>
     <template #Main>
       <div class="p-4">
         <h1 class="text-2xl font-bold mb-4 text-white">Artists List</h1>
@@ -34,13 +34,14 @@
         </table>
       </div>
     </template>
-  </Layout>
+  </AdminLayout>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { fetchAllArtists } from '../../api/Artist';
 import { RouterLink } from 'vue-router';
+import AdminLayout from '../AdminLayout.vue';
 
 
 const artists = ref([]);

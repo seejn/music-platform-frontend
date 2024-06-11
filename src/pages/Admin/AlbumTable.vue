@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <AdminLayout>
         <template #Main>
             <div class="p-0 bg-black text-white">
                 <h1 class="text-4xl font-bold mb-8">{{ artistName }}</h1>
@@ -97,7 +97,7 @@
                 </div>
             </div>
         </template>
-    </Layout>
+    </AdminLayout>
     </template>
     
     <script setup>
@@ -108,6 +108,7 @@
     import { fetchArtistTrack } from '../../api/Track';
     import { fetchAllAlbums, deleteAlbum } from '../../api/Album';
     import { fetchGenres } from '../../api/Genre';
+    import AdminLayout from '../AdminLayout.vue';
     
     const store = useStore();
     const artistId = computed(() => store.getters.getUser.id);

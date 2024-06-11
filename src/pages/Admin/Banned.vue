@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <AdminLayout>
       <template #Main>
         <div class="p-0 bg-black text-white ">
   
@@ -39,7 +39,7 @@
           </div>
         </div>
       </template>
-    </Layout>
+    </AdminLayout>
   </template>
   
   <script setup>
@@ -47,6 +47,7 @@
   import 'vue3-toastify/dist/index.css';
   import { ref, onMounted } from 'vue';
   import { getAllBannedTracks, getUnBannedTracksOfArtist } from '../../api/Reports';
+import AdminLayout from '../AdminLayout.vue';
   
   const artistName = ref('');
   const bannedTracks = ref([]);

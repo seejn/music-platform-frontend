@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <AdminLayout>
         <template #Main>
             <section class="py-4">
                 <h2 class="text-2xl font-bold my-4 text-white">Tours by Artists</h2>
@@ -123,7 +123,7 @@
                 </div>
             </div>
         </template>
-    </Layout>
+    </AdminLayout>
 </template>
 
 <script setup>
@@ -132,6 +132,7 @@ import 'vue3-toastify/dist/index.css';
 import { ref, onMounted } from 'vue';
 import { fetchAllTours, createTour, updateTour, deleteTour } from '../../api/Tour';
 import { fetchAllArtists } from '../../api/Artist';
+import AdminLayout from '../AdminLayout.vue';
 
 const tours = ref([]);
 const artists = ref([]);

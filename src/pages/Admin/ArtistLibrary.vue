@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <AdminLayout>
     <template #Main>
       <div class="p-0 bg-black text-white">
         <h1 class="text-4xl font-bold mb-8">{{ artistName }}</h1>
@@ -35,7 +35,7 @@
         </div>
       </div>
     </template>
-  </Layout>
+  </AdminLayout>
 </template>
 
 <script setup>
@@ -44,6 +44,7 @@ import { useRoute } from 'vue-router';
 import { fetchArtistTrack } from '../../api/Track';
 import { fetchArtist } from '../../api/Artist';
 import { getReportedTracksOfArtist } from '../../api/Reports';
+import AdminLayout from '../AdminLayout.vue';
 
 const route = useRoute();
 const artistId = route.params.id;
