@@ -24,9 +24,9 @@ export const fetchArtist = async (artistId) => {
         throw error;
     }
 };
-export const updateArtist = async (artistData) => {
-    console.log("from updated artist: ", artistData.id)
-    const url = `${import.meta.env.VITE_API_BASE_URL}/roles/artist_personal_info/${artistData.id}/`;
+export const updateArtist = async (artistId,artistData) => {
+    console.log("from updated artist: ", artistId)
+    const url = `${import.meta.env.VITE_API_BASE_URL}/roles/artist_personal_info/${artistId}/`;
     console.log("from updated artist: ", url)
 
     // return
@@ -38,3 +38,15 @@ export const updateArtist = async (artistData) => {
         throw error;
     }
 };
+
+export const updateArtistProfileImage = async (artistId, artistData) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/roles/update_artist_profile_image/${artistId}/`;
+
+    try {
+        const response = await axios.put(url, artistData);
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
