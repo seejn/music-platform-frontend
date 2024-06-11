@@ -18,6 +18,9 @@
                     </span>
 
                 </div>
+                <div>
+          <button class="text-white ring-2 ring-red-800 px-5 py-3 rounded-lg hover:bg-red-800 hover:text-white mb-3 ml-10">Export Stats</button>
+        </div>
             </div>
 
             <div class="flex-1 bg-zinc-700 mx-10 my-10 rounded-lg">
