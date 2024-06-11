@@ -336,7 +336,7 @@ const formatDate = (dateString) => {
 };
 
 const triggerFileInput = () => {
-  fileInput.value.click();  // Use fileInput.value instead of $refs.fileInput
+  fileInput.value.click();  
 };
 
 const onImageChange = (event) => {
