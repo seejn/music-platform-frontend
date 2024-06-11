@@ -27,8 +27,24 @@
                         <h2 class="text-3xl font-bold mb-4 text-white mt-10">Playlists</h2>
                         <PlaylistCollection :playlists="playlists" />
                     </section>
-                    <UserPlaylist :playlists="playlists" />
+
+
+
+                    <section>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10"> Favourite Albums</h2>
+            <span v-if="albums?.length > 0">
+              <AlbumCollection :albums="albums" />
+            </span>
+            <span v-else class="font-bold text-xl text-center text-white">
+              <h2>No Albums Available</h2>
+            </span>
+          </section>
                 </div>
+
+
+
+
+
             </div>
         </template>
     </Layout>
@@ -36,6 +52,7 @@
 
 <script setup>
 import UpdateUserProfile from '../Artist/UpdateProfile.vue'
+import AlbumCollection from '../../components/Album/AlbumCollection.vue'
 
 import PlaylistCollection from '../../components/Track/PlaylistCollection.vue'
 import TracksInTable from '../../components/Track/TracksInTable.vue'

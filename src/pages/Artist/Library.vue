@@ -25,26 +25,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                <tr class="last:border-0">
-                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
-                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
-                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
-                  <td class="py-2 px-4 text-left border-b border-red-800 flex space-x-2 relative">
+                            <tr class="last:border-0">
+                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
+                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
+                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
+                <td class="py-2 px-4 text-left border-b border-red-800 relative">
                     <button class="bg-black text-white rounded-md shadow-md text-md" @click="toggleOptions(trackIndex)">
-            <i class="fas fa-ellipsis-v">...</i>
-          </button>
-          <div
-            v-if="showOptions[trackIndex]"
-            class="dropdown-options bg-white text-black rounded-md shadow-md py-2 w-40 z-10"
-          >
-            <button @click="editTrack(track)" class="w-full text-left px-4 py-2">Edit</button>
-            <div v-if="showEditForm">
-              <EditSingleTrack :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
-            </div>
-            <button @click="deleteTrackData(track.id)" class="w-full text-left px-4 py-2">Delete</button>
+                        <i class="fas fa-ellipsis-v">...</i>
+                    </button>
+                     </td>
+                    <div
+                        v-if="showOptions[trackIndex]"
+                        class="dropdown-options absolute bg-white text-black rounded-md shadow-md py-2 w-40 z-10"
+                        :style="{ top: '100%', left: '0', marginTop: '8px' }"
+                    >
+                        <button @click="editTrack(track)" class="w-full text-left px-4 py-2">Edit</button>
+                        <div v-if="showEditForm">
+                            <EditSingleTrack :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
+                        </div>
+                        <button @click="deleteTrackData(track.id)" class="w-full text-left px-4 py-2">Delete</button>
                     </div>
-                  </td>
-                </tr>
+               
+            </tr>
               </tbody>
                     </table>
                 </div>
