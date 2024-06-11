@@ -14,23 +14,23 @@
           />
         </section>
 
-        <div v-if="searchTerm" class="mx-10">
+        <div v-if="searchTerm" class="mx-10 mt-10">
           <section v-if="filteredTracks.length > 0">
             <h2 class="text-3xl font-bold mb-4 text-white">Songs for You</h2>
             <TrackCollection :tracks="filteredTracks" />
           </section>
 
-          <section v-if="filteredArtists.length > 0">
+          <section v-if="filteredArtists.length > 0" class="mt-10">
             <h2 class="text-3xl font-bold mb-4 text-white">Artists</h2>
             <ArtistCollection :artists="filteredArtists" />
           </section>
 
-          <section v-if="filteredAlbums.length > 0">
-            <h2 class="text-3xl font-bold mb-4 text-white">Albums</h2>
+          <section v-if="filteredAlbums.length > 0" class="mt-10">
+            <h2 class="text-3xl font-bold mb-4 text-white" >Albums</h2>
             <AlbumCollection :albums="filteredAlbums" />
           </section>
           
-          <section v-if="filteredPlaylists.length > 0">
+          <section v-if="filteredPlaylists.length > 0" class="mt-10">
             <h2 class="text-3xl font-bold mb-4 text-white">Playlists</h2>
             <PlaylistCollection :playlists="filteredPlaylists" />
           </section>

@@ -111,3 +111,13 @@ onMounted(() => {
 const toggleEditForm = () => {
 };
 </script>
+<style>
+.flex.items-center.relative {
+  position: relative;
+}
+
+button {
+  position: relative;
+  z-index: 20;
+}
+</style>

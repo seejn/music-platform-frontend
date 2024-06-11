@@ -21,6 +21,12 @@ export const adminNavRoutes = [
         component: () => import('./pages/Admin/TourPage.vue')
     },
     {
+        path: '/artist-stats/:id',
+        name: 'ArtistStats',
+        props: true,
+        component: ()=>import('./components/Admin/ArtistStats.vue')
+    },
+    {
         path: '/artist-library/:id',
         name: 'artist-library',
         component: ()=>import('./pages/Admin/ArtistLibrary.vue')
@@ -32,7 +38,7 @@ export const adminNavRoutes = [
     },
     {
         path: '/admin/dashboard/',
-        name: 'Dahboard',
+        name: 'AdminDashboard',
         component: () => import('./pages/Admin/Dashboard.vue')
     },
 ]

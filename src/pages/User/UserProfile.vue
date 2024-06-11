@@ -15,10 +15,14 @@
                 </div>
                 <div class="mt-8 rounded-lg glass-effect">
                     <section>
-                         <h2 class="text-3xl font-bold mb-4 text-white mt-10">Artist</h2>
+                         <h2 class="text-3xl font-bold mb-4 text-white mt-10 ml-5">Artist</h2>
                         <ArtistCollection :artists="artists" />
                     </section>
-                    <TracksInTable :tracks="tracks" />
+                    <section>
+    <div class="scrollable-table-container mt-10">
+      <TracksInTable :tracks="tracks" />
+    </div>
+  </section>
                     <section>
                         <h2 class="text-3xl font-bold mb-4 text-white mt-10">Playlists</h2>
                         <PlaylistCollection :playlists="playlists" />
@@ -115,3 +119,9 @@ onMounted(() => {
     loadUserPlaylists()
 })
 </script>
+<style scoped>
+.scrollable-table-container {
+  max-height: 400px; /* Set the maximum height for the scrollable area */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+</style>

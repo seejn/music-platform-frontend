@@ -17,10 +17,29 @@
   
       <div class="info-card bg-primary-color bg-opacity-75 rounded-lg border-2 border-red-800 hover:bg-red-800 hover:text-white text-white bg-black">
         <h2 class="text-3xl font-bold mb-6 mt-6 text-center">Total Songs</h2>
-        <p class="text-2xl text-center">{{ totalSongs }}</p>
+        <p class="text-2xl text-center">{{ totalTracks }}</p>
       </div>
     </div>
   </template>
+
+<script setup>
+
+const props = defineProps({
+  totalArtists: {
+    type: Number
+  },
+  totalUsers: {
+    type: Number
+  },
+  totalAlbums: {
+    type: Number
+  },
+  totalTracks: {
+    type: Number
+  }
+})
+
+</script>
   
   <style scoped>
   .info-card {

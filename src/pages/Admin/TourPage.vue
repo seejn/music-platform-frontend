@@ -5,7 +5,7 @@
                 <h2 class="text-2xl font-bold my-4 text-white">Tours by Artists</h2>
                 <div class="flex flex-row">
                     <button @click="showAddTour = true"
-                        class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-800 hover:text-white py-3 px-3 rounded-lg flex flex-end block">
+                        class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-800 hover:text-white py-3 px-3 rounded-lg flex-end block">
                         Add Tour
                     </button>
                 </div>
@@ -42,13 +42,13 @@
 </div>
             </section>
 
-            <div v-if="showAddTour" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-                <div class="max-w-md mx-auto bg-black p-5 rounded-md shadow-md text-white">
+            <div v-if="showAddTour" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 ">
+                <div class=" mx-auto bg-black p-5 rounded-md shadow-md text-white border-2 border-red-800 px-10 py-10">
                     <h2 class="text-xl font-semibold mb-4">Enter Event Details</h2>
-                    <form @submit.prevent="tourCreate">
+                    <form @submit.prevent="tourCreate" class="w-[36rem] ">
                         <div class="mb-4 text-white">
                             <label for="artist" class="block">Artist:</label>
-                            <select v-model="tour.artist_id" id="artist" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <select v-model="tour.artist_id" id="artist" class="mt-1 block w-full border-gray-300 py-2 px-4  bg-zinc-700 rounded-md shadow-sm text-white">
                                 <option v-for="artist in artists" :key="artist?.id" :value="artist?.id">
                                     {{ artist?.first_name }} {{ artist?.last_name }}
                                 </option>
@@ -56,64 +56,68 @@
                         </div>
                         <div class="mb-4 text-white">
                             <label for="title" class="block">Name:</label>
-                            <input type="text" v-model="tour.title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <input type="text" v-model="tour.title" id="title" class="mt-1 block w-full border-gray-300 py-2 px-4  h-10 rounded-md shadow-sm bg-zinc-700 text-white">
                         </div>
                         <div class="mb-4 text-white">
                             <label for="date" class="block">Date:</label>
-                            <input type="date" v-model="tour.date" id="date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <input type="date" v-model="tour.date" id="date" class="mt-1 block w-full border-gray-300 py-2 px-4  h-10 rounded-md shadow-sm bg-zinc-700 text-white">
                         </div>
                         <div class="mb-4 text-white">
                             <label for="location" class="block">Location:</label>
-                            <input type="text" v-model="tour.location" id="location" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <input type="text" v-model="tour.location" id="location" class="mt-1 block w-full border-gray-300 h-10 py-2 px-4   rounded-md shadow-sm bg-zinc-700 text-white">
                         </div>
                         <div class="mb-4 text-white">
                             <label for="venue" class="block">Venue:</label>
-                            <input type="text" v-model="tour.venue" id="venue" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <input type="text" v-model="tour.venue" id="venue" class="mt-1 block w-full border-gray-300 rounded-md h-10 py-2 px-4 shadow-sm bg-zinc-700 text-white">
                         </div>
                         <div class="mb-4 text-white">
                             <label for="time" class="block">Time:</label>
-                            <input type="time" v-model="tour.time" id="time" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <input type="time" v-model="tour.time" id="time" class="mt-1 block w-full border-gray-300 rounded-md h-10 py-2 px-4 shadow-sm bg-zinc-700 text-white">
                         </div>
+                        <div class="flex justify-between mt-5">
+
+                        
                         <button type="submit" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded">Submit</button>
                         <button @click="showAddTour = false" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded">
                       Cancel
                         </button>
+                    </div>
                     </form>
                 </div>
             </div>
             
-            <div v-if="showEditTour" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-                <div class="max-w-md mx-auto bg-black p-5 rounded-md shadow-md text-white">
+            <div v-if="showEditTour" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 ">
+                <div class=" mx-auto bg-black p-5 rounded-md shadow-md text-white border-2 border-red-800 px-10 py-10">
                     
                     <h2 class="text-xl font-semibold mb-4">Update Event Details</h2>
-                  
-                    {{ tour }}
 
-                    <form @submit.prevent="updatedTour">
+                    <form @submit.prevent="updatedTour" class="w-[36rem] ">
                         <div class="mb-4 text-white">
                             <label for="title" class="block">Name:</label>
-                            <input type="text" v-model="tour.title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <input type="text" v-model="tour.title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm  py-2 px-4  bg-zinc-700  text-white">
                         </div>
                         <div class="mb-4 text-white">
                             <label for="date" class="block">Date:</label>
-                            <input type="date" v-model="tour.date" id="date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <input type="date" v-model="tour.date" id="date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm  py-2 px-4  bg-zinc-700  text-white">
                         </div>
                         <div class="mb-4 text-white">
                             <label for="location" class="block">Location:</label>
-                            <input type="text" v-model="tour.location" id="location" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <input type="text" v-model="tour.location" id="location" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm  py-2 px-4  bg-zinc-700  text-white">
                         </div>
                         <div class="mb-4 text-white">
                             <label for="venue" class="block">Venue:</label>
-                            <input type="text" v-model="tour.venue" id="venue" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <input type="text" v-model="tour.venue" id="venue" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm  py-2 px-4  bg-zinc-700  text-white">
                         </div>
                         <div class="mb-4 text-white">
                             <label for="time" class="block">Time:</label>
-                            <input type="time" v-model="tour.time" id="time" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-zinc-900 text-white">
+                            <input type="time" v-model="tour.time" id="time" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm  py-2 px-4  bg-zinc-700  text-white">
                         </div>
-                        <button type="submit" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px- rounded">Update</button>
+                        <div class="flex justify-between mt-5">
+                        <button type="submit" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded">Update</button>
                         <button @click="showEditTour = false" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded">
                       Cancel
                         </button>
+                    </div>
 
                     </form>
                 </div>

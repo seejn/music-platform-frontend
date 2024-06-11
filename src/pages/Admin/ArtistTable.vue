@@ -22,6 +22,9 @@
               <td class="py-2 px-4 border-b border-b-red-800">{{ artist.dob }}</td>
               <td class="py-2 px-4 border-b border-b-red-800">{{ artist.gender }}</td>
               <td class="py-2 px-4 border-b border-b-red-800">
+                <RouterLink :to="{ name: 'ArtistStats', params: { id: artist.id } }">
+                  <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">View Stats</button>
+                </RouterLink>
                 <RouterLink :to="{ name: 'artist-library', params: { id: artist.id } }">
                   <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">Library</button>
                 </RouterLink>
@@ -38,6 +41,7 @@
 import { ref, onMounted } from 'vue';
 import { fetchAllArtists } from '../../api/Artist';
 import { RouterLink } from 'vue-router';
+
 
 const artists = ref([]);
 
