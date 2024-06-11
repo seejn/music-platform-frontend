@@ -7,20 +7,6 @@
         </div>
       </div>
       <ul class="absolute right-0 flex space-x-4 p-6">
-        <RouterLink to="/admin/dashboard" class="p-5 font-bold text-lg hover:text-red-800">
-            Dashboard
-          </RouterLink>
-        <RouterLink to="/admin/artists" class="p-5 font-bold text-lg hover:text-orange-800">
-          Artist
-        </RouterLink>
-        <RouterLink to="/admin/all-tours" class="p-5 font-bold text-lg hover:text-orange-800">
-          Tour
-        </RouterLink>
-        <RouterLink to="/admin/user-reports" class="p-5 font-bold text-lg hover:text-orange-800">
-          Report Songs
-                </RouterLink>
-        <RouterLink to="/admin/banned-songs" class="p-5 font-bold text-lg hover:text-orange-800">
-          Banned Songs </RouterLink>
         <div class="relative flex items-center">
 
           <button id="dropdownHoverButton" @click="toggleDropdown"
@@ -29,7 +15,7 @@
           </button>
           <!-- Dropdown menu -->
           <div v-show="isDropdownVisible"
-            class="absolute top-24 right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            class="absolute top-24 right-0 z-10 bg-zinc-700 text-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
               <li>
                 <button @click="handleLogout"

@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <AdminLayout>
     <template #Main>
       <button @click="showChart">Click</button>
       <h6 class="text-center text-4xl mx-10 mb-10 text-white">Dashboard</h6>
@@ -27,7 +27,7 @@
 
           <div class="rounded-lg">
             <div class="justify-center">
-              <div class="card  ml-10 mb-10 w-11/12 my-10 bg-zinc-700 hover:bg-zinc-500">
+              <div class="card  ml-10 w-11/12 my-10 bg-zinc-700 hover:bg-zinc-500">
                 <h2 class="text-3xl font-semibold mb-4 text-center text-white">
                   Artist Popularity
                 </h2>
@@ -39,7 +39,9 @@
               </div>
             </div>
           </div>
-
+          <div>
+          <button class="text-white ring-2 ring-red-800 px-5 py-3 rounded-lg hover:bg-red-800 hover:text-white mb-3 ml-10">Export Stats</button>
+        </div>
         </div>
         <!-- Right Column -->
         <div class="flex-1 mr-10 w-full">
@@ -52,10 +54,13 @@
           />
             <!-- :totalTracksCount="totalTracksCount"  -->
         </div>
+     
       </div>
     </template>
-  </Layout>
+  </AdminLayout>
 </template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import Card from '../../components/Dashboard/Card.vue'
@@ -73,6 +78,7 @@ import {
 import Layout from '../Layout.vue';
 
 import { Bar, Pie } from 'vue-chartjs'
+import AdminLayout from '../AdminLayout.vue';
 
 
 const dataLoaded = ref(false)

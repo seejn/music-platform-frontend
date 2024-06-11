@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <AdminLayout>
     <template #Main>
       <div class="p-0 bg-black text-white">
         <h1 class="text-4xl font-bold mb-8">{{ artistName }}</h1>
@@ -27,7 +27,7 @@
         </div>
       </div>
     </template>
-  </Layout>
+  </AdminLayout>
 </template>
 
 <script setup>
@@ -35,6 +35,7 @@ import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import { ref, onMounted } from 'vue';
 import { getAllReportedTracks } from '../../api/Reports';
+import AdminLayout from '../AdminLayout.vue';
 
 const artistName = ref('');
 const reportedTracks = ref([]);
