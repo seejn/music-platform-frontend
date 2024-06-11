@@ -84,6 +84,11 @@ export const commonRoutes = [
         name: 'SingleArtist',
         component: () => import('./pages/ArtistPage.vue')
     },
+    {
+        path: '/single-user/:id',
+        name: 'SingleUser',
+        component: () => import('./pages/User/UserProfile.vue')
+    },
   
 ]
 
