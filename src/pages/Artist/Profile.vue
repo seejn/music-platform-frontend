@@ -25,7 +25,8 @@
         <div class="mt-8 rounded-lg glass-effect">
           <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10 ">Artist</h2>
-            <span v-if="artists.length === 0">
+            <span v-if="artists?.length > 0">
+              
               <ArtistCollection :artists="artists" />
             </span>
             <span v-else class="font-bold text-xl text-center text-white">
@@ -37,7 +38,7 @@
 
           <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
-            <span v-if="playlists.length > 0">
+            <span v-if="playlists?.length > 0">
               <PlaylistCollection :playlists="playlists" />
             </span>
             <span v-else class="font-bold text-xl text-center text-white">
@@ -47,7 +48,7 @@
 
           <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10"> Favourite Albums</h2>
-            <span v-if="albums.length > 0">
+            <span v-if="albums?.length > 0">
               <AlbumCollection :albums="albums" />
             </span>
             <span v-else class="font-bold text-xl text-center text-white">
