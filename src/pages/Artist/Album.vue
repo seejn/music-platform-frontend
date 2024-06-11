@@ -42,21 +42,21 @@
 
       <section class="py-4">
         <h2 class="text-2xl font-bold my-4 text-white">Tracks in this Album</h2>
-        <table class="min-w-full bg-transparent text-white">
+        <table class="min-w-full bg-transparent text-white text-center">
           <thead>
             <tr>
-              <th class="py-2 px-4 text-left">Title</th>
-              <th class="py-2 px-4 text-left">Release Date</th>
-              <th class="py-2 px-4 text-left">Duration</th>
-              <th class="py-2 px-4 text-left">Actions</th>
+              <th class="py-2 px-4 text-center">Title</th>
+              <th class="py-2 px-4 text-center">Release Date</th>
+              <th class="py-2 px-4 text-center">Duration</th>
+              <th class="py-2 px-4 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(track, index) in tracks" :key="index" class="relative">
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
-              <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
-              <td class="py-2 px-4 text-left border-b border-red-800 relative">
+              <td class="py-2 px-4 text-center border-b border-red-800">{{ track.title }}</td>
+              <td class="py-2 px-4 text-center border-b border-red-800">{{ track.released_date }}</td>
+              <td class="py-2 px-4 text-center border-b border-red-800">{{ track.duration }}</td>
+              <td class="py-2 px-4 text-center border-b border-red-800 relative">
                 <div class="flex items-center space-x-2">
                   <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(index)">
                     <i class="fas fa-ellipsis-v">...</i>
