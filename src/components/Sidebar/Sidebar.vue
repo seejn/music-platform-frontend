@@ -26,12 +26,12 @@
         </li>
 
         <li class="flex flex-col md:flex-col lg:flex-row items-center space-x-6">
-          <button @click="loadUserPlaylists" :class="{ 'ring-2 ring-red-800': showPlaylists }"
-            class="rounded-full border border-gray-700 px-5 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
+          <button @click="loadUserPlaylists" :class="{ 'ring-4 ring-red-800 outline-none': showPlaylists }"
+            class="rounded-full border border-red-800 px-5 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
             Playlist
           </button>
-          <button v-show="role === 2" @click="loadUserAlbums" :class="{ 'ring-2 ring-red-800': !showPlaylists }"
-            class="rounded-full border border-gray-700 px-7 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
+          <button v-show="role === 2" @click="loadUserAlbums" :class="{ 'ring-4 ring-red-800 ': !showPlaylists }"
+            class="rounded-full border border-red-800 px-7 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
             Album
           </button>
         </li>
