@@ -6,7 +6,8 @@
           <div class="flex-grow flex-row bg-black relative">
             <div class="relative mt-20 p-6 w-full bg-black bg-opacity-90 overflow-hidden z-10">
               <div class="flex items-center mb-5">
-                <img :src="imageUrl" alt="Artist Image" class="rounded-full w-60 h-60 mr-4 object-cover border-4 border-red-800">
+                <img :src="imageUrl" alt="Artist Image"
+                  class="rounded-full w-60 h-60 mr-4 object-cover border-4 border-red-800">
                 <div>
                   <p class="text-white text-5xl font-bold mb-3">{{ artist.first_name }} {{ artist.last_name }}</p>
                   <p class="text-white">{{ artist.biography }}</p>
@@ -26,34 +27,47 @@
                   <tbody>
                     <tr v-for="(track, index) in tracks" :key="index" class="text-center">
                       <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
-                        <img class=" object-cover w-16 h-16" :src="trackImageUrl(track.image)" >
+                        <img class=" object-cover w-16 h-16" :src="trackImageUrl(track.image)">
                       </td>
                       <td class="py-2  text-left border-b border-red-800">{{ track.title }}</td>
                       <td class="py-2  text-left border-b border-red-800">{{ track.duration }}</td>
                       <td class="py-2 text-left border-b border-red-800 relative">
-    <div class="flex items-center space-x-2 relative">
-      <button 
-        class="text-white bg-black rounded-md shadow-md text-md -ml-6" 
-        @click="toggleTrackOptions(index)"
-      >
-        <i class="fas fa-ellipsis-v">...</i>
-      </button>
-      <div 
-        v-if="showTrackOptions[index]" 
-        class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8"
-      >
-        <button @click="reportedTrack(track.id)" class="block w-full text-left px-4 py-2">Report</button>
-        <button class="block w-full text-left px-4 py-2">Playlist</button>
-      </div>
-    </div>
-  </td>
+
+                        <div class="flex items-center space-x-2">
+
+                          <button class="text-white bg-black rounded-md shadow-md text-md"
+                            @click="toggleTrackOptions(index)">
+                            <i class="fas fa-ellipsis-v">...</i>
+                          </button>
+
+                          <div v-if="showTrackOptions[index]"
+                            class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
+
+
+                            <button v-if="!showPlaylistOptions[index]" @click="reportedTrack(track.id)"
+                              class="block w-full text-left px-4 py-2">Report</button>
+                            <div @click="togglePlaylistOptions(index)">
+                              <button v-if="!showPlaylistOptions[index]"
+                                class="block w-full text-left px-4 py-2">Playlist</button>
+                              <div v-if="showPlaylistOptions[index]"
+                                class="bg-black text-white rounded-md shadow-md py-2 w-full mt-2">
+                                <div v-for="playlist in playlists" :key="playlist.id">
+                                  <button @click="addTrackToPlaylist(playlist.id, track.id)"
+                                    class="block w-full text-left px-4 py-2">{{ playlist.title }}</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <div  class="bg-opacity-0">
+              <div class="bg-opacity-0">
                 <ArtistTour :artistId="Number(artistId)" />
-         
+
               </div>
             </div>
           </div>
@@ -66,30 +80,40 @@
 <script setup>
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+
 import ArtistTour from '../components/Tour/ArtistTour.vue';
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchArtist } from '../api/Artist';
 import { fetchArtistTracks } from '../api/Track';
-import {reportTrack} from '../api/Reports';
+import { reportTrack } from '../api/Reports';
+import { addRemoveTrackFromPlaylist } from '../api/Playlist';
 
+import { useStore } from 'vuex'
+
+const store = useStore()
+const user = store.getters.getUser
 
 const route = useRoute();
-const artistId = ref(Number(route.params.id)); 
+const artistId = ref(Number(route.params.id));
+const playlists = ref([]);
 const artist = ref({});
 const tracks = ref([]);
 const showTrackOptions = ref({});
-
+const showPlaylistOptions = ref({});
 const toggleTrackOptions = (index) => {
   showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
 };
 
-const reportedTrack= async(trackId)=>{
+const reportedTrack = async (trackId) => {
   try {
-    await reportTrack(trackId);
+    const response = await reportTrack(trackId, user.id);
+    console.log(response)
+    toast.success(response.message);
+    
   }catch(error){
-    toast.error("Error reporting track");
-
+    console.log(error)
+    toast.error(error.message);
   }
 };
 
@@ -124,6 +148,24 @@ const imageUrl = computed(() => {
 const trackImageUrl = (image) => {
   return `${import.meta.env.VITE_API_BASE_URL}${image || ''}`;
 };
+const togglePlaylistOptions = (index) => {
+  showPlaylistOptions.value = { ...showPlaylistOptions.value, [index]: !showPlaylistOptions.value[index] };
+  if (showPlaylistOptions.value[index]) {
+    showTrackOptions.value[index] = true;
+  }
+};
+
+const addTrackToPlaylist = async (playlistId, trackId) => {
+  try {
+    const playlistData = { track: trackId };
+    await addRemoveTrackFromPlaylist(playlistId, playlistData);
+    toast.success('Track added to playlist successfully');
+  } catch (error) {
+    toast.error('Error adding track to playlist');
+    console.error(`Error adding track ${trackId} to playlist ${playlistId}:`, error);
+  }
+};
+
 </script>
 <style scoped>
 .flex.items-center.relative {
