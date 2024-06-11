@@ -5,7 +5,7 @@
         <div class="flex flex-row">
           <div class="relative group">
 
-            <img :src="imageUrl" alt="Playlist Image" class="w-60 h-60 border-4 border-red-800">
+            <img :src="getProfileImageUrl(playlist?.image)" alt="Playlist Image" class="w-60 h-60 border-4 border-red-800">
             <div
               class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
               @click="triggerFileInput">
@@ -17,7 +17,7 @@
           <div class="ml-4 mt-[3vw]">
             <template v-if="!editing">
               <p class="font-bold text-white text-5xl align-text-bottom">
-                {{ playlist.title }} #{{ playlist.id }}
+                {{ playlist?.title }} 
                 <span v-show="isPlaylistOwner">
                 <button @click="toggleEditForm">
                   <i class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer"></i>
@@ -73,8 +73,10 @@
         </div>
       </header>
 
+
       <main class="flex-grow bg-black p-8 flex flex-col space-y-4">
-        <div v-if="playlist.track && playlist.track.length > 0">
+
+        <div v-if="playlist?.track && playlist?.track.length > 0">
           <div class="overflow-y-auto max-h-screen">
             <h2 class="text-2xl font-bold mb-4 text-white text-center">Playlist Tracks</h2>
             <table class="min-w-full bg-black text-white">
@@ -88,11 +90,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-if="playlist.track" v-for="track in playlist.track" :key="track.id" class="text-center">
-                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track.title }}</td>
-                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ formatDate(track.released_date) || '' }}
+                <tr v-if="playlist?.track" v-for="track in playlist?.track" :key="track?.id" class="text-center">
+                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.title }}</td>
+
+                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.title }}</td>
+                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ formatDate(track?.released_date) || '' }}
                   </td>
-                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track.duration }}</td>
+                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.duration }}</td>
                   <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.artist?.first_name }}</td>
                   <td class="py-2 px-4 border-b border-red-700 text-center" v-show="isPlaylistOwner">
                     <button @click="removeTrack(track.id)"
@@ -138,8 +142,8 @@
               <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
               <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
               <div class="flex justify-end space-x-4">
-                <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-black rounded-md">Save</button>
-                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-blood rounded-md">Cancel</button>
+                <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Save</button>
+                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Cancel</button>
               </div>
             </div>
           </div>
@@ -171,6 +175,8 @@ import {
 import { fetchAllTracks } from '../api/Track';
 import defaultImageUrl from '../assets/placeholders/image.png';
 import { createFavouritePlaylist, checkFavouritePlaylist } from '../api/Playlist.js';
+import { getProfileImageUrl } from '../utils/imageUrl.js';
+
 import { useStore } from 'vuex';
 
 const props = defineProps({
@@ -356,8 +362,11 @@ const saveImage = async () => {
   try {
     const formData = new FormData();
     formData.append('image', imageFile.value);
-    await saveImageToPlaylist(formData);
+    const response = await saveImageToPlaylist(formData);
+    
+    console.log("saveImage",response)
 
+    playlist.value = response
     showImageForm.value = false;
     notification.value.message = 'Image saved successfully';
     notification.value.visible = true;
@@ -370,7 +379,7 @@ const saveImage = async () => {
 
 const saveImageToPlaylist = async (formData) => {
   try {
-    await updatePlaylist(playlist.value.id, formData);
+    return await updatePlaylist(playlist.value.id, formData);
   } catch (error) {
     toast.error('Error saving image to playlist:');
     throw new Error('Failed to save image to playlist');

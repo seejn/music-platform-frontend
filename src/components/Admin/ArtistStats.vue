@@ -120,7 +120,7 @@ const albumMaleFemaleRatioData = ref({
       plugins: {
         legend: {
           labels: {
-            color: '#00000'
+            color: '#ffffff'
           }
         },
         tooltip: {
