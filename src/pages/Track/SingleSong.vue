@@ -83,6 +83,12 @@ import { fetchTracks } from '../../api/Track';
 import { reportTrack } from '../../api/Reports';
 import { fetchUserPlaylists, addTrackFromPlaylist } from '../../api/Playlist';
 
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const user = store.getters.getUser
+
 const route = useRoute();
 const trackId = ref(route.params.id);
 const playlists = ref([]);
@@ -136,6 +142,16 @@ const loadUserPlaylists = async () => {
     playlists.value = await fetchUserPlaylists(user.id);
   } catch (error) {
     toast.error("Error fetching user playlists");
+  }
+};
+const reportedTrack= async(trackId)=>{
+  try {
+    const response = await reportTrack(trackId, user.id);
+    console.log(response)
+    toast.success(response.message);
+    
+  }catch(error){
+    toast.error(error.message);
   }
 };
 

@@ -80,6 +80,7 @@
 <script setup>
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+
 import ArtistTour from '../components/Tour/ArtistTour.vue';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -91,6 +92,10 @@ import { reportTrack } from '../api/Reports';
 import { addRemoveTrackFromPlaylist } from '../api/Playlist';
 import { fetchUserPlaylists } from '../api/Playlist'; 
 
+import { useStore } from 'vuex'
+
+const store = useStore()
+const user = store.getters.getUser
 
 const store = useStore();
 
@@ -114,10 +119,13 @@ const toggleTrackOptions = (index) => {
 
 const reportedTrack = async (trackId) => {
   try {
-    await reportTrack(trackId);
-  } catch (error) {
-    toast.error("Error reporting track");
-
+    const response = await reportTrack(trackId, user.id);
+    console.log(response)
+    toast.success(response.message);
+    
+  }catch(error){
+    console.log(error)
+    toast.error(error.message);
   }
 };
 
