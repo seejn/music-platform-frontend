@@ -1,5 +1,5 @@
 <template>
-    <LandingLayout>
+    <AdminLayout>
         <template #Main>
             <h1 class="text-white">Analytics of Artist {{ id }}</h1>
 
@@ -13,7 +13,7 @@
 
 
         </template>
-    </LandingLayout>
+      </AdminLayout>
 </template>
 
 <script setup>
@@ -23,7 +23,7 @@ import { Bar, Pie } from 'vue-chartjs'
 
 import { fetchArtistAlbumFavouriteStates } from '../../api/Dashboard.js'
 
-import LandingLayout from '../../pages/LandingLayout.vue'
+import AdminLayout from '../../pages/AdminLayout.vue';
 
 
 const props = defineProps({
