@@ -27,7 +27,7 @@
 
           <div class="rounded-lg">
             <div class="justify-center">
-              <div class="card  ml-10 mb-10 w-11/12 my-10 bg-zinc-700 hover:bg-zinc-500">
+              <div class="card  ml-10 w-11/12 my-10 bg-zinc-700 hover:bg-zinc-500">
                 <h2 class="text-3xl font-semibold mb-4 text-center text-white">
                   Artist Popularity
                 </h2>
@@ -39,7 +39,9 @@
               </div>
             </div>
           </div>
-
+          <div>
+          <button class="text-white ring-2 ring-red-800 px-5 py-3 rounded-lg hover:bg-red-800 hover:text-white mb-3 ml-10">Export Stats</button>
+        </div>
         </div>
         <!-- Right Column -->
         <div class="flex-1 mr-10 w-full">
@@ -52,10 +54,13 @@
           />
             <!-- :totalTracksCount="totalTracksCount"  -->
         </div>
+     
       </div>
     </template>
   </Layout>
 </template>
+
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import Card from '../../components/Dashboard/Card.vue'
