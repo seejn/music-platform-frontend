@@ -8,7 +8,7 @@
           :key="artist.id"
         >
           <RouterLink :to="`/single-artist/${artist.id}`">
-            <ArtistCard :artist="artist" />
+            <ArtistCard :artist="artist" class="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110"/>
           </RouterLink>
         </div>
       </div>
