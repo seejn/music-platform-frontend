@@ -16,7 +16,6 @@
             </div>
           </div>
         </div>
-        <!-- Right Column -->
         <div class="flex-1 mr-10 w-36">
           <Card />
         </div>
