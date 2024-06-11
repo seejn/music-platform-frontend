@@ -1,6 +1,16 @@
 import axios from './accessTokenAxios'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+export const fetchArtistAlbumFavouriteStates = async (artistId) => {
+    const url = `${API_BASE_URL}/stats/artist/${artistId}/album/`;
+    try {
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 export const fetchAllArtistsSongPlaylistCounts = async () => {
     const url = `${API_BASE_URL}/stats/artists/songs/playlist-counts/`;
@@ -44,6 +54,17 @@ export const fetchTotalArtists = async () => {
 
 export const fetchTotalUsers = async () => {
     const url = `${API_BASE_URL}/stats/users/total/`;
+    try {
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+export const fetchTotalTracks = async () => {
+    const url = `${API_BASE_URL}/stats/tracks/total/`;
     try {
         const response = await axios.get(url);
         return response.data;
