@@ -93,7 +93,6 @@
     </template>
   </Layout>
 </template>
-
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import { useStore } from 'vuex';
@@ -220,6 +219,38 @@ const checkFollowing = async (userId) => {
   }
 }
 
+
+const onImageChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+        imageFile.value = file
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            imageUrl.value = e.target.result
+        }
+        reader.readAsDataURL(file)
+        showImageForm.value = true
+    }
+}
+
+const saveImage = async () => {
+    try {
+        const formData = new FormData()
+        formData.append('image', imageFile.value)
+        const response = await updateUserProfileImage(user.value.id, formData)
+        user.value.image = response.image
+        showImageForm.value = false
+    } catch (error) {
+        console.error("Failed to save the image", error)
+    }
+}
+
+const cancelImage = () => {
+    imageUrl.value = getProfileImageUrl(user.value.image)
+    showImageForm.value = false
+}
+
+
 watch(() => props.id, (newId) => {
   isLoggedInUser.value = loggedInUser.id === parseInt(newId)
   loadUserData(newId);
@@ -227,8 +258,10 @@ watch(() => props.id, (newId) => {
   loadAllArtists();
   loadSharedplaylist(newId);
   checkFollowing(newId)
-})
-
+const triggerFileInput = () => {
+    fileInput.value.click()
+}
+});
 onMounted(() => {
   loadUserData(props.id);
   loadAllTracks();
@@ -236,8 +269,17 @@ onMounted(() => {
   loadSharedplaylist(props.id);
   checkFollowing(props.id)
 });
+
 </script>
 
 <style scoped>
-/* Add your component-specific styles here */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

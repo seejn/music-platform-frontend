@@ -66,7 +66,7 @@
                 </table>
               </div>
               <div class="bg-opacity-0">
-                <ArtistTour :artistId="Number(artistId)" />
+                <ArtistTourCol :tours="tours" />
 
               </div>
             </div>
@@ -81,10 +81,10 @@
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
-import ArtistTour from '../components/Tour/ArtistTour.vue';
+import ArtistTour from '../components/Tour/TourCard.vue';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+
 
 import { fetchArtist } from '../api/Artist';
 import { fetchArtistTracks } from '../api/Track';
@@ -92,9 +92,12 @@ import { reportTrack } from '../api/Reports';
 import { addRemoveTrackFromPlaylist } from '../api/Playlist';
 import { fetchUserPlaylists } from '../api/Playlist'; 
 
+import { useStore } from 'vuex'
+import TourCard from '../components/Tour/TourCard.vue';
+import { fetchArtistTour } from '../api/Tour';
+import ArtistTourCol from '../components/Tour/ArtistTourCol.vue';
 
-const store = useStore()
-const user = store.getters.getUser
+
 
 
 const route = useRoute();
@@ -104,6 +107,7 @@ const artist = ref({});
 const tracks = ref([]);
 const showTrackOptions = ref({});
 const showPlaylistOptions = ref({});
+const tours=ref({})
 
 const toggleTrackOptions = (index) => {
   showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
@@ -143,7 +147,7 @@ const fetchTracks = async () => {
     tracks.value = fetchedArtistTracks;
     console.log("tracks value", tracks.value);
   } catch (error) {
-    toast.error("Error fetching artist tracks");
+    console.log("Error fetching artist tracks");
   }
 };
 
@@ -153,9 +157,19 @@ const loadUserPlaylists = async () => {
   try {
     playlists.value = await fetchUserPlaylists(user.id);
   } catch (error) {
-    toast.error("Error fetching user playlists");
+    console.log("Error fetching user playlists");
   }
 };
+const loadTourData = async () => {
+  try{
+    const loadArtistTour = await fetchArtistTour(artistId.value);
+    tours.value= loadArtistTour;
+    console.log("tour details", tours.value)
+  } catch(error){
+    console.log("Error in fetching tour details");
+  }
+
+}
 
 const imageUrl = computed(() => {
   return `${import.meta.env.VITE_API_BASE_URL}${artist.value.image || ''}`;
@@ -185,6 +199,7 @@ const addTrackToPlaylist = async (playlistId, trackId) => {
 onMounted(() => {
 
   loadUserPlaylists();
+  loadTourData()
 });
 
 
