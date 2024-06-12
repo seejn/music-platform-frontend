@@ -7,20 +7,20 @@
         <div class="mb-12">
           <h2 class="text-2xl font-bold mb-4">All Songs and Reported Songs by the Artist</h2>
           <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
-            <thead class="bg-zinc-800">
+            <thead class="border-b-2 border-red-800">
               <tr>
-                <th class="py-2 px-4 text-left border-b border-red-800">Title</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Duration</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Released Date</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Genre</th>
+                <th class="py-4 px-4 text-center">Title</th>
+                <th class="py-4 px-4 text-center">Duration</th>
+                <th class="py-4 px-4 text-center">Released Date</th>
+                <th class="py-4 px-4 text-center">Genre</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(track, trackIndex) in allTracks" :key="track.id">
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.title }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.duration }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.released_date }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">
+              <tr v-for="(track, trackIndex) in allTracks" :key="track.id" class="hover:bg-zinc-800">
+                <td class="py-4 px-4 text-center ">{{ track?.title }}</td>
+                <td class="py-4 px-4 text-center ">{{ track?.duration }}</td>
+                <td class="py-4 px-4 text-center ">{{ track?.released_date }}</td>
+                <td class="py-4 px-4 text-center ">
                   {{ track?.genre?.name }}
                 </td>
               </tr>
