@@ -226,7 +226,6 @@ const isFavouritePlaylistByUser = async (userId, playlistId) => {
 const fetchPlaylistData = async (playlistId) => {
   try {
     playlist.value = await fetchPlaylist(playlistId);
-    toast.success('Fetched playlist');
     if (playlist.value.imageUrl) {
       imageUrl.value = playlist.value.imageUrl;
     } else {
@@ -244,7 +243,6 @@ const fetchTracks = async () => {
   try {
     const response = await axios.get('http://localhost:8000/track/get_all_tracks/');
     tracks.value = response.data.data || [];
-    toast.success('Fetched tracks successfully');
   } catch (error) {
     toast.error('Error fetching tracks:');
   }

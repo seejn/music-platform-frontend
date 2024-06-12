@@ -29,7 +29,7 @@
               </button>
             </p>
             <div>
-              <h3 class="text-white font-bold text-2xl ml-20">Tour details</h3>
+              
               <ArtistTourCol :tours="tours" class="mt-5 px-6 ml-10 w-full"/>
             </div>
           </div>
