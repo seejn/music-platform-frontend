@@ -90,8 +90,6 @@ import { fetchUserPlaylists } from '../../api/Playlist'
 import { fetchUserFavouriteAlbums } from '../../api/Album.js'
 import { fetchUserFavouritePlaylists } from '../../api/Playlist.js'
 import { updateUser, fetchUser ,updateUserProfileImage} from '../../api/User'
-import { ref, onMounted, computed } from 'vue'
-import { useStore } from 'vuex'
 import { getProfileImageUrl } from '../../utils/imageUrl.js';
 
 import defaultImageUrl from '../../assets/placeholders/image.png';
