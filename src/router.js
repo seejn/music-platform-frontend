@@ -34,8 +34,10 @@ export const artistNavRoutes = [
 
 export const userNavRoutes = [
     {
-        path: '/user/profile',
+        path: '/single-user/:id',
         name: 'Profile',
+        props: true,
+
         component: () => import(`./pages/User/UserProfile.vue`),
         meta: { requiresUser: true }
     },
@@ -95,6 +97,13 @@ export const commonRoutes = [
         meta: { requiresAuth: true } 
     },
     {
+        path: '/single-shareplaylist/:id',
+        name: 'SingleSharePlaylist',
+        props: true,
+        component: () => import('./pages/SharedPlaylist.vue')
+    },
+
+    {
         path: '/single-artist/:id',
         name: 'SingleArtist',
         component: () => import('./pages/ArtistPage.vue'),
@@ -102,8 +111,9 @@ export const commonRoutes = [
     },
     {
         path: '/single-user/:id',
-        name: 'SingleUser',
+        name: 'SingleUser', props: true,
         component: () => import('./pages/User/UserProfile.vue'),
+  
         meta: { requiresAuth: true } 
     },
 ];
@@ -128,6 +138,7 @@ export const sidebarRoutes = [
         }
     }
 ];
+       
 
 export const landingRoute = [
     {
