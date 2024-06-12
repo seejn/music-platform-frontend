@@ -1,5 +1,4 @@
-e
-Copy code
+
 <template>
   <Layout>
     <template #Main>
@@ -7,11 +6,45 @@ Copy code
         <div class="flex flex-row">
           <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg border-4 border-red-800">
           <div class="ml-4 mt-[3vw] relative">
-            <h1 v-if="!editMode" class="text-4xl font-bold">{{ album.title }}</h1>
-            <p class="mt-2 text-lg italic">{{ artist.first_name }} {{ artist.last_name }}</p>
-            <button v-if="isAlbumOwner" @click="toggleEditMode" class="mt-4 px-4 py-2 bg-red-600 hover:bg-red-400 text-white rounded">
+            <!-- <h1 v-if="!editMode" class="text-4xl font-bold">{{ album.title }}</h1> -->
+
+            <!-- <button v-if="isAlbumOwner" @click="toggleEditMode" class="mt-4 px-4 py-2 bg-red-600 hover:bg-red-400 text-white rounded">
               {{ editMode ? 'Cancel' : 'Edit' }}
-            </button>
+            </button> -->
+
+            <template v-if="!editMode">
+              <p class="font-bold text-white text-5xl align-text-bottom">
+                {{ album?.title }}
+
+              <span v-show="isAlbumOwner">
+                <button @click="toggleEditForm">
+                  <i class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer w-5 h-5"></i>
+                </button>
+              </span>
+              <span v-show="isAlbumOwner">
+                <button @click="removeAlbum">
+                  <i class="fa fa-trash fa-2xs ml-5 w-5 h-5" aria-hidden="true"></i>
+                </button>
+              </span>
+              </p>
+              <p class="mt-2 text-lg italic">{{ artist.first_name }} {{ artist.last_name }}</p>
+            </template>
+
+
+            <template v-else>
+              <form @submit.prevent="saveChanges" class="flex items-center">
+                <input id="editTitle" v-model="editedTitle" type="text"
+                  class="bg-white text-black font-bold text-5xl align-text-bottom w-72" />
+                <div class="flex items-center space-x-4 mt-2">
+                  <button type="submit" class="rounded-full p-2 bg-black text-white" title="Save Changes">
+                    <i class="far fa-check-circle fa-2xl ml-3 cursor-pointer w-5 h-5"></i>
+                  </button>
+                  <button type="button" @click="cancelEdit" class="rounded-full p-2 bg-black text-white" title="Cancel">
+                    <i class="far fa-times-circle fa-2xl ml-3 cursor-pointer w-5 h-5"></i>
+                  </button>
+                </div>
+              </form>
+            </template>
 
             <div class="mt-4">
               <span v-if="!isAlbumFavourite">
@@ -27,18 +60,18 @@ Copy code
               </span>
             </div>
 
-            <div class="flex items-center justify-center w-full mt-6">
+            <!-- <div class="flex items-center justify-center w-full mt-6">
               <form v-if="editMode" @submit.prevent="handleAlbumEdit" class="w-full max-w-md bg-black p-6 rounded z-10">
                 <div class="mb-4">
                   <label for="albumTitle" class="block text-white mb-2">Title</label>
                   <input type="text" id="albumTitle" v-model="album.title" @input="clearError('title')"
-                         class="w-full p-2 rounded outline-none bg-gray-700 text-black focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                    class="w-full p-2 rounded outline-none bg-gray-700 text-black focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
                 </div>
                 <button type="submit" class="block w-full px-4 py-2 mt-4 bg-red-600 hover:bg-red-400 text-white">
                   Save
                 </button>
               </form>
-            </div>
+            </div> -->
           </div>
         </div>
       </header>
@@ -61,29 +94,35 @@ Copy code
               <td class="py-3 px-4 text-center">{{ track.duration }}</td>
               <td class="py-3 px-4 text-center relative">
                 <div class="text-center space-x-2">
-                  
+
                   <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(index)">
                     <i class="fas fa-ellipsis-v h-5 ">...</i>
                   </button>
-                  
-                  <div v-if="showTrackOptions[index]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-3">
+
+                  <div v-if="showTrackOptions[index]"
+                    class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-3">
 
                     <div v-show="isAlbumOwner && !showPlaylistOptions[index]">
 
                       <button @click="editTrack(track)" class="block w-full text-left px-4 py-2">Edit</button>
 
                       <div v-if="showEditForm">
-                        
+
                         <EditTracks :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
                       </div>
-                      <button @click="deleteTrackData(track.id)" class="block w-full text-left px-4 py-2">Delete</button>
+                      <button @click="deleteTrackData(track.id)"
+                        class="block w-full text-left px-4 py-2">Delete</button>
                     </div>
-                    <button v-if="!showPlaylistOptions[index]" @click="reportedTrack(track.id)" class="block w-full text-left px-4 py-2">Report</button>
+                    <button v-if="!showPlaylistOptions[index]" @click="reportedTrack(track.id)"
+                      class="block w-full text-left px-4 py-2">Report</button>
                     <div @click="togglePlaylistOptions(index)">
-                      <button v-if="!showPlaylistOptions[index]" class="block w-full text-left px-4 py-2">Playlist</button>
-                      <div v-if="showPlaylistOptions[index]" class="bg-black text-white rounded-md shadow-md py-2 w-full mt-2">
+                      <button v-if="!showPlaylistOptions[index]"
+                        class="block w-full text-left px-4 py-2">Playlist</button>
+                      <div v-if="showPlaylistOptions[index]"
+                        class="bg-black text-white rounded-md shadow-md py-2 w-full mt-2">
                         <div v-for="playlist in playlists" :key="playlist.id">
-                          <button @click="addTrackToPlaylist(playlist.id,track.id)" class="block w-full text-left px-4 py-2">{{ playlist.title }}</button>
+                          <button @click="addTrackToPlaylist(playlist.id, track.id)"
+                            class="block w-full text-left px-4 py-2">{{ playlist.title }}</button>
                         </div>
                       </div>
                     </div>
@@ -111,9 +150,10 @@ import EditTracks from '../Artist/EditTracks.vue';
 import { fetchGenres } from '../../api/Genre';
 import { useStore } from 'vuex';
 import { reportTrack } from '../../api/Reports';
-import { removeAlbumFromFavouriteAlbum, checkFavouriteAlbum } from '../../api/Album';
-import { fetchUserPlaylists, updatePlaylist, addTrackFromPlaylist } from '../../api/Playlist'; 
-import { addRemoveTrackFromPlaylist } from '../../api/Playlist'; 
+import { removeAlbumFromFavouriteAlbum, checkFavouriteAlbum , createAlbum , deleteAlbum} from '../../api/Album';
+import { fetchUserPlaylists, updatePlaylist, addTrackFromPlaylist } from '../../api/Playlist';
+import { addRemoveTrackFromPlaylist } from '../../api/Playlist';
+import router from '../../router';
 
 const store = useStore();
 const props = defineProps({
@@ -137,6 +177,8 @@ const showTrackOptions = ref({});
 const showPlaylistOptions = ref({});
 const editMode = ref(false);
 const isArtist = ref(true);
+const editedTitle = ref('');
+
 
 const isFavouriteAlbumByUser = async (userId, albumId) => {
   try {
@@ -220,7 +262,7 @@ const reportedTrack = async (trackId) => {
     const response = await reportTrack(trackId, user.id);
     console.log(response)
     toast.success(response.message);
-  }catch(error){
+  } catch (error) {
     toast.error(error.message);
   }
 };
@@ -232,14 +274,14 @@ const toggleOptions = () => {
 const toggleTrackOptions = (index) => {
   showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
   if (!showTrackOptions.value[index]) {
-    showPlaylistOptions.value[index] = false; 
+    showPlaylistOptions.value[index] = false;
   }
 };
 
 const togglePlaylistOptions = (index) => {
   showPlaylistOptions.value = { ...showPlaylistOptions.value, [index]: !showPlaylistOptions.value[index] };
   if (showPlaylistOptions.value[index]) {
-    showTrackOptions.value[index] = true; 
+    showTrackOptions.value[index] = true;
   }
 };
 
@@ -270,7 +312,7 @@ const removeFromFavouriteAlbum = async () => {
 const addTrackToPlaylist = async (playlistId, trackId) => {
   try {
     const playlistData = { track: trackId };
-    await addTrackFromPlaylist(playlistId, playlistData); 
+    await addTrackFromPlaylist(playlistId, playlistData);
     toast.success('Track added to playlist successfully');
   } catch (error) {
     toast.error('Error adding track to playlist');
@@ -289,13 +331,64 @@ const handleAlbumEdit = async () => {
   }
 };
 
-const toggleEditMode = () => {
+const toggleEditForm = () => {
   editMode.value = !editMode.value;
   if (editMode.value) {
-    showEditForm.value = true;
+    editedTitle.value = album.value.title;
   }
 };
 
+
+
+
+const saveAlbum = async () => {
+  const formData = new FormData();
+  formData.append('title', album.value.title);
+  formData.append('user', album.value.user.id);
+  if (imageFile.value) {
+    formData.append('image', imageFile.value);
+  }
+
+  try {
+    if (album.value.id) {
+      await updateAlbum(album.value.id, formData);
+    } else {
+      const response = await createAlbum(formData);
+      album.value.id = response.data.id;
+    }
+
+    toast.success('Album saved successfully');
+
+  } catch (error) {
+    toast.error('Error saving album');
+
+};
+};
+
+
+
+const saveChanges = async () => {
+  album.value.title = editedTitle.value;
+  try{
+    await updateAlbum(album.value.id, album.value);
+    toast.success("Title updated successfully");
+  }catch(error){
+    console.log(error);
+    toast.error("Title cannot be updated")
+  }
+  editMode.value = false;
+};
+
+const removeAlbum = async() => {
+  try{
+    await deleteAlbum(album.value.id);
+    router.push('/Home')
+    toast.success("Album deleted successfully")
+  }catch(error){
+    console.log(error);
+    toast.error("Failed to delete album")
+  }
+}
 const clearError = (field) => {
   console.log(`Clearing error for ${field}`);
 };
@@ -310,7 +403,7 @@ onMounted(() => {
   fetchAlbumData(albumId.value);
   loadGenres();
   isFavouriteAlbumByUser(user.id, albumId.value);
- 
+
   loadUserPlaylists();
 });
 
@@ -322,4 +415,3 @@ onMounted(() => {
 <style scoped>
 /* Your component-specific styles */
 </style>
-
