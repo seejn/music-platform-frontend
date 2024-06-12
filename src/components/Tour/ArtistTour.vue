@@ -1,5 +1,5 @@
 <template>
-    <div v-if="tour" class="tour-card bg-black bg-opacity-80 p-4 rounded-lg mb-5 ml-3 shadow-md border-2 text-center hover:shadow-xl hover:shadow-red-800 hover:border-red-800 transition-all duration-300 text-white border-red-800">
+    <div v-if="tour" class="tour-card bg-black w-[20rem] bg-opacity-80 p-4 rounded-lg mb-5 ml-3 shadow-md border-2 text-center hover:shadow-xl hover:shadow-red-800 hover:border-red-800 transition-all duration-300 text-white border-red-800">
       <div class="flex flex-row h-full">
         <div class="mx-2 my-2 flex-grow text-center">
           <h5 class="text-white text-xl">{{ tour.title || 'Unknown Title' }}</h5>
