@@ -113,26 +113,26 @@
 
         <div v-if="playlist?.track && playlist?.track.length > 0">
           <div class="overflow-y-auto max-h-screen">
-            <h2 class="text-2xl font-bold mb-4 text-white text-center">Playlist Tracks</h2>
+            <h2 class="text-2xl font-bold mb-4 text-white text-left">Playlist Tracks</h2>
             <table class="min-w-full bg-black text-white">
-              <thead>
+              <thead class="text-xl">
                 <tr>
-                  <th class="py-2 px-4 border-b-2 border-red-700">Title</th>
-                  <th class="py-2 px-4 border-b-2 border-red-700">Release Date</th>
-                  <th class="py-2 px-4 border-b-2 border-red-700">Duration</th>
-                  <th class="py-2 px-4 border-b-2 border-red-700">Singer</th>
-                  <th class="py-2 px-4 border-b-2 border-red-700" v-show="isPlaylistOwner">Actions</th>
+                  <th class="py-4 px-4 border-b-2 border-red-700">Title</th>
+                  <th class="py-4 px-4 border-b-2 border-red-700">Release Date</th>
+                  <th class="py-4 px-4 border-b-2 border-red-700">Duration</th>
+                  <th class="py-4 px-4 border-b-2 border-red-700">Singer</th>
+                  <th class="py-4 px-4 border-b-2 border-red-700" v-show="isPlaylistOwner">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-if="playlist?.track" v-for="track in playlist?.track" :key="track?.id" class="text-center">
+                <tr v-if="playlist?.track" v-for="track in playlist?.track" :key="track?.id" class="text-center text-lg hover:bg-zinc-800">
 
-                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.title }}</td>
-                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ formatDate(track?.released_date) || '' }}
+                  <td class="py-4 px-4 text-center">{{ track?.title }}</td>
+                  <td class="py-4 px-4 text-center">{{ formatDate(track?.released_date) || '' }}
                   </td>
-                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.duration }}</td>
-                  <td class="py-2 px-4 border-b border-red-700 text-center">{{ track?.artist?.first_name }}</td>
-                  <td class="py-2 px-4 border-b border-red-700 text-center" v-show="isPlaylistOwner">
+                  <td class="py-4 px-4  text-center">{{ track?.duration }}</td>
+                  <td class="py-4 px-4  text-center">{{ track?.artist?.first_name }}</td>
+                  <td class="py-4 px-4  text-center" v-show="isPlaylistOwner">
                     <button @click="removeTrack(track.id)"
                       class="text-white border-2 py-1 px-4 border-blood rounded-full">Remove</button>
                   </td>

@@ -6,7 +6,37 @@ import store from './store/store'
 // logout 
 
 export const adminNavRoutes = [
-  
+    {
+        path: '/admin/artists',
+        name: 'Artists',
+        component: () => import('./pages/Admin/ArtistTable.vue')
+    },
+    {
+        path:'/admin/user-reports',
+        name:'UserReports',
+        // component: () => import('./pages/Admin/UserReports.vue')
+        component: () => import('./pages/Admin/UserReportsV2.vue')
+    },
+    {
+        path: '/admin/all-tours/',
+        name: 'TourPage',
+        component: () => import('./pages/Admin/TourPage.vue')
+    },
+    {
+        path: '/artist-library/:id',
+        name: 'artist-library',
+        component: ()=>import('./pages/Admin/ArtistLibrary.vue')
+    },
+    {
+        path: '/admin/banned-songs/',
+        name: 'BannedSongs',
+        component: ()=>import('./pages/Admin/Banned.vue')
+    },
+    {
+        path: '/admin/dashboard/',
+        name: 'Dahboard',
+        component: () => import('./pages/Admin/Dashboard.vue')
+    },
 ]
 
 export const artistNavRoutes = [
@@ -161,6 +191,12 @@ export const adminSidebarRoutes = [
         name:'UserReports',
         component: () => import('./pages/Admin/UserReports.vue'),
         meta: { requiresAdmin: true }
+    },
+    {
+        path:'/admin/reported-track-details/:id',
+        name:'ReportedTrackDetails',
+        props: true,
+        component: () => import('./pages/Admin/ReportedTrackDetails.vue')
     },
     {
         path: '/admin/all-tours/',

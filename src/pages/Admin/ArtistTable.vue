@@ -14,19 +14,19 @@
             </tr>
           </thead>
           <tbody class="text-white">
-            <tr v-for="artist in artists" :key="artist.id">
-              <td class="py-2 px-4 border-b border-b-red-800 flex justify-center items-center">
-                <img class="mx-6 object-cover rounded-full items-center w-28 h-28" :src="getImageUrl(artist.image)" alt="Artist Image">
+            <tr v-for="artist in artists" :key="artist.id" class="hover:bg-zinc-800">
+              <td class="py-2 px-4 flex justify-center items-center">
+                <img class="mx-6 object-cover rounded-full border-4 border-red-800 items-center w-28 h-28" :src="getImageUrl(artist.image)" alt="Artist Image">
               </td>
-              <td class="py-2 px-4 border-b border-b-red-800">{{ artist.first_name }} {{ artist.last_name }}</td>
-              <td class="py-2 px-4 border-b border-b-red-800">{{ artist.dob }}</td>
-              <td class="py-2 px-4 border-b border-b-red-800">{{ artist.gender }}</td>
-              <td class="py-2 px-4 border-b border-b-red-800">
+              <td class="py-2 px-4 ">{{ artist.first_name }} {{ artist.last_name }}</td>
+              <td class="py-2 px-4 ">{{ artist.dob }}</td>
+              <td class="py-2 px-4 ">{{ artist.gender }}</td>
+              <td class="py-2 px-4 ">
                 <RouterLink :to="{ name: 'ArtistStats', params: { id: artist.id } }">
-                  <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">View Stats</button>
+                  <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded-lg mr-2">View Stats</button>
                 </RouterLink>
                 <RouterLink :to="{ name: 'artist-library', params: { id: artist.id } }">
-                  <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">Library</button>
+                  <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded-lg  mr-2">Library</button>
                 </RouterLink>
               </td>
             </tr>

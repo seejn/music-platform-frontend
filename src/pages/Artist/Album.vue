@@ -60,13 +60,13 @@ Copy code
               <td class="py-3 px-4 text-center">{{ track.released_date }}</td>
               <td class="py-3 px-4 text-center">{{ track.duration }}</td>
               <td class="py-3 px-4 text-center relative">
-                <div class="flex items-center space-x-2">
+                <div class="text-center space-x-2">
                   
                   <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(index)">
                     <i class="fas fa-ellipsis-v h-5 ">...</i>
                   </button>
                   
-                  <div v-if="showTrackOptions[index]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
+                  <div v-if="showTrackOptions[index]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-3">
 
                     <div v-show="isAlbumOwner && !showPlaylistOptions[index]">
 
