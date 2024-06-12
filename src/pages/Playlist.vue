@@ -69,11 +69,11 @@
                 </button>
               </span>
 
-
+              <spam v-if="role==1">
               <button @click="toggleShareBox">
                 <i class="fa fa-share-alt fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
               </button>
-
+            </spam>
 
               <div v-if="showShareBox" class="mt-4">
                 <h2 class="text-2xl font-bold mb-4 text-white">Search Users</h2>
@@ -225,6 +225,7 @@ const props = defineProps({
 
 const store = useStore();
 const user = store.getters.getUser;
+const role = store.getters.getRole;
 const playlistId = ref(props.id);
 const searchTerm = ref('');
 const playlist = ref({});
