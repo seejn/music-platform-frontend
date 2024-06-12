@@ -73,7 +73,7 @@
 import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router' 
 import { sidebarRoutes as routes } from '../../router.js'
-import { createPlaylist, updatePlaylist, fetchUserPlaylists } from '../../api/Playlist.js'; // Adjust the path based on your project structure
+import { createPlaylist, updatePlaylist, fetchUserPlaylists } from '../../api/Playlist.js'; 
 import { fetchArtistAlbums } from '../../api/Album.js';
 import axios from 'axios'
 
@@ -82,7 +82,7 @@ import store from '../../store/store.js'
 const user = store.getters.getUser
 const role = store.getters.getRole
 
-const router = useRouter() // Initialize useRouter
+const router = useRouter() 
 
 const isPlaylistValid = ref(true)
 const isAlbumValid = ref(true)
@@ -111,27 +111,6 @@ const loadUserAlbums = async () => {
 }
 
 
-// const fetchPlaylists = () => {
-//   axios.get('http://localhost:8000/track/get_all_playlist/')
-//     .then(response => {
-//       playlists.value = response.data.data
-//       showPlaylists.value = true
-//     })
-//     .catch(error => {
-//       console.error('Error fetching playlists:', error)
-//     })
-// }
-
-// const fetchAlbums = () => {
-//   axios.get('http://localhost:8000/album/get_all_albums/')
-//     .then(response => {
-//       albums.value = response.data.data
-//       showPlaylists.value = false
-//     })
-//     .catch(error => {
-//       console.error('Error fetching albums:', error)
-//     })
-// }
 
 const handleCreatePlaylist = async () => {
   const playlistName = "My Playlist";  
@@ -140,7 +119,7 @@ const handleCreatePlaylist = async () => {
   }
 
   try {
-    const created = await createPlaylist(newPlaylist); // Creating the playlist
+    const created = await createPlaylist(newPlaylist); 
     createdPlaylist.value = created;
     loadUserPlaylists()
 
@@ -157,10 +136,10 @@ watch(() => createdPlaylist.value, (newVal) => {
 onMounted(() => {
   loadUserAlbums()
   loadUserPlaylists()
-  // fetchPlaylists()
+
 })
 </script>
 
 <style scoped>
-/* Add any scoped styles if necessary */
+
 </style>
