@@ -29,7 +29,7 @@
               </button>
             </p>
             <div>
-              <h3 class="text-white font-bold text-2xl ml-20">Tour details</h3>
+
               <ArtistTourCol :tours="tours" class="mt-5 px-6 ml-10 w-full" />
             </div>
           </div>
@@ -131,7 +131,7 @@ const store = useStore();
 const artists = ref([]);
 const tracks = ref([]);
 const user = ref(store.getters.getUser);
-const artist = ref({});
+const artist = ref();
 const showEditForm = ref(false);
 const fileInput = ref(null);
 const tours = ref([])
@@ -255,7 +255,7 @@ const toggleEditForm = () => {
 
 const updateArtistDetails = async (updatedUser) => {
   try {
-    const response = await updateArtist(updatedUser);
+    const response = await updateArtist(user.value.id,updatedUser);
     user.value = response;
     toast.success("Profile updated successfully")
     console.log(user.value)
