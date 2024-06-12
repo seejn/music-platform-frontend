@@ -8,9 +8,6 @@
         delay: 2500,
         disableOnInteraction: false
       }"
-      :pagination="{
-        clickable: true
-      }"
       :modules="modules"
       class="mySwiper"
     >

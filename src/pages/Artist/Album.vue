@@ -16,13 +16,13 @@ Copy code
             <div class="mt-4">
               <span v-if="!isAlbumFavourite">
                 <button @click="addToFavourite">
-                  <i class="fa-regular fa-3x fa-heart ml-1"></i>
+                  <i class="fa-regular fa-3x fa-heart ml-1 w-8 h-8"></i>
                 </button>
               </span>
 
               <span v-else>
                 <button @click="removeFromFavouriteAlbum">
-                  <i class="fa-solid fa-3x fa-heart ml-1"></i>
+                  <i class="fa-solid fa-3x fa-heart ml-1 w-8 h-8"></i>
                 </button>
               </span>
             </div>
@@ -43,30 +43,30 @@ Copy code
         </div>
       </header>
 
-      <section class="py-4">
-        <h2 class="text-2xl font-bold my-4 text-white">Tracks in this Album</h2>
-        <table class="min-w-full bg-transparent text-white text-center">
+      <section class="">
+        <h2 class="text-2xl font-bold mb-5 text-white">Tracks in this Album</h2>
+        <table class="min-w-full bg-transparent text-white text-center bg-zinc-800 rounded-lg">
           <thead>
-            <tr>
-              <th class="py-2 px-4 text-center">Title</th>
-              <th class="py-2 px-4 text-center">Release Date</th>
-              <th class="py-2 px-4 text-center">Duration</th>
-              <th class="py-2 px-4 text-center">Actions</th>
+            <tr class="border-b-2 border-b-zinc-500">
+              <th class="py-4 px-4 text-xl">Title</th>
+              <th class="py-4 px-4 text-xl">Release Date</th>
+              <th class="py-4 px-4 text-xl">Duration</th>
+              <th class="py-4 px-4 text-xl">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(track, index) in tracks" :key="index" class="relative">
-              <td class="py-2 px-4 text-center border-b border-red-800">{{ track.title }}</td>
-              <td class="py-2 px-4 text-center border-b border-red-800">{{ track.released_date }}</td>
-              <td class="py-2 px-4 text-center border-b border-red-800">{{ track.duration }}</td>
-              <td class="py-2 px-4 text-center border-b border-red-800 relative">
-                <div class="flex items-center space-x-2">
+            <tr v-for="(track, index) in tracks" :key="index" class="relative text-xl">
+              <td class="py-3 px-4 text-center">{{ track.title }}</td>
+              <td class="py-3 px-4 text-center">{{ track.released_date }}</td>
+              <td class="py-3 px-4 text-center">{{ track.duration }}</td>
+              <td class="py-3 px-4 text-center relative">
+                <div class="text-center space-x-2">
                   
                   <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(index)">
-                    <i class="fas fa-ellipsis-v">...</i>
+                    <i class="fas fa-ellipsis-v h-5 ">...</i>
                   </button>
                   
-                  <div v-if="showTrackOptions[index]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
+                  <div v-if="showTrackOptions[index]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-3">
 
                     <div v-show="isAlbumOwner && !showPlaylistOptions[index]">
 

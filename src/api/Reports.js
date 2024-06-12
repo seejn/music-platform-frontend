@@ -75,3 +75,36 @@ export const getUnBannedTracksOfArtist = async (trackId) => {
         throw error;
     }
 };
+
+export const fetchReportedTrackDetails = async (trackId) => {
+    const url = `${API_BASE_URL}/report/get_reported_track/${trackId}/`;
+
+    try{
+        const response = await axios.get(url)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const removeReport = async (reportId) => {
+    const url = `${API_BASE_URL}/report/remove/${reportId}/`;
+
+    try{
+        const response = await axios.delete(url)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const unbanTrack = async(track_id) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/report/unban_track/${track_id}/`
+
+    try{
+        const response = await axios.delete(url)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}

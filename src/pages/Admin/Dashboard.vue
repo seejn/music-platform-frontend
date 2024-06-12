@@ -39,8 +39,8 @@
             </div>
           </div>
           <div>
-          <button class="text-white ring-2 ring-red-800 px-5 py-3 rounded-lg hover:bg-red-800 hover:text-white mb-3 ml-10">Export Stats</button>
-        </div>
+            <button @click="exportCSV" class="text-white ring-2 ring-red-800 px-5 py-3 rounded-lg hover:bg-red-800 hover:text-white mb-3 ml-10">Export Stats</button>
+          </div>
         </div>
         <!-- Right Column -->
         <div class="flex-1 mr-10 w-full">
@@ -49,9 +49,7 @@
             :totalUsers="totalUsers"
             :totalAlbums="totalAlbums"
             :totalTracks="totalTracks"
-
           />
-            <!-- :totalTracksCount="totalTracksCount"  -->
         </div>
      
       </div>
@@ -59,12 +57,9 @@
   </AdminLayout>
 </template>
 
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import Card from '../../components/Dashboard/Card.vue'
-// import Bar from '../../components/Dashboard/Bar.vue'
-// import Pie from '../../components/Dashboard/Pie.vue'
 import { 
   fetchAllArtistsAlbumFavorites,
   fetchArtistAlbumCounts,
@@ -72,10 +67,6 @@ import {
   fetchTotalUsers,
   fetchTotalTracks,
 } from '../../api/Dashboard';
-
-
-import Layout from '../Layout.vue';
-
 import { Bar, Pie } from 'vue-chartjs'
 import AdminLayout from '../AdminLayout.vue';
 
@@ -88,13 +79,9 @@ const totalUsers = ref(0)
 const totalAlbums = ref(0)
 const totalTracks = ref(0)
 
-
-
-
 const showChart = () => {
   dataLoaded.value = !dataLoaded.value
 }
-
 
 const artistPopularityDataForBar = ref({
   labels: artists.value,
@@ -138,7 +125,6 @@ const chartOptionsForBar = ref({
   }
 })
 
-
 const artistPopularityDataForPie = ref({
   labels: artists.value,
   datasets: [
@@ -151,7 +137,6 @@ const artistPopularityDataForPie = ref({
     }
   ]
 })
-
 
 const chartOptionsForPie = ref({
   responsive: true,
@@ -183,8 +168,6 @@ const chartOptionsForPie = ref({
 })
 
 const loadCounts = async () => {
-
-  
   const artists = await fetchTotalArtists()
   const users = await fetchTotalUsers()
   const tracks = await fetchTotalTracks()
@@ -192,11 +175,6 @@ const loadCounts = async () => {
   totalArtists.value = artists.total_artists
   totalUsers.value = users.total_users
   totalTracks.value = tracks.total_tracks
-  console.log(totalTracks.value)
-
-  // totalAlbums = await fetchTotalArtists
-  // totalTracls = await fetchTotalArtists
-
 }
 
 const loadTotalAlbums = async() => {
@@ -210,14 +188,10 @@ const loadTotalAlbums = async() => {
   totalAlbums.value = total
 }
 
-
 const loadAllAlbumFavouriteData = async () => {
   try {
     const response = await fetchAllArtistsAlbumFavorites();
-    console.log(response);
-
     const filteredResponse = response.filter(res => res.total_favourite_count > 0);
-
     const filtered_artists = filteredResponse.map(res => res.artist);
     const filtered_fav_count = filteredResponse.map(res => res.total_favourite_count);
 
@@ -227,12 +201,7 @@ const loadAllAlbumFavouriteData = async () => {
     artistPopularityDataForPie.value.labels = filtered_artists
     artistPopularityDataForPie.value.datasets[0].data = filtered_fav_count
 
-
     dataLoaded.value = true
-
-    console.log(artistPopularityDataForBar.value)
-    console.log(artistPopularityDataForPie.value)
-
   } catch (error) {
     console.error("Error loading album favorite data:", error);
   }
@@ -244,7 +213,22 @@ onMounted(() => {
   loadAllAlbumFavouriteData();
 });
 
+import axios from 'axios';
 
+const exportCSV = () => {
+  axios.get('http://127.0.0.1:8000/stats/export/artists-album-favorites/', {
+    responseType: 'blob'
+  }).then(response => {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'artists_album_favorites.csv');
+    document.body.appendChild(link);
+    link.click();
+  }).catch(error => {
+    console.error('Error exporting CSV:', error);
+  });
+}
 </script>
 
 <style scoped>
