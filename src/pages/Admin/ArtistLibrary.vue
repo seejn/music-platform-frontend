@@ -12,22 +12,16 @@
                 <th class="py-2 px-4 text-left border-b border-red-800">Title</th>
                 <th class="py-2 px-4 text-left border-b border-red-800">Duration</th>
                 <th class="py-2 px-4 text-left border-b border-red-800">Released Date</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Reports</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Is Banned</th>
+                <th class="py-2 px-4 text-left border-b border-red-800">Genre</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(track, trackIndex) in allTracks" :key="track.id">
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
+                <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.title }}</td>
+                <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.duration }}</td>
+                <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.released_date }}</td>
                 <td class="py-2 px-4 text-left border-b border-red-800">
-                  {{ track.report_count || 0 }}
-                </td>
-              
-
-                <td class="py-2 px-4 text-left border-b border-red-800">
-                  {{ track.is_banned ? 'Yes' : 'No' }}
+                  {{ track?.genre?.name }}
                 </td>
               </tr>
             </tbody>
