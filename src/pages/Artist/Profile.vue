@@ -7,7 +7,7 @@
           <UpdateProfile :show="showEditForm" :user="user" @close="toggleEditForm" @update="updateArtistDetails" />
         </div>
 
-        <div class="p-6 pt-16 bg-black max-h-full flex-grow">
+        <div class="p-6 pt-16 bg-black max-h-full flex-grow relative z-1">
           <div class="flex flex-row">
             <div class="relative group">
               <img :src="getProfileImageUrl(user?.image)" alt="Artist Image"
@@ -75,7 +75,7 @@
 
         <transition name="fade">
           <div v-if="showImageForm"
-            class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
+            class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
             <div class="bg-black p-8 rounded-lg">
               <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
               <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
