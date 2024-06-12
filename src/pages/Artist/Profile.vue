@@ -65,8 +65,8 @@
 
           <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
-            <span v-if="playlists.length > 0">
-              <PlaylistCollection :playlists="playlists" />
+            <span v-if="favouriteplaylists.length > 0">
+              <FavouritePlaylistCollection :favouriteplaylists="favouriteplaylists" />
             </span>
             <span v-else class="font-bold text-xl text-center text-white">
               <h2>No Playlists Available</h2>
@@ -123,6 +123,7 @@ import "swiper/swiper-bundle.css";
 import {
   fetchArtistTour
 } from '../../api/Tour.js';
+import FavouritePlaylistCollection from '../../components/Track/FavouritePlaylistCollection.vue';
 
 
 const store = useStore();
@@ -185,8 +186,8 @@ const loadfavouriteplaylist = async (userId) => {
   console.log("Load favourite playlist", userId)
   const response = await fetchUserFavouritePlaylists(userId)
   favouriteplaylists.value = response
-  playlists.value = favouriteplaylists.value.playlist
-  console.log(playlists.value)
+  favouriteplaylists.value = favouriteplaylists.value.playlist
+  console.log(favouriteplaylists.value)
 }
 
 const loadfavouritealbum = async (userId) => {

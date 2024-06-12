@@ -74,7 +74,7 @@
           </section>
 
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10"> Favourite Albums</h2>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Albums</h2>
             <span v-if="albums?.length > 0">
               <AlbumCollection :albums="albums" />
             </span>
@@ -85,8 +85,8 @@
 
           <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
-            <span v-if="playlists.length > 0">
-              <PlaylistCollection :playlists="playlists" />
+            <span v-if="favouriteplaylists?.length > 0">
+              <FavouritePlaylistCollection :favouriteplaylists="favouriteplaylists" />
             </span>
             <span v-else class="font-bold text-xl text-center text-white">
               <h2>No Playlists Available</h2>
@@ -97,15 +97,13 @@
     </template>
   </Layout>
 </template>
+
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
-
-
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
-
 import UpdateUserProfile from '../Artist/UpdateProfile.vue';
 import AlbumCollection from '../../components/Album/AlbumCollection.vue';
 import TracksInTable from '../../components/Track/TracksInTable.vue';
@@ -113,12 +111,11 @@ import PlaylistCollection from '../../components/Track/PlaylistCollection.vue';
 import ArtistCollection from '../../components/Artist/ArtistCollection.vue';
 import { fetchAllArtists } from '../../api/Artist';
 import { fetchAllTracks } from '../../api/Track';
-import { fetchUserPlaylists, fetchSharedPlaylists,fetchUserFavouritePlaylists } from '../../api/Playlist';
-import {fetchUserFavouriteAlbums } from '../../api/Album';
+import { fetchUserPlaylists, fetchSharedPlaylists, fetchUserFavouritePlaylists } from '../../api/Playlist';
+import { fetchUserFavouriteAlbums } from '../../api/Album';
 import { updateUser, fetchUser, followUser, unfollowUser, isFollowing as fetchIsFollowing } from '../../api/User';
 import SharedPlaylistCollection from '../../components/User/SharedPlaylistCollection.vue';
-
-
+import FavouritePlaylistCollection from '../../components/Track/FavouritePlaylistCollection.vue';
 
 const props = defineProps({
   id: {
@@ -143,9 +140,9 @@ const user = ref({});
 const isFollowing = ref(false);
 const sharedplaylists = ref([]);
 
-let playlists = ref([]);
-let favouriteplaylists = ref([]);
-let favouritealbums = ref([]);
+const playlists = ref([]);
+const favouriteplaylists = ref([]);
+const favouritealbums = ref([]);
 
 const loadUserData = async (userId) => {
   try {
@@ -190,9 +187,10 @@ const loadSharedplaylist = async (userId) => {
 const loadfavouriteplaylist = async (userId) => {
   console.log("Load favourite playlist", userId)
   const response = await fetchUserFavouritePlaylists(userId)
+  console.log("favo",response);
   favouriteplaylists.value = response
-  playlists.value = favouriteplaylists.value.playlist
-  console.log(playlists.value)
+  console.log("favo0",favouriteplaylists.value);
+  favouriteplaylists.value = favouriteplaylists.value.playlist
 }
 
 
