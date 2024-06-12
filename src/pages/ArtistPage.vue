@@ -66,7 +66,7 @@
                 </table>
               </div>
               <div class="bg-opacity-0">
-                <ArtistTour :artistId="Number(artistId)" />
+                <ArtistTourCol :tours="tours" />
 
               </div>
             </div>
@@ -81,18 +81,24 @@
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
-import ArtistTour from '../components/Tour/ArtistTour.vue';
-import { ref, computed } from 'vue';
+import ArtistTour from '../components/Tour/TourCard.vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
+
+
 import { fetchArtist } from '../api/Artist';
 import { fetchArtistTracks } from '../api/Track';
 import { reportTrack } from '../api/Reports';
 import { addRemoveTrackFromPlaylist } from '../api/Playlist';
+import { fetchUserPlaylists } from '../api/Playlist'; 
 
 import { useStore } from 'vuex'
+import TourCard from '../components/Tour/TourCard.vue';
+import { fetchArtistTour } from '../api/Tour';
+import ArtistTourCol from '../components/Tour/ArtistTourCol.vue';
 
-const store = useStore()
-const user = store.getters.getUser
+
+
 
 const route = useRoute();
 const artistId = ref(Number(route.params.id));
@@ -101,9 +107,15 @@ const artist = ref({});
 const tracks = ref([]);
 const showTrackOptions = ref({});
 const showPlaylistOptions = ref({});
+const tours=ref({})
+
 const toggleTrackOptions = (index) => {
   showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
+  if (!showTrackOptions.value[index]) {
+    showPlaylistOptions.value[index] = false;
+  }
 };
+
 
 const reportedTrack = async (trackId) => {
   try {
@@ -135,11 +147,29 @@ const fetchTracks = async () => {
     tracks.value = fetchedArtistTracks;
     console.log("tracks value", tracks.value);
   } catch (error) {
-    toast.error("Error fetching artist tracks");
+    console.log("Error fetching artist tracks");
   }
 };
 
 fetchTracks();
+
+const loadUserPlaylists = async () => {
+  try {
+    playlists.value = await fetchUserPlaylists(user.id);
+  } catch (error) {
+    console.log("Error fetching user playlists");
+  }
+};
+const loadTourData = async () => {
+  try{
+    const loadArtistTour = await fetchArtistTour(artistId.value);
+    tours.value= loadArtistTour;
+    console.log("tour details", tours.value)
+  } catch(error){
+    console.log("Error in fetching tour details");
+  }
+
+}
 
 const imageUrl = computed(() => {
   return `${import.meta.env.VITE_API_BASE_URL}${artist.value.image || ''}`;
@@ -148,13 +178,13 @@ const imageUrl = computed(() => {
 const trackImageUrl = (image) => {
   return `${import.meta.env.VITE_API_BASE_URL}${image || ''}`;
 };
+
 const togglePlaylistOptions = (index) => {
   showPlaylistOptions.value = { ...showPlaylistOptions.value, [index]: !showPlaylistOptions.value[index] };
   if (showPlaylistOptions.value[index]) {
     showTrackOptions.value[index] = true;
   }
 };
-
 const addTrackToPlaylist = async (playlistId, trackId) => {
   try {
     const playlistData = { track: trackId };
@@ -165,6 +195,13 @@ const addTrackToPlaylist = async (playlistId, trackId) => {
     console.error(`Error adding track ${trackId} to playlist ${playlistId}:`, error);
   }
 };
+
+onMounted(() => {
+
+  loadUserPlaylists();
+  loadTourData()
+});
+
 
 </script>
 <style scoped>

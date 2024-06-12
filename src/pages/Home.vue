@@ -2,26 +2,8 @@
   <Layout>
     <template #Main>
       <main>
-        <section class="h-2/5 glass-effect">
-          <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-5 ">Tours of your Favorite Artist</h2>
-          <div class="swiper-container overflow-hidden">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide " v-for="(tour, index) in artistTours" :key="index">
-
-                <div
-                  class="tour-card  bg-black bg-opacity-80 p-4 mt-5 rounded-lg mb-5 shadow-md  border-2 text-center hover:shadow-xl hover:shadow-red-800 hover:border-red-800 transition-all duration-300 text-white border-red-800">
-                  <h3 class="text-2xl font-bold">{{ tour.title }} Tour</h3>
-                  <h3 class="text-xl semi-bold">{{ tour?.artist?.details?.stagename }}</h3>
-                  <p>Date: {{ tour.date }}</p>
-                  <p>Venue: {{ tour.venue }}</p>
-                  <p>City: {{ tour.location }}</p>
-                  <p>time: {{ tour.time }}</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-pagination"></div>
-          </div>
+        <section class="h-2/5  mx-10 glass-effect">
+          <TourCollection :tours="tours"/>
         </section>
         <section>
           <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Songs for You</h2>
@@ -41,12 +23,12 @@
 
         <section>
           <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Playlists</h2>
-     
-        
-          <span v-if="playlists.length>0">
+
+
+          <span v-if="playlists.length > 0">
             <PlaylistCollection :playlists="playlists" />
 
-            
+
           </span>
           <span v-else>
             <h2 class="text-xl text-center mb-4 text-white mx-10 mt-10">No Playlists Found</h2>
@@ -59,11 +41,10 @@
 </template>
 
 <script setup>
+import TourCollection from '../components/Tour/TourCollection.vue'
 import { ref, onMounted, computed } from "vue";
 import Swiper from "swiper";
 import "swiper/swiper-bundle.css";
-import Navbar from "../components/Header/Navbar.vue";
-import Sidebar from "../components/Sidebar/Sidebar.vue";
 
 import { fetchAllTracks } from "../api/Track.js";
 import { fetchAllAlbums } from "../api/Album.js";
@@ -82,15 +63,13 @@ import { useStore } from 'vuex';
 import { fetchUserFavouriteAlbums } from '../api/Album.js'
 
 
-// import FavouritePlaylistCollection from '../components/Track/FavouritePlaylistCollection.vue';
-
 const store = useStore()
 const user = store.getters.getUser
 let tracks = ref([]);
 let albums = ref([]);
 let artists = ref([]);
 let playlists = ref([]);
-let artistTours = ref([]);
+let tours = ref([]);
 
 
 
@@ -117,7 +96,7 @@ onMounted(async () => {
     albums.value = await fetchAllAlbums()
     artists.value = await fetchAllArtists();
     playlists.value = await fetchAllPlaylists(user.id)
-    artistTours.value = await fetchFavouriteArtistTour(user.id);
+    tours.value = await fetchFavouriteArtistTour(user.id);
 
   }
   catch (error) {
@@ -128,6 +107,9 @@ onMounted(async () => {
 
 
 })
+const imageUrl = (artist) => {
+  return `${import.meta.env.VITE_API_BASE_URL}${artist.image || "/src/assets/pic/ch.jpeg"}`;
+};
 </script>
 <style scoped>
 .glass-effect {
@@ -148,8 +130,7 @@ onMounted(async () => {
 
 .tour-card {
   flex: 0 0 auto;
-  width: 300px;
-  height: 200px;
+  width: 400px;
   margin-right: 30px;
   margin-left: 30px;
 }

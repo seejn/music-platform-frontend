@@ -72,3 +72,24 @@ export const fetchTotalTracks = async () => {
         throw error;
     }
 }
+
+
+export const fetchArtistTotalTracks = async (artistId) => {
+    const url = `${API_BASE_URL}/stats/artist/${artistId}/track-count/`;
+    try {
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const fetchArtistTotalAlbums = async (artistId) => {
+    const url = `${API_BASE_URL}/stats/artist/${artistId}/album-count/`;
+    try {
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
