@@ -1,13 +1,13 @@
 <template>
-  <Layout>
+<Layout>
     <template #Main>
-      <header class="playlist-header text-white py-10">
+      <header class="playlist-header text-white">
 
         <div class="relative z-10">
           <UpdateProfile :show="showEditForm" :user="user" @close="toggleEditForm" @update="updateArtistDetails" />
         </div>
 
-        <div class="p-6 pt-16 bg-black max-h-full flex-grow">
+        <div class="p-6 pt-16 bg-black max-h-full flex-grow relative z-1">
           <div class="flex flex-row">
             <div class="relative group">
               <img :src="getProfileImageUrl(user?.image)" alt="Artist Image"
@@ -28,7 +28,10 @@
                 Edit
               </button>
             </p>
-
+            <div>
+              <h3 class="text-white font-bold text-2xl ml-20">Tour details</h3>
+              <ArtistTourCol :tours="tours" class="mt-5 px-6 ml-10 w-full"/>
+            </div>
           </div>
 
 
@@ -36,10 +39,10 @@
         </div>
 
       </header>
-      <main class="flex-grow bg-black p-8 flex flex-col space-y-4">
-        <div class="mt-8 rounded-lg glass-effect">
+      <main class="flex-grow bg-black flex flex-col space-y-4">
+        <div class="rounded-lg glass-effect">
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10 ">Artist</h2>
+            <h2 class="text-4xl font-bold mb-4 text-white ml-3">Artist</h2>
             <span v-if="artists?.length > 0">
               <ArtistCollection :artists="artists" />
             </span>
@@ -51,16 +54,6 @@
           <TracksInTable :tracks="tracks" />
 
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
-            <span v-if="playlists?.length > 0">
-              <PlaylistCollection :playlists="playlists" />
-            </span>
-            <span v-else class="font-bold text-xl text-center text-white">
-              <h2>No Playlists Available</h2>
-            </span>
-          </section>
-
-          <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10"> Favourite Albums</h2>
             <span v-if="albums?.length > 0">
               <AlbumCollection :albums="albums" />
@@ -70,10 +63,19 @@
             </span>
           </section>
 
-        </div>
+          <section>
+                      <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
+                      <span v-if="playlists.length > 0">
+                        <PlaylistCollection :playlists="playlists" />
+                      </span>
+                      <span v-else class="font-bold text-xl text-center text-white">
+                        <h2>No Playlists Available</h2>
+                      </span>
+            </section>
+
         <transition name="fade">
           <div v-if="showImageForm"
-            class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
+            class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
             <div class="bg-black p-8 rounded-lg">
               <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
               <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
@@ -84,6 +86,7 @@
             </div>
           </div>
         </transition>
+      </div>
       </main>
     </template>
 
@@ -92,10 +95,9 @@
 
 </template>
 
-
-
-
 <script setup>
+import ArtistTour from '../../components/Tour/ArtistTour.vue'
+import ArtistTourCol from '../../components/Tour/ArtistTourCol.vue'
 import { ref, onMounted, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import { toast } from 'vue3-toastify';
@@ -116,8 +118,11 @@ import { fetchUserFavouritePlaylists } from '../../api/Playlist.js'
 
 import { getProfileImageUrl } from '../../utils/imageUrl.js';
 import defaultImageUrl from '../../assets/placeholders/image.png';
-
-
+import Swiper from "swiper";
+import "swiper/swiper-bundle.css";
+import {
+    fetchArtistTour
+} from '../../api/Tour.js';
 
 
 const store = useStore();
@@ -128,7 +133,7 @@ const user = ref(store.getters.getUser);
 const artist = ref({});
 const showEditForm = ref(false);
 const fileInput = ref(null);
-
+const tours = ref([])
 const imageUrl = ref(defaultImageUrl);
 const imageFile = ref(null);
 const showImageForm = ref(false);
@@ -148,48 +153,47 @@ const isArtistOwner = computed(() => {
 const loadArtistData = async (artistId) => {
   try {
     artist.value = await fetchArtist(artistId);
-    toast.success('Fetched artist');
     if (artist.value.imageUrl) {
       imageUrl.value = artist.value.imageUrl;
     } else {
       imageUrl.value = defaultImageUrl;
     }
   } catch (error) {
-    toast.error('Error fetching playlist');
+    console.log("error in fetching artist")
   }
 };
 
 const loadArtistTracks = async () => {
-  try {
-    tracks.value = await fetchArtistTracks(user.value.id);
-  } catch (error) {
-    toast.error('Error fetching artist data');
-  }
+    try {
+        tracks.value = await fetchArtistTracks(user.value.id);
+    } catch (error) {
+        toast.error('Error fetching artist data');
+    }
 };
 
 const loadAllArtists = async () => {
-  try {
-    artists.value = await fetchAllArtists();
-    console.log('Artists: ', artists.value);
-  } catch (error) {
-    toast.error('Error fetching artist');
-  }
+    try {
+        artists.value = await fetchAllArtists();
+        console.log('Artists: ', artists.value);
+    } catch (error) {
+        toast.error('Error fetching artist');
+    }
 };
 
 const loadfavouriteplaylist = async (userId) => {
-  console.log("Load favourite playlist", userId)
-  const response = await fetchUserFavouritePlaylists(userId)
-  favouriteplaylists.value = response
-  playlists.value = favouriteplaylists.value.playlist
-  console.log(playlists.value)
+    console.log("Load favourite playlist", userId)
+    const response = await fetchUserFavouritePlaylists(userId)
+    favouriteplaylists.value = response
+    playlists.value = favouriteplaylists.value.playlist
+    console.log(playlists.value)
 }
 
 const loadfavouritealbum = async (userId) => {
-  console.log("Load favourite album", userId)
-  const response = await fetchUserFavouriteAlbums(userId)
-  favouritealbums.value = response
-  albums.value = favouritealbums.value.album
-  console.log(albums.value)
+    console.log("Load favourite album", userId)
+    const response = await fetchUserFavouriteAlbums(userId)
+    favouritealbums.value = response
+    albums.value = favouritealbums.value.album
+    console.log(albums.value)
 }
 
 const triggerFileInput = () => {
@@ -244,56 +248,64 @@ const cancelImage = () => {
 
 
 const toggleEditForm = () => {
-  showEditForm.value = !showEditForm.value;
+    showEditForm.value = !showEditForm.value;
 };
 
 const updateArtistDetails = async (updatedUser) => {
-  try {
-    const response = await updateArtist(updatedUser);
-    user.value = response;
-    console.log(user.value)
-    showEditForm.value = false;
-  } catch (error) {
-    toast.error('Error updating user:');
-  }
-};
-
-
-
-const handleFileChange = async (event) => {
-  const file = event.target.files[0];
-  if (file) {
     try {
-      const formData = new FormData();
-      formData.append('id', user.value.id);
-      formData.append('image', file);
-      formData.append('first_name', user.value.first_name);
-      formData.append('last_name', user.value.last_name);
-      formData.append('dob', user.value.dob);
-      formData.append('gender', user.value.gender);
-      const response = await updateArtist(formData);
-
-      user.value = response;
-      updateProfileImageUrl();
+        const response = await updateArtist(updatedUser);
+        user.value = response;
+        toast.success("Profile updated successfully")
+        console.log(user.value)
+        showEditForm.value = false;
     } catch (error) {
-      toast.error('Error uploading image:');
+        toast.error('Error updating user:');
     }
-  }
 };
+const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        try {
+            const formData = new FormData();
+            formData.append('id', user.value.id);
+            formData.append('image', file);
+            formData.append('first_name', user.value.first_name);
+            formData.append('last_name', user.value.last_name);
+            formData.append('dob', user.value.dob);
+            formData.append('gender', user.value.gender);
+            const response = await updateArtist(formData);
+
+            user.value = response;
+            updateProfileImageUrl();
+        } catch (error) {
+            toast.error('Error uploading image:');
+        }
+    }
+};
+
+const loadTourDetail = async () => {
+    try {
+        const loadArtistTour = await fetchArtistTour(user.value.id);
+        tours.value = loadArtistTour;
+        console.log("tour details", tours.value)
+    } catch (error) {
+        console.log("Error in fetching tour details");
+    }
+}
 const initSwiper = () => {
-  new Swiper(".swiper-container", {
-    loop: false,
-    slidesPerView: "4",
-    spaceBetween: 10,
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-  });
+    new Swiper(".swiper-container", {
+        loop: false,
+        slidesPerView: "4",
+        spaceBetween: 10,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
 };
 
 
@@ -303,6 +315,7 @@ onMounted(() => {
   loadAllArtists();
   loadfavouriteplaylist(user.value.id)
   loadfavouritealbum(user.value.id)
+  loadTourDetail()
 
 });
 </script>
