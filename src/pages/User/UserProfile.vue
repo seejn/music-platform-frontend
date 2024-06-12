@@ -155,11 +155,7 @@ const loggedInUser = store.getters.getUser
 const visitedUser = ref(props.id)
 const isLoggedInUser = ref(loggedInUser.id === parseInt(visitedUser.value));
 
-const artists = ref([]);
-const tracks = ref([]);
 const albums = ref([]);
-const showEditForm = ref(false);
-const user = ref({});
 const isFollowing = ref(false);
 const sharedplaylists = ref([]);
 
@@ -199,14 +195,21 @@ const loadAllArtists = async () => {
   }
 }
 
-const loadFavouritePlaylists = async (userId) => {
+
+const loadSharedplaylist = async (userId) => {
+  console.log('Load shared playlist', );
   try {
-    const response = await fetchUserFavouritePlaylists(userId)
-    playlists.value = response.playlist
+    const response = await fetchSharedPlaylists(userId);
+    console.log('Shared playlist response:', response);
+    sharedplaylists.value = response;
+    playlists.value = response.map(item => item.playlist); 
+    console.log('Extracted playlists:', playlists.value);
   } catch (error) {
-    console.error(error)
+    console.error('Error fetching shared playlists', error);
   }
-}
+};
+
+
 
 const loadfavouriteplaylist = async (userId) => {
   console.log("Load favourite playlist", userId)
@@ -227,11 +230,6 @@ const loadfavouritealbum = async (userId) => {
 }
 
 
-const profileImageUrl = computed(() => {
-  return user.value && user.value.image
-    ? `${import.meta.env.VITE_API_BASE_URL}${user.value.image}`
-    : 'default-profile-image-url.jpg'; // Replace with your default image URL
-});
 
 const toggleEditForm = () => {
   showEditForm.value = !showEditForm.value;
@@ -246,6 +244,31 @@ const updateUserDetails = async (updatedUser) => {
     console.error("Error updating user:", error)
   }
 }
+
+
+const toggleFollow = async () => {
+  try {
+    if (isFollowing.value) {
+      await unfollowUser(props.id);
+      isFollowing.value = false;
+    } else {
+      await followUser(props.id);
+      isFollowing.value = true;
+    }
+  } catch (error) {
+    console.error('Error toggling follow status', error);
+  }
+};
+
+const checkFollowing = async (userId) => {
+  try{
+    const response = await fetchIsFollowing(loggedInUser.id, userId)
+    isFollowing.value = response.is_following    
+  }catch(error){
+    console.log(error)
+  }
+}
+
 
 const triggerFileInput = () => {
   fileInput.value.click()
