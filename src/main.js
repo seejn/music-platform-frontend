@@ -9,6 +9,7 @@ import AdminNav from './components/Header/AdminNav.vue'
 import GuestNav from './components/Header/GuestNav.vue'
 import Sidebar from './components/Sidebar/Sidebar.vue' 
 import Footer from './components/Footer/Footer.vue' 
+import AdminSidebar from './components/Sidebar/AdminSidebar.vue'
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 
@@ -52,6 +53,7 @@ createApp(App)
 .component("GuestNav", GuestNav)
 .component("Sidebar", Sidebar)
 .component("Footer", Footer)
+.component("AdminSidebar",AdminSidebar)
 .use(router)
 .use(store)
 .mount('#app')
