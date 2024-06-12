@@ -1,5 +1,5 @@
 <template>
-<Layout>
+  <Layout>
     <template #Main>
       <header class="playlist-header text-white">
 
@@ -7,7 +7,7 @@
           <UpdateProfile :show="showEditForm" :user="user" @close="toggleEditForm" @update="updateArtistDetails" />
         </div>
 
-        <div class="p-6 pt-16 bg-black max-h-full flex-grow">
+        <div class="p-6 pt-16 bg-black max-h-full flex-grow relative z-1">
           <div class="flex flex-row">
             <div class="relative group">
               <img :src="getProfileImageUrl(user?.image)" alt="Artist Image"
@@ -30,7 +30,7 @@
             </p>
             <div>
               <h3 class="text-white font-bold text-2xl ml-20">Tour details</h3>
-              <ArtistTourCol :tours="tours" class="mt-5 px-6 ml-10 w-full"/>
+              <ArtistTourCol :tours="tours" class="mt-5 px-6 ml-10 w-full" />
             </div>
           </div>
 
@@ -64,29 +64,29 @@
           </section>
 
           <section>
-                      <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
-                      <span v-if="playlists.length > 0">
-                        <PlaylistCollection :playlists="playlists" />
-                      </span>
-                      <span v-else class="font-bold text-xl text-center text-white">
-                        <h2>No Playlists Available</h2>
-                      </span>
-            </section>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
+            <span v-if="playlists.length > 0">
+              <PlaylistCollection :playlists="playlists" />
+            </span>
+            <span v-else class="font-bold text-xl text-center text-white">
+              <h2>No Playlists Available</h2>
+            </span>
+          </section>
 
-        <transition name="fade">
-          <div v-if="showImageForm"
-            class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
-            <div class="bg-black p-8 rounded-lg">
-              <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
-              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
-              <div class="flex justify-end space-x-4">
-                <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Save</button>
-                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Cancel</button>
+          <transition name="fade">
+            <div v-if="showImageForm"
+              class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
+              <div class="bg-black p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
+                <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
+                <div class="flex justify-end space-x-4">
+                  <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Save</button>
+                  <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Cancel</button>
+                </div>
               </div>
             </div>
-          </div>
-        </transition>
-      </div>
+          </transition>
+        </div>
       </main>
     </template>
 
@@ -121,7 +121,7 @@ import defaultImageUrl from '../../assets/placeholders/image.png';
 import Swiper from "swiper";
 import "swiper/swiper-bundle.css";
 import {
-    fetchArtistTour
+  fetchArtistTour
 } from '../../api/Tour.js';
 
 
@@ -164,36 +164,37 @@ const loadArtistData = async (artistId) => {
 };
 
 const loadArtistTracks = async () => {
-    try {
-        tracks.value = await fetchArtistTracks(user.value.id);
-    } catch (error) {
-        toast.error('Error fetching artist data');
-    }
+  try {
+    tracks.value = await fetchArtistTracks(user.value.id);
+  } catch (error) {
+    toast.error('Error fetching artist data');
+  }
 };
 
 const loadAllArtists = async () => {
-    try {
-        artists.value = await fetchAllArtists();
-        console.log('Artists: ', artists.value);
-    } catch (error) {
-        toast.error('Error fetching artist');
-    }
+  try {
+    artists.value = await fetchAllArtists();
+    console.log('Artists: ', artists.value);
+  } catch (error) {
+    toast.error('Error fetching artist');
+  }
 };
 
 const loadfavouriteplaylist = async (userId) => {
-    console.log("Load favourite playlist", userId)
-    const response = await fetchUserFavouritePlaylists(userId)
-    favouriteplaylists.value = response
-    playlists.value = favouriteplaylists.value.playlist
-    console.log(playlists.value)
+  
+  console.log("Load favourite playlist", userId)
+  const response = await fetchUserFavouritePlaylists(userId)
+  favouriteplaylists.value = response
+  playlists.value = favouriteplaylists.value.playlist
+  console.log(playlists.value)
 }
 
 const loadfavouritealbum = async (userId) => {
-    console.log("Load favourite album", userId)
-    const response = await fetchUserFavouriteAlbums(userId)
-    favouritealbums.value = response
-    albums.value = favouritealbums.value.album
-    console.log(albums.value)
+  console.log("Load favourite album", userId)
+  const response = await fetchUserFavouriteAlbums(userId)
+  favouritealbums.value = response
+  albums.value = favouritealbums.value.album
+  console.log(albums.value)
 }
 
 const triggerFileInput = () => {
@@ -248,64 +249,64 @@ const cancelImage = () => {
 
 
 const toggleEditForm = () => {
-    showEditForm.value = !showEditForm.value;
+  showEditForm.value = !showEditForm.value;
 };
 
 const updateArtistDetails = async (updatedUser) => {
-    try {
-        const response = await updateArtist(updatedUser);
-        user.value = response;
-        toast.success("Profile updated successfully")
-        console.log(user.value)
-        showEditForm.value = false;
-    } catch (error) {
-        toast.error('Error updating user:');
-    }
+  try {
+    const response = await updateArtist(updatedUser);
+    user.value = response;
+    toast.success("Profile updated successfully")
+    console.log(user.value)
+    showEditForm.value = false;
+  } catch (error) {
+    toast.error('Error updating user:');
+  }
 };
 const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        try {
-            const formData = new FormData();
-            formData.append('id', user.value.id);
-            formData.append('image', file);
-            formData.append('first_name', user.value.first_name);
-            formData.append('last_name', user.value.last_name);
-            formData.append('dob', user.value.dob);
-            formData.append('gender', user.value.gender);
-            const response = await updateArtist(formData);
+  const file = event.target.files[0];
+  if (file) {
+    try {
+      const formData = new FormData();
+      formData.append('id', user.value.id);
+      formData.append('image', file);
+      formData.append('first_name', user.value.first_name);
+      formData.append('last_name', user.value.last_name);
+      formData.append('dob', user.value.dob);
+      formData.append('gender', user.value.gender);
+      const response = await updateArtist(formData);
 
-            user.value = response;
-            updateProfileImageUrl();
-        } catch (error) {
-            toast.error('Error uploading image:');
-        }
+      user.value = response;
+      updateProfileImageUrl();
+    } catch (error) {
+      toast.error('Error uploading image:');
     }
+  }
 };
 
 const loadTourDetail = async () => {
-    try {
-        const loadArtistTour = await fetchArtistTour(user.value.id);
-        tours.value = loadArtistTour;
-        console.log("tour details", tours.value)
-    } catch (error) {
-        console.log("Error in fetching tour details");
-    }
+  try {
+    const loadArtistTour = await fetchArtistTour(user.value.id);
+    tours.value = loadArtistTour;
+    console.log("tour details", tours.value)
+  } catch (error) {
+    console.log("Error in fetching tour details");
+  }
 }
 const initSwiper = () => {
-    new Swiper(".swiper-container", {
-        loop: false,
-        slidesPerView: "4",
-        spaceBetween: 10,
-        autoplay: {
-            delay: 3000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-    });
+  new Swiper(".swiper-container", {
+    loop: false,
+    slidesPerView: "4",
+    spaceBetween: 10,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+  });
 };
 
 
