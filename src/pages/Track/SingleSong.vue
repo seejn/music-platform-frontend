@@ -71,6 +71,12 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchTracks  } from '../../api/Track';
 import {reportTrack} from '../../api/Reports';
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const user = store.getters.getUser
+
 const route = useRoute();
 const trackId = ref(route.params.id);
 const track = ref({});
@@ -97,10 +103,12 @@ const imgUrl = computed(() => {
 
 const reportedTrack= async(trackId)=>{
   try {
-    await reportTrack(trackId);
+    const response = await reportTrack(trackId, user.id);
+    console.log(response)
+    toast.success(response.message);
+    
   }catch(error){
-    toast.error("Error reporting track");
-
+    toast.error(error.message);
   }
 };
 onMounted(() => {
@@ -111,3 +119,13 @@ onMounted(() => {
 const toggleEditForm = () => {
 };
 </script>
+<style>
+.flex.items-center.relative {
+  position: relative;
+}
+
+button {
+  position: relative;
+  z-index: 20;
+}
+</style>

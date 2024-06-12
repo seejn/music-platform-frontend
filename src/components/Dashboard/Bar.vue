@@ -3,7 +3,7 @@
         <div>
           <div class="rounded-xl">  
             <div class="justify-around">
-              <div class="card w-11/12 ml-10 mb-8 bg-zinc-600">
+              <div class="card w-11/12 ml-10 mb-8 bg-zinc-600 hover:bg-zinc-500">
                 <h2 class="text-3xl font-semibold mb-4 text-center text-white">Male-Female Ratio per Album</h2>
                 <div class="chart-container">
                   <Bar :data="albumMaleFemaleRatioData" :options="chartOptions" />
@@ -15,10 +15,27 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue'
+  import { onMounted, ref } from 'vue'
   import { Bar } from 'vue-chartjs'
   
- 
+import { fetchAllArtistsAlbumFavorites } from '../../api/Dashboard';
+  
+  const bargraphdata=ref([]);
+  const loadAllAlbumFavouriteData=async()=>{
+    const response= await fetchAllArtistsAlbumFavorites();
+    console.log(response);
+    const label=response.map((res)=>res.albums.title  )
+    console.log(label);
+
+
+  }
+  onMounted(()=>{
+
+    loadAllAlbumFavouriteData();
+  })
+  
+
+
   const albumMaleFemaleRatioData = ref({
     labels: ['Album One', 'Album Two', 'Album Three', 'Album Four', 'Album Five'],
     datasets: [

@@ -26,12 +26,12 @@
         </li>
 
         <li class="flex flex-col md:flex-col lg:flex-row items-center space-x-6">
-          <button @click="loadUserPlaylists" :class="{ 'ring-2 ring-red-800': showPlaylists }"
-            class="rounded-full border border-gray-700 px-5 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
+          <button @click="loadUserPlaylists" :class="{ 'ring-4 ring-red-800 outline-none': showPlaylists }"
+            class="rounded-full border border-red-800 px-5 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
             Playlist
           </button>
-          <button v-show="role === 2" @click="loadUserAlbums" :class="{ 'ring-2 ring-red-800': !showPlaylists }"
-            class="rounded-full border border-gray-700 px-7 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
+          <button v-show="role === 2" @click="loadUserAlbums" :class="{ 'ring-4 ring-red-800 ': !showPlaylists }"
+            class="rounded-full border border-red-800 px-7 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
             Album
           </button>
         </li>
@@ -44,7 +44,7 @@
             <li v-for="playlist in playlists" :key="playlist.id">
               <router-link :to="{ name: 'SinglePlaylist', params: { id: playlist.id } }"
                 class="flex items-center text-lg leading-loose font-semibold hover:underline">
-                <img :src="playlist.image" alt="Playlist" class="w-8 h-8 mr-3 rounded-full" />{{ playlist.title }} #{{ playlist.id }}
+              {{ playlist.title }} 
               </router-link>
             </li>
           </template>
@@ -58,7 +58,7 @@
             <li v-for="album in albums" :key="album.id">
               <router-link :to="{ name: 'SingleAlbum', params: { id: album.id } }"
                 class="flex items-center text-lg leading-loose font-semibold hover:underline">
-                <img :src="album.image" alt="Album" class="w-8 h-8 mr-3 rounded-full" />{{ album.title }}
+              {{ album.title }}
               </router-link>
             </li>
           </template>

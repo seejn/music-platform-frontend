@@ -1,16 +1,16 @@
 <template>
-<div class="rounded-lg">
-<div class="justify-center">
-<div class="card  ml-10 mb-10 w-11/12 my-10 bg-zinc-700">
-  <h2 class="text-3xl font-semibold mb-4 text-center text-white">
-    Genre Distribution
-  </h2>
-  <div class="chart-container">
-    <Pie :data="genreDistributionData" :options="chartOptions" />
+  <div class="rounded-lg">
+    <div class="justify-center">
+      <div class="card  ml-10 mb-10 w-11/12 my-10 bg-zinc-700 hover:bg-zinc-500">
+        <h2 class="text-3xl font-semibold mb-4 text-center text-white">
+          Genre Distribution
+        </h2>
+        <div class="chart-container">
+          <Pie :data="genreDistributionData" :options="chartOptions" />
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-</div>
-</div>
 </template>
 
 <script>
@@ -54,7 +54,7 @@ export default {
         {
           label: 'Number of Plays',
           data: [1500, 1200, 1100, 900, 700],
-          backgroundColor: ["#dedad2", "#e4bcad", "#df979e", "#d7658b", "#c80064"  ],
+          backgroundColor: ["#dedad2", "#e4bcad", "#df979e", "#d7658b", "#c80064"],
           borderColor: '#ffffff',
           borderWidth: 1
         }
@@ -67,7 +67,7 @@ export default {
         {
           label: 'Genre Distribution',
           data: [12, 19, 3, 5, 2],
-          backgroundColor: [ "#dedad2", "#e4bcad", "#df979e", "#d7658b", "#c80064"],
+          backgroundColor: ["#dedad2", "#e4bcad", "#df979e", "#d7658b", "#c80064"],
           borderColor: '#000000',
           borderWidth: 1
         }
@@ -93,7 +93,7 @@ export default {
       plugins: {
         legend: {
           labels: {
-            color: '#fffff'
+            color: '#00000'
           }
         },
         tooltip: {

@@ -16,6 +16,33 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import router from './router.js'
 import store from './store/store.js'
 
+
+import {
+    Chart as ChartJS,
+    Title,
+    Tooltip,
+    Legend,
+    BarElement,
+    CategoryScale,
+    LinearScale,
+    ArcElement,
+    PointElement,
+    LineElement
+  } from 'chart.js'
+  
+  ChartJS.register(
+    Title,
+    Tooltip,
+    Legend,
+    BarElement,
+    CategoryScale,
+    LinearScale,
+    ArcElement,
+    PointElement,
+    LineElement
+  )
+
+
 createApp(App)
 .component("Layout", Layout)
 .component("Navbar", Navbar)

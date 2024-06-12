@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <AdminLayout>
     <template #Main>
       <div class="p-0 bg-black text-white">
         <h1 class="text-4xl font-bold mb-8">{{ artistName }}</h1>
@@ -9,29 +9,42 @@
           <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
             <thead class="bg-zinc-800">
               <tr>
-                <th class="py-2 px-4 text-left border-b border-red-800">Title</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Artist</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Duration</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Released Date</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Reports</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Is Banned</th>
+                <th class="py-2 px-4  border-b border-red-800">Title</th>
+                <th class="py-2 px-4  border-b border-red-800">Artist</th>
+                <th class="py-2 px-4  border-b border-red-800">Report Count</th>
+                <th class="py-2 px-4  border-b border-red-800">Is Banned</th>
+                <th class="py-2 px-4  border-b border-red-800">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center">
+              <tr v-if="reportedTracks?.length <= 0">
+                <td
+                  colspan="5"
+                  class="py-2 px-4 text-left border-b border-red-800 text-center"
+                >
+                  No reported tracks
+                </td>
+              </tr>
               <tr v-for="(report, reportIndex) in reportedTracks" :key="report.id">
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ report.track.title }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ report.track.artist.first_name }} {{ report.track.artist.last_name }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ report.track.duration }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ report.track.released_date }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ report.report_count }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ report.track.is_banned ? 'Yes' : 'No' }}</td>
+                <td class="py-2 px-4 border-b border-red-800">{{ report.track__title }}</td>
+                <td class="py-2 px-4 border-b border-red-800">{{ report.artist_first_name }} {{ report.artist_last_name
+                  }}</td>
+                <td class="py-2 px-4 border-b border-red-800">{{ report.report_count }}</td>
+                <td class="py-2 px-4 border-b border-red-800">{{ report.is_banned ? 'Yes' : 'No' }}</td>
+                <td class="py-2 px-4 border-b border-red-800">
+                  <RouterLink :to="{ name: 'ReportedTrackDetails', params: { id: report.track__id } }">
+                    <button
+                      class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">View
+                      Details</button>
+                  </RouterLink>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </template>
-  </Layout>
+  </AdminLayout>
 </template>
 
 <script setup>
@@ -39,6 +52,7 @@ import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import { ref, onMounted } from 'vue';
 import { getAllReportedTracks } from '../../api/Reports';
+import AdminLayout from '../AdminLayout.vue';
 
 const artistName = ref('');
 const reportedTracks = ref([]);

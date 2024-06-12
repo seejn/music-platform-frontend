@@ -30,8 +30,7 @@ export const Login = async (data, store) => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/roles/login/`;
   try {
     const response = await axios.post(url, data);
-    store.dispatch("login", response.data)
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.error(error);
     throw error;

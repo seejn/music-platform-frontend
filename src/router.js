@@ -148,7 +148,50 @@ export const sidebarRoutes = [
     //     component: () => import('./components/Sidebar/Sidebar.vue')
     // }
 ]
-
+export const adminSidebarRoutes = [
+    {
+        path: '/admin/artists',
+        name: 'Artists',
+        component: () => import('./pages/Admin/ArtistTable.vue')
+    },
+    {
+        path:'/admin/user-reports',
+        name:'UserReports',
+        component: () => import('./pages/Admin/UserReports.vue')
+    },
+    {
+        path:'/admin/reported-track-details/:id',
+        name:'ReportedTrackDetails',
+        props: true,
+        component: () => import('./pages/Admin/ReportedTrackDetails.vue')
+    },
+    {
+        path: '/admin/all-tours/',
+        name: 'TourPage',
+        component: () => import('./pages/Admin/TourPage.vue')
+    },
+    {
+        path: '/artist-stats/:id',
+        name: 'ArtistStats',
+        props: true,
+        component: ()=>import('./components/Admin/ArtistStats.vue')
+    },
+    {
+        path: '/artist-library/:id',
+        name: 'artist-library',
+        component: ()=>import('./pages/Admin/ArtistLibrary.vue')
+    },
+    {
+        path: '/admin/banned-songs/',
+        name: 'BannedSongs',
+        component: ()=>import('./pages/Admin/Banned.vue')
+    },
+    {
+        path: '/admin/dashboard/',
+        name: 'AdminDashboard',
+        component: () => import('./pages/Admin/Dashboard.vue')
+    },
+]
 export const playlistRoutes = [
     {
         path: '/createplaylist',
@@ -168,6 +211,7 @@ export const routes = [
     ...commonRoutes,
     ...landingRoute,
     ...sidebarRoutes,
+    ...adminSidebarRoutes,
     ...playlistRoutes
 ]
 

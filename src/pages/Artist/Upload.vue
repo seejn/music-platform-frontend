@@ -101,7 +101,7 @@
               <div class="mb-4">
                 <label for="albumFile" class="block text-white mb-2">Album Track</label>
                 <select v-model="album.tracks" multiple name="genre" id="genre" @input="clearError('album', 'tracks')"
-                  class="w-full p-2 rounded bg-gray-700 outline-none text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  class="w-full p-2 rounded bg-gray-700 outline-none text-black border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
                   <option value="" disabled>Choose tracks</option>
                   <option v-for="track in artistTracks" :key="track.id" :value="track.id">{{ track.title }}</option>
                 </select>
