@@ -1,7 +1,7 @@
 <template>
 <Layout>
     <template #Main>
-      <header class="playlist-header text-white py-10">
+      <header class="playlist-header text-white">
 
         <div class="relative z-10">
           <UpdateProfile :show="showEditForm" :user="user" @close="toggleEditForm" @update="updateArtistDetails" />
@@ -28,7 +28,10 @@
                 Edit
               </button>
             </p>
-
+            <div>
+              <h3 class="text-white font-bold text-2xl ml-20">Tour details</h3>
+              <ArtistTourCol :tours="tours" class="mt-5 px-6 ml-10 w-full"/>
+            </div>
           </div>
 
 
@@ -36,10 +39,10 @@
         </div>
 
       </header>
-      <main class="flex-grow bg-black p-8 flex flex-col space-y-4">
-        <div class="mt-8 rounded-lg glass-effect">
+      <main class="flex-grow bg-black flex flex-col space-y-4">
+        <div class="rounded-lg glass-effect">
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10 ">Artist</h2>
+            <h2 class="text-4xl font-bold mb-4 text-white ml-3">Artist</h2>
             <span v-if="artists?.length > 0">
               <ArtistCollection :artists="artists" />
             </span>
@@ -50,23 +53,6 @@
 
           <TracksInTable :tracks="tracks" />
 
-        <div class="p-6 pt-16 bg-black max-h-full flex-grow">
-            <div class="flex flex-row relative items-center">
-                <div class="relative">
-                    <img :src="getProfileImageUrl(user.image)" alt="Profile Image" class="rounded-full border-2 border-white w-60 h-60 cursor-pointer" @mouseover="showEditButton = true" @mouseout="showEditButton = false" @click="openFileInput" />
-                    <button v-if="showEditButton" @click="openFileInput" class="absolute bottom-0 right-0 bg-white text-black rounded-full p-1">
-                        Edit
-                    </button>
-                </div>
-                    <div class="ml-4">
-                        <p class="font-bold text-white text-5xl">
-                            {{ user.first_name }} {{ user.last_name }}
-                            <button @click="toggleEditForm" class="border-2 border-red-800 text-white ml-4 hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">
-                                Edit
-                            </button>
-                        </p>
-                        </div>
-              </div>
           <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10"> Favourite Albums</h2>
             <span v-if="albums?.length > 0">
@@ -77,7 +63,16 @@
             </span>
           </section>
 
-        </div>
+          <section>
+                      <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
+                      <span v-if="playlists.length > 0">
+                        <PlaylistCollection :playlists="playlists" />
+                      </span>
+                      <span v-else class="font-bold text-xl text-center text-white">
+                        <h2>No Playlists Available</h2>
+                      </span>
+            </section>
+
         <transition name="fade">
           <div v-if="showImageForm"
             class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
@@ -91,7 +86,7 @@
             </div>
           </div>
         </transition>
-        </div>
+      </div>
       </main>
     </template>
 
@@ -101,6 +96,8 @@
 </template>
 
 <script setup>
+import ArtistTour from '../../components/Tour/ArtistTour.vue'
+import ArtistTourCol from '../../components/Tour/ArtistTourCol.vue'
 import { ref, onMounted, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import { toast } from 'vue3-toastify';
@@ -114,47 +111,35 @@ import ArtistCollection from '../../components/Artist/ArtistCollection.vue';
 import UserPlaylist from '../../temp/saloni/components/User/UserPlaylist.vue';
 import AlbumCollection from '../../components/Album/AlbumCollection.vue';
 
-import {
-    fetchAllArtists,
-    fetchArtist,
-    updateArtist
-} from '../../api/Artist';
-import {
-    fetchArtistTracks
-} from '../../api/Track';
-import {
-    fetchUserFavouriteAlbums
-} from '../../api/Album.js'
-import {
-    fetchUserFavouritePlaylists
-} from '../../api/Playlist.js'
+import { fetchAllArtists, fetchArtist, updateArtist, updateArtistProfileImage } from '../../api/Artist';
+import { fetchArtistTracks } from '../../api/Track';
+import { fetchUserFavouriteAlbums } from '../../api/Album.js'
+import { fetchUserFavouritePlaylists } from '../../api/Playlist.js'
 
-import {
-    getProfileImageUrl
-} from '../../utils/imageUrl.js';
-
+import { getProfileImageUrl } from '../../utils/imageUrl.js';
+import defaultImageUrl from '../../assets/placeholders/image.png';
 import Swiper from "swiper";
 import "swiper/swiper-bundle.css";
-import ArtistTourCol from '../../components/Tour/ArtistTourCol.vue';
 import {
     fetchArtistTour
 } from '../../api/Tour.js';
 
+
 const store = useStore();
+
 const artists = ref([]);
 const tracks = ref([]);
 const user = ref(store.getters.getUser);
 const artist = ref({});
 const showEditForm = ref(false);
 const fileInput = ref(null);
-
+const tours = ref([])
 const imageUrl = ref(defaultImageUrl);
 const imageFile = ref(null);
 const showImageForm = ref(false);
 const showEditButton = ref(false);
 
-const tours = ref([])
-
+const router = useRouter();
 let albums = ref([]);
 let playlists = ref([]);
 let favouriteplaylists = ref([]);
@@ -168,14 +153,13 @@ const isArtistOwner = computed(() => {
 const loadArtistData = async (artistId) => {
   try {
     artist.value = await fetchArtist(artistId);
-    toast.success('Fetched artist');
     if (artist.value.imageUrl) {
       imageUrl.value = artist.value.imageUrl;
     } else {
       imageUrl.value = defaultImageUrl;
     }
   } catch (error) {
-    toast.error('Error fetching playlist');
+    console.log("error in fetching artist")
   }
 };
 
@@ -331,6 +315,7 @@ onMounted(() => {
   loadAllArtists();
   loadfavouriteplaylist(user.value.id)
   loadfavouritealbum(user.value.id)
+  loadTourDetail()
 
 });
 </script>
