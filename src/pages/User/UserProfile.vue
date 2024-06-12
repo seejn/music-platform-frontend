@@ -39,8 +39,7 @@
             </span>
 
             <span v-if="isFollowing">
-              <button
-                
+              <button  
                 @click="toggleFollow"
                 class="ml-4 bg-red-500 text-white hover:bg-red-700 text-xl rounded-lg px-4 py-2"
               >
@@ -60,8 +59,8 @@
 
           <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10">Shared Playlists</h2>
-            <span v-if="playlists.length > 0">
-              <PlaylistCollection :playlists="playlists" />
+            <span v-if="sharedplaylists.length > 0">
+              <SharedPlaylistCollection :sharedplaylists="sharedplaylists" />
             </span>
             <span v-else class="font-bold text-xl text-center text-white">
               <h2>No Playlists Available</h2>
@@ -73,19 +72,24 @@
               <TracksInTable :tracks="tracks" />
             </div>
           </section>
+
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Playlists</h2>
-            <PlaylistCollection :playlists="playlists" />
-          </section>
-          <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">
-              Favourite Albums
-            </h2>
-            <span v-if="albums.length > 0">
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10"> Favourite Albums</h2>
+            <span v-if="albums?.length > 0">
               <AlbumCollection :albums="albums" />
             </span>
-            <span class="font-bold text-xl text-center text-white" v-else>
+            <span v-else class="font-bold text-xl text-center text-white">
               <h2>No Albums Available</h2>
+            </span>
+          </section>
+
+          <section>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
+            <span v-if="playlists.length > 0">
+              <PlaylistCollection :playlists="playlists" />
+            </span>
+            <span v-else class="font-bold text-xl text-center text-white">
+              <h2>No Playlists Available</h2>
             </span>
           </section>
         </div>
@@ -109,8 +113,12 @@ import PlaylistCollection from '../../components/Track/PlaylistCollection.vue';
 import ArtistCollection from '../../components/Artist/ArtistCollection.vue';
 import { fetchAllArtists } from '../../api/Artist';
 import { fetchAllTracks } from '../../api/Track';
-import { fetchUserPlaylists, fetchSharedPlaylists } from '../../api/Playlist';
+import { fetchUserPlaylists, fetchSharedPlaylists,fetchUserFavouritePlaylists } from '../../api/Playlist';
+import {fetchUserFavouriteAlbums } from '../../api/Album';
 import { updateUser, fetchUser, followUser, unfollowUser, isFollowing as fetchIsFollowing } from '../../api/User';
+import SharedPlaylistCollection from '../../components/User/SharedPlaylistCollection.vue';
+
+
 
 const props = defineProps({
   id: {
@@ -133,9 +141,11 @@ const albums = ref([]);
 const showEditForm = ref(false);
 const user = ref({});
 const isFollowing = ref(false);
-const playlists = ref([]);
 const sharedplaylists = ref([]);
 
+let playlists = ref([]);
+let favouriteplaylists = ref([]);
+let favouritealbums = ref([]);
 
 const loadUserData = async (userId) => {
   try {
@@ -176,6 +186,24 @@ const loadSharedplaylist = async (userId) => {
     console.error('Error fetching shared playlists', error);
   }
 };
+
+const loadfavouriteplaylist = async (userId) => {
+  console.log("Load favourite playlist", userId)
+  const response = await fetchUserFavouritePlaylists(userId)
+  favouriteplaylists.value = response
+  playlists.value = favouriteplaylists.value.playlist
+  console.log(playlists.value)
+}
+
+
+const loadfavouritealbum = async (userId) => {
+  console.log("Load favourite album", userId)
+  const response = await fetchUserFavouriteAlbums(userId)
+  favouritealbums.value = response
+  albums.value = favouritealbums.value.album
+  console.log(albums.value)
+}
+
 
 const profileImageUrl = computed(() => {
   return user.value && user.value.image
@@ -257,17 +285,22 @@ watch(() => props.id, (newId) => {
   loadAllTracks();
   loadAllArtists();
   loadSharedplaylist(newId);
+  loadfavouriteplaylist(newId)
+  loadfavouritealbum(newId)
   checkFollowing(newId)
+});
 const triggerFileInput = () => {
     fileInput.value.click()
 }
-});
+
 onMounted(() => {
   loadUserData(props.id);
   loadAllTracks();
   loadAllArtists();
   loadSharedplaylist(props.id);
-  checkFollowing(props.id)
+  loadfavouriteplaylist(props.id);
+  loadfavouritealbum(props.id);
+  checkFollowing(props.id);
 });
 
 </script>
