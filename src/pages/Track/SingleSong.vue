@@ -98,15 +98,15 @@ const showOptions = ref(false);
 
 
 
-const reportedTrack = async (trackId) => {
-  try {
-    await reportTrack(trackId);
-    fetchAlbumData(albumId.value);
-    toast.success("Track reported successfully!");
-  } catch (error) {
-    toast.error("Error reporting track");
-  }
-};
+// const reportedTrack = async (trackId) => {
+//   try {
+//     await reportTrack(trackId);
+//     fetchAlbumData(albumId.value);
+//     toast.success("Track reported successfully!");
+//   } catch (error) {
+//     toast.error("Error reporting track");
+//   }
+// };
 const addTrackToPlaylist = async (playlistId, trackId) => {
   try {
     const playlistData = { track: trackId };
