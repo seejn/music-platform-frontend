@@ -1,24 +1,10 @@
 <template>
     <div>
-      <h3 class="text-white font-bold text-2xl">Tour details</h3>
-      <swiper
-        :slidesPerView="3"
-        :spaceBetween="30"
-        :grabCursor="true"
-        :autoplay="{
-          delay: 2500,
-          disableOnInteraction: false
-        }"
-        :pagination="{
-          clickable: true
-        }"
-        :modules="modules"
-        class="mySwiper"
-      >
-        <swiper-slide v-for="tour in tours" :key="tour.id" class="flex justify-center">
+     
+        <div v-for="tour in tours" :key="tour.id" class="flex justify-center">
          <ArtistTour :tour="tour"/>
-        </swiper-slide>
-      </swiper>
+         </div>
+ 
     </div>
   </template>
   
@@ -50,10 +36,6 @@ import ArtistTour from './ArtistTour.vue'
   .swiper-slide {
     display: flex;
     justify-content: center;
-  }
-  
-  .tour-card {
-    width: 700px; 
   }
   </style>
   
