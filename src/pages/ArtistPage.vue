@@ -92,14 +92,10 @@ import { reportTrack } from '../api/Reports';
 import { addRemoveTrackFromPlaylist } from '../api/Playlist';
 import { fetchUserPlaylists } from '../api/Playlist'; 
 
-import { useStore } from 'vuex'
 
 const store = useStore()
 const user = store.getters.getUser
 
-const store = useStore();
-
-const user = store.getters.getUser;
 
 const route = useRoute();
 const artistId = ref(Number(route.params.id));
