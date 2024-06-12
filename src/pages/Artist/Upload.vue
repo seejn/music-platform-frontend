@@ -59,7 +59,7 @@
               <div class="mb-4">
                 <label for="songFile" class="block text-white mb-2">Image</label>
                 <input type="file" id="songFile" @change="handleTrackImageChange" @input="clearError('track', 'image')"
-                  class="w-full p-2 rounded outline-none bg-gray-700 text-black border border-gray-600 focus:border-red-800 focus:ring-4 focus:ring-red-800 caret-red-800">
+                  class="w-full p-2 rounded outline-none bg-white text-black border border-gray-600 focus:border-red-800 focus:ring-4 focus:ring-red-800 caret-red-800">
                 <span v-if="trackErrors.image" class="text-red-500">{{ trackErrors.image }}</span>
               </div>
 
@@ -93,7 +93,7 @@
               <div class="mb-4">
                 <label for="albumCover" class="block text-white mb-2">Album Cover</label>
                 <input type="file" id="albumCover" @change="handleAlbumImageChange" @input="clearError('album', 'image')"
-                  class="w-full p-2 rounded outline-none bg-gray-700 border border-red-800 focus:ring-4 focus:ring-red-800 text-black caret-red-800 ">
+                  class="w-full p-2 rounded outline-none bg-white border border-red-800 focus:ring-4 focus:ring-red-800 text-black caret-red-800 ">
                 <span v-if="albumErrors.image" class="text-red-500">{{ albumErrors.image }}</span>
               </div>
 
