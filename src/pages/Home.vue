@@ -2,34 +2,8 @@
   <Layout>
     <template #Main>
       <main>
-        <section class="h-2/5 glass-effect">
-          <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-5 ">Tours of your Favorite Artist</h2>
-          <div class="swiper-container overflow-hidden">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide " v-for="(tour, index) in artistTours" :key="index">
-
-                <div
-                  class="tour-card h-56 bg-black bg-opacity-80 p-4 mt-5 rounded-lg mb-5 shadow-md  border-2 text-center hover:shadow-xl hover:shadow-red-800 hover:border-red-800 transition-all duration-300 text-white border-red-800">
-                    
-                    <div class="flex flex-row h-2/5">
-          <div class=" w-24 h-24">
-            <img :src="tour.artist ? imageUrl(tour.artist) : ''" alt="Artist Image" class="rounded-lg border-2 border-white">
-          </div>
-          <div class=" mx-2 flex-grow text-center">
-            <h5 class="text-white text-xl">{{ tour ? tour.title : 'Unknown Title' }}</h5>
-            <h3 class="text-white text-lg font-semibold">{{ tour.artist ? tour.artist.first_name + ' ' + tour.artist.last_name : 'Unknown Artist' }}</h3>
-            <p class="text-white text-lg">Date : {{ tour.date }}</p>
-            <p class="text-white text-lg">Location : {{ tour.location }}</p>
-            <p class="text-white text-lg">Venue : {{ tour.venue }}</p>
-            <p class="text-white text-lg">Time : {{ (tour.time)  }}</p>
-          </div>
-        </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-pagination"></div>
-          </div>
+        <section class="h-2/5  mx-10 glass-effect">
+          <TourCollection :tours="tours"/>
         </section>
         <section>
           <h2 class="text-3xl font-bold mb-4 text-white mx-10 mt-10">Songs for You</h2>
@@ -67,11 +41,10 @@
 </template>
 
 <script setup>
+import TourCollection from '../components/Tour/TourCollection.vue'
 import { ref, onMounted, computed } from "vue";
 import Swiper from "swiper";
 import "swiper/swiper-bundle.css";
-import Navbar from "../components/Header/Navbar.vue";
-import Sidebar from "../components/Sidebar/Sidebar.vue";
 
 import { fetchAllTracks } from "../api/Track.js";
 import { fetchAllAlbums } from "../api/Album.js";
@@ -90,15 +63,13 @@ import { useStore } from 'vuex';
 import { fetchUserFavouriteAlbums } from '../api/Album.js'
 
 
-// import FavouritePlaylistCollection from '../components/Track/FavouritePlaylistCollection.vue';
-
 const store = useStore()
 const user = store.getters.getUser
 let tracks = ref([]);
 let albums = ref([]);
 let artists = ref([]);
 let playlists = ref([]);
-let artistTours = ref([]);
+let tours = ref([]);
 
 
 
@@ -125,7 +96,7 @@ onMounted(async () => {
     albums.value = await fetchAllAlbums()
     artists.value = await fetchAllArtists();
     playlists.value = await fetchAllPlaylists(user.id)
-    artistTours.value = await fetchFavouriteArtistTour(user.id);
+    tours.value = await fetchFavouriteArtistTour(user.id);
 
   }
   catch (error) {

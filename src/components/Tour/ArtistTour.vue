@@ -1,67 +1,31 @@
 <template>
-  <div>
-    <h3 class="text-white text-2xl mb-10">Tour details</h3>
-    <div class="flex flex-wrap  ">
-      <div v-for="tour in tours" :key="tour.id" class="flex-grow max-w-md ml-4 mb-4 ">
-        <div class="border-2 border-red-800  bg-black shadow-lg overflow-hidden">
-          <div class="px-6 py-4">
-            <div class="text-sm text-white">{{ tour.title }}</div>
-            <div class="mt-4 text-white">
-              <p><span class="font-semibold">Date</span> {{ tour.date }}</p>
-              <p><span class="font-semibold">Location</span> {{ tour.location }}</p>
-              <p><span class="font-semibold">Venue</span> {{ tour.venue }}</p>
-              <p><span class="font-semibold">Time</span> {{ tour.time }}</p>
-            </div>
-          </div>
+    <div v-if="tour" class="tour-card bg-black bg-opacity-80 p-4 rounded-lg mb-5 ml-3 shadow-md border-2 text-center hover:shadow-xl hover:shadow-red-800 hover:border-red-800 transition-all duration-300 text-white border-red-800">
+      <div class="flex flex-row h-full">
+        <div class="mx-2 my-2 flex-grow text-center">
+          <h5 class="text-white text-xl">{{ tour.title || 'Unknown Title' }}</h5>
+          <p class="text-white text-lg">Date: {{ tour.date || 'Unknown Date' }}</p>
+          <p class="text-white text-lg">Location: {{ tour.location || 'Unknown Location' }}</p>
+          <p class="text-white text-lg">Venue: {{ tour.venue || 'Unknown Venue' }}</p>
+          <p class="text-white text-lg">Time: {{ tour.time || 'Unknown Time' }}</p>
         </div>
       </div>
     </div>
-  </div>
-</template>
-
-<script setup>
-import { onMounted, ref } from 'vue';
-import { fetchArtistTour } from '../../api/Tour';
-
-const props = defineProps({
-  artistId: {
-    type: Number,
-    required: true
-  }
-});
-
-const tours = ref([]);
-
-const fetchTours = async () => {
-  try {
-    if (props.artistId) {
-      const fetchedTours = await fetchArtistTour(props.artistId);
-      tours.value = fetchedTours;
+    <div v-else class="text-white text-center">Loading...</div>
+  </template>
+  
+  <script setup>
+  const props = defineProps({
+    tour: {
+      type: Object,
+      required: true
     }
-  } catch (error) {
-    console.log("Error fetching artist tours:", error);
+  });
+  
+  </script>
+  
+  <style scoped>
+  .tour-card:last-child {
+    margin-right: 0;
   }
-};
-
-onMounted(() => {
-  fetchTours();
-});
-</script>
-
-<style scoped>
-
-.flex-wrap {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.flex-grow {
-  flex-grow: 1;
-  flex-basis: 30%; 
-  min-width: 250px; 
-}
-
-.max-w-md {
-  max-width: 300px; 
-}
-</style>
+  </style>
+  

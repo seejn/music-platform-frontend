@@ -4,7 +4,7 @@
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
           <div class="relative group">
-            <img :src="getProfileImageUrl(playlist?.image)" alt="Playlist Image" class="w-60 h-60 border-4 border-red-800">
+            <img :src="getProfileImageUrl(playlist?.playlist?.image)" alt="Playlist Image" class="w-60 h-60 border-4 border-red-800">
             <div
               class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
               @click="triggerFileInput">
@@ -16,7 +16,7 @@
           <div class="ml-4 mt-[3vw]">
             <template v-if="!editing">
               <p class="font-bold text-white text-5xl align-text-bottom">
-                {{ playlist?.title }} 
+                {{ playlist?.playlist?.title }} 
                 <span v-show="isPlaylistOwner">
                   <button @click="toggleEditForm">
                     <i class="fa-regular fa-pen-to-square fa-2xs ml-5 cursor-pointer w-5 h-5"></i>
@@ -70,7 +70,7 @@
             
 
         <button @click="toggleShareBox">
-          <i class="fa fa-share-alt" aria-hidden="true"></i> 
+          <i class="fa fa-share-alt" aria-hidden="true"></i> Share
         </button>
 
 
@@ -237,9 +237,9 @@ const imageUrl = ref(defaultImageUrl);
 const imageFile = ref(null);
 const showImageForm = ref(false);
 const showPrivacyPopup = ref(false);
-const showShareBox = ref(false); 
-const shareSearchTerm = ref(''); 
-const filteredUsers = ref([]); 
+const showShareBox = ref(false); // Added for share box visibility
+const shareSearchTerm = ref(''); // Added for searching users
+const filteredUsers = ref([]); // Added for filtered user list
 const editing = ref(false);
 const editedTitle = ref('');
 
@@ -259,22 +259,35 @@ const isFavouritePlaylistByUser = async (userId, playlistId) => {
   }
 };
 
-const fetchPlaylistData = async (playlistId) => {
+const fetchPlaylistData = async (userId) => {
   try {
-    playlist.value = await fetchPlaylist(playlistId);
+    playlist.value = await fetchsharePlaylist(userId);
     toast.success('Fetched playlist');
+    
     if (playlist.value.imageUrl) {
       imageUrl.value = playlist.value.imageUrl;
     } else {
       imageUrl.value = defaultImageUrl;
     }
+    
     playlist.value.track.forEach((track) => {
       addedTracks.value.push(track.id);
     });
+
   } catch (error) {
     toast.error('Error fetching playlist');
   }
 };
+
+const fetchsharePlaylist = async (userId) => {
+  try {
+    const response = await axios.get(`http://localhost:8000/users/get_share_playlist/${userId}/`);
+    return response.data.data || {};
+  } catch (error) {
+    throw new Error('Error fetching share playlist');
+  }
+};
+
 
 const fetchTracks = async () => {
   try {
@@ -479,11 +492,14 @@ const deletePlaylistConfirm = async () => {
   try {
     const response = await deletePlaylistApi(playlistId.value);
     console.log('Response from deletePlaylist');
-    toast.success("Playlist deleted successfully")
+    notification.value.message = 'Playlist deleted successfully';
+    notification.value.visible = true;
+    // Redirect to home page after successful deletion
     router.push('/Home');
   } catch (error) {
     console.error('Error deleting playlist:', error);
-    toast.error("Failed to delete playlist")
+    notification.value.message = 'Failed to delete playlist';
+    notification.value.visible = true;
   }
 };
 
@@ -511,19 +527,19 @@ const searchUsers = () => {
     user.last_name.toLowerCase().includes(trimmedSearchTerm.toLowerCase())
   );
 };
-
-
 const sharePlaylist = async (userId) => {
   try {
-
+    // Implement sharing functionality here
     console.log(`Share playlist with user ID: ${userId}`);
-
+    // Example of sharing: send a POST request to your API
     const response = await sharePlaylistApi(playlist.value.id, userId);
     console.log('Response from sharePlaylist:', response);
-    toast.success("Playlist shared successfully")
+    notification.value.message = 'Playlist shared successfully';
+    notification.value.visible = true;
   } catch (error) {
     console.error('Error sharing playlist:', error);
-    toast.error("Failed to share playlist")
+    notification.value.message = 'Failed to share playlist';
+    notification.value.visible = true;
   } finally {
     showShareBox.value = false;
     shareSearchTerm.value = '';
@@ -535,8 +551,9 @@ const fetchUsers = async () => {
     
     user.value = await fetchFollowedUsers();
     console.log('Users',user.value);
+    toast.success('Fetched users successfully');
   } catch (error) {
-    console.log(error)
+    toast.error('Error fetching users:');
   }
 };
 
