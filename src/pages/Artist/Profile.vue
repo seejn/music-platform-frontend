@@ -134,7 +134,7 @@ const loadfavouriteplaylist = async (userId) => {
   const response = await fetchUserFavouritePlaylists(userId)
   favouriteplaylists.value = response
   playlists.value = favouriteplaylists.value.playlist
-  console.log(playlists.value)
+  console.log("playlissttt",playlists.value)
 }
 
 const loadfavouritealbum = async (userId) => {
