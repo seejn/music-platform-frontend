@@ -29,8 +29,9 @@ export const artistNavRoutes = [
 
 export const userNavRoutes = [
     {
-        path: '/user/profile',
+        path: '/single-user/:id',
         name: 'Profile',
+        props: true,
         component: () => import(`./pages/User/UserProfile.vue`)
     },
 ]
@@ -80,6 +81,13 @@ export const commonRoutes = [
         component: () => import('./pages/Playlist.vue')
     },
     {
+        path: '/single-shareplaylist/:id',
+        name: 'SingleSharePlaylist',
+        props: true,
+        component: () => import('./pages/SharedPlaylist.vue')
+    },
+
+    {
         path: '/single-artist/:id',
         name: 'SingleArtist',
         component: () => import('./pages/ArtistPage.vue')
@@ -87,8 +95,10 @@ export const commonRoutes = [
     {
         path: '/single-user/:id',
         name: 'SingleUser',
+        props: true,
         component: () => import('./pages/User/UserProfile.vue')
     },
+
   
 ]
 

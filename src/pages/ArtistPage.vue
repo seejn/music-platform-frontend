@@ -99,9 +99,6 @@ import ArtistTourCol from '../components/Tour/ArtistTourCol.vue';
 
 
 
-const store = useStore();
-
-const user = store.getters.getUser;
 
 const route = useRoute();
 const artistId = ref(Number(route.params.id));
