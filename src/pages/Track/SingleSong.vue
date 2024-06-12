@@ -21,52 +21,47 @@
           <div class="w-full pl-4">
             <h2 class="text-3xl font-bold mb-4 text-white">Songs</h2>
             <table class="min-w-full bg-transparent text-white">
-              <thead>
-                <tr>
-                  <th class="py-2 px-4 text-left">Title</th>
-                  <th class="py-2 px-4 text-left">Release Date</th>
-                  <th class="py-2 px-4 text-left">Artist</th>
-                  <th class="py-2 px-4 text-left">Duration</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="py-2 px-4 text-left border-b border-red-800">
-                    <img :src="imgUrl" alt="" class="w-10 h-10 rounded-full">
-                  </td>
-                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
-                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
-                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.artist?.first_name }}</td>
-
-                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
-                  <td class="py-2 px-4 text-left border-b border-red-800 relative">
-                    <div class="flex items-center space-x-2">
-                      <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(0)">
-                    <i class="fas fa-ellipsis-v">...</i>
-                  </button>
-                  <div v-if="showTrackOptions[0]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
-
-
-                   
-                      <button v-if="!showPlaylistOptions[0]" @click="reportedTrack(track.id)"
-                        class="block w-full text-left px-4 py-2">Report</button>
-                      <div @click="togglePlaylistOptions(0)">
-                        <button v-if="!showPlaylistOptions[0]"
-                          class="block w-full text-left px-4 py-2">Playlist</button>
-                        <div v-if="showPlaylistOptions[0]"
-                          class="bg-black text-white rounded-md shadow-md py-2 w-full mt-2">
-                          <div v-for="playlist in playlists" :key="playlist.id">
-                            <button @click="addTrackToPlaylist(playlist.id, track.id)"
-                              class="block w-full text-left px-4 py-2">{{ playlist.title }}</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  <thead>
+    <tr>
+      <th class="py-2 px-4 text-left">Title</th>
+      <th class="py-2 px-4 text-left">Release Date</th>
+      <th class="py-2 px-4 text-left">Artist</th>
+      <th class="py-2 px-4 text-left">Duration</th>
+      <th class="py-2 px-4 text-left">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="hover:bg-zinc-700">
+      <td class="py-2 px-4 text-left border-b border-red-800">
+        <div class="flex items-center justify-center">
+          <img :src="imgUrl" alt="" class="w-10 h-10 rounded-full">
+        </div>
+      </td>
+      <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
+      <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
+      <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.artist?.first_name }}</td>
+      <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
+      <td class="py-2 px-4 text-left border-b border-red-800 relative">
+        <div class="flex items-center justify-center">
+          <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(0)">
+            <i class="fas fa-ellipsis-v">...</i>
+          </button>
+        </div>
+        <div v-if="showTrackOptions[0]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
+          <button v-if="!showPlaylistOptions[0]" @click="reportedTrack(track.id)" class="block w-full text-left px-4 py-2">Report</button>
+          <div @click="togglePlaylistOptions(0)">
+            <button v-if="!showPlaylistOptions[0]" class="block w-full text-left px-4 py-2">Playlist</button>
+            <div v-if="showPlaylistOptions[0]" class="bg-black text-white rounded-md shadow-md py-2 w-full mt-2">
+              <div v-for="playlist in playlists" :key="playlist.id">
+                <button @click="addTrackToPlaylist(playlist.id, track.id)" class="block w-full text-left px-4 py-2">{{ playlist.title }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
           </div>
         </div>
       </div>
@@ -187,5 +182,25 @@ const toggleEditForm = () => {
 button {
   position: relative;
   z-index: 20;
+}
+td img {
+  display: block;
+  margin: 0 auto;
+}
+
+td {
+  text-align: center;
+}
+
+/* Center button */
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hover effect */
+tbody tr:hover {
+  background-color: rgba(109, 114, 125, 0.7);
 }
 </style>

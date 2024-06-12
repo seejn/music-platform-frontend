@@ -32,7 +32,16 @@ export const fetchPlaylist = async (playlistId) => {
         throw error;
     }
 }
-
+export const fetchsharePlaylist = async (playlistId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/users/get_share_playlist//${userId}/`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(`Error fetching playlist with ID ${userId}:`, error);
+        throw error;
+    }
+}
 export const createPlaylist = async (playlistData) => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/create_playlist/`;
     try {
@@ -172,3 +181,26 @@ export const removePlaylistFromFavouritePlaylist = async (userId,playlistId) => 
         throw error;
     }
 }
+
+export const fetchSharedPlaylists = async (userId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/users/get_share_playlist/${userId}`;
+    try {
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching shared playlists for user ID ${userId}:`, error);
+      throw error;
+    }
+  };
+
+
+  export const sharePlaylistApi = async (playlistId, userId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/users/share-playlist/${playlistId}/user/${userId}/`;
+    try {
+      const response = await axios.post(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error sharing playlist ID ${playlistId} with user ID ${userId}:`, error);
+      throw error;
+    }
+  };

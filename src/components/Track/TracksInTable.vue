@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-black bg-opacity-50 rounded-lg p-6 shadow-lg max-h-full">
+  <div class="rounded-lg p-6 shadow-lg max-h-full">
     <h2 class="text-4xl font-bold text-white mb-4">All Songs</h2>
-    <table class="min-w-full bg-transparent text-white">
-      <thead class="text-center">
+    <table class="min-w-full rounded-lg text-white bg-zinc-800 bg-opacity-50">
+      <thead class="text-center border-b-2 border-b-darkgray px-4 py-2">
         <tr>
-          
+          <th class="py-2 px-4"><i class="fa-solid fa-compact-disc fa-2xl" style="color: #ffffff;"></i></th>
           <th class="py-2 px-4">Title</th>
           <th class="py-2 px-4">Release Date</th>
           <th class="py-2 px-4">Artist</th>
@@ -12,23 +12,26 @@
         </tr>
       </thead>
       <tbody class="text-center">
-        <tr v-for="(track, index) in tracks" :key="index" class="border-b border-red-800">
-          <RouterLink :to="`/single-song/${track.id}`" class="w-full block">
-            <td class="py-2 px-4 text-left flex items-center">
-              <img class="mx-6 object-cover w-20 h-20" :src="trackImageUrl(track.image)" alt="Track Image">
-              <span>{{ track.title }}</span>
-            </td>
-          </RouterLink>
-          <td class="py-2 px-4 ">{{ track.released_date }}</td>
-          <RouterLink :to="`/single-artist/${track.artist.id}`">
-            <td class="py-2 px-4">{{ track.artist.first_name }} {{ track.artist.last_name }}</td>
-          </RouterLink>
-          <td class="py-2 px-4 ">{{ track.duration }}</td>
+        <tr v-for="(track, index) in tracks" :key="index" class="hover:bg-zinc-700">
+          <td class="py-2  px-4 flex items-center justify-center">
+            <RouterLink :to="`/single-song/${track.id}`" class="block">
+              <img class="object-cover w-20 h-20" :src="trackImageUrl(track.image)" alt="Track Image">
+            </RouterLink>
+          </td>
+          <td>{{ track.title }}</td>
+          <td class="py-2 px-4">{{ track.released_date }}</td>
+          <td class="py-2 px-4">
+            <RouterLink :to="`/single-artist/${track.artist.id}`" class="block">
+              {{ track.artist.first_name }} {{ track.artist.last_name }}
+            </RouterLink>
+          </td>
+          <td class="py-2 px-4">{{ track.duration }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';
@@ -47,3 +50,27 @@ const trackImageUrl = (image) => {
 
 
 </script>
+<style>
+.table td {
+  height: 80px; /* Adjust based on desired row height */
+}
+
+.table th, .table td, .table img {
+  vertical-align: middle;
+}
+
+.table td img {
+  vertical-align: middle;
+}
+
+.table .router-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table .router-link span {
+  display:inline-flex;
+  vertical-align: middle;
+}
+</style>
