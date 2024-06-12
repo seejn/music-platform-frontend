@@ -70,7 +70,6 @@
                   {{ reportInfo?.description }}
                 </td>
                 <td class="py-2 px-4 border-b border-red-800">
-                  {{ reportInfo }}
                   <button
                     @click="handleReportRemove(reportInfo.id)"
                     class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2"

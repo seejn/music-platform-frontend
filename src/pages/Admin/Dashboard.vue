@@ -73,7 +73,7 @@ import {
   fetchTotalUsers,
   fetchTotalTracks,
 } from '../../api/Dashboard';
-
+import { getRandomColors } from '../../utils/randomHexColor';
 
 import Layout from '../Layout.vue';
 
@@ -83,7 +83,6 @@ import AdminLayout from '../AdminLayout.vue';
 
 const dataLoaded = ref(false)
 const artists = ref([])
-const total_fav_count = ref([])
 const totalArtists = ref(0)
 const totalUsers = ref(0)
 const totalAlbums = ref(0)
@@ -101,8 +100,8 @@ const artistPopularityDataForBar = ref({
   labels: artists.value,
   datasets: [
     {
-      label: 'Popularity',
-      data: total_fav_count.value,
+      label: [],
+      data: [],
       backgroundColor: 'rgba(75, 192, 192, 0.5)',
       borderColor: 'rgba(75, 192, 192, 1)',
       borderWidth: 1
@@ -145,7 +144,7 @@ const artistPopularityDataForPie = ref({
   datasets: [
     {
       label: 'Number of Plays',
-      data: total_fav_count.value,
+      data: [],
       backgroundColor: ["#dedad2", "#e4bcad", "#df979e", "#d7658b", "#c80064"],
       borderColor: '#ffffff',
       borderWidth: 1
@@ -222,11 +221,16 @@ const loadAllAlbumFavouriteData = async () => {
     const filtered_artists = filteredResponse.map(res => res.artist);
     const filtered_fav_count = filteredResponse.map(res => res.total_favourite_count);
 
+    const randomColors = getRandomColors(filtered_artists.length)
+
     artistPopularityDataForBar.value.labels = filtered_artists
+    artistPopularityDataForBar.value.datasets[0].label = 'popularity'
     artistPopularityDataForBar.value.datasets[0].data = filtered_fav_count
+    artistPopularityDataForBar.value.datasets[0].backgroundColor = randomColors
 
     artistPopularityDataForPie.value.labels = filtered_artists
     artistPopularityDataForPie.value.datasets[0].data = filtered_fav_count
+    artistPopularityDataForPie.value.datasets[0].backgroundColor = randomColors
 
 
     dataLoaded.value = true
