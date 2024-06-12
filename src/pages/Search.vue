@@ -79,7 +79,7 @@ const fetchData = async () => {
     const [tracksResponse,userResponse, artistsResponse, albumsResponse, playlistsResponse] = await Promise.all([
       axios.get('http://localhost:8000/track/get_all_tracks/'),
       axios.get('http://localhost:8000/roles/users/'), 
-      axios.get('http://localhost:8000/users/get_all_users/'),
+      axios.get('http://localhost:8000/roles/artists/'),
       axios.get('http://localhost:8000/album/get_all_albums/'),
       axios.get('http://localhost:8000/track/get_all_playlist/')
     ]);
