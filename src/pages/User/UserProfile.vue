@@ -142,6 +142,14 @@ import { getProfileImageUrl } from '../../utils/imageUrl.js';
 
 import defaultImageUrl from '../../assets/placeholders/image.png';
 const store = useStore()
+
+const props = defineProps({
+  id:{
+    type:String,
+    required: true
+  }
+})
+
 const artists = ref([])
 const tracks = ref([])
 const user = ref(store.getters.getUser)
@@ -270,9 +278,6 @@ const checkFollowing = async (userId) => {
 }
 
 
-const triggerFileInput = () => {
-  fileInput.value.click()
-}
 
 const onImageChange = (event) => {
   const file = event.target.files[0]
