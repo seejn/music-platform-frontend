@@ -130,6 +130,12 @@ export const adminSidebarRoutes = [
         component: () => import('./pages/Admin/UserReports.vue')
     },
     {
+        path:'/admin/reported-track-details/:id',
+        name:'ReportedTrackDetails',
+        props: true,
+        component: () => import('./pages/Admin/ReportedTrackDetails.vue')
+    },
+    {
         path: '/admin/all-tours/',
         name: 'TourPage',
         component: () => import('./pages/Admin/TourPage.vue')
