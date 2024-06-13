@@ -6,12 +6,12 @@
           <div class="mb-12">
             <h2 class="text-2xl font-bold mb-4">Banned Songs</h2>
             <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
-              <thead class="bg-zinc-800 text-center">
+              <thead class="bg-zinc-800 text-center text-xl border-b border-b-darkgray">
                 <tr>
-                  <th class="py-5 px-4  border-b border-red-800">Title</th>
-                  <th class="py-5 px-4  border-b border-red-800">Artist</th>
-                  <th class="py-5 px-4  border-b border-red-800">Banned Until</th>
-                  <th class="py-5 px-4  border-b border-red-800">Actions</th>
+                  <th class="py-2 px-4 ">Title</th>
+                  <th class="py-2 px-4 ">Artist</th>
+                  <th class="py-2 px-4 ">Banned Until</th>
+                  <th class="py-2 px-4 ">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -24,13 +24,13 @@
                   No banned tracks
                 </td>
               </tr>
-                <tr v-for="(report, reportIndex) in bannedTracks" :key="report.id">
-                  <td class="py-2 px-4  border-b border-red-800">{{ report.track.title }}</td>
-                  <td class="py-2 px-4  border-b border-red-800">
+                <tr v-for="(report, reportIndex) in bannedTracks" :key="report.id" class="text-center hover:bg-zinc-800">
+                  <td class="py-2 px-4">{{ report.track.title }}</td>
+                  <td class="py-2 px-4">
                     {{ report?.artist ? report?.artist?.first_name + ' ' + report?.artist?.last_name : 'Unknown Artist' }}
                   </td>
-                  <td class="py-2 px-4  border-b border-red-800">{{ report?.banned_until }}</td>
-                  <td class="py-2 px-4  border-b border-red-800">
+                  <td class="py-2 px-4">{{ report?.banned_until }}</td>
+                  <td class="py-2 px-4">
                     <button @click="unban(report?.track?.id)" class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">
                       Unban
                     </button>

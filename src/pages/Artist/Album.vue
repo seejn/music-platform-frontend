@@ -77,7 +77,7 @@
       </header>
 
       <section class="">
-        <h2 class="text-2xl font-bold mb-5 text-white">Tracks in this Album</h2>
+        <h2 class="text-2xl font-bold mb-5 text-white">Tracks</h2>
         <table class="min-w-full bg-transparent text-white text-center bg-zinc-800 rounded-lg">
           <thead>
             <tr class="border-b-2 border-b-zinc-500">
@@ -100,7 +100,7 @@
                   </button>
 
                   <div v-if="showTrackOptions[index]"
-                    class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-3">
+                    class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-2">
 
                     <div v-show="isAlbumOwner && !showPlaylistOptions[index]">
 

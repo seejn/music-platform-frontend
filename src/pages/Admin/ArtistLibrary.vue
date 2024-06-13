@@ -7,7 +7,7 @@
         <div class="mb-12">
           <h2 class="text-2xl font-bold mb-4">All Songs and Reported Songs by the Artist</h2>
           <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
-            <thead class="border-b-2 border-red-800">
+            <thead class="border-b-2 border-b-darkgray">
               <tr>
                 <th class="py-4 px-4 text-center">Title</th>
                 <th class="py-4 px-4 text-center">Duration</th>

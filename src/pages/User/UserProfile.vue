@@ -23,14 +23,14 @@
           <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
             {{ user?.first_name }} {{ user?.last_name }}
             <button @click="toggleEditForm"
-              class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">
+              class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-500 text-xl  rounded-lg px-4 py-2">
               Edit
             </button>
           </p>
           <span v-if="!isLoggedInUser">
             <span v-if="!isFollowing">
               <button @click="toggleFollow"
-                class="ml-4 bg-blue-500 text-white hover:bg-blue-700 text-xl rounded-lg px-4 py-2">
+                class="ml-4 bg-pink-500 text-white hover:bg-pink-700 text-xl rounded-lg mt-36 px-4 py-2">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                 Follow
               </button>
@@ -38,7 +38,7 @@
 
             <span v-if="isFollowing">
               <button @click="toggleFollow"
-                class="ml-4 bg-red-500 text-white hover:bg-red-700 text-xl rounded-lg px-4 py-2">
+                class="ml-4 bg-red-500 text-white hover:bg-red-700 text-xl rounded-lg mt-36 px-4 py-2">
                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
                 Unfollow
               </button>
@@ -55,7 +55,7 @@
           </section>
 
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Shared Playlists</h2>
+            <h2 class="text-3xl ml-5 font-bold mb-4 text-white mt-10">Shared Playlists</h2>
             <span v-if="sharedplaylists.length > 0">
               <SharedPlaylistCollection :sharedplaylists="sharedplaylists" />
             </span>
@@ -71,7 +71,7 @@
           </section>
 
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Albums</h2>
+            <h2 class="text-3xl font-bold mb-4 ml-5 text-white mt-10">Favourite Albums</h2>
             <span v-if="albums?.length > 0">
               <AlbumCollection :albums="albums" />
             </span>
@@ -81,7 +81,7 @@
           </section>
 
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
+            <h2 class="text-3xl font-bold mb-4 ml-5 text-white mt-10">Favourite Playlists</h2>
             <span v-if="favouriteplaylists?.length > 0">
               <FavouritePlaylistCollection :favouriteplaylists="favouriteplaylists" />
             </span>
