@@ -11,22 +11,25 @@
           <div class="relative group">
             <img :src="getProfileImageUrl(user?.image)" alt="Artist Image"
               class="w-60 h-60 border-4 rounded-full border-red-800">
-            <div
-              class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-              @click="triggerFileInput">
-              <span class="text-white">Choose Photo</span>
-            </div>
-            <input type="file" ref="fileInput" class="hidden" @change="onImageChange">
+            <span v-if="isLoggedInUser">
+              <div
+                class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                @click="triggerFileInput">
+                <span class="text-white">Choose Photo</span>
+              </div>
+              <input type="file" ref="fileInput" class="hidden" @change="onImageChange">
+            </span>
           </div>
 
-
-          <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
-            {{ user?.first_name }} {{ user?.last_name }}
-            <button @click="toggleEditForm"
-              class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">
-              Edit
-            </button>
-          </p>
+          <span v-if="isLoggedInUser">
+            <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
+              {{ user?.first_name }} {{ user?.last_name }}
+              <button @click="toggleEditForm"
+                class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">
+                Edit
+              </button>
+            </p>
+          </span>
           <span v-if="!isLoggedInUser">
             <span v-if="!isFollowing">
               <button @click="toggleFollow"
