@@ -109,7 +109,7 @@ const props = defineProps({
 
 const route = useRoute();
 const artistId = ref(Number(route.params.id));
-// const userId = store.getters.getUser;
+
 const user = store.getters.getUser;
 const playlists = ref([]);
 const artist = ref({});

@@ -5,8 +5,6 @@
         <div class="absolute bottom-0 left-0 w-full p-3 bg-black bg-opacity-50 text-white">
         <h3 class="text-xl">{{ playlist?.playlist?.title || "PlaylistName" }}</h3>
         <p>{{ playlist?.playlist?.artist?.first_name }}</p>
-        <!-- <p class="text-white">{{ playlist?.user }}</p>
-        <p class="text-white">{{ playlist?.track }}</p> -->
         <p class="text-white">{{ playlist?.playlist?.user?.first_name }} {{ playlist?.user?.last_name }}</p> 
         <p class="text-white">{{ playlist?.playlist.track.length }} Songs</p>
 

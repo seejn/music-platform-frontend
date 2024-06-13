@@ -1,5 +1,5 @@
 <template>
-    <!-- Create Album Section -->
+
     <section id="create-album">
         <h2 class="text-3xl font-semibold mb-6">Create Album</h2>
         <form action="create-album-url" method="POST" enctype="multipart/form-data"

@@ -44,7 +44,7 @@ const props = defineProps({
   <style scoped>
   .info-card {
     width:450px;
-    height: 150px;/* Adjust as needed */
+    height: 150px;
     padding: 1.5rem;
     margin-right:1 rem;
    

@@ -1,11 +1,3 @@
-<!-- <template>
-<div class="bg-white rounded-lg shadow-md">
-    <img src="https://via.placeholder.com/150" alt="Album Cover" class="w-full h-48 object-cover rounded-md mb-4">
-    <h3 class="text-xl font-semibold">{{album?.title || 'Album Title'}}</h3>
-    <p class="text-gray-700">{{album?.release_date || 'YYYY-MM-DD'}}</p>
-</div>
-</template> -->
-
 <template>
     <div class="album relative flex-shrink-0 mx-5 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-red-800 hover:border-red-800 transition-all duration-300">
         <img :src="imageUrl" alt="album Cover" class="w-full h-full object-cover" />
@@ -35,8 +27,8 @@ const imageUrl = computed(() => {
 
 <style scoped>
   .album {
-  width: 300px;  /* Set the desired fixed width */
-  height: 300px; /* Set the desired fixed height */
+  width: 300px;  
+  height: 300px; 
 }
 
 .album img {
@@ -44,6 +36,6 @@ const imageUrl = computed(() => {
 }
 
 .album h3, .album p {
-  margin: 0; /* Remove default margins for consistency */
+  margin: 0;
 }
 </style>

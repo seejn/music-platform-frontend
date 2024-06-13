@@ -12,7 +12,7 @@
             </RouterLink>
           </div>
         </div>
-        <!-- Add Pagination -->
+
         <div class="swiper-pagination"></div>
     
       </div>

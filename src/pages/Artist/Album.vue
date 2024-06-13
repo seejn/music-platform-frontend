@@ -6,12 +6,6 @@
         <div class="flex flex-row">
           <img :src="imageUrl" alt="Cover Image" class="w-60 h-60 rounded-lg border-4 border-red-800">
           <div class="ml-4 mt-[3vw] relative">
-            <!-- <h1 v-if="!editMode" class="text-4xl font-bold">{{ album.title }}</h1> -->
-
-            <!-- <button v-if="isAlbumOwner" @click="toggleEditMode" class="mt-4 px-4 py-2 bg-red-600 hover:bg-red-400 text-white rounded">
-              {{ editMode ? 'Cancel' : 'Edit' }}
-            </button> -->
-
             <template v-if="!editMode">
               <p class="font-bold text-white text-5xl align-text-bottom">
                 {{ album?.title }}
@@ -60,18 +54,6 @@
               </span>
             </div>
 
-            <!-- <div class="flex items-center justify-center w-full mt-6">
-              <form v-if="editMode" @submit.prevent="handleAlbumEdit" class="w-full max-w-md bg-black p-6 rounded z-10">
-                <div class="mb-4">
-                  <label for="albumTitle" class="block text-white mb-2">Title</label>
-                  <input type="text" id="albumTitle" v-model="album.title" @input="clearError('title')"
-                    class="w-full p-2 rounded outline-none bg-gray-700 text-black focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
-                </div>
-                <button type="submit" class="block w-full px-4 py-2 mt-4 bg-red-600 hover:bg-red-400 text-white">
-                  Save
-                </button>
-              </form>
-            </div> -->
           </div>
         </div>
       </header>
@@ -413,5 +395,4 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Your component-specific styles */
 </style>

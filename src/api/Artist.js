@@ -29,7 +29,7 @@ export const updateArtist = async (artistId,artistData) => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/roles/artist_personal_info/${artistId}/`;
     console.log("from updated artist: ", url)
 
-    // return
+
     try {
         const response = await axios.put(url, artistData);
         return response.data.data;

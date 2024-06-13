@@ -200,8 +200,6 @@ const updatedTour = async () => {
     try {
         const response = await updateTour(tour.value);
         toast.success("updated tour");
-        // console.log(response)
-        // console.log(tours.value)
         showEditTour.value = false;
         const updatedTour = tours.value.map((tour) => {
             if (tour.id === response.id) return response
@@ -246,7 +244,7 @@ const imageUrl = (artist) => {
 function formatTime24to12(time24) {
     const [hour, minute] = time24.split(':');
     const ampm = hour >= 12 ? 'PM' : 'AM';
-    const hour12 = hour % 12 || 12; // Convert hour "0" to "12"
+    const hour12 = hour % 12 || 12; 
     return `${hour12}:${minute} ${ampm}`;
 }
 </script>

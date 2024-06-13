@@ -2,12 +2,6 @@
   <nav class="relative w-full">
     <div class="bg-black text-white h-20 p-6 flex items-center justify-between">
       <div>
-        <!-- <button class="p-5 font-bold text-lg hover:text-orange-800">
-          &lt;
-        </button>
-        <button class="p-5 font-bold text-lg hover:text-orange-800">
-          &gt;
-        </button> -->
       </div>
       <div class="relative flex items-center">
         <button id="dropdownHoverButton" @click="toggleDropdown" 
@@ -15,7 +9,7 @@
           type="button">
           <img :src="getProfileImageUrl(props.user.image)" alt="Tay" class="w-10 h-10 rounded-full" />
         </button>
-        <!-- Dropdown menu -->
+
         <div v-show="isDropdownVisible"
           class="absolute top-24 right-0 z-10 bg-zinc-500 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
@@ -67,9 +61,9 @@ const handleLogout = async () => {
 <style scoped>
 #dropdownHoverButton img {
   width: 4rem;
-  /* Adjust the size as needed */
+
   height: 4rem;
-  /* Adjust the size as needed */
+
   border-radius: 50%;
 }
 </style>

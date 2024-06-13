@@ -23,7 +23,6 @@ export default {
         link.click();
       }).catch(error => {
         console.error('Error exporting CSV:', error);
-        // Handle error
       });
     }
   }

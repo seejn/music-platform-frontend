@@ -235,7 +235,7 @@ const saveImage = async () => {
 
 const saveImageToArtist = async (formData) => {
   try {
-    // console.log(user.value.id);
+
     console.log(formData);
     return await updateArtistProfileImage(user.value.id, formData);
   } catch (error) {

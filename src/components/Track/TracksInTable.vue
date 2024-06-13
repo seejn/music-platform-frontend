@@ -52,7 +52,7 @@ const trackImageUrl = (image) => {
 </script>
 <style>
 .table td {
-  height: 80px; /* Adjust based on desired row height */
+  height: 80px; 
 }
 
 .table th, .table td, .table img {
@@ -74,10 +74,10 @@ const trackImageUrl = (image) => {
   vertical-align: middle;
 }
 .table-container {
-  max-height: 24rem; /* Adjust this value as needed */
+  max-height: 24rem; 
 }
 
 .table td {
-  height: 80px; /* Adjust based on desired row height */
+  height: 80px; 
 }
 </style>

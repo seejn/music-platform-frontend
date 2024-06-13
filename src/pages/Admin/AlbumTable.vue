@@ -186,8 +186,8 @@
         track.isBanned = true;
         setTimeout(() => {
             track.isBanned = false;
-            track.reports = 0; // Reset reports after ban period
-        }, 30000); // 30 seconds
+            track.reports = 0; 
+        }, 30000); 
     };
     
     onMounted(() => {

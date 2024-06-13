@@ -35,12 +35,7 @@
             </select>
             <span v-if="errors.gender" class="text-red-500">{{ errors.gender }}</span>
           </div>
-          <!-- <div class="mb-4">
-          <label for="image" class="block text-white mb-2">Profile Image</label>
-          <input type="file" id="image" @change="handleImageChange" @input="clearError('image')"
-            class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
-          <span v-if="errors.image" class="text-red-500">{{ errors.image }}</span>
-        </div> -->
+
 
           <div class="mb-4 flex justify-between">
             <button type="button" @click="$emit('close')"
@@ -76,10 +71,7 @@
     errors.value[field] = ''
   }
   
-//   const handleImageChange = (event) => {
-//     const file = event.target.files[0]
-//     cuser.value.image = file
-//   }
+
   
   const handleFormSubmit = () => {
     const validationErrors = validateForm()
