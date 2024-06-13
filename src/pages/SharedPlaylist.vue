@@ -1,6 +1,11 @@
 <template>
   <Layout>
     <template #Main>
+
+      <span v-if="playlist === null">
+        <h1 class="text-white">No playlist found</h1>
+      </span>
+
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
           <div class="relative group">
@@ -17,7 +22,7 @@
       <main class="flex-grow bg-black p-8 flex flex-col space-y-4">
         <div v-if="playlist?.track && playlist?.track?.length > 0">
           <div class="overflow-y-auto max-h-screen">
-            <h2 class="text-2xl font-bold mb-4 text-white text-center">Your Playlist Tracks</h2>
+            <h2 class="text-2xl font-bold mb-4 text-white text-center">Playlist Tracks</h2>
             <table class="min-w-full bg-black text-white">
               <thead>
                 <tr>
@@ -76,32 +81,32 @@ import { getProfileImageUrl } from '../utils/imageUrl.js';
 import { useStore } from 'vuex';
 
 const props = defineProps({
-  id: {
-    type: String,
+  playlist: {
+    type: Object,
     required: true
   }
 });
 
 const store = useStore();
 const user = store.getters.getUser
-const playlist = ref({});
+const playlist = ref(props.playlist.playlist);
 const shared_playlists = ref([]);
 
-const fetchSharedPlaylistsData = async () => {
-  try {
-    const response = await fetchSharedPlaylists(user.id);
-    console.log(response)
-    if (response) {
-      user.value = response.user;
-      playlist.value = response.user;
-      shared_playlists.value = response.shared_playlists;
-    } else {
-      console.log('No shared playlists found');
-    }
-  } catch (error) {
-    console.error('Error fetching shared playlists', error);
-  }
-};
+// const fetchSharedPlaylistsData = async () => {
+//   try {
+//     const response = await fetchSharedPlaylists(user.id);
+//     console.log(response)
+//     if (response) {
+//       user.value = response.user;
+//       playlist.value = response.user;
+//       shared_playlists.value = response.shared_playlists;
+//     } else {
+//       console.log('No shared playlists found');
+//     }
+//   } catch (error) {
+//     console.error('Error fetching shared playlists', error);
+//   }
+// };
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -113,6 +118,6 @@ watch(() => props.id, (newId) => {
 });
 
 onMounted(() => {
-  fetchSharedPlaylistsData(props.id);
+  // fetchSharedPlaylistsData(props.id);
 });
 </script>
