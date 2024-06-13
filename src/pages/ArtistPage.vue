@@ -89,7 +89,7 @@ import { useRoute } from 'vue-router';
 import { fetchArtist } from '../api/Artist';
 import { fetchArtistTracks } from '../api/Track';
 import { reportTrack } from '../api/Reports';
-import { addRemoveTrackFromPlaylist } from '../api/Playlist';
+import { addRemoveTrackFromPlaylist, addTrackFromPlaylist } from '../api/Playlist';
 import { fetchUserPlaylists } from '../api/Playlist'; 
 
 import { useStore } from 'vuex'
@@ -97,12 +97,20 @@ import TourCard from '../components/Tour/TourCard.vue';
 import { fetchArtistTour } from '../api/Tour';
 import ArtistTourCol from '../components/Tour/ArtistTourCol.vue';
 
-
-
 const store = useStore();
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+});
+
+
+
 const route = useRoute();
 const artistId = ref(Number(route.params.id));
-const user = ref(store.getters.getUser);
+
+const user = store.getters.getUser;
 const playlists = ref([]);
 const artist = ref({});
 const tracks = ref([]);
@@ -120,7 +128,7 @@ const toggleTrackOptions = (index) => {
 
 const reportedTrack = async (trackId) => {
   try {
-    const response = await reportTrack(trackId, user.value.id);
+    const response = await reportTrack(trackId, user.id);
     console.log(response)
     toast.success(response.message);
     
@@ -158,7 +166,7 @@ const loadUserPlaylists = async () => {
   try {
     playlists.value = await fetchUserPlaylists(user.id);
   } catch (error) {
-    console.log("Error fetching user playlists");
+    console.log("Error fetching user playlists", playlists.value);
   }
 };
 const loadTourData = async () => {
@@ -189,7 +197,7 @@ const togglePlaylistOptions = (index) => {
 const addTrackToPlaylist = async (playlistId, trackId) => {
   try {
     const playlistData = { track: trackId };
-    await addRemoveTrackFromPlaylist(playlistId, playlistData);
+    await addTrackFromPlaylist(playlistId, playlistData);
     toast.success('Track added to playlist successfully');
   } catch (error) {
     toast.error('Error adding track to playlist');
