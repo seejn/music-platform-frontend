@@ -99,9 +99,10 @@ import ArtistTourCol from '../components/Tour/ArtistTourCol.vue';
 
 
 
-
+const store = useStore();
 const route = useRoute();
 const artistId = ref(Number(route.params.id));
+const user = ref(store.getters.getUser);
 const playlists = ref([]);
 const artist = ref({});
 const tracks = ref([]);
@@ -119,7 +120,7 @@ const toggleTrackOptions = (index) => {
 
 const reportedTrack = async (trackId) => {
   try {
-    const response = await reportTrack(trackId, user.id);
+    const response = await reportTrack(trackId, user.value.id);
     console.log(response)
     toast.success(response.message);
     

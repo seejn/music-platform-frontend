@@ -21,47 +21,52 @@
           <div class="w-full pl-4">
             <h2 class="text-3xl font-bold mb-4 text-white">Songs</h2>
             <table class="min-w-full bg-transparent text-white">
-  <thead>
-    <tr>
-      <th class="py-2 px-4 text-left">Title</th>
-      <th class="py-2 px-4 text-left">Release Date</th>
-      <th class="py-2 px-4 text-left">Artist</th>
-      <th class="py-2 px-4 text-left">Duration</th>
-      <th class="py-2 px-4 text-left">Options</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="hover:bg-zinc-700">
-      <td class="py-2 px-4 text-left border-b border-red-800">
-        <div class="flex items-center justify-center">
-          <img :src="imgUrl" alt="" class="w-10 h-10 rounded-full">
-        </div>
-      </td>
-      <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
-      <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
-      <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.artist?.first_name }}</td>
-      <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
-      <td class="py-2 px-4 text-left border-b border-red-800 relative">
-        <div class="flex items-center justify-center">
-          <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(0)">
-            <i class="fas fa-ellipsis-v">...</i>
-          </button>
-        </div>
-        <div v-if="showTrackOptions[0]" class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
-          <button v-if="!showPlaylistOptions[0]" @click="reportedTrack(track.id)" class="block w-full text-left px-4 py-2">Report</button>
-          <div @click="togglePlaylistOptions(0)">
-            <button v-if="!showPlaylistOptions[0]" class="block w-full text-left px-4 py-2">Playlist</button>
-            <div v-if="showPlaylistOptions[0]" class="bg-black text-white rounded-md shadow-md py-2 w-full mt-2">
-              <div v-for="playlist in playlists" :key="playlist.id">
-                <button @click="addTrackToPlaylist(playlist.id, track.id)" class="block w-full text-left px-4 py-2">{{ playlist.title }}</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+              <thead>
+                <tr>
+                  <th class="py-2 px-4 text-left">Title</th>
+                  <th class="py-2 px-4 text-left">Release Date</th>
+                  <th class="py-2 px-4 text-left">Artist</th>
+                  <th class="py-2 px-4 text-left">Duration</th>
+                  <th class="py-2 px-4 text-left">Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="hover:bg-zinc-700">
+                  <td class="py-2 px-4 text-left border-b border-red-800">
+                    <div class="flex items-center justify-center">
+                      <img :src="imgUrl" alt="" class="w-10 h-10 rounded-full">
+                    </div>
+                  </td>
+                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
+                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
+                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track?.artist?.first_name }}</td>
+                  <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
+                  <td class="py-2 px-4 text-left border-b border-red-800 relative">
+                    <div class="flex items-center justify-center">
+                      <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(0)">
+                        <i class="fas fa-ellipsis-v">...</i>
+                      </button>
+                    </div>
+                    <div v-if="showTrackOptions[0]"
+                      class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
+                      <button v-if="!showPlaylistOptions[0]" @click="reportedTrack(track.id)"
+                        class="block w-full text-left px-4 py-2">Report</button>
+                      <div @click="togglePlaylistOptions(0)">
+                        <button v-if="!showPlaylistOptions[0]"
+                          class="block w-full text-left px-4 py-2">Playlist</button>
+                        <div v-if="showPlaylistOptions[0]"
+                          class="bg-black text-white rounded-md shadow-md py-2 w-full mt-2">
+                          <div v-for="playlist in playlists" :key="playlist.id">
+                            <button @click="addTrackToPlaylist(playlist.id, track.id)"
+                              class="block w-full text-left px-4 py-2">{{ playlist.title }}</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -71,7 +76,7 @@
 
 <script setup>
 import { toast } from 'vue3-toastify';
-
+import 'vue3-toastify/dist/index.css';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchTracks } from '../../api/Track';
@@ -98,15 +103,15 @@ const showOptions = ref(false);
 
 
 
-const reportedTrack = async (trackId) => {
-  try {
-    await reportTrack(trackId);
-    fetchAlbumData(albumId.value);
-    toast.success("Track reported successfully!");
-  } catch (error) {
-    toast.error("Error reporting track");
-  }
-};
+// const reportedTrack = async (trackId) => {
+//   try {
+//     await reportTrack(trackId);
+//     fetchAlbumData(albumId.value);
+//     toast.success("Track reported successfully!");
+//   } catch (error) {
+//     toast.error("Error reporting track");
+//   }
+// };
 const addTrackToPlaylist = async (playlistId, trackId) => {
   try {
     const playlistData = { track: trackId };
@@ -139,13 +144,13 @@ const loadUserPlaylists = async () => {
     toast.error("Error fetching user playlists");
   }
 };
-const reportedTrack= async(trackId)=>{
+const reportedTrack = async (trackId) => {
   try {
     const response = await reportTrack(trackId, user.id);
     console.log(response)
     toast.success(response.message);
-    
-  }catch(error){
+
+  } catch (error) {
     toast.error(error.message);
   }
 };
@@ -153,14 +158,14 @@ const reportedTrack= async(trackId)=>{
 const toggleTrackOptions = () => {
   showTrackOptions.value = { ...showTrackOptions.value, [0]: !showTrackOptions.value[0] };
   if (!showTrackOptions.value[0]) {
-    showPlaylistOptions.value[0] = false; 
+    showPlaylistOptions.value[0] = false;
   }
 };
 
 const togglePlaylistOptions = () => {
   showPlaylistOptions.value = { ...showPlaylistOptions.value, [0]: !showPlaylistOptions.value[0] };
   if (showPlaylistOptions.value[0]) {
-    showTrackOptions.value[0] = true; 
+    showTrackOptions.value[0] = true;
   }
 };
 
@@ -183,6 +188,7 @@ button {
   position: relative;
   z-index: 20;
 }
+
 td img {
   display: block;
   margin: 0 auto;

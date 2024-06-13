@@ -20,7 +20,7 @@
             <TrackCollection :tracks="filteredTracks" />
           </section>
 
-          <section v-if="filteredUsers.length > 0" class="mt-10">
+          <section v-if="role==1 && filteredUsers.length > 0" class="mt-10">
             <h2 class="text-3xl font-bold mb-4 text-white">Users</h2>
             <UserCollection :users="filteredUsers" />
           </section>
@@ -61,9 +61,12 @@ import AlbumCollection from '../components/Album/AlbumCollection.vue'
 import PlaylistCollection from '../components/Track/PlaylistCollection.vue';
 import ArtistCollection from '../components/Artist/ArtistCollection.vue'
 import UserCollection from '../components/User/UserCollection.vue'
+import { useStore } from 'vuex'
 
+const store = useStore();
 let searchTerm = ref('');
 let users = ref([]);
+let role = ref(store.getters.getRole);
 let tracks = ref([]);
 let albums = ref([]);
 let artists = ref([]);
@@ -79,7 +82,7 @@ const fetchData = async () => {
     const [tracksResponse,userResponse, artistsResponse, albumsResponse, playlistsResponse] = await Promise.all([
       axios.get('http://localhost:8000/track/get_all_tracks/'),
       axios.get('http://localhost:8000/roles/users/'), 
-      axios.get('http://localhost:8000/users/get_all_users/'),
+      axios.get('http://localhost:8000/roles/artists/'),
       axios.get('http://localhost:8000/album/get_all_albums/'),
       axios.get('http://localhost:8000/track/get_all_playlist/')
     ]);

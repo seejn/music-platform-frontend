@@ -23,7 +23,7 @@
               <div class="mb-4">
                 <label for="songTitle" class="block text-white mb-2">Title</label>
                 <input type="text" id="songTitle" v-model="track.title" @input="clearError('track', 'title')"
-                  class="w-full p-2 rounded outline-none bg-gray-700 text-white focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  class="w-full p-2 rounded outline-none bg-gray-700 text-black focus:border-red-800 focus:ring-4 focus:ring-red-800 caret-red-800">
                 <span v-if="trackErrors.title" class="text-red-500">{{ trackErrors.title }}</span>
               </div>
 
@@ -31,7 +31,7 @@
               <div class="mb-4">
                 <label for="songDuration" class="block text-white mb-2">Duration</label>
                 <input type="text" id="songDuration" v-model="track.duration" @input="clearError('track', 'duration')"
-                  class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  class="w-full p-2 rounded outline-none bg-gray-700 text-black border border-gray-600 focus:border-red-800 focus:ring-4 focus:ring-red-800 caret-red-800">
                 <span v-if="trackErrors.duration" class="text-red-500">{{ trackErrors.duration }}</span>
               </div>
 
@@ -39,7 +39,7 @@
               <div class="mb-4">
                 <label for="songReleasedDate" class="block text-white mb-2">Released Date</label>
                 <input type="date" id="songReleasedDate" v-model="track.released_date" @input="clearError('track', 'released_date')"
-                  class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  class="w-full p-2 rounded outline-none bg-gray-700 text-black border border-gray-600 focus:border-red-800 focus:ring-4 focus:ring-red-800 caret-red-800">
                 <span v-if="trackErrors.released_date" class="text-red-500">{{ trackErrors.released_date }}</span>
                 <span v-if="isFutureDate(track.released_date)" class="text-red-500">Select a date before today</span>
               </div>
@@ -48,7 +48,7 @@
               <div class="mb-4">
                 <label for="songGenre" class="block text-white mb-2">Genre</label>
                 <select v-model="track.genre" name="genre" id="genre" @input="clearError('track', 'genre')"
-                  class="w-full p-2 rounded bg-gray-700 outline-none text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  class="w-full p-2 rounded bg-gray-700 outline-none text-black border border-gray-600 focus:border-red-800 focus:ring-4 focus:ring-red-800 caret-red-800">
                   <option value="" disabled>Choose genre of track</option>
                   <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.name }}</option>
                 </select>
@@ -59,7 +59,7 @@
               <div class="mb-4">
                 <label for="songFile" class="block text-white mb-2">Image</label>
                 <input type="file" id="songFile" @change="handleTrackImageChange" @input="clearError('track', 'image')"
-                  class="w-full p-2 rounded outline-none bg-gray-700 text-white border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  class="w-full p-2 rounded outline-none bg-white text-black border border-gray-600 focus:border-red-800 focus:ring-4 focus:ring-red-800 caret-red-800">
                 <span v-if="trackErrors.image" class="text-red-500">{{ trackErrors.image }}</span>
               </div>
 
@@ -76,7 +76,7 @@
               <div class="mb-4">
                 <label for="albumTitle" class="block text-white mb-2">Title</label>
                 <input type="text" id="albumTitle" v-model="album.title" @input="clearError('album', 'title')"
-                  class="w-full p-2 rounded outline-none bg-gray-700 focus:border-red-800 focus:ring-2 focus:ring-red-800 text-white caret-red-800">
+                  class="w-full p-2 rounded outline-none bg-gray-700 focus:border-red-800 focus:ring-4 focus:ring-red-800 text-black caret-red-800">
                 <span v-if="albumErrors.title" class="text-red-500">{{ albumErrors.title }}</span>
               </div>
 
@@ -84,7 +84,7 @@
               <div class="mb-4">
                 <label for="albumReleasedDate" class="block text-white mb-2">Released Date</label>
                 <input type="date" id="albumReleasedDate" v-model="album.released_date" @input="clearError('album', 'released_date')"
-                  class="w-full p-2 rounded outline-none bg-gray-700 border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 text-white caret-red-800">
+                  class="w-full p-2 rounded outline-none bg-gray-700 border border-gray-600 focus:border-red-800 focus:ring-4 focus:ring-red-800 text-black caret-red-800">
                 <span v-if="albumErrors.released_date" class="text-red-500">{{ albumErrors.released_date }}</span>
                 <span v-if="isFutureDate(album.released_date)" class="text-red-500">Select a date before today</span>
               </div>
@@ -93,7 +93,7 @@
               <div class="mb-4">
                 <label for="albumCover" class="block text-white mb-2">Album Cover</label>
                 <input type="file" id="albumCover" @change="handleAlbumImageChange" @input="clearError('album', 'image')"
-                  class="w-full p-2 rounded outline-none bg-gray-700 focus:border-red-800 focus:ring-2 focus:ring-red-800 text-white caret-red-800 border border-gray-600">
+                  class="w-full p-2 rounded outline-none bg-white border border-red-800 focus:ring-4 focus:ring-red-800 text-black caret-red-800 ">
                 <span v-if="albumErrors.image" class="text-red-500">{{ albumErrors.image }}</span>
               </div>
 
@@ -101,7 +101,7 @@
               <div class="mb-4">
                 <label for="albumFile" class="block text-white mb-2">Album Track</label>
                 <select v-model="album.tracks" multiple name="genre" id="genre" @input="clearError('album', 'tracks')"
-                  class="w-full p-2 rounded bg-gray-700 outline-none text-black border border-gray-600 focus:border-red-800 focus:ring-2 focus:ring-red-800 caret-red-800">
+                  class="w-full p-2 rounded bg-gray-700 outline-none text-black border border-gray-600 focus:border-red-800 focus:ring-4 focus:ring-red-800 caret-red-800">
                   <option value="" disabled>Choose tracks</option>
                   <option v-for="track in artistTracks" :key="track.id" :value="track.id">{{ track.title }}</option>
                 </select>

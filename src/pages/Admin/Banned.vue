@@ -8,10 +8,10 @@
             <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
               <thead class="bg-zinc-800 text-center">
                 <tr>
-                  <th class="py-2 px-4  border-b border-red-800">Title</th>
-                  <th class="py-2 px-4  border-b border-red-800">Artist</th>
-                  <th class="py-2 px-4  border-b border-red-800">Banned Until</th>
-                  <th class="py-2 px-4  border-b border-red-800">Actions</th>
+                  <th class="py-5 px-4  border-b border-red-800">Title</th>
+                  <th class="py-5 px-4  border-b border-red-800">Artist</th>
+                  <th class="py-5 px-4  border-b border-red-800">Banned Until</th>
+                  <th class="py-5 px-4  border-b border-red-800">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -19,7 +19,7 @@
               <tr v-if="bannedTracks?.length <= 0">
                 <td
                   colspan="4"
-                  class="py-2 px-4 text-left border-b border-red-800 text-center"
+                  class="py-4 px-4 text-center text-lg"
                 >
                   No banned tracks
                 </td>

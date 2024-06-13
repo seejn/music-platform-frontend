@@ -2,8 +2,8 @@
     <div class="mx-17 relative overflow-hidden">
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <div class="swiper-slide playlist-link my-5 " v-for="playlist in sharedPlaylists" :key="playlist.id">
-               <RouterLink :to="`/single-shareplaylist/${playlist.id}`">
+            <div class="swiper-slide playlist-link my-5 " v-for="playlist in sharedplaylists" :key="playlist.id">
+               <RouterLink :to="{name:'SingleSharePlaylist',props:{playlist:playlist}}">
                 <SingleSharedPlaylistCard :playlist="playlist" class="border-2 border-red-800  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110"/>
                </RouterLink>
             </div>
@@ -22,7 +22,7 @@
     
     
     const props = defineProps({
-        sharedPlaylists: {
+      sharedplaylists: {
             type: Array,
             required: true
         }
