@@ -132,11 +132,11 @@ export const createFavouritePlaylist = async (favouritePlaylistData) => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/track/favourite_playlist/create/`;
   try {
     const response = await axios.post(url, favouritePlaylistData);
-    console.log('Response from createFavouritePlaylist:', response); // Add this line to see what the response object looks like
+    console.log('Response from createFavouritePlaylist:', response); 
     return response.data;
   } catch (error) {
     console.error('Error creating playlist:', error);
-    throw error; // Throw the error to handle it in the calling function
+    throw error; 
   }
 };
 
@@ -204,3 +204,18 @@ export const fetchSharedPlaylists = async (userId) => {
       throw error;
     }
   };
+
+
+
+
+  export const sharingPlaylistApi = async (playlistId, userId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/users/get_specific_shared_playlist/playlist/${playlistId}/user/${userId}/`;
+    try {
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error sharing playlist ID ${playlistId} with user ID ${userId}:`, error);
+      throw error;
+    }
+  };
+  
