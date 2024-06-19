@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h3 class="text-white font-bold text-3xl ">Tour details</h3>
+      
         <div v-for="tour in tours" :key="tour.id" class="flex mt-10">
          <ArtistTour :tour="tour"/>
          </div>

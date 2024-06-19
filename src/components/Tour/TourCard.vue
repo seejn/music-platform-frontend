@@ -10,7 +10,7 @@
         <p class="text-white text-lg">Date: {{ tour.date || 'Unknown Date' }}</p>
         <p class="text-white text-lg">Location: {{ tour.location || 'Unknown Location' }}</p>
         <p class="text-white text-lg">Venue: {{ tour.venue || 'Unknown Venue' }}</p>
-        <p class="text-white text-lg">Time: {{ tour.time || 'Unknown Time' }}</p>
+        <p class="text-white text-lg">Time: {{ formattedTime || 'Unknown Time' }}</p>
       </div>
     </div>
   </div>
@@ -18,6 +18,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 const props = defineProps({
   tour: {
     type: Object,
@@ -28,6 +30,17 @@ const props = defineProps({
 const imageUrl = (artist) => {
   return `${import.meta.env.VITE_API_BASE_URL}${artist.image || "/src/assets/pic/ch.jpeg"}`;
 };
+
+const formattedTime = computed(() => {
+  if (!props.tour.time) return 'Unknown Time';
+
+  const time = props.tour.time;
+  let [hours, minutes] = time.split(':').map(Number);
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+
+  return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+});
 </script>
 
 <style scoped>
