@@ -68,7 +68,8 @@
                 </table>
               </div>
               <div class="bg-opacity-0">
-                <ArtistTourCol :tours="tours" />
+                <h2 class=" text-3xl font-bold text-white  ml-5 ">Tour details</h2>
+                <ArtistTourCol :tours="tours" class="ml-5" />
 
               </div>
             </div>

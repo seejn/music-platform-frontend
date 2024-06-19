@@ -1,6 +1,6 @@
 <template>
   <div class="rounded-lg p-6 shadow-lg max-h-full">
-    <h2 class="text-4xl font-bold text-white mb-4">All Songs</h2>
+    <h2 class="text-3xl font-bold text-white mb-4">All Songs</h2>
     <div class="table-container overflow-y-auto max-h-96">
       <table class="min-w-full rounded-lg text-white bg-zinc-800 bg-opacity-50">
         <thead class="text-center border-b-2 border-b-darkgray px-4 py-2">
