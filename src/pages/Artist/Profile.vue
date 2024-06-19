@@ -28,10 +28,10 @@
                 Edit
               </button>
             </p>
-            <div>
+            <!-- <div>
 
               <ArtistTourCol :tours="tours" class="mt-5 px-6 ml-10 w-full" />
-            </div>
+            </div> -->
           </div>
 
 
@@ -41,20 +41,22 @@
       </header>
       <main class="flex-grow bg-black flex flex-col space-y-4">
         <div class="rounded-lg glass-effect">
-          <section>
-            <h2 class="text-4xl font-bold mb-4 text-white ml-3">Artist</h2>
-            <span v-if="artists?.length > 0">
-              <ArtistCollection :artists="artists" />
-            </span>
-            <span v-else class="font-bold text-xl text-center text-white">
-              <h2>No Artists Available</h2>
-            </span>
-          </section>
+          
 
           <TracksInTable :tracks="tracks" />
 
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10"> Favourite Albums</h2>
+            <h2 class=" text-3xl font-bold text-white  ml-5 ">Tour details</h2>
+            <span v-if="tours?.length > 0">
+              <ArtistTourCol :tours="tours" class="mt-5 px-6 w-full" />
+            </span>
+            <span v-else class="font-bold text-xl text-center text-white">
+              <h2>No Tours Available</h2>
+            </span>
+          </section>
+
+          <section>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10 ml-5"> Favourite Albums</h2>
             <span v-if="albums?.length > 0">
               <AlbumCollection :albums="albums" />
             </span>
@@ -64,7 +66,7 @@
           </section>
 
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10 ml-5">Favourite Playlists</h2>
             <span v-if="favouriteplaylists.length > 0">
               <FavouritePlaylistCollection :favouriteplaylists="favouriteplaylists" />
             </span>
