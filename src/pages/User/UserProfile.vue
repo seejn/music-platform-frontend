@@ -47,28 +47,20 @@
         </div>
 
         <div class="mt-8 rounded-lg glass-effect">
-          <section>
+          <!-- <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10 ml-5">
               Artist
             </h2>
             <ArtistCollection :artists="artists" />
-          </section>
+          </section> -->
 
-          <section>
-            <h2 class="text-3xl ml-5 font-bold mb-4 text-white mt-10">Shared Playlists</h2>
-            <span v-if="sharedplaylists.length > 0">
-              <SharedPlaylistCollection :sharedplaylists="sharedplaylists" />
-            </span>
-            <span v-else class="font-bold text-xl text-center text-white">
-              <h2>No Playlists Available</h2>
-            </span>
-          </section>
+        
 
-          <section>
+          <!-- <section>
             <div class="scrollable-table-container mt-10">
               <TracksInTable :tracks="tracks" />
             </div>
-          </section>
+          </section> -->
 
           <section>
             <h2 class="text-3xl font-bold mb-4 ml-5 text-white mt-10">Favourite Albums</h2>
@@ -84,6 +76,16 @@
             <h2 class="text-3xl font-bold mb-4 ml-5 text-white mt-10">Favourite Playlists</h2>
             <span v-if="favouriteplaylists?.length > 0">
               <FavouritePlaylistCollection :favouriteplaylists="favouriteplaylists" />
+            </span>
+            <span v-else class="font-bold text-xl text-center text-white">
+              <h2>No Playlists Available</h2>
+            </span>
+          </section>
+
+          <section>
+            <h2 class="text-3xl ml-5 font-bold mb-4 text-white mt-10">Shared Playlists</h2>
+            <span v-if="sharedplaylists.length > 0">
+              <SharedPlaylistCollection :sharedplaylists="sharedplaylists" />
             </span>
             <span v-else class="font-bold text-xl text-center text-white">
               <h2>No Playlists Available</h2>
