@@ -43,7 +43,7 @@
         <div class="rounded-lg glass-effect">
           
 
-          <TracksInTable :tracks="tracks" />
+          <TracksInTable :tracks="tracks" class="mb-4"/>
 
           <section>
             <h2 class=" text-3xl font-bold text-white  ml-5 ">Tour details</h2>
