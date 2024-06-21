@@ -11,7 +11,7 @@
           <div class="relative group">
             <img :src="getProfileImageUrl(user?.image)" alt="Artist Image"
               class="w-60 h-60 border-4 rounded-full border-red-800">
-            <div
+            <div v-show="isLoggedInUser"
               class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
               @click="triggerFileInput">
               <span class="text-white">Choose Photo</span>
@@ -22,7 +22,7 @@
 
           <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
             {{ user?.first_name }} {{ user?.last_name }}
-            <button @click="toggleEditForm"
+            <button @click="toggleEditForm" v-show="isLoggedInUser"
               class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-500 text-xl  rounded-lg px-4 py-2">
               Edit
             </button>
@@ -141,6 +141,7 @@ import { fetchAllTracks } from '../../api/Track'
 import { getProfileImageUrl } from '../../utils/imageUrl.js';
 
 import defaultImageUrl from '../../assets/placeholders/image.png';
+import { windows } from 'fontawesome';
 const store = useStore()
 
 const props = defineProps({
@@ -296,7 +297,11 @@ const saveImage = async () => {
     const formData = new FormData()
     formData.append('image', imageFile.value)
     const response = await updateUserProfileImage(user.value.id, formData)
-    user.value.image = response.image
+    user.value = response
+    console.log(user.value)
+    
+    store.commit('setUser', user.value);
+
     showImageForm.value = false
   } catch (error) {
     console.error("Failed to save the image", error)
