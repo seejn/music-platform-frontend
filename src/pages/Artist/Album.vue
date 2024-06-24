@@ -318,8 +318,7 @@ const addTrackToPlaylist = async (playlistId, trackId) => {
     toast.error('Error adding track to playlist');
     console.error(`Error adding track ${trackId} to playlist ${playlistId}:`, error);
   }
-};
-
+}
 
 const handleAlbumEdit = async () => {
   try {
@@ -371,10 +370,10 @@ const saveChanges = async () => {
   album.value.title = editedTitle.value;
   try{
     await updateAlbum(album.value.id, album.value);
-    toast.success("Title updated successfully");
+    toast.success("Album title updated successfully");
   }catch(error){
     console.log(error);
-    toast.error("Title cannot be updated")
+    toast.error("Error in updating album title")
   }
   editMode.value = false;
 };
