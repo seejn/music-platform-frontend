@@ -14,8 +14,11 @@
   </template>
   
   <script setup>
-  import { defineProps, ref } from 'vue';
-  import { updatePlaylistPrivacy } from '../api/Playlist';
+import { defineProps, defineEmits, ref } from 'vue';
+import { updatePlaylistPrivacy } from '../api/Playlist'; 
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
   
   const props = defineProps({
     id: {
@@ -30,9 +33,10 @@
     try {
       const response = await updatePlaylistPrivacy(props.id, { playlist_type: playlist_type });
       console.log('Response from updatePlaylist:', response);
+      toast.success('Playlist privacy updated successfully');
       console.log('Playlist updated successfully');
-      isModalOpen.value = false; 
     } catch (error) {
+      toast.error('Error in updating playlist privacy');
       console.error('Error updating playlist:', error);
     }
   };

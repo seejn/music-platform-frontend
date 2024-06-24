@@ -2,9 +2,9 @@
     <AdminLayout>
         <template #Main>
             <section class="py-4">
-                <h2 class="text-2xl font-bold my-4 text-white">Tours by Artists</h2>
+                <h2 class="text-3xl font-bold mb-4 text-white">Tours by Artists</h2>
                 <div class="flex flex-row">
-                    <button @click="showAddTour = true"
+                    <button @click="resetTour(); showAddTour = true"
                         class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-800 hover:text-white py-3 px-3 rounded-lg flex-end block ">
                         Add Tour
                     </button>
@@ -48,7 +48,7 @@
 
             <div v-if="showAddTour" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 ">
                 <div class=" mx-auto bg-black p-5 rounded-md shadow-md text-white border-2 border-red-800 px-10 py-10">
-                    <h2 class="text-xl font-semibold mb-4">Enter Event Details</h2>
+                    <h2 class="text-xl font-semibold mb-4">Enter Tour Details</h2>
                     <form @submit.prevent="tourCreate" class="w-[36rem] ">
                         <div class="mb-4 text-white">
                             <label for="artist" class="block">Artist:</label>
@@ -102,7 +102,7 @@
                 class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 ">
                 <div class=" mx-auto bg-black p-5 rounded-md shadow-md text-white border-2 border-red-800 px-10 py-10">
 
-                    <h2 class="text-xl font-semibold mb-4">Update Event Details</h2>
+                    <h2 class="text-xl font-semibold mb-4">Update Tour Details</h2>
 
                     <form @submit.prevent="updatedTour" class="w-[36rem] ">
                         <div class="mb-4 text-white">
@@ -177,16 +177,27 @@ const tourErrors = ref({
     time: ""
 });
 
+const resetTour = () => {
+    tour.value = {
+        artist_id: '',
+        title: '',
+        date: '',
+        location: '',
+        venue: '',
+        time: ''
+    };
+};
+
 const tourCreate = async () => {
     try {
         console.log("Before creating tour", tour.value)
 
         const response = await createTour(tour.value);
-        toast.success("created tour");
+        toast.success("Tour created successfully");
         showAddTour.value = false;
         tours.value = [...tours.value, response];
     } catch (error) {
-        toast.error("Error creating tour");
+        toast.error("Error in creating tour");
 
     }
 };
@@ -199,7 +210,7 @@ const editTour = (selectedTour) => {
 const updatedTour = async () => {
     try {
         const response = await updateTour(tour.value);
-        toast.success("updated tour");
+        toast.success("Tour details updated successfully");
         // console.log(response)
         // console.log(tours.value)
         showEditTour.value = false;
@@ -210,7 +221,7 @@ const updatedTour = async () => {
         tours.value = updatedTour
         console.log(tours.value)
     } catch (error) {
-        toast.error("Error updating tour");
+        toast.error("Error in updating tour details");
 
     }
 };
@@ -218,11 +229,11 @@ const updatedTour = async () => {
 const deletedTour = async (id) => {
     try {
         const response = await deleteTour(id);
-        toast.success("deleted tour");
+        toast.success("Tour deleted successfully ");
         const toursafterdeletion = tours.value.filter(tour => tour.id != id)
         tours.value = toursafterdeletion;
     } catch (error) {
-        toast.error("Error deleting tour",);
+        toast.error("Error in deleting tour",);
     }
 };
 
@@ -246,7 +257,7 @@ const imageUrl = (artist) => {
 function formatTime24to12(time24) {
     const [hour, minute] = time24.split(':');
     const ampm = hour >= 12 ? 'PM' : 'AM';
-    const hour12 = hour % 12 || 12; // Convert hour "0" to "12"
+    const hour12 = hour % 12 || 12; 
     return `${hour12}:${minute} ${ampm}`;
 }
 </script>

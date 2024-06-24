@@ -39,7 +39,7 @@
                   <td class="py-4 px-4 text-center relative">
                     <div class="flex items-center justify-center">
                       <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(0)">
-                        <i class="fas fa-ellipsis-v">...</i>
+                        <i class="fas fa-ellipsis-v " style="font-size: 1.5em;" scale="1.5">...</i>
                       </button>
                     </div>
                     <div v-if="showTrackOptions[0]"
@@ -89,24 +89,12 @@ const trackId = ref(route.params.id);
 const playlists = ref([]);
 
 const track = ref({});
-const lyricsLines = ref([]);
 const showTrackOptions = ref({});
 const showPlaylistOptions = ref({});
 const showEditForm = ref(false);
 const showOptions = ref(false);
 
 
-
-
-// const reportedTrack = async (trackId) => {
-//   try {
-//     await reportTrack(trackId);
-//     fetchAlbumData(albumId.value);
-//     toast.success("Track reported successfully!");
-//   } catch (error) {
-//     toast.error("Error reporting track");
-//   }
-// };
 const addTrackToPlaylist = async (playlistId, trackId) => {
   try {
     const playlistData = { track: trackId };

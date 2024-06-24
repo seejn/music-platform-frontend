@@ -65,8 +65,9 @@
 
               <span v-show="isPlaylistOwner">
                 <button @click="togglePrivacyPopup">
-                  <i class="fa fa-user fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
-                </button>
+  <i class="fa fa-user fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
+</button>
+
               </span>
 
               <span v-if="role == 1">
@@ -119,11 +120,11 @@
             <table class="min-w-full bg-black text-white">
               <thead class="text-xl">
                 <tr>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Title</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Release Date</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Duration</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Singer</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700" v-show="isPlaylistOwner">Actions</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Title</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Release Date</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Duration</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Singer</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700" v-show="isPlaylistOwner">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -137,7 +138,7 @@
                   <td class="py-4 px-4  text-center">{{ track?.artist?.first_name }}</td>
                   <td class="py-4 px-4  text-center" v-show="isPlaylistOwner">
                     <button @click="removeTrack(track.id)"
-                      class="text-white border-2 py-1 px-4 border-blood rounded-full">Remove</button>
+                      class="text-white border-2 border-red-800 py-1 px-4 border-blood rounded-lg">Remove</button>
                   </td>
                 </tr>
               </tbody>
@@ -172,13 +173,13 @@
         <transition name="fade">
           <div v-if="showImageForm"
             class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
-            <div class="bg-black p-8 rounded-lg">
+            <div class="bg-black p-8 rounded-lg  border-2 border-red-800">
               <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
 
               <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
               <div class="flex justify-end space-x-4">
-                <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Save</button>
-                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Cancel</button>
+                <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-white rounded-md ring-2 ring-red-800 hove:bg-red-800">Save</button>
+                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-white rounded-md ring-2 ring-red-800 hove:bg-red-800">Cancel</button>
               </div>
             </div>
           </div>
@@ -396,7 +397,10 @@ const triggerFileInput = () => {
   fileInput.value.click();
 };
 
-
+const togglePrivacyPopup = () => {
+  console.log('Toggling privacy popup');
+  showPrivacyPopup.value = !showPrivacyPopup.value;
+};
 
 const onImageChange = (event) => {
   const file = event.target.files[0];
@@ -421,9 +425,11 @@ const saveImage = async () => {
 
     playlist.value = response
     showImageForm.value = false;
+    toast.success("Playlist image changed successfully")
 
   } catch (error) {
     console.error('Error saving image:', error);
+    toast.error("Error in changing playlist image ")
   }
 };
 
