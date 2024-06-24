@@ -295,7 +295,7 @@ const addToFavourite = async () => {
     const response = await createFavouriteAlbum(favouriteAlbumData);
     toast.success('Album added to favourites');
   } catch (error) {
-    toast.error('Error adding Album to favourites:');
+    toast.error('Error adding Album to favourites');
   }
 };
 

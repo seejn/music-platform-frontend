@@ -235,9 +235,9 @@ const handleTrackUpload = async () => {
   try {
     const formData = handleImageUpload(track.value, trackImageFile.value);
     const response = await createTrack(formData);
-    toast.success(" created track");
+    toast.success(" Track created successfully ");
   } catch (error) {
-    toast.error("Error to create track");
+    toast.error("Error in creating tracks");
   }
   clearFields(track);
 };
@@ -247,9 +247,9 @@ const handleAlbumUpload = async () => {
   try {
     const formData = handleImageUpload(album.value, albumImageFile.value);
     const response = await createAlbum(formData);
-    toast.success(" created Album");
+    toast.success(" Album created successfully");
   } catch (error) {
-    toast.error("Error to create Album");
+    toast.error("Error in creating album");
   }
   clearFields(album);
 };
