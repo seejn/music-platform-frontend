@@ -232,10 +232,10 @@ export default {
 
 
         const response = await createUser(info.value);
-        toast.success('User created successfully');
+        toast.success('User account has been created successfully!');
         clearForm();
       } catch (error) {
-        toast.error('User creation failed');
+        toast.error('Failed to create user account. Please check the input and try again.');
       }
     };
 

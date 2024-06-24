@@ -232,10 +232,10 @@ export default {
 
 
         const response = await createArtist(info.value);
-        toast.success('Artist created successfully');
+        toast.success('Artist account has been created successfully!');
         clearForm();
       } catch (error) {
-        toast.error('Artist creation failed');
+        toast.error('Failed to create artist account. Please check the input and try again.');
       }
     };
 
