@@ -397,11 +397,6 @@ const triggerFileInput = () => {
   fileInput.value.click();
 };
 
-const togglePrivacyPopup = () => {
-  console.log('Toggling privacy popup');
-  showPrivacyPopup.value = !showPrivacyPopup.value;
-};
-
 const onImageChange = (event) => {
   const file = event.target.files[0];
   if (file) {
