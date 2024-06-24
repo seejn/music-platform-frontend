@@ -64,16 +64,16 @@
               </span>
 
               <span v-show="isPlaylistOwner">
-                <button @click="showPrivacyPopup = true">
+                <button @click="togglePrivacyPopup">
                   <i class="fa fa-user fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
                 </button>
               </span>
 
-              <spam v-if="role==1">
-              <button @click="toggleShareBox">
-                <i class="fa fa-share-alt fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
-              </button>
-            </spam>
+              <span v-if="role == 1">
+                <button @click="toggleShareBox">
+                  <i class="fa fa-share-alt fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
+                </button>
+              </span>
 
               <div v-if="showShareBox" class="mt-4">
                 <h2 class="text-2xl font-bold mb-4 text-white">Search Users</h2>
@@ -127,7 +127,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-if="playlist?.track" v-for="track in playlist?.track" :key="track?.id" class="text-center text-lg hover:bg-zinc-800">
+                <tr v-if="playlist?.track" v-for="track in playlist?.track" :key="track?.id"
+                  class="text-center text-lg hover:bg-zinc-800">
 
                   <td class="py-4 px-4 text-center">{{ track?.title }}</td>
                   <td class="py-4 px-4 text-center">{{ formatDate(track?.released_date) || '' }}
@@ -183,7 +184,7 @@
           </div>
         </transition>
 
-        <PrivacyPopup v-if="showPrivacyPopup" :id="playlistId" />
+        <PrivacyPopup v-if="showPrivacyPopup" :id="playlistId" @closePrivacyPopup="togglePrivacyPopup" />
 
       </main>
     </template>
@@ -196,6 +197,8 @@
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import { ref, watch, onMounted, computed } from 'vue';
+
+
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import Layout from './Layout.vue';
@@ -204,6 +207,7 @@ import {
   fetchPlaylist,
   createPlaylist,
   updatePlaylist,
+  updatePlaylistImage,
   addRemoveTrackFromPlaylist,
   removePlaylistFromFavouritePlaylist,
   deletePlaylist as deletePlaylistApi, sharePlaylistApi
@@ -215,6 +219,7 @@ import { createFavouritePlaylist, checkFavouritePlaylist } from '../api/Playlist
 import { getProfileImageUrl } from '../utils/imageUrl.js';
 import { fetchFollowedUsers } from '../api/User.js'
 import { useStore } from 'vuex';
+
 
 const props = defineProps({
   id: {
@@ -248,6 +253,9 @@ const editedTitle = ref('');
 const router = useRouter();
 
 
+const togglePrivacyPopup = () => {
+  showPrivacyPopup.value = !showPrivacyPopup.value
+}
 
 const isPlaylistOwner = computed(() => {
   const userId = store.getters.getUser.id;
@@ -305,16 +313,15 @@ watch(() => props.id, (newId) => {
 
 
 const savePlaylist = async () => {
-  const formData = new FormData();
-  formData.append('title', playlist.value.title);
-  formData.append('user', playlist.value.user.id);
-  if (imageFile.value) {
-    formData.append('image', imageFile.value);
+  const formData = {
+    "title": playlist.value.title,
+    "user": playlist.value.user.id
   }
 
   try {
     if (playlist.value.id) {
-      await updatePlaylist(playlist.value.id, formData);
+      const response = await updatePlaylist(playlist.value.id, formData);
+      store.dispatch("updatePlaylist", response)
     } else {
       const response = await createPlaylist(formData);
       playlist.value.id = response.data.id;
@@ -323,9 +330,10 @@ const savePlaylist = async () => {
     toast.success('Playlist saved successfully');
 
   } catch (error) {
+    console.log(error)
     toast.error('Error saving playlist');
 
-};
+  };
 };
 
 
@@ -423,10 +431,9 @@ const saveImage = async () => {
 
 const saveImageToPlaylist = async (formData) => {
   try {
-    return await updatePlaylist(playlist.value.id, formData);
+    return await updatePlaylistImage(playlist.value.id, formData);
   } catch (error) {
     console.log(error);
-
   }
 };
 
@@ -475,7 +482,7 @@ const addToFavourite = async () => {
 
 
   }
-}; 
+};
 
 const removeFromFavouritePlaylist = async () => {
   isPlaylistFavourite.value = false;

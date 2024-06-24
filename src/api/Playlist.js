@@ -65,6 +65,18 @@ export const updatePlaylist = async (playlistId, playlistData) => {
     }
 }
 
+export const updatePlaylistImage = async (playlistId, playlistData) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/track/update_playlist_image/${playlistId}/`;
+    try {
+    console.log("playlistData", playlistData);
+        const response = await axios.patch(url, playlistData);
+        return response.data;
+    } catch (error) {
+        console.error(`Error updating playlist with ID ${playlistId}:`, error);
+        throw error;
+    }
+}
+
 export const updatePlaylistPrivacy  = async (playlistId, playlistData) => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/update_privacy_playlist/${playlistId}/`;
     console.log(url)
