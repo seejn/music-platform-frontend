@@ -67,11 +67,16 @@
                   </tbody>
                 </table>
               </div>
-              <div class="bg-opacity-0">
-                <h2 class=" text-3xl font-bold text-white  ml-5 ">Tour details</h2>
-                <ArtistTourCol :tours="tours" class="ml-5" />
-
-              </div>
+              <section>
+            <h2 class=" text-3xl font-bold text-white  ml-5 ">Tour details</h2>
+            <span v-if="tours?.length > 0">
+              <ArtistTourCol :tours="tours" class="mt-5 px-6 w-full" />
+            </span>
+            <span v-else class="font-bold text-xl text-center text-white">
+              <h2>No Tours Available</h2>
+            </span>
+          </section>
+             
             </div>
           </div>
         </div>
