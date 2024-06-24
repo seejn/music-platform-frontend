@@ -64,9 +64,10 @@
               </span>
 
               <span v-show="isPlaylistOwner">
-                <button @click="showPrivacyPopup = true">
-                  <i class="fa fa-user fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
-                </button>
+                <button @click="togglePrivacyPopup">
+  <i class="fa fa-user fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
+</button>
+
               </span>
 
               <spam v-if="role==1">
@@ -119,11 +120,11 @@
             <table class="min-w-full bg-black text-white">
               <thead class="text-xl">
                 <tr>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Title</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Release Date</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Duration</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Singer</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700" v-show="isPlaylistOwner">Actions</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Title</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Release Date</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Duration</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Singer</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700" v-show="isPlaylistOwner">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -136,7 +137,7 @@
                   <td class="py-4 px-4  text-center">{{ track?.artist?.first_name }}</td>
                   <td class="py-4 px-4  text-center" v-show="isPlaylistOwner">
                     <button @click="removeTrack(track.id)"
-                      class="text-white border-2 py-1 px-4 border-blood rounded-full">Remove</button>
+                      class="text-white border-2 border-red-800 py-1 px-4 border-blood rounded-lg">Remove</button>
                   </td>
                 </tr>
               </tbody>
@@ -183,7 +184,8 @@
           </div>
         </transition>
 
-        <PrivacyPopup v-if="showPrivacyPopup" :id="playlistId" />
+        <PrivacyPopup v-if="showPrivacyPopup" :id="playlistId" @close="showPrivacyPopup = false" />
+
 
       </main>
     </template>
@@ -388,7 +390,10 @@ const triggerFileInput = () => {
   fileInput.value.click();
 };
 
-
+const togglePrivacyPopup = () => {
+  console.log('Toggling privacy popup');
+  showPrivacyPopup.value = !showPrivacyPopup.value;
+};
 
 const onImageChange = (event) => {
   const file = event.target.files[0];
@@ -413,9 +418,11 @@ const saveImage = async () => {
 
     playlist.value = response
     showImageForm.value = false;
+    toast.success("Playlist image changed successfully")
 
   } catch (error) {
     console.error('Error saving image:', error);
+    toast.error("Error in changing playlist image ")
   }
 };
 
