@@ -48,7 +48,7 @@
 
             <div v-if="showAddTour" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 ">
                 <div class=" mx-auto bg-black p-5 rounded-md shadow-md text-white border-2 border-red-800 px-10 py-10">
-                    <h2 class="text-xl font-semibold mb-4">Enter Event Details</h2>
+                    <h2 class="text-xl font-semibold mb-4">Enter Tour Details</h2>
                     <form @submit.prevent="tourCreate" class="w-[36rem] ">
                         <div class="mb-4 text-white">
                             <label for="artist" class="block">Artist:</label>
@@ -102,7 +102,7 @@
                 class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 ">
                 <div class=" mx-auto bg-black p-5 rounded-md shadow-md text-white border-2 border-red-800 px-10 py-10">
 
-                    <h2 class="text-xl font-semibold mb-4">Update Event Details</h2>
+                    <h2 class="text-xl font-semibold mb-4">Update Tour Details</h2>
 
                     <form @submit.prevent="updatedTour" class="w-[36rem] ">
                         <div class="mb-4 text-white">

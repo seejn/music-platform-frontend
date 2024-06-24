@@ -88,7 +88,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(track, index) in tracks" :key="index" class="relative text-xl">
+            <tr v-for="(track, index) in tracks" :key="index" class="relative text-lg">
               <td class="py-3 px-4 text-center">{{ track.title }}</td>
               <td class="py-3 px-4 text-center">{{ track.released_date }}</td>
               <td class="py-3 px-4 text-center">{{ track.duration }}</td>
@@ -96,23 +96,21 @@
                 <div class="text-center space-x-2">
 
                   <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(index)">
-                    <i class="fas fa-ellipsis-v h-5 ">...</i>
+                    <i class="fas fa-ellipsis-v h-5 w-5 ">...</i>
                   </button>
 
                   <div v-if="showTrackOptions[index]"
-                    class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-2">
-
+                    class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0">
                     <div v-show="isAlbumOwner && !showPlaylistOptions[index]">
-
                       <button @click="editTrack(track)" class="block w-full text-left px-4 py-2">Edit</button>
-
                       <div v-if="showEditForm">
-
                         <EditTracks :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
                       </div>
+
                       <button @click="deleteTrackData(track.id)"
                         class="block w-full text-left px-4 py-2">Delete</button>
                     </div>
+
                     <button v-if="!showPlaylistOptions[index]" @click="reportedTrack(track.id)"
                       class="block w-full text-left px-4 py-2">Report</button>
                     <div @click="togglePlaylistOptions(index)">
@@ -272,6 +270,11 @@ const toggleOptions = () => {
 };
 
 const toggleTrackOptions = (index) => {
+  if(!showTrackOptions.value[index]){
+
+    showTrackOptions.value = !showTrackOptions.value
+  }
+  
   showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
   if (!showTrackOptions.value[index]) {
     showPlaylistOptions.value[index] = false;
