@@ -182,11 +182,11 @@ const tourCreate = async () => {
         console.log("Before creating tour", tour.value)
 
         const response = await createTour(tour.value);
-        toast.success("created tour");
+        toast.success("Tour created successfully");
         showAddTour.value = false;
         tours.value = [...tours.value, response];
     } catch (error) {
-        toast.error("Error creating tour");
+        toast.error("Error in creating tour");
 
     }
 };
@@ -199,7 +199,7 @@ const editTour = (selectedTour) => {
 const updatedTour = async () => {
     try {
         const response = await updateTour(tour.value);
-        toast.success("updated tour");
+        toast.success("Tour details updated successfully");
         // console.log(response)
         // console.log(tours.value)
         showEditTour.value = false;
@@ -210,7 +210,7 @@ const updatedTour = async () => {
         tours.value = updatedTour
         console.log(tours.value)
     } catch (error) {
-        toast.error("Error updating tour");
+        toast.error("Error in updating tour details");
 
     }
 };
@@ -218,11 +218,11 @@ const updatedTour = async () => {
 const deletedTour = async (id) => {
     try {
         const response = await deleteTour(id);
-        toast.success("deleted tour");
+        toast.success("Tour deleted successfully ");
         const toursafterdeletion = tours.value.filter(tour => tour.id != id)
         tours.value = toursafterdeletion;
     } catch (error) {
-        toast.error("Error deleting tour",);
+        toast.error("Error in deleting tour",);
     }
 };
 
