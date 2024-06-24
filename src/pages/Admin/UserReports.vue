@@ -2,8 +2,6 @@
   <AdminLayout>
     <template #Main>
       <div class="p-0 bg-black text-white">
-        <h1 class="text-4xl font-bold mb-8">{{ artistName }}</h1>
-
         <div>
           <h2 class="text-2xl font-bold mb-4">Reported Songs of the Artists</h2>
           <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
