@@ -39,7 +39,7 @@
 
                           <button class="text-white bg-black rounded-md shadow-md text-md"
                             @click="toggleTrackOptions(index)">
-                            <i class="fas fa-ellipsis-v">...</i>
+                            <i class="fas fa-ellipsis-v" scale="1.5">...</i>
                           </button>
 
                           <div v-if="showTrackOptions[index]"
@@ -122,6 +122,11 @@ const showPlaylistOptions = ref({});
 const tours=ref({})
 
 const toggleTrackOptions = (index) => {
+  if(!showTrackOptions.value[index]){
+
+    showTrackOptions.value = !showTrackOptions.value
+  }
+  
   showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
   if (!showTrackOptions.value[index]) {
     showPlaylistOptions.value[index] = false;
