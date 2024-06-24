@@ -4,7 +4,7 @@
         <div class="p-0 bg-black text-white ">
   
           <div class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Banned Songs</h2>
+            <h2 class="text-3xl font-bold mb-4">Banned Songs</h2>
             <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
               <thead class="bg-zinc-800 text-center text-xl border-b border-b-darkgray">
                 <tr>

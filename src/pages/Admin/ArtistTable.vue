@@ -2,7 +2,7 @@
   <AdminLayout>
     <template #Main>
       <div class="p-4">
-        <h1 class="text-2xl font-bold mb-4 text-white">Artists List</h1>
+        <h1 class="text-3xl font-bold mb-4 text-white">Artists List</h1>
         <table class="w-full bg-black text-white text-center">
           <thead class="w-full border-b-2 border-b-darkgray text-xl ">
             <tr>

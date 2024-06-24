@@ -2,7 +2,7 @@
   <AdminLayout>
     <template #Main>
       <div class="p-0 bg-black text-white">
-        <h1 class="text-4xl font-bold mb-8">{{ artistName }}</h1>
+        <h1 class="text-3xl font-bold mb-8">{{ artistName }}</h1>
 
         <div class="mb-12">
           <!-- <h2 class="text-2xl font-bold mb-4">All Songs and Reported Songs by the Artist</h2> -->

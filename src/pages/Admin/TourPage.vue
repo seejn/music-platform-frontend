@@ -4,7 +4,7 @@
             <section class="py-4">
                 <h2 class="text-3xl font-bold my-4 text-white">Tours by Artists</h2>
                 <div class="flex flex-row">
-                    <button @click="showAddTour = true"
+                    <button @click="resetTour(); showAddTour = true"
                         class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-800 hover:text-white py-3 px-3 rounded-lg flex-end block ">
                         Add Tour
                     </button>
@@ -176,6 +176,17 @@ const tourErrors = ref({
     venue: "",
     time: ""
 });
+
+const resetTour = () => {
+    tour.value = {
+        artist_id: '',
+        title: '',
+        date: '',
+        location: '',
+        venue: '',
+        time: ''
+    };
+};
 
 const tourCreate = async () => {
     try {
