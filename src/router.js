@@ -14,8 +14,7 @@ export const adminNavRoutes = [
     {
         path:'/admin/user-reports',
         name:'UserReports',
-        // component: () => import('./pages/Admin/UserReports.vue')
-        component: () => import('./pages/Admin/UserReportsV2.vue')
+        component: () => import('./pages/Admin/UserReports.vue')
     },
     {
         path: '/admin/all-tours/',
@@ -127,9 +126,9 @@ export const commonRoutes = [
         meta: { requiresAuth: true } 
     },
     {
-        path: '/single-shareplaylist/:id',
+        path: '/single-shareplaylist/:playlist',
         name: 'SingleSharePlaylist',
-        props: true,
+        props: route => ({ playlist: route.params.playlist ? JSON.parse(route.params.playlist) : null}),
         component: () => import('./pages/SharedPlaylist.vue')
     },
 

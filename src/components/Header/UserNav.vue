@@ -2,6 +2,9 @@
   <nav class="relative w-full">
     <div class="bg-black text-white h-20 p-6 flex items-center justify-between">
       <div>
+        <RouterLink to="/home" class="p-5 font-bold text-lg hover:text-red-800">
+      <img src="/src/assets/pic/log.png" alt="" class="w-24 h-24">
+      </RouterLink>
       </div>
       <div class="relative flex items-center">
         <button id="dropdownHoverButton" @click="toggleDropdown" 
@@ -61,9 +64,7 @@ const handleLogout = async () => {
 <style scoped>
 #dropdownHoverButton img {
   width: 4rem;
-
   height: 4rem;
-
   border-radius: 50%;
 }
 </style>

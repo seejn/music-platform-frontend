@@ -106,15 +106,14 @@ const submitForm = async () => {
 
   try {
     const response = await Login({ email: info.value.email, password: info.value.password });
-
     console.log("from login", response.user.role)
     store.dispatch("login", response)
+    toast.success("Login successful")
     if(response.user.role === 3) router.push({name: 'AdminDashboard'})
     else router.push({ name: 'Home' });
-
     clearForm();
   } catch (error) {
-  
+    toast.error("Login unsuccessful");
     loginFailed.value = true;
   }
 };

@@ -1,7 +1,7 @@
 <template>
 <AdminLayout>
     <template #Main>
-        <h1 class="text-white text-2xl ">Analytics of Artist {{ id }}</h1>
+        <h1 class="text-white text-3xl font-semibold ">Analytics of Artist {{ id }}</h1>
         <div class="flex justify-between">
 
             <div class="flex-2 mr-4">
@@ -18,9 +18,9 @@
                     </span>
 
                 </div>
-                <div>
+                <!-- <div>
           <button class="text-white ring-2 ring-red-800 px-5 py-3 rounded-lg hover:bg-red-800 hover:text-white mb-3 ml-10">Export Stats</button>
-        </div>
+        </div> -->
             </div>
 
             <div class="flex-1 bg-zinc-700 mx-10 my-10 rounded-lg">

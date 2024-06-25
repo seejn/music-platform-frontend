@@ -3,7 +3,9 @@
     <nav class="bg-black text-white  h-20 p-6 flex items-center justify-between">
       <div class="container mx-auto p-6 flex justify-between items-center">
         <div class="absolute left-0 p-6 text-3xl font-semibold">
-          Artist Management System
+          <RouterLink to="/admin/dashboard" class="p-5 font-bold text-lg hover:text-red-800">
+      <img src="/src/assets/pic/log.png" alt="" class="w-24 h-24">
+      </RouterLink>
         </div>
       </div>
       <ul class="absolute right-0 flex space-x-4 p-6">

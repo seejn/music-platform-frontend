@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <template #Main>
-      <div class="p-0 bg-black text-white">
+      <div class="p-0 bg-black text-white z-0">
         <h1 class="text-4xl font-bold mb-8">{{ artistName }}</h1>
 
         <div v-for="(track, trackIndex) in tracks" :key="track.id" class="mb-12">
@@ -14,36 +14,37 @@
           </div>
 
           <div class="overflow-x-auto">
-            <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
+            <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full ">
               <thead class="bg-zinc-800">
                 <tr>
-                  <th class="py-2 px-4 text-center border-b border-red-800">Title</th>
-                  <th class="py-2 px-4 text-center border-b border-red-800">Duration</th>
-                  <th class="py-2 px-4 text-center border-b border-red-800">Released Date</th>
-                  <th class="py-2 px-4 text-center border-b border-red-800"></th>
+                  <th class="py-2 px-4 text-center">Title</th>
+                  <th class="py-2 px-4 text-center">Duration</th>
+                  <th class="py-2 px-4 text-center">Released Date</th>
+                  <th class="py-2 px-4 text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr class="last:border-0">
-                  <td class="py-4 px-4 text-center border-b border-red-800">{{ track.title }}</td>
-                  <td class="py-4 px-4 text-center border-b border-red-800">{{ track.duration }}</td>
-                  <td class="py-4 px-4 text-center border-b border-red-800">{{ track.released_date }}</td>
-                  <td class="py-4 px-4 text-center border-b border-red-800  w-min">
-                      <button class="bg-black text-white rounded-md shadow-md text-md" @click="toggleOptions(trackIndex)">
+                  <td class="py-4 px-4 text-center">{{ track.title }}</td>
+                  <td class="py-4 px-4 text-center">{{ track.duration }}</td>
+                  <td class="py-4 px-4 text-center">{{ track.released_date }}</td>
+                  <td class="py-4 px-4 flex items-center justify-center relative">
+                    <div class="relative">
+                      <button class="bg-black text-white rounded-md shadow-md text-md text-center" @click="toggleOptions(trackIndex)">
                         <i class="fas fa-ellipsis-v">...</i>
                       </button>
-                      <div v-if="showOptions[trackIndex]" class="  bg-zinc-700 text-white rounded-md shadow-md py-2 w-40 z-10 right-64 ">
-                      <button @click="editTrack(track)" class="block w-full text-left px-4 py-2 hover:bg-zinc-500">Edit</button>
-                      <div v-if="showEditForm">
-                        <EditSingleTrack :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
+                      <div v-if="showOptions[trackIndex]" class=" bg-zinc-700 text-white rounded-md shadow-md py-2 w-40 z-50 left-full top-0 ml-2">
+                        <button @click="editTrack(track)" class="block w-full text-left px-4 py-2 hover:bg-zinc-500">Edit</button>
+                        <button @click="deleteTrackData(track.id)" class="block w-full text-left px-4 py-2 hover:bg-zinc-500">Delete</button>
+                        <div v-if="showEditForm">
+                          <EditSingleTrack :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
+                        </div>
                       </div>
-                      <button @click="deleteTrackData(track.id)" class="block w-full text-left px-4 py-2  hover:bg-zinc-500">Delete</button>
                     </div>
                   </td>
                 </tr>
               </tbody>
             </table>
-            
           </div>
         </div>
 
@@ -195,8 +196,8 @@ const deleteArtistAlbum = async (albumId) => {
   position: relative;
 }
 
-.flex.items-center.relative .absolute{
-
+.table-fixed tbody tr td {
+  position: relative;
 }
 
 td {

@@ -30,16 +30,16 @@
           >
             <thead class="bg-zinc-800">
               <tr>
-                <th class="py-4 px-4 text-center border-b border-red-800 ">
+                <th class="py-4 px-4 text-center ">
                   Reported By
                 </th>
-                <th class="py-4 px-4 text-center border-b border-red-800 ">
+                <th class="py-4 px-4 text-center">
                   Reported At
                 </th>
-                <th class="py-4 px-4 text-center border-b border-red-800 ">
+                <th class="py-4 px-4 text-center">
                   Reason
                 </th>
-                <th class="py-4 px-4 text-center border-b border-red-800 ">
+                <th class="py-4 px-4 text-center">
                   Action
                 </th>
               </tr>
@@ -69,10 +69,10 @@
                 <td class="py-4 px-4 text-center ">
                   {{ reportInfo?.description }}
                 </td>
-                <td class="py-4 px-4 text-center ">
+                <td class="py-2 px-4 flex justify-center mt-3">
                   <button
                     @click="handleReportRemove(reportInfo.id)"
-                    class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2"
+                    class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded"
                   >
                     Remove
                   </button>

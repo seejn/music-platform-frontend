@@ -109,6 +109,7 @@
     import { fetchAllAlbums, deleteAlbum } from '../../api/Album';
     import { fetchGenres } from '../../api/Genre';
     import AdminLayout from '../AdminLayout.vue';
+import { toast } from 'vue3-toastify';
     
     const store = useStore();
     const artistId = computed(() => store.getters.getUser.id);
@@ -159,7 +160,9 @@
             await updateTrack(updatedTrack);
             fetchArtistSongs();
             showEditForm.value = false;
+            toast.success("Track edited successfully");
         } catch (error) {
+            toast.error("Error in updating track")
             console.error("Error updating track", error);
         }
     };
@@ -170,6 +173,7 @@
             console.log(response);
             const updatedTrack = tracks.value.filter((track) => track.id !== trackId);
             tracks.value = updatedTrack;
+            toast.success("Track deleted successfully")
         } catch (error) {
             console.error("Error deleting track", error);
         }

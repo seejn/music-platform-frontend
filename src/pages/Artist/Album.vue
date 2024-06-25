@@ -59,7 +59,7 @@
       </header>
 
       <section class="">
-        <h2 class="text-2xl font-bold mb-5 text-white">Tracks in this Album</h2>
+        <h2 class="text-2xl font-bold mb-5 text-white">Tracks</h2>
         <table class="min-w-full bg-transparent text-white text-center bg-zinc-800 rounded-lg">
           <thead>
             <tr class="border-b-2 border-b-zinc-500">
@@ -70,7 +70,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(track, index) in tracks" :key="index" class="relative text-xl">
+            <tr v-for="(track, index) in tracks" :key="index" class="relative text-lg">
               <td class="py-3 px-4 text-center">{{ track.title }}</td>
               <td class="py-3 px-4 text-center">{{ track.released_date }}</td>
               <td class="py-3 px-4 text-center">{{ track.duration }}</td>
@@ -78,23 +78,21 @@
                 <div class="text-center space-x-2">
 
                   <button class="text-white bg-black rounded-md shadow-md text-md" @click="toggleTrackOptions(index)">
-                    <i class="fas fa-ellipsis-v h-5 ">...</i>
+                    <i class="fas fa-ellipsis-v h-5 w-5 ">...</i>
                   </button>
 
                   <div v-if="showTrackOptions[index]"
-                    class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-3">
-
+                    class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0">
                     <div v-show="isAlbumOwner && !showPlaylistOptions[index]">
-
                       <button @click="editTrack(track)" class="block w-full text-left px-4 py-2">Edit</button>
-
                       <div v-if="showEditForm">
-
                         <EditTracks :track="track" :genres="genres" @save="saveTrack" @close="showEditForm = false" />
                       </div>
+
                       <button @click="deleteTrackData(track.id)"
                         class="block w-full text-left px-4 py-2">Delete</button>
                     </div>
+
                     <button v-if="!showPlaylistOptions[index]" @click="reportedTrack(track.id)"
                       class="block w-full text-left px-4 py-2">Report</button>
                     <div @click="togglePlaylistOptions(index)">
@@ -254,6 +252,11 @@ const toggleOptions = () => {
 };
 
 const toggleTrackOptions = (index) => {
+  if(!showTrackOptions.value[index]){
+
+    showTrackOptions.value = !showTrackOptions.value
+  }
+  
   showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
   if (!showTrackOptions.value[index]) {
     showPlaylistOptions.value[index] = false;
@@ -277,7 +280,7 @@ const addToFavourite = async () => {
     const response = await createFavouriteAlbum(favouriteAlbumData);
     toast.success('Album added to favourites');
   } catch (error) {
-    toast.error('Error adding Album to favourites:');
+    toast.error('Error adding Album to favourites');
   }
 };
 
@@ -300,8 +303,7 @@ const addTrackToPlaylist = async (playlistId, trackId) => {
     toast.error('Error adding track to playlist');
     console.error(`Error adding track ${trackId} to playlist ${playlistId}:`, error);
   }
-};
-
+}
 
 const handleAlbumEdit = async () => {
   try {
@@ -351,12 +353,14 @@ const saveAlbum = async () => {
 
 const saveChanges = async () => {
   album.value.title = editedTitle.value;
+  const {image, ...rest} = album.value 
   try{
-    await updateAlbum(album.value.id, album.value);
-    toast.success("Title updated successfully");
+    const response = await updateAlbum(rest.id, rest);
+    store.dispatch("updateAlbum", response)
+    toast.success("Album title updated successfully");
   }catch(error){
     console.log(error);
-    toast.error("Title cannot be updated")
+    toast.error("Error in updating album title")
   }
   editMode.value = false;
 };

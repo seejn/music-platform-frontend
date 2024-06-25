@@ -2,15 +2,15 @@
   <AdminLayout>
     <template #Main>
       <div class="p-4">
-        <h1 class="text-2xl font-bold mb-4 text-white">Artists List</h1>
+        <h1 class="text-3xl font-bold mb-4 text-white">Artists List</h1>
         <table class="w-full bg-black text-white text-center">
-          <thead class="w-full border-b text-xl">
+          <thead class="w-full border-b-2 border-b-darkgray text-xl ">
             <tr>
-              <th class="py-2 px-4 border-b border-b-red-800">Image</th>
-              <th class="py-2 px-4 border-b border-b-red-800">Name</th>
-              <th class="py-2 px-4 border-b border-b-red-800">Date of Birth</th>
-              <th class="py-2 px-4 border-b border-b-red-800">Gender</th>
-              <th class="py-2 px-4 border-b border-b-red-800">Actions</th>
+              <th class="py-2 px-4">Image</th>
+              <th class="py-2 px-4">Name</th>
+              <th class="py-2 px-4">Date of Birth</th>
+              <th class="py-2 px-4">Gender</th>
+              <th class="py-2 px-4">Actions</th>
             </tr>
           </thead>
           <tbody class="text-white">

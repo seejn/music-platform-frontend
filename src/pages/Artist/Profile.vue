@@ -10,8 +10,8 @@
         <div class="p-6 pt-16 bg-black max-h-full flex-grow relative z-1">
           <div class="flex flex-row">
             <div class="relative group">
-              <img :src="getProfileImageUrl(user?.image)" alt="Artist Image"
-                class="w-60 h-60 border-4 rounded-full border-red-800">
+              <img :src="getProfileImageUrl(user.image)" alt="Artist Image"
+                class="w-60 h-60 border-4 rounded-full border-red-800 object-cover">
               <div
                 class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                 @click="triggerFileInput">
@@ -22,16 +22,16 @@
 
 
             <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
-              {{ user?.first_name }} {{ user?.last_name }}
+              {{ artist?.first_name }} {{ artist?.last_name }}
               <button @click="toggleEditForm"
                 class="border-2 border-red-800 text-white -mt-9 hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">
                 Edit
               </button>
             </p>
-            <div>
+            <!-- <div>
 
               <ArtistTourCol :tours="tours" class="mt-5 px-6 ml-10 w-full" />
-            </div>
+            </div> -->
           </div>
 
 
@@ -41,20 +41,22 @@
       </header>
       <main class="flex-grow bg-black flex flex-col space-y-4">
         <div class="rounded-lg glass-effect">
+          
+
+          <TracksInTable :tracks="tracks" class="mb-4"/>
+
           <section>
-            <h2 class="text-4xl font-bold mb-4 text-white ml-3">Artist</h2>
-            <span v-if="artists?.length > 0">
-              <ArtistCollection :artists="artists" />
+            <h2 class=" text-3xl font-bold text-white  ml-5 ">Tour details</h2>
+            <span v-if="tours?.length > 0">
+              <ArtistTourCol :tours="tours" class="mt-5 px-6 w-full" />
             </span>
             <span v-else class="font-bold text-xl text-center text-white">
-              <h2>No Artists Available</h2>
+              <h2>No Tours Available</h2>
             </span>
           </section>
 
-          <TracksInTable :tracks="tracks" />
-
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10"> Favourite Albums</h2>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10 ml-5"> Favourite Albums</h2>
             <span v-if="albums?.length > 0">
               <AlbumCollection :albums="albums" />
             </span>
@@ -64,7 +66,7 @@
           </section>
 
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
+            <h2 class="text-3xl font-bold mb-4 text-white mt-10 ml-5">Favourite Playlists</h2>
             <span v-if="favouriteplaylists.length > 0">
               <FavouritePlaylistCollection :favouriteplaylists="favouriteplaylists" />
             </span>
@@ -76,12 +78,12 @@
         <transition name="fade">
           <div v-if="showImageForm"
             class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
-            <div class="bg-black p-8 rounded-lg">
+            <div class="bg-black p-8 rounded-lg border-2 border-red-800 ">
               <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
-              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
+              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4 object-cover">
               <div class="flex justify-end space-x-4">
-                <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Save</button>
-                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Cancel</button>
+                <button @click="saveImage" class="px-4 py-2 ring-2 ring-red-800 hove:bg-red-800 text-white rounded-md">Save</button>
+                <button @click="cancelImage" class="px-4 py-2 ring-2 ring-red-800 hove:bg-red-800 text-white rounded-md">Cancel</button>
               </div>
             </div>
             </div>
@@ -225,9 +227,10 @@ const saveImage = async () => {
     console.log("saveImage", response)
 
     user.value = response
-    window.localStorage.setItem("user", JSON.stringify(user.value))
+    artist.value = response
+    store.commit('setUser', user.value);
     showImageForm.value = false;
-    toast.success("Images saved successfully")
+    toast.success("Profile image updated successfully")
   } catch (error) {
     toast.error("Failed to save the image")
   }
@@ -257,6 +260,7 @@ const updateArtistDetails = async (updatedUser) => {
   try {
     const response = await updateArtist(user.value.id,updatedUser);
     user.value = response;
+    artist.value = response;
     toast.success("Profile updated successfully")
     console.log(user.value)
     showEditForm.value = false;

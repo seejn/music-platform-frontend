@@ -105,7 +105,7 @@
 
 
                 <div class="form-submit flex justify-center mt-8">
-                  <button type="submit" class="bg-white border-blood border-2 hover:bg-blood hover:text-white text-black font-bold py-2 px-4 rounded-full mb">Submit</button>
+                  <button type="submit" class="bg-white border-red-800 border-2 hover:bg-red-800 hover:text-white text-black font-bold py-2 px-4 rounded-full mb">Submit</button>
                 </div>
 
 
@@ -115,7 +115,7 @@
 
 
                 <div class="flex justify-center mt-4">
-                  <button @click.prevent="navigateToLogin" class="bg-white border-blood border-2 hover:bg-blood hover:text-white text-black font-bold py-2 px-4 rounded-full mb">Login</button>
+                  <button @click.prevent="navigateToLogin" class="bg-white border-red-800 border-2 hover:bg-red-800 hover:text-white text-black font-bold py-2 px-4 rounded-full mb">Login</button>
                 </div>
               </div>
             </div>
@@ -232,10 +232,10 @@ export default {
 
 
         const response = await createArtist(info.value);
-        toast.success('Artist created successfully');
+        toast.success('Artist account has been created successfully!');
         clearForm();
       } catch (error) {
-        toast.error('Artist creation failed');
+        toast.error('Failed to create artist account. Please check the input and try again.');
       }
     };
 

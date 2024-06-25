@@ -144,7 +144,7 @@ const loadGenres = async () => {
   try {
     genres.value = await fetchGenres();
   } catch (error) {
-    toasr.error("Failed to fetch genres:");
+    // toasr.error("Failed to fetch genres:");
   }
 };
 
@@ -152,7 +152,7 @@ const loadArtistTracks = async () => {
   try {
     artistTracks.value = await fetchArtistTracks(user.value.id);
   } catch (error) {
-    toast.error("Failed to fetch artistTracks:");
+    // toast.error("Failed to fetch artistTracks:");
   }
 };
 
@@ -235,9 +235,11 @@ const handleTrackUpload = async () => {
   try {
     const formData = handleImageUpload(track.value, trackImageFile.value);
     const response = await createTrack(formData);
-    toast.success(" created track");
+    artistTracks.value.unshift(response)
+    console.log(response)
+    toast.success(" Track created successfully ");
   } catch (error) {
-    toast.error("Error to create track");
+    toast.error("Error in creating tracks");
   }
   clearFields(track);
 };
@@ -247,9 +249,10 @@ const handleAlbumUpload = async () => {
   try {
     const formData = handleImageUpload(album.value, albumImageFile.value);
     const response = await createAlbum(formData);
-    toast.success(" created Album");
+    store.dispatch('addAlbum', response)
+    toast.success(" Album created successfully");
   } catch (error) {
-    toast.error("Error to create Album");
+    toast.error("Error in creating album");
   }
   clearFields(album);
 };
