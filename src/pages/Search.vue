@@ -79,12 +79,13 @@ let filteredPlaylists = ref([]);
 
 const fetchData = async () => {
   try {
+    const base_url = import.meta.env.VITE_API_BASE_URL
     const [tracksResponse,userResponse, artistsResponse, albumsResponse, playlistsResponse] = await Promise.all([
-      axios.get('http://localhost:8000/track/get_all_tracks/'),
-      axios.get('http://localhost:8000/roles/users/'), 
-      axios.get('http://localhost:8000/roles/artists/'),
-      axios.get('http://localhost:8000/album/get_all_albums/'),
-      axios.get('http://localhost:8000/track/get_all_playlist/')
+      axios.get(`${base_url}/track/get_all_tracks/`),
+      axios.get(`${base_url}/roles/users/`), 
+      axios.get(`${base_url}/roles/artists/`),
+      axios.get(`${base_url}/album/get_all_albums/`),
+      axios.get(`${base_url}/track/get_all_playlist/`)
     ]);
 
     tracks.value = tracksResponse.data.data || [];
