@@ -1,168 +1,258 @@
 <template>
-    <Layout>
-        <template #Main>
-            <div>
-             
+  <AdminLayout>
+    <template #Main>
+      <h6 class=" text-3xl mx-10 mb-10 text-white font-bold">Dashboard</h6>
+      <div class="flex justify-between">
+
+        <div class="flex-2 mr-4">
+          <div class="rounded-xl mb-8">
+            <div class="chart-container">
+
+              <span v-if="dataLoaded">
+                <div class="rounded-xl">
+                  <div class="justify-around">
+                    <div class="card w-11/12 ml-10 mb-8 bg-zinc-600 hover:bg-zinc-500">
+                      <h2 class="text-3xl font-semibold mb-4 text-center text-white">Artist Popularity</h2>
+                      <div class="chart-container">
+                        <Bar :data="artistPopularityDataForBar" :options="chartOptionsForBar" />
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+              </span>
+              
             </div>
-    <div class="rounded-lg">
-      <h1 class="text-3xl font-bold mb-6 text-primary-text-color">Stats</h1>
-  
-      <div class="justify-around">
-        <div class="card w-[45vw] mb-8 bg-white">
-          <h2 class="text-3xl font-semibold mb-4 text-center text-black">
-            Genre Distribution
-          </h2>
-          <div class="chart-container">
-            <Pie :data="genreDistributionData" :options="chartOptions" />
+          </div>
+
+          <div class="rounded-lg">
+            <div class="justify-center">
+              <div class="card  ml-10 w-11/12 my-10 bg-zinc-700 hover:bg-zinc-500">
+                <h2 class="text-3xl font-semibold mb-4 text-center text-white">
+                  Artist Popularity
+                </h2>
+                <div class="chart-container">
+                  <span v-if="dataLoaded">
+                    <Pie :data="artistPopularityDataForPie" :options="chartOptionsForPie" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button @click="exportCSV" class="text-white ring-2 ring-red-800 px-5 py-3 rounded-lg hover:bg-red-800 hover:text-white mb-3 ml-10">Export Stats</button>
           </div>
         </div>
+        <!-- Right Column -->
+        <div class="flex-1 mr-10 w-full">
+          <Card 
+            :totalArtists="totalArtists"
+            :totalUsers="totalUsers"
+            :totalAlbums="totalAlbums"
+            :totalTracks="totalTracks"
+          />
+        </div>
+     
       </div>
-    </div>
-    <div class="min-h-screen flex flex-col bg-dark-primary-color">
-    <main class="flex-1 p-6 bg-primary-color flex justify-end">
-      <div class="bg-primary-color w-[20rem] bg-opacity-75 rounded-lg ml-24">
-        <h1 class="text-3xl font-bold mb-6 mt-6 text-primary-text-color text-center">
-          Information
-        </h1>
-
-        <div
-          class="p-5 rounded-md w-full bg-light-primary-color text-primary-text-color mb-8 text-center hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer"
-        >
-          <h2 class="text-xl font-bold mb-2">Total Artists</h2>
-          <p class="text-2xl">{{ totalArtists }}</p>
-        </div>
-
-        <div
-          class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer mb-10 text-center"
-        >
-          <h2 class="text-xl font-bold mb-2">Total Users</h2>
-          <p class="text-2xl">{{ totalUsers }}</p>
-        </div>
-
-        <div
-          class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer mb-10 text-center"
-        >
-          <h2 class="text-xl font-bold mb-2">Total Albums</h2>
-          <p class="text-2xl">{{ totalAlbums }}</p>
-        </div>
-
-        <div
-          class="p-5 rounded-md bg-light-primary-color text-primary-text-color hover:bg-secondary-color hover:text-dark-primary-color cursor-pointer selection mb-10 text-center"
-        >
-          <h2 class="text-xl font-bold mb-2">Total Songs</h2>
-          <p class="text-2xl">{{ totalSongs }}</p>
-        </div>
-      </div>
-    </main>
-  </div>
+    </template>
+  </AdminLayout>
 </template>
-</Layout>
-  </template>
-  
-  <script>
-  import { ref } from 'vue'
-  import { Bar, Pie } from 'vue-chartjs'
-  import {
-    Chart as ChartJS,
-    Title,
-    Tooltip,
-    Legend,
-    BarElement,
-    CategoryScale,
-    LinearScale,
-    ArcElement,
-    PointElement,
-    LineElement
-  } from 'chart.js'
-  
-  ChartJS.register(
-    Title,
-    Tooltip,
-    Legend,
-    BarElement,
-    CategoryScale,
-    LinearScale,
-    ArcElement,
-    PointElement,
-    LineElement
-  )
-  
-  export default {
-    name: 'ArtistDashboard',
-    components: {
-      Bar,
-      Pie
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import Card from '../../components/Dashboard/Card.vue'
+import { 
+  fetchAllArtistsAlbumFavorites,
+  fetchArtistAlbumCounts,
+  fetchTotalArtists,
+  fetchTotalUsers,
+  fetchTotalTracks,
+} from '../../api/Dashboard';
+import { getRandomColors } from '../../utils/randomHexColor';
+
+import Layout from '../Layout.vue';
+
+import { Bar, Pie } from 'vue-chartjs'
+import AdminLayout from '../AdminLayout.vue';
+
+
+const dataLoaded = ref(false)
+const artists = ref([])
+const totalArtists = ref(0)
+const totalUsers = ref(0)
+const totalAlbums = ref(0)
+const totalTracks = ref(0)
+
+const showChart = () => {
+  dataLoaded.value = !dataLoaded.value
+}
+
+const artistPopularityDataForBar = ref({
+  labels: artists.value,
+  datasets: [
+    {
+      label: [],
+      data: [],
+      backgroundColor: 'rgba(75, 192, 192, 0.5)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1
+    }
+  ]
+});
+
+const chartOptionsForBar = ref({
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        color: '#ffffff'
+      }
     },
-    setup() {
-      const songPerformanceData = ref({
-        labels: ['Song One', 'Song Two', 'Song Three', 'Song Four', 'Song Five'],
-        datasets: [
-          {
-            label: 'Number of Plays',
-            data: [1500, 1200, 1100, 900, 700],
-            backgroundColor: ['#4a90e2', '#50e3c2', '#f5a623', '#e94e77', '#7ed321'],
-            borderColor: '#080727',
-            borderWidth: 1
-          }
-        ]
-      })
-  
-      const genreDistributionData = ref({
-        labels: ['Rock', 'Pop', 'Jazz', 'Classical', 'Hip Hop'],
-        datasets: [
-          {
-            label: 'Genre Distribution',
-            data: [12, 19, 3, 5, 2],
-            backgroundColor: ['#4a90e2', '#50e3c2', '#f5a623', '#e94e77', '#7ed321'],
-            borderColor: '#080727',
-            borderWidth: 1
-          }
-        ]
-      })
-  
-      const chartOptions = ref({
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              color: '#302f31'
-            }
-          },
-          x: {
-            ticks: {
-              color: '#302f31'
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: {
-              color: '#302f31'
-            }
-          },
-          tooltip: {
-            titleColor: '#000000',
-            bodyColor: ''
-          }
-        }
-      })
-  
-      return {
-        songPerformanceData,
-        genreDistributionData,
-        chartOptions
+    x: {
+      ticks: {
+        color: '#ffffff'
       }
     }
+  },
+  plugins: {
+    legend: {
+      labels: {
+        color: '#ffffff'
+      }
+    },
+    tooltip: {
+      titleColor: '#ffffff',
+      bodyColor: ''
+    }
   }
-  </script>
-  
-  <style scoped>
-  .card {
-    backdrop-filter: blur(10px);
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
+})
+
+const artistPopularityDataForPie = ref({
+  labels: artists.value,
+  datasets: [
+    {
+      label: 'Number of Plays',
+      data: [],
+      backgroundColor: ["#dedad2", "#e4bcad", "#df979e", "#d7658b", "#c80064"],
+      borderColor: '#ffffff',
+      borderWidth: 1
+    }
+  ]
+})
+
+const chartOptionsForPie = ref({
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        color: '#ffffff'
+      }
+    },
+    x: {
+      ticks: {
+        color: '#ffffff'
+      }
+    }
+  },
+  plugins: {
+    legend: {
+      labels: {
+        color: '#ffffff'
+      }
+    },
+    tooltip: {
+      titleColor: '#ffffff',
+      bodyColor: '#ffffff'
+    }
   }
-  </style>
+})
+
+const loadCounts = async () => {
+  const artists = await fetchTotalArtists()
+  const users = await fetchTotalUsers()
+  const tracks = await fetchTotalTracks()
+
+  totalArtists.value = artists.total_artists
+  totalUsers.value = users.total_users
+  totalTracks.value = tracks.total_tracks
+}
+
+const loadTotalAlbums = async() => {
+  const response = await fetchArtistAlbumCounts()
+  let total = 0
+
+  response.forEach(res => {
+    total += res.total_albums
+  })
+
+  totalAlbums.value = total
+}
+
+const loadAllAlbumFavouriteData = async () => {
+  try {
+    const response = await fetchAllArtistsAlbumFavorites();
+    const filteredResponse = response.filter(res => res.total_favourite_count > 0);
+    const filtered_artists = filteredResponse.map(res => res.artist);
+    const filtered_fav_count = filteredResponse.map(res => res.total_favourite_count);
+
+    const randomColors = getRandomColors(filtered_artists.length)
+
+    artistPopularityDataForBar.value.labels = filtered_artists
+    artistPopularityDataForBar.value.datasets[0].label = 'popularity'
+    artistPopularityDataForBar.value.datasets[0].data = filtered_fav_count
+    artistPopularityDataForBar.value.datasets[0].backgroundColor = randomColors
+
+    artistPopularityDataForPie.value.labels = filtered_artists
+    artistPopularityDataForPie.value.datasets[0].data = filtered_fav_count
+    artistPopularityDataForPie.value.datasets[0].backgroundColor = randomColors
+
+    dataLoaded.value = true
+  } catch (error) {
+    console.error("Error loading album favorite data:", error);
+  }
+};
+
+onMounted(() => {
+  loadCounts()
+  loadTotalAlbums()
+  loadAllAlbumFavouriteData();
+});
+
+import axios from 'axios';
+
+const exportCSV = () => {
+  axios.get('http://127.0.0.1:8000/stats/export/artists-album-favorites/', {
+    responseType: 'blob'
+  }).then(response => {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'artists_album_favorites.csv');
+    document.body.appendChild(link);
+    link.click();
+  }).catch(error => {
+    console.error('Error exporting CSV:', error);
+  });
+}
+</script>
+
+<style scoped>
+.glass-effect {
+  background-color: rgba(194, 186, 186, 0.384);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 16px;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.flex-1 {
+  flex: 1;
+}
+</style>

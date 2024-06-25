@@ -47,7 +47,7 @@
       console.log("Updated tour from tour page", response);
     } catch (error) {
       console.error("Error updating tour:", error);
-      // Handle errors
+
     }
   }
   </script>

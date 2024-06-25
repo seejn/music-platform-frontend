@@ -1,5 +1,7 @@
-// api/axios.js
+
 import axios from 'axios';
+import store from '../store/store.js'
+import router from '../router';
 
 const axiosInstance = axios.create();
 
@@ -17,36 +19,39 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Add interceptor to check for token expiration
 axiosInstance.interceptors.response.use(
-  response => {
-    return response;
-  },
+  response => response,
   async error => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    console.error(error)
+    if (error.response.status === 403 && !originalRequest._retry) {
+      console.error('Token expired, attempting to refresh...');
+
       try {
-        // Make a request to refresh the access token
-        const refreshToken = window.localStorage.getItem('refreshToken');
+        const refreshToken = window.localStorage.getItem('refresh_token');
+        if (!refreshToken) {
+          throw new Error('No refresh token available');
+        }
+
         const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/token/refresh/`, { refresh: refreshToken });
-        
-        // Update access token
+
         const newAccessToken = response.data.access;
-        localStorage.setItem('accessToken', newAccessToken);
-        
-        // Retry original request with new access token
+        window.localStorage.setItem('access_token', newAccessToken);
+
         originalRequest.headers['Authorization'] = 'Bearer ' + newAccessToken;
+        
         return axiosInstance(originalRequest);
-      } catch (error) {
-        // Handle token refresh failure (e.g., logout the user)
-        console.error('Token refresh failed:', error);
-        // Redirect user to login page or perform other actions
-        throw error;
+      } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError);
+        console.log('Logging out user...');
+        store.dispatch('logout');
+        router.push('/');
+        throw refreshError;
       }
     }
     return Promise.reject(error);
   }
 );
+
 
 export default axiosInstance;

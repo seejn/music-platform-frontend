@@ -10,7 +10,7 @@
       </ul>
     </nav>
   </div>
-  <div class="bg-black text-white p-6 h-full">
+  <div class="bg-black text-white p-6 min-h-full">
     <nav>
       <ul class="space-y-8">
         <li class="flex items-center mb-4">
@@ -26,12 +26,12 @@
         </li>
 
         <li class="flex flex-col md:flex-col lg:flex-row items-center space-x-6">
-          <button @click="loadUserPlaylists" :class="{ 'bg-gray-700': showPlaylists }"
-            class="rounded-full border border-gray-700 px-5 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
+          <button @click="toggleShowPlaylists" :class="{ 'ring-4 ring-red-800': showPlaylists }"
+            class="rounded-full border border-red-800 px-5 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
             Playlist
           </button>
-          <button v-show="role === 2" @click="loadUserAlbums" :class="{ 'bg-gray-700': !showPlaylists }"
-            class="rounded-full border border-gray-700 px-7 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
+          <button v-show="role === 2" @click="toggleShowPlaylists" :class="{ 'ring-4 ring-red-800 ': !showPlaylists }"
+            class="rounded-full border border-red-800 px-7 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
             Album
           </button>
         </li>
@@ -44,13 +44,13 @@
             <li v-for="playlist in playlists" :key="playlist.id">
               <router-link :to="{ name: 'SinglePlaylist', params: { id: playlist.id } }"
                 class="flex items-center text-lg leading-loose font-semibold hover:underline">
-                <img :src="playlist.image" alt="Playlist" class="w-8 h-8 mr-3 rounded-full" />{{ playlist.title }} #{{ playlist.id }}
+              {{ playlist.title }} 
               </router-link>
             </li>
           </template>
         </template>
 
-        <template v-else-if="!showPlaylists">
+        <template v-else-if="!showPlaylists && role===2">
           <template v-if="!isAlbumValid">
             <li class="flex items-center text-lg leading-loose font-semibold">No Albums Available</li>
           </template>
@@ -58,7 +58,7 @@
             <li v-for="album in albums" :key="album.id">
               <router-link :to="{ name: 'SingleAlbum', params: { id: album.id } }"
                 class="flex items-center text-lg leading-loose font-semibold hover:underline">
-                <img :src="album.image" alt="Album" class="w-8 h-8 mr-3 rounded-full" />{{ album.title }}
+              {{ album.title }}
               </router-link>
             </li>
           </template>
@@ -70,68 +70,53 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router' 
 import { sidebarRoutes as routes } from '../../router.js'
-import { createPlaylist, updatePlaylist, fetchUserPlaylists } from '../../api/Playlist.js'; // Adjust the path based on your project structure
+import { createPlaylist, updatePlaylist, fetchUserPlaylists } from '../../api/Playlist.js'; 
 import { fetchArtistAlbums } from '../../api/Album.js';
 import axios from 'axios'
 
 import store from '../../store/store.js'
 
+
 const user = store.getters.getUser
 const role = store.getters.getRole
+const playlists = ref([])
 
-const router = useRouter() // Initialize useRouter
+const router = useRouter() 
 
 const isPlaylistValid = ref(true)
 const isAlbumValid = ref(true)
 
 const showPlaylists = ref(true)
-const playlists = ref([])
 const albums = ref([])
 const createdPlaylist = ref({})
 
-const loadUserPlaylists = async () => {
-  showPlaylists.value = true
-  
-  const response = await fetchUserPlaylists(user.id)
-  if(!response.length) isPlaylistValid.value = false 
-  
-  playlists.value = response
+
+const toggleShowPlaylists = () => {
+  showPlaylists.value = !showPlaylists.value
 }
 
-const loadUserAlbums = async () => {
-  showPlaylists.value = false
+const loadUserPlaylists = async () => {
   
+  const response = await fetchUserPlaylists(user.id)
+  
+  store.dispatch("setPlaylists", response)
+  playlists.value = store.getters.getPlaylists
+}
+
+
+
+const loadUserAlbums = async () => {
   const response = await fetchArtistAlbums(user.id)
   if(!response.length) isAlbumValid.value = false
   
-  albums.value = response
+  store.dispatch("setAlbums", response)
+  albums.value = store.getters.getAlbums
 }
 
 
-// const fetchPlaylists = () => {
-//   axios.get('http://localhost:8000/track/get_all_playlist/')
-//     .then(response => {
-//       playlists.value = response.data.data
-//       showPlaylists.value = true
-//     })
-//     .catch(error => {
-//       console.error('Error fetching playlists:', error)
-//     })
-// }
-
-// const fetchAlbums = () => {
-//   axios.get('http://localhost:8000/album/get_all_albums/')
-//     .then(response => {
-//       albums.value = response.data.data
-//       showPlaylists.value = false
-//     })
-//     .catch(error => {
-//       console.error('Error fetching albums:', error)
-//     })
-// }
 
 const handleCreatePlaylist = async () => {
   const playlistName = "My Playlist";  
@@ -140,14 +125,23 @@ const handleCreatePlaylist = async () => {
   }
 
   try {
-    const created = await createPlaylist(newPlaylist); // Creating the playlist
+    const created = await createPlaylist(newPlaylist); 
     createdPlaylist.value = created;
     loadUserPlaylists()
 
   } catch (error) {
     console.error('Error creating playlist:', error)
   }
+
 }
+
+watch(() => store.getters.getPlaylists, (newVal)=>{
+  playlists.value = newVal
+})
+
+watch(() => store.getters.getAlbums, (newVal)=>{
+  albums.value = newVal
+})
 
 watch(() => createdPlaylist.value, (newVal) => {
   console.log("newval", newVal)
@@ -155,12 +149,11 @@ watch(() => createdPlaylist.value, (newVal) => {
 });
 
 onMounted(() => {
-  loadUserAlbums()
   loadUserPlaylists()
-  // fetchPlaylists()
+  loadUserAlbums()
 })
 </script>
 
 <style scoped>
-/* Add any scoped styles if necessary */
+
 </style>

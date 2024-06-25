@@ -1,33 +1,27 @@
 <template>
-  <Layout>
+  <AdminLayout>
     <template #Main>
       <div class="p-0 bg-black text-white">
-        <h1 class="text-4xl font-bold mb-8">{{ artistName }}</h1>
+        <h1 class="text-3xl font-bold mb-8">{{ artistName }}</h1>
 
         <div class="mb-12">
-          <h2 class="text-2xl font-bold mb-4">All Songs and Reported Songs by the Artist</h2>
+          <!-- <h2 class="text-2xl font-bold mb-4">All Songs and Reported Songs by the Artist</h2> -->
           <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
-            <thead class="bg-zinc-800">
+            <thead class="border-b-2 border-b-darkgray">
               <tr>
-                <th class="py-2 px-4 text-left border-b border-red-800">Title</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Duration</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Released Date</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Reports</th>
-                <th class="py-2 px-4 text-left border-b border-red-800">Is Banned</th>
+                <th class="py-4 px-4 text-center">Title</th>
+                <th class="py-4 px-4 text-center">Duration</th>
+                <th class="py-4 px-4 text-center">Released Date</th>
+                <th class="py-4 px-4 text-center">Genre</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(track, trackIndex) in allTracks" :key="track.id">
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.title }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.duration }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">{{ track.released_date }}</td>
-                <td class="py-2 px-4 text-left border-b border-red-800">
-                  {{ track.report_count || 0 }}
-                </td>
-              
-
-                <td class="py-2 px-4 text-left border-b border-red-800">
-                  {{ track.is_banned ? 'Yes' : 'No' }}
+              <tr v-for="(track, trackIndex) in allTracks" :key="track.id" class="hover:bg-zinc-800">
+                <td class="py-4 px-4 text-center ">{{ track?.title }}</td>
+                <td class="py-4 px-4 text-center ">{{ track?.duration }}</td>
+                <td class="py-4 px-4 text-center ">{{ track?.released_date }}</td>
+                <td class="py-4 px-4 text-center ">
+                  {{ track?.genre?.name }}
                 </td>
               </tr>
             </tbody>
@@ -35,7 +29,7 @@
         </div>
       </div>
     </template>
-  </Layout>
+  </AdminLayout>
 </template>
 
 <script setup>
@@ -44,6 +38,7 @@ import { useRoute } from 'vue-router';
 import { fetchArtistTrack } from '../../api/Track';
 import { fetchArtist } from '../../api/Artist';
 import { getReportedTracksOfArtist } from '../../api/Reports';
+import AdminLayout from '../AdminLayout.vue';
 
 const route = useRoute();
 const artistId = route.params.id;

@@ -14,23 +14,28 @@
           />
         </section>
 
-        <div v-if="searchTerm" class="mx-10">
+        <div v-if="searchTerm" class="mx-10 mt-10">
           <section v-if="filteredTracks.length > 0">
             <h2 class="text-3xl font-bold mb-4 text-white">Songs for You</h2>
             <TrackCollection :tracks="filteredTracks" />
           </section>
 
-          <section v-if="filteredArtists.length > 0">
+          <section v-if="role==1 && filteredUsers.length > 0" class="mt-10">
+            <h2 class="text-3xl font-bold mb-4 text-white">Users</h2>
+            <UserCollection :users="filteredUsers" />
+          </section>
+
+          <section v-if="filteredArtists.length > 0" class="mt-10">
             <h2 class="text-3xl font-bold mb-4 text-white">Artists</h2>
             <ArtistCollection :artists="filteredArtists" />
           </section>
 
-          <section v-if="filteredAlbums.length > 0">
-            <h2 class="text-3xl font-bold mb-4 text-white">Albums</h2>
+          <section v-if="filteredAlbums.length > 0" class="mt-10">
+            <h2 class="text-3xl font-bold mb-4 text-white" >Albums</h2>
             <AlbumCollection :albums="filteredAlbums" />
           </section>
           
-          <section v-if="filteredPlaylists.length > 0">
+          <section v-if="filteredPlaylists.length > 0" class="mt-10">
             <h2 class="text-3xl font-bold mb-4 text-white">Playlists</h2>
             <PlaylistCollection :playlists="filteredPlaylists" />
           </section>
@@ -55,27 +60,35 @@ import TrackCollection from '../components/Track/TrackCollection.vue'
 import AlbumCollection from '../components/Album/AlbumCollection.vue'
 import PlaylistCollection from '../components/Track/PlaylistCollection.vue';
 import ArtistCollection from '../components/Artist/ArtistCollection.vue'
+import UserCollection from '../components/User/UserCollection.vue'
+import { useStore } from 'vuex'
 
+const store = useStore();
 let searchTerm = ref('');
+let users = ref([]);
+let role = ref(store.getters.getRole);
 let tracks = ref([]);
 let albums = ref([]);
 let artists = ref([]);
 let playlists = ref([]);
 let filteredTracks = ref([]);
+let filteredUsers = ref([]);
 let filteredArtists = ref([]);
 let filteredAlbums = ref([]);
 let filteredPlaylists = ref([]);
 
 const fetchData = async () => {
   try {
-    const [tracksResponse, artistsResponse, albumsResponse, playlistsResponse] = await Promise.all([
+    const [tracksResponse,userResponse, artistsResponse, albumsResponse, playlistsResponse] = await Promise.all([
       axios.get('http://localhost:8000/track/get_all_tracks/'),
+      axios.get('http://localhost:8000/roles/users/'), 
       axios.get('http://localhost:8000/roles/artists/'),
       axios.get('http://localhost:8000/album/get_all_albums/'),
       axios.get('http://localhost:8000/track/get_all_playlist/')
     ]);
 
     tracks.value = tracksResponse.data.data || [];
+    users.value = userResponse.data.data || [];
     artists.value = artistsResponse.data.data || [];
     albums.value = albumsResponse.data.data || [];
     playlists.value = playlistsResponse.data.data || [];
@@ -88,6 +101,7 @@ const filterResults = () => {
   const term = searchTerm.value.trim().toLowerCase();
   if (term === '') {
     filteredTracks.value = [];
+    filteredUsers.value = [];
     filteredArtists.value = [];
     filteredAlbums.value = [];
     filteredPlaylists.value = [];
@@ -95,6 +109,10 @@ const filterResults = () => {
     filteredTracks.value = tracks.value.filter(track => track.title && track.title.trim().toLowerCase().includes(term));
     filteredArtists.value = artists.value.filter(artist => (artist.first_name && artist.first_name.trim().toLowerCase().includes(term)) ||
                                                           (artist.last_name && artist.last_name.trim().toLowerCase().includes(term)));
+    
+                                                          
+    filteredUsers.value = users.value.filter(user => (user.first_name && user.first_name.trim().toLowerCase().includes(term)) ||
+                                                          (user.last_name && user.last_name.trim().toLowerCase().includes(term)));
     filteredAlbums.value = albums.value.filter(album => album.title && album.title.trim().toLowerCase().includes(term));
     filteredPlaylists.value = playlists.value.filter(playlist => playlist.title && playlist.title.trim().toLowerCase().includes(term));
   }

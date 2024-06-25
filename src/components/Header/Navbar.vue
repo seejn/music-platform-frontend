@@ -14,22 +14,22 @@
 </template> 
 
 <script setup>
+import { ref, watch } from 'vue'
 import UserNav from './UserNav.vue'
 import GuestNav from './GuestNav.vue'
 import ArtistNav from './ArtistNav.vue'
 import AdminNav from './AdminNav.vue'
 
-import { computed } from 'vue'
 import { useStore } from 'vuex'
-
-import {
-    routes as routes
-} from '../../router';
 
 const store = useStore()
 
-const isLoggedIn = computed(() => store.getters.isLoggedIn)
-const user = computed(() => store.getters.getUser)
-const role = computed(() => store.getters.getRole)
+const isLoggedIn = store.getters.isLoggedIn
+const user = ref(store.getters.getUser)
+const role = store.getters.getRole
+
+watch(() => store.getters.getUser, (newVal) => {
+    user.value = newVal
+})
 
 </script>

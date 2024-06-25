@@ -1,5 +1,5 @@
 <template>
-    <div class="artist flex-shrink-0 mr-10">
+    <div class="artist flex-shrink-0 mr-10 my-5">
         <img :src="imagesUrl" alt="Cover Image" class="w-60 h-60 rounded-full border-4 border-red-800 hover:shadow-xl hover:shadow-red-800 hover:border-red-800 transition-all duration-300">
         <h3 class="text-xl text-white mt-3 text-center">{{ artist?.first_name }}</h3>
     </div>

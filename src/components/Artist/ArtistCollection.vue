@@ -1,29 +1,37 @@
 <template>
-  <div class="relative overflow-hidden mx-10">
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <div
+  <div class="relative overflow-hidden mx-5 bg-zinc-700 rounded-lg py-5 px-5 ">
+    <swiper
+      :slidesPerView="5"
+      :spaceBetween="10"
+      :grabCursor="true"
+      :autoplay="{
+        delay: 2500,
+        disableOnInteraction: false
+      }"
+      :modules="modules"
+      class="mySwiper"
+    >
+        <swiper-slide 
           class="swiper-slide artist-link"
           v-for="artist in artists"
           :key="artist.id"
         >
           <RouterLink :to="`/single-artist/${artist.id}`">
-            <ArtistCard :artist="artist" />
+            <ArtistCard :artist="artist" class="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110"/>
           </RouterLink>
-        </div>
-      </div>
-      <!-- Add Pagination -->
-      <div class="swiper-pagination"></div>
-  
-    </div>
+          </swiper-slide>
+          </swiper>
   </div>
 </template>
 
 <script setup>
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Autoplay, Pagination } from 'swiper/modules';
+const modules = [Autoplay, Pagination];
 import { onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
-import Swiper from 'swiper';
-import 'swiper/swiper-bundle.css';
 import ArtistCard from './ArtistCard.vue';
 
 const props = defineProps({
@@ -32,47 +40,15 @@ const props = defineProps({
     required: true
   }
 });
-
-const initSwiper = () => {
-  new Swiper('.swiper-container', {
-    loop: true,
-    slidesPerView: 4,
-    spaceBetween: 5,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-    },
-  });
-};
-
-onMounted(() => {
-  initSwiper();
-});
 </script>
 
 <style scoped>
-.artist-link {
-  display: block;
-  flex-shrink: 0;
-  margin-right: 10px;
-}
-
-.swiper-container {
-  width: 100%;
-  height: 100%;
+.mySwiper {
+  padding: 20px 0;
 }
 
 .swiper-slide {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 </style>

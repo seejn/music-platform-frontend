@@ -3,46 +3,21 @@
     <nav class="bg-black text-white  h-20 p-6 flex items-center justify-between">
       <div class="container mx-auto p-6 flex justify-between items-center">
         <div class="absolute left-0 p-6 text-3xl font-semibold">
-          Artist Management System
-        </div>
-        <ul class="absolute right-0 flex space-x-4 p-6">
           <RouterLink to="/admin/dashboard" class="p-5 font-bold text-lg hover:text-red-800">
-            Dashboard
-          </RouterLink>
-          <RouterLink to="/admin/artists" class="p-5 font-bold text-lg hover:text-red-800">
-            Artist
-          </RouterLink>
-          <RouterLink to="/admin/all-tours" class="p-5 font-bold text-lg hover:text-red-800">
-            Tour
-          </RouterLink>
-          <RouterLink to="/admin/user-reports" class="p-5 font-bold text-lg hover:text-red-800">
-            Reported songs
-          </RouterLink>
-          <RouterLink to="/admin/banned-songs" class="p-5 font-bold text-lg hover:text-red-800">
-            Banned Songs </RouterLink>
-        </ul>
+      <img src="/src/assets/pic/log.png" alt="" class="w-24 h-24">
+      </RouterLink>
+        </div>
       </div>
       <ul class="absolute right-0 flex space-x-4 p-6">
-        <RouterLink to="/admin/artists" class="p-5 font-bold text-lg hover:text-orange-800">
-          Artist
-        </RouterLink>
-        <RouterLink to="/admin/all-tours" class="p-5 font-bold text-lg hover:text-orange-800">
-          Tour
-        </RouterLink>
-        <RouterLink to="/admin/user-reports" class="p-5 font-bold text-lg hover:text-orange-800">
-          user-reports
-        </RouterLink>
-        <RouterLink to="/admin/banned-songs" class="p-5 font-bold text-lg hover:text-orange-800">
-          Banned Songs </RouterLink>
         <div class="relative flex items-center">
 
           <button id="dropdownHoverButton" @click="toggleDropdown"
             class="relative p-6 text-white focus:outline-none font-medium rounded-full" type="button">
             <img :src="getProfileImageUrl(props.user.image)" alt="Tay" class="w-10 h-10 rounded-full" />
           </button>
-          <!-- Dropdown menu -->
+  
           <div v-show="isDropdownVisible"
-            class="absolute top-24 right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            class="absolute top-24 right-0 z-10 bg-zinc-700 text-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
               <li>
                 <button @click="handleLogout"

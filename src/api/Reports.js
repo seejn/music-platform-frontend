@@ -2,15 +2,20 @@ import axios from './accessTokenAxios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export const reportTrack = async (trackId) => {
-    const url = `${API_BASE_URL}/report/report_track/${trackId}/`;
+export const reportTrack = async (trackId, userId) => {
+    const reason = prompt("Report Description")
+
+    if(!reason) 
+        throw new Error("Need to specity reason to report")
+
+    const url = `${API_BASE_URL}/report/track/${trackId}/user/${userId}/`;
     try {
-        const response = await axios.get(url);
+        const response = await axios.post(url, {reason: reason});
         console.log("You reported track", trackId);
-        return response.data.data;
+        return response.data;
     } catch (error) {
-        console.error(error);
-        throw error;
+        if(error.response.data.message) throw new Error(error.response.data.message)
+        else throw new Error(error);
     }
 };
 
@@ -70,3 +75,36 @@ export const getUnBannedTracksOfArtist = async (trackId) => {
         throw error;
     }
 };
+
+export const fetchReportedTrackDetails = async (trackId) => {
+    const url = `${API_BASE_URL}/report/get_reported_track/${trackId}/`;
+
+    try{
+        const response = await axios.get(url)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const removeReport = async (reportId) => {
+    const url = `${API_BASE_URL}/report/remove/${reportId}/`;
+
+    try{
+        const response = await axios.delete(url)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const unbanTrack = async(track_id) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/report/unban_track/${track_id}/`
+
+    try{
+        const response = await axios.delete(url)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}

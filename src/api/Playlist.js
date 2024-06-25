@@ -32,7 +32,16 @@ export const fetchPlaylist = async (playlistId) => {
         throw error;
     }
 }
-
+export const fetchsharePlaylist = async (playlistId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/users/get_share_playlist//${userId}/`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error(`Error fetching playlist with ID ${userId}:`, error);
+        throw error;
+    }
+}
 export const createPlaylist = async (playlistData) => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/create_playlist/`;
     try {
@@ -46,6 +55,18 @@ export const createPlaylist = async (playlistData) => {
 
 export const updatePlaylist = async (playlistId, playlistData) => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/update_playlist/${playlistId}/`;
+    try {
+    console.log("playlistData", playlistData);
+        const response = await axios.patch(url, playlistData);
+        return response.data;
+    } catch (error) {
+        console.error(`Error updating playlist with ID ${playlistId}:`, error);
+        throw error;
+    }
+}
+
+export const updatePlaylistImage = async (playlistId, playlistData) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/track/update_playlist_image/${playlistId}/`;
     try {
     console.log("playlistData", playlistData);
         const response = await axios.patch(url, playlistData);
@@ -82,6 +103,18 @@ export const addRemoveTrackFromPlaylist = async (playlistId, playlistData) => {
         throw error;
     }
 }
+export const addTrackFromPlaylist = async (playlistId, playlistData) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/track/add_track_to_playlist/${playlistId}/`;
+    try {
+    console.log("playlistData", playlistData);
+        const response = await axios.patch(url, playlistData);
+        return response.data;
+    } catch (error) {
+        console.error(`Error updating playlist with ID ${playlistId}:`, error);
+        throw error;
+    }
+}
+
 
 export const deletePlaylist = async (playlistId) => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/track/delete_playlist/${playlistId}/`;
@@ -111,11 +144,11 @@ export const createFavouritePlaylist = async (favouritePlaylistData) => {
   const url = `${import.meta.env.VITE_API_BASE_URL}/track/favourite_playlist/create/`;
   try {
     const response = await axios.post(url, favouritePlaylistData);
-    console.log('Response from createFavouritePlaylist:', response); // Add this line to see what the response object looks like
+    console.log('Response from createFavouritePlaylist:', response); 
     return response.data;
   } catch (error) {
     console.error('Error creating playlist:', error);
-    throw error; // Throw the error to handle it in the calling function
+    throw error; 
   }
 };
 
@@ -160,3 +193,41 @@ export const removePlaylistFromFavouritePlaylist = async (userId,playlistId) => 
         throw error;
     }
 }
+
+export const fetchSharedPlaylists = async (userId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/users/get_share_playlist/${userId}`;
+    try {
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching shared playlists for user ID ${userId}:`, error);
+      throw error;
+    }
+  };
+
+
+  export const sharePlaylistApi = async (playlistId, userId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/users/share-playlist/${playlistId}/user/${userId}/`;
+    try {
+      const response = await axios.post(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error sharing playlist ID ${playlistId} with user ID ${userId}:`, error);
+      throw error;
+    }
+  };
+
+
+
+
+  export const sharingPlaylistApi = async (playlistId, userId) => {
+    const url = `${import.meta.env.VITE_API_BASE_URL}/users/get_specific_shared_playlist/playlist/${playlistId}/user/${userId}/`;
+    try {
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error(`Error sharing playlist ID ${playlistId} with user ID ${userId}:`, error);
+      throw error;
+    }
+  };
+  

@@ -1,29 +1,32 @@
 <template>
-  <Layout>
+  <AdminLayout>
     <template #Main>
       <div class="p-4">
-        <h1 class="text-2xl font-bold mb-4">Artists List</h1>
-        <table class="w-full bg-black text-white">
-          <thead class="w-full border-b">
+        <h1 class="text-3xl font-bold mb-4 text-white">Artists List</h1>
+        <table class="w-full bg-black text-white text-center">
+          <thead class="w-full border-b-2 border-b-darkgray text-xl ">
             <tr>
-              <th class="py-2 px-4 border-b">Image</th>
-              <th class="py-2 px-4 border-b">Name</th>
-              <th class="py-2 px-4 border-b">Date of Birth</th>
-              <th class="py-2 px-4 border-b">Gender</th>
-              <th class="py-2 px-4 border-b">Actions</th>
+              <th class="py-2 px-4">Image</th>
+              <th class="py-2 px-4">Name</th>
+              <th class="py-2 px-4">Date of Birth</th>
+              <th class="py-2 px-4">Gender</th>
+              <th class="py-2 px-4">Actions</th>
             </tr>
           </thead>
           <tbody class="text-white">
-            <tr v-for="artist in artists" :key="artist.id">
-              <td class="py-2 px-4 border-b">
-                <img class="mx-6 object-cover rounded-full" :src="getImageUrl(artist.image)" alt="Artist Image" width="50" height="50">
+            <tr v-for="artist in artists" :key="artist.id" class="hover:bg-zinc-800">
+              <td class="py-2 px-4 flex justify-center items-center">
+                <img class="mx-6 object-cover rounded-full border-4 border-red-800 items-center w-28 h-28" :src="getImageUrl(artist.image)" alt="Artist Image">
               </td>
-              <td class="py-2 px-4 border-b">{{ artist.first_name }} {{ artist.last_name }}</td>
-              <td class="py-2 px-4 border-b">{{ artist.dob }}</td>
-              <td class="py-2 px-4 border-b">{{ artist.gender }}</td>
-              <td class="py-2 px-4 border-b">
+              <td class="py-2 px-4 ">{{ artist.first_name }} {{ artist.last_name }}</td>
+              <td class="py-2 px-4 ">{{ artist.dob }}</td>
+              <td class="py-2 px-4 ">{{ artist.gender }}</td>
+              <td class="py-2 px-4 ">
+                <RouterLink :to="{ name: 'ArtistStats', params: { id: artist.id } }">
+                  <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded-lg mr-2">View Stats</button>
+                </RouterLink>
                 <RouterLink :to="{ name: 'artist-library', params: { id: artist.id } }">
-                  <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded mr-2">Library</button>
+                  <button class="border-2 border-red-800 hover:ring-2 hover:ring-red-800 hover:text-white text-white font-bold py-2 px-4 rounded-lg  mr-2">Library</button>
                 </RouterLink>
               </td>
             </tr>
@@ -31,13 +34,15 @@
         </table>
       </div>
     </template>
-  </Layout>
+  </AdminLayout>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { fetchAllArtists } from '../../api/Artist';
 import { RouterLink } from 'vue-router';
+import AdminLayout from '../AdminLayout.vue';
+
 
 const artists = ref([]);
 
@@ -57,5 +62,5 @@ onMounted(fetchArtist);
 </script>
 
 <style scoped>
-/* Add any additional styles here */
+
 </style>

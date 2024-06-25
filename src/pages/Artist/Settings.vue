@@ -1,13 +1,13 @@
 <template>
     <Layout>
         <template #Main>
-            <!-- Profile Information Section -->
+
             <div class="mb-8" id="profile">
                 <h2 class="text-2xl font-semibold mb-6">Profile Information</h2>
                 <div class="bg-white rounded-lg shadow-lg mb-6">
                     <form action="/update-profile" method="POST" enctype="multipart/form-data">
 
-                        <!-- Profile Image -->
+
                         <div class="mb-6 flex items-center">
                             <div class="w-20 h-20 rounded-full overflow-hidden bg-gray-200">
                                 <img src="/src/assets/profile/PngItem_307416.png" alt="Profile Image"
@@ -19,22 +19,21 @@
                             </div>
                         </div>
 
-                        <!-- Email -->
+
                         <div class="mb-4">
-                            <label for="email" class="block
-text-lg font-medium text-gray-700 mb-2">Email</label>
+                            <label for="email" class="block text-lg font-medium text-gray-700 mb-2">Email</label>
                             <input type="email" id="email" name="email"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Email" required>
                         </div>
 
-                        <!-- Date of Birth -->
+
                         <div class="mb-4">
                             <label for="dob" class="block text-lg font-medium text-gray-700 mb-2">Date of Birth</label>
                             <input type="date" id="dob" name="dob"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
                         </div>
 
-                        <!-- Gender -->
+                 
                         <div class="mb-4">
                             <label class="block text-lg font-medium text-gray-700 mb-2">Gender</label>
                             <div class="flex items-center space-x-4">
@@ -53,7 +52,7 @@ text-lg font-medium text-gray-700 mb-2">Email</label>
                             </div>
                         </div>
 
-                        <!-- Submit Button -->
+                    
                         <div class="mt-6">
                             <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md">Update
                                 Profile</button>
@@ -62,13 +61,12 @@ text-lg font-medium text-gray-700 mb-2">Email</label>
                 </div>
             </div>
 
-            <!-- Password Change Section -->
+   
             <div>
                 <h2 class="text-2xl font-semibold mb-6" id="password">Change Password</h2>
                 <div class="bg-white rounded-lg shadow-lg mb-6">
                     <form action="/change-password" method="POST">
 
-                        <!-- Old Password -->
                         <div class="mb-4">
                             <label for="old-password" class="block text-lg font-medium text-gray-700 mb-2">Old
                                 Password</label>
@@ -77,7 +75,7 @@ text-lg font-medium text-gray-700 mb-2">Email</label>
                                 required>
                         </div>
 
-                        <!-- New Password -->
+                        
                         <div class="mb-4">
                             <label for="new-password" class="block text-lg font-medium text-gray-700 mb-2">New
                                 Password</label>
@@ -86,7 +84,6 @@ text-lg font-medium text-gray-700 mb-2">Email</label>
                                 required>
                         </div>
 
-                        <!-- Confirm New Password -->
                         <div class="mb-6">
                             <label for="confirm-password" class="block text-lg font-medium text-gray-700 mb-2">Confirm
                                 New Password</label>
@@ -95,7 +92,6 @@ text-lg font-medium text-gray-700 mb-2">Email</label>
                                 placeholder="Confirm New Password" required>
                         </div>
 
-                        <!-- Submit Button -->
                         <div class="mt-6">
                             <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md">Change
                                 Password</button>
@@ -105,13 +101,13 @@ text-lg font-medium text-gray-700 mb-2">Email</label>
             </div>
 
 
-            <!-- Artist Information Section -->
+           
             <div class="mb-8" id="artist">
                 <h2 class="text-2xl font-semibold mb-6">Artist Information</h2>
                 <div class="bg-white rounded-lg shadow-lg mb-6">
                     <form action="/update-artist-info" method="POST">
 
-                        <!-- Stage Name -->
+                     
                         <div class="mb-4">
                             <label for="stage-name" class="block text-lg font-medium text-gray-700 mb-2">Stage
                                 Name</label>
@@ -120,7 +116,6 @@ text-lg font-medium text-gray-700 mb-2">Email</label>
                                 required>
                         </div>
 
-                        <!-- Biography -->
                         <div class="mb-4">
                             <label for="biography"
                                 class="block text-lg font-medium text-gray-700 mb-2">Biography</label>
@@ -129,7 +124,7 @@ text-lg font-medium text-gray-700 mb-2">Email</label>
                                 placeholder="Biography" required></textarea>
                         </div>
 
-                        <!-- Nationality -->
+                    
                         <div class="mb-4">
                             <label for="nationality"
                                 class="block text-lg font-medium text-gray-700 mb-2">Nationality</label>
@@ -138,7 +133,7 @@ text-lg font-medium text-gray-700 mb-2">Email</label>
                                 required>
                         </div>
 
-                        <!-- Social Media Links -->
+                      
                         <div class="mb-4">
                             <label for="social-links" class="block text-lg font-medium text-gray-700 mb-2">Social Media
                                 Links</label>
@@ -147,7 +142,7 @@ text-lg font-medium text-gray-700 mb-2">Email</label>
                                 placeholder="Social Media Links" required>
                         </div>
 
-                        <!-- Submit Button -->
+                     
                         <div class="mt-6">
                             <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md">Update
                                 Artist Info</button>

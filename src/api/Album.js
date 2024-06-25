@@ -2,7 +2,7 @@ import axios from './accessTokenAxios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-// Fetch all albums
+
 export const fetchArtistAlbums = async (artist_id) => {
     const url = `${API_BASE_URL}/album/get_artist_albums/${artist_id}/`;
     try {

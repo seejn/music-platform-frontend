@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <AdminLayout>
         <template #Main>
             <div class="max-w-md mx-auto bg-white p-5 rounded-md shadow-md">
               <h2 class="text-xl font-semibold mb-4">Enter Event Details</h2>
@@ -24,13 +24,14 @@
               </form>
             </div>
           </template>
-    </Layout>
+    </AdminLayout>
 </template>
 
 <script setup>
 import { CreateTour } from '../../api/Tour'
 
 import { ref } from 'vue'
+import AdminLayout from '../AdminLayout.vue';
 
 const artist = ref([])
 const tour = ref({
