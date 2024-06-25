@@ -9,10 +9,13 @@
       <header class="playlist-header text-white py-10">
         <div class="flex flex-row">
           <div class="relative group">
-            <img :src="getProfileImageUrl(user?.image)" alt="Playlist Image" class="w-60 h-60 border-4 border-red-800">
+            <img :src="getProfileImageUrl(playlist?.image)" alt="Playlist Image" class="w-60 h-60 border-4 border-red-800">
           </div>
           <div class="ml-4 mt-[3vw]">
             <p class="font-bold text-white text-5xl align-text-bottom">
+              {{ playlist?.title }}
+            </p>
+            <p class="text-white text-3xl align-text-bottom">
               {{ playlist?.user?.first_name }} {{ playlist?.user?.last_name }}
             </p>
           </div>
