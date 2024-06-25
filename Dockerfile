@@ -6,7 +6,12 @@ COPY package.json package-lock.json ./
 
 RUN npm install
 
-EXPOSE 5173
 COPY . .
+
 RUN npm run build
-CMD  ["npm","run","start"]
+
+RUN npm install -g serve
+
+EXPOSE 3000
+
+CMD ["serve", "-s", "dist", "-l", "3000"]
