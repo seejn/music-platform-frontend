@@ -279,6 +279,7 @@ const isFavouritePlaylistByUser = async (userId, playlistId) => {
 
 const fetchPlaylistData = async (playlistId) => {
   try {
+    
     playlist.value = await fetchPlaylist(playlistId);
     if (playlist.value.imageUrl) {
       imageUrl.value = playlist.value.imageUrl;
@@ -299,7 +300,8 @@ const fetchPlaylistData = async (playlistId) => {
 
 const fetchTracks = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/track/get_all_tracks/');
+    const base_url = import.meta.env.VITE_API_BASE_URL
+    const response = await axios.get(`${base_url}/track/get_all_tracks/`);
     tracks.value = response.data.data || [];
   } catch (error) {
     console.log(error);
