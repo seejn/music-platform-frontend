@@ -330,7 +330,7 @@ const savePlaylist = async () => {
       playlist.value.id = response.data.id;
     }
 
-    toast.success('Playlist saved successfully');
+    toast.success('Playlist name changed successfully');
 
   } catch (error) {
     console.log(error)

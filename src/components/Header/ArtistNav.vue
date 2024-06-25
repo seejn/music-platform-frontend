@@ -2,12 +2,9 @@
   <nav class="h-full w-full">
     <div class="bg-black text-white h-20 p-6 flex items-center justify-between">
       <div>
-        <!-- <button class="p-5 font-bold text-lg hover:text-orange-800" @click="goToPrevious">
-          &lt;
-        </button>
-        <button class="p-5 font-bold text-lg hover:text-orange-800" @click="goToNext">
-          &gt;
-        </button> -->
+      <RouterLink to="/home" class="p-5 font-bold text-lg hover:text-red-800">
+      <img src="/src/assets/pic/log.png" alt="" class="w-24 h-24">
+      </RouterLink>
       </div>
       <div class="relative flex items-center">
         <RouterLink to="/artist/upload" class="p-5 font-bold text-lg hover:text-red-800">
