@@ -14,15 +14,24 @@
         </thead>
         <tbody class="text-center">
           <tr v-for="(track, index) in tracks" :key="index" class="hover:bg-zinc-700">
-            <td class="py-2 px-4 flex items-center justify-center">
-              <RouterLink :to="`/single-song/${track.id}`" class="block">
-                <img class="object-cover w-20 h-20" :src="trackImageUrl(track.image)" alt="Track Image">
+            <td class="py-2 px-4">
+              <RouterLink :to="`/single-song/${track.id}`" class="block hover:cursor-pointer w-full">
+                <div class="flex justify-center">
+                  <img class="object-cover w-20 h-20" :src="trackImageUrl(track.image)" alt="Track Image">
+                </div>
               </RouterLink>
             </td>
-            <td>{{ track.title }}</td>
+            <td>
+              <RouterLink :to="`/single-song/${track.id}`" class="block hover:cursor-pointer w-full">
+                <div class="flex justify-center h-full w-full">
+                  {{ track.title }}
+                </div>
+              </RouterLink>
+            </td>
             <td class="py-2 px-4">{{ track.released_date }}</td>
             <td class="py-2 px-4">
               <RouterLink :to="`/single-artist/${track.artist.id}`" class="block">
+                <p></p>
                 {{ track.artist.first_name }} {{ track.artist.last_name }}
               </RouterLink>
             </td>
@@ -36,12 +45,20 @@
 
 
 <script setup>
-import { ref , computed} from 'vue';
+import { ref, computed } from 'vue';
 
 const props = defineProps({
   tracks: {
     type: Array,
     required: true
+  },
+  isTrackOwner: {
+    type: Boolean,
+    default: false
+  },
+  imageRequired: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -52,10 +69,13 @@ const trackImageUrl = (image) => {
 </script>
 <style>
 .table td {
-  height: 80px; 
+  height: 80px;
+  /* Adjust based on desired row height */
 }
 
-.table th, .table td, .table img {
+.table th,
+.table td,
+.table img {
   vertical-align: middle;
 }
 
@@ -70,14 +90,17 @@ const trackImageUrl = (image) => {
 }
 
 .table .router-link span {
-  display:inline-flex;
+  display: inline-flex;
   vertical-align: middle;
 }
+
 .table-container {
-  max-height: 24rem; 
+  max-height: 24rem;
+  /* Adjust this value as needed */
 }
 
 .table td {
-  height: 80px; 
+  height: 80px;
+  /* Adjust based on desired row height */
 }
 </style>
