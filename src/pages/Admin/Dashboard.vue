@@ -1,7 +1,7 @@
 <template>
   <AdminLayout>
     <template #Main>
-      <h6 class="text-center text-4xl mx-10 mb-10 text-white">Dashboard</h6>
+      <h6 class=" text-3xl mx-10 mb-10 text-white font-bold">Dashboard</h6>
       <div class="flex justify-between">
 
         <div class="flex-2 mr-4">

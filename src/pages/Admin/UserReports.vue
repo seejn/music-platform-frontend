@@ -2,18 +2,16 @@
   <AdminLayout>
     <template #Main>
       <div class="p-0 bg-black text-white">
-        <h1 class="text-4xl font-bold mb-8">{{ artistName }}</h1>
-
         <div>
-          <h2 class="text-2xl font-bold mb-4">Reported Songs of the Artists</h2>
+          <h2 class="text-3xl font-bold mb-4">Reported Songs of the Artists</h2>
           <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
-            <thead class="bg-zinc-800 text-xl">
+            <thead class="bg-zinc-800 text-xl text-center border-b-2 border-b-darkgray">
               <tr>
-                <th class="py-4 px-4  border-b border-red-800">Title</th>
-                <th class="py-4 px-4  border-b border-red-800">Artist</th>
-                <th class="py-4 px-4  border-b border-red-800">Report Count</th>
-                <th class="py-4 px-4  border-b border-red-800">Is Banned</th>
-                <th class="py-4 px-4  border-b border-red-800">Actions</th>
+                <th class="py-2 px-4 ">Title</th>
+                <th class="py-2 px-4 ">Artist</th>
+                <th class="py-2 px-4 ">Report Count</th>
+                <th class="py-2 px-4 ">Is Banned</th>
+                <th class="py-2 px-4 ">Actions</th>
               </tr>
             </thead>
             <tbody class="text-center">

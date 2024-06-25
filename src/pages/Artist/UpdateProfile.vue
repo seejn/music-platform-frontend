@@ -1,6 +1,6 @@
 <template>
     <div v-if="show" class="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center">
-      <div class="bg-black bg-opacity-50 rounded-lg p-3 w-full max-w-lg shadow-lg border-2 border-red-800">
+      <div class="bg-black bg-opacity-50 rounded-lg p-10 w-full max-w-lg shadow-lg border-2 border-red-800">
         <h2 class="text-2xl font-bold text-white mb-4">Edit Profile</h2>
         <form @submit.prevent="handleFormSubmit">
           <div class="mb-4">
@@ -42,9 +42,9 @@
           <span v-if="errors.image" class="text-red-500">{{ errors.image }}</span>
         </div> -->
 
-          <div class="mb-4 flex justify-between">
+          <div class=" mt-10 flex justify-evenly">
             <button type="button" @click="$emit('close')"
-              class="ring-2 ring-gray-600 text-white px-4 py-2 rounded hover:bg-gray-600 hover:text-white">Cancel</button>
+              class="ring-2 ring-red-800 text-white px-4 py-2 rounded hover:bg-red-800 hover:text-white">Cancel</button>
             <button type="submit"
               class="ring-2 ring-red-800 text-white px-4 py-2 rounded hover:bg-red-800 hover:text-white w-1/3">Save Changes</button>
           </div>

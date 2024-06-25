@@ -26,11 +26,11 @@
         </li>
 
         <li class="flex flex-col md:flex-col lg:flex-row items-center space-x-6">
-          <button @click="loadUserPlaylists" :class="{ 'ring-4 ring-red-800 outline-none': showPlaylists }"
+          <button @click="toggleShowPlaylists" :class="{ 'ring-4 ring-red-800': showPlaylists }"
             class="rounded-full border border-red-800 px-5 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
             Playlist
           </button>
-          <button v-show="role === 2" @click="loadUserAlbums" :class="{ 'ring-4 ring-red-800 ': !showPlaylists }"
+          <button v-show="role === 2" @click="toggleShowPlaylists" :class="{ 'ring-4 ring-red-800 ': !showPlaylists }"
             class="rounded-full border border-red-800 px-7 py-1 text-1xl leading-loose font-semibold hover:bg-gray-700">
             Album
           </button>
@@ -50,7 +50,7 @@
           </template>
         </template>
 
-        <template v-else-if="!showPlaylists">
+        <template v-else-if="!showPlaylists && role===2">
           <template v-if="!isAlbumValid">
             <li class="flex items-center text-lg leading-loose font-semibold">No Albums Available</li>
           </template>
@@ -70,7 +70,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router' 
 import { sidebarRoutes as routes } from '../../router.js'
 import { createPlaylist, updatePlaylist, fetchUserPlaylists } from '../../api/Playlist.js'; 
@@ -79,8 +79,10 @@ import axios from 'axios'
 
 import store from '../../store/store.js'
 
+
 const user = store.getters.getUser
 const role = store.getters.getRole
+const playlists = ref([])
 
 const router = useRouter() 
 
@@ -88,22 +90,25 @@ const isPlaylistValid = ref(true)
 const isAlbumValid = ref(true)
 
 const showPlaylists = ref(true)
-const playlists = ref([])
 const albums = ref([])
 const createdPlaylist = ref({})
 
-const loadUserPlaylists = async () => {
-  showPlaylists.value = true
-  
-  const response = await fetchUserPlaylists(user.id)
-  if(!response.length) isPlaylistValid.value = false 
-  
-  playlists.value = response
+
+const toggleShowPlaylists = () => {
+  showPlaylists.value = !showPlaylists.value
 }
 
-const loadUserAlbums = async () => {
-  showPlaylists.value = false
+const loadUserPlaylists = async () => {
   
+  const response = await fetchUserPlaylists(user.id)
+  
+  store.dispatch("setPlaylists", response)
+  playlists.value = store.getters.getPlaylists
+}
+
+
+
+const loadUserAlbums = async () => {
   const response = await fetchArtistAlbums(user.id)
   if(!response.length) isAlbumValid.value = false
   
@@ -126,7 +131,12 @@ const handleCreatePlaylist = async () => {
   } catch (error) {
     console.error('Error creating playlist:', error)
   }
+
 }
+
+watch(() => store.getters.getPlaylists, (newVal)=>{
+  playlists.value = newVal
+})
 
 watch(() => createdPlaylist.value, (newVal) => {
   console.log("newval", newVal)
@@ -134,9 +144,8 @@ watch(() => createdPlaylist.value, (newVal) => {
 });
 
 onMounted(() => {
-  loadUserAlbums()
   loadUserPlaylists()
-
+  loadUserAlbums()
 })
 </script>
 

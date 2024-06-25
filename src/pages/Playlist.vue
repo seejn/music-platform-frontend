@@ -5,7 +5,7 @@
         <div class="flex flex-row">
           <div class="relative group">
             <img :src="getProfileImageUrl(playlist?.image)" alt="Playlist Image"
-              class="w-60 h-60 border-4 border-red-800">
+              class="w-60 h-60 border-4 border-red-800 object-cover">
             <div
               class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
               @click="triggerFileInput">
@@ -64,16 +64,17 @@
               </span>
 
               <span v-show="isPlaylistOwner">
-                <button @click="showPrivacyPopup = true">
+                <button @click="togglePrivacyPopup">
                   <i class="fa fa-user fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
                 </button>
+
               </span>
 
-              <spam v-if="role==1">
-              <button @click="toggleShareBox">
-                <i class="fa fa-share-alt fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
-              </button>
-            </spam>
+              <span v-if="role == 1">
+                <button @click="toggleShareBox">
+                  <i class="fa fa-share-alt fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
+                </button>
+              </span>
 
               <div v-if="showShareBox" class="mt-4">
                 <h2 class="text-2xl font-bold mb-4 text-white">Search Users</h2>
@@ -119,15 +120,16 @@
             <table class="min-w-full bg-black text-white">
               <thead class="text-xl">
                 <tr>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Title</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Release Date</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Duration</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700">Singer</th>
-                  <th class="py-4 px-4 border-b-2 border-red-700" v-show="isPlaylistOwner">Actions</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Title</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Release Date</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Duration</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700">Singer</th>
+                  <th class="py-4 px-4 border-b-2 border-zinc-700" v-show="isPlaylistOwner">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-if="playlist?.track" v-for="track in playlist?.track" :key="track?.id" class="text-center text-lg hover:bg-zinc-800">
+                <tr v-if="playlist?.track" v-for="track in playlist?.track" :key="track?.id"
+                  class="text-center text-lg hover:bg-zinc-800">
 
                   <td class="py-4 px-4 text-center">{{ track?.title }}</td>
                   <td class="py-4 px-4 text-center">{{ formatDate(track?.released_date) || '' }}
@@ -136,7 +138,7 @@
                   <td class="py-4 px-4  text-center">{{ track?.artist?.first_name }}</td>
                   <td class="py-4 px-4  text-center" v-show="isPlaylistOwner">
                     <button @click="removeTrack(track.id)"
-                      class="text-white border-2 py-1 px-4 border-blood rounded-full">Remove</button>
+                      class="text-white border-2 border-red-800 py-1 px-4 border-blood rounded-lg">Remove</button>
                   </td>
                 </tr>
               </tbody>
@@ -171,19 +173,21 @@
         <transition name="fade">
           <div v-if="showImageForm"
             class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
-            <div class="bg-black p-8 rounded-lg">
+            <div class="bg-black p-8 rounded-lg  border-2 border-red-800">
               <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
 
-              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
+              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4 object-cover">
               <div class="flex justify-end space-x-4">
-                <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Save</button>
-                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Cancel</button>
+                <button @click="saveImage"
+                  class="px-4 py-2 bg-gray-300 text-white rounded-md ring-2 ring-red-800 hove:bg-red-800">Save</button>
+                <button @click="cancelImage"
+                  class="px-4 py-2 bg-gray-300 text-white rounded-md ring-2 ring-red-800 hove:bg-red-800">Cancel</button>
               </div>
             </div>
           </div>
         </transition>
 
-        <PrivacyPopup v-if="showPrivacyPopup" :id="playlistId" />
+        <PrivacyPopup v-if="showPrivacyPopup" :id="playlistId" @closePrivacyPopup="togglePrivacyPopup" />
 
       </main>
     </template>
@@ -196,6 +200,8 @@
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import { ref, watch, onMounted, computed } from 'vue';
+
+
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import Layout from './Layout.vue';
@@ -204,6 +210,7 @@ import {
   fetchPlaylist,
   createPlaylist,
   updatePlaylist,
+  updatePlaylistImage,
   addRemoveTrackFromPlaylist,
   removePlaylistFromFavouritePlaylist,
   deletePlaylist as deletePlaylistApi, sharePlaylistApi
@@ -215,6 +222,7 @@ import { createFavouritePlaylist, checkFavouritePlaylist } from '../api/Playlist
 import { getProfileImageUrl } from '../utils/imageUrl.js';
 import { fetchFollowedUsers } from '../api/User.js'
 import { useStore } from 'vuex';
+
 
 const props = defineProps({
   id: {
@@ -248,6 +256,9 @@ const editedTitle = ref('');
 const router = useRouter();
 
 
+const togglePrivacyPopup = () => {
+  showPrivacyPopup.value = !showPrivacyPopup.value
+}
 
 const isPlaylistOwner = computed(() => {
   const userId = store.getters.getUser.id;
@@ -305,16 +316,15 @@ watch(() => props.id, (newId) => {
 
 
 const savePlaylist = async () => {
-  const formData = new FormData();
-  formData.append('title', playlist.value.title);
-  formData.append('user', playlist.value.user.id);
-  if (imageFile.value) {
-    formData.append('image', imageFile.value);
+  const formData = {
+    "title": playlist.value.title,
+    "user": playlist.value.user.id
   }
 
   try {
     if (playlist.value.id) {
-      await updatePlaylist(playlist.value.id, formData);
+      const response = await updatePlaylist(playlist.value.id, formData);
+      store.dispatch("updatePlaylist", response)
     } else {
       const response = await createPlaylist(formData);
       playlist.value.id = response.data.id;
@@ -323,9 +333,10 @@ const savePlaylist = async () => {
     toast.success('Playlist saved successfully');
 
   } catch (error) {
+    console.log(error)
     toast.error('Error saving playlist');
 
-};
+  };
 };
 
 
@@ -370,8 +381,11 @@ const removeTrack = async (trackId) => {
 
     const newPlaylist = await addRemoveTrackFromPlaylist(playlistId.value, updatedData);
     playlist.value = newPlaylist.data;
+
+    toast.success("Track removed from playlist")
   } catch (error) {
     console.log(error)
+    toast.error("Error while removing track")
   }
 };
 
@@ -387,8 +401,6 @@ const formatDate = (dateString) => {
 const triggerFileInput = () => {
   fileInput.value.click();
 };
-
-
 
 const onImageChange = (event) => {
   const file = event.target.files[0];
@@ -413,9 +425,11 @@ const saveImage = async () => {
 
     playlist.value = response
     showImageForm.value = false;
+    toast.success("Playlist image changed successfully")
 
   } catch (error) {
     console.error('Error saving image:', error);
+    toast.error("Error in changing playlist image ")
   }
 };
 
@@ -423,10 +437,9 @@ const saveImage = async () => {
 
 const saveImageToPlaylist = async (formData) => {
   try {
-    return await updatePlaylist(playlist.value.id, formData);
+    return await updatePlaylistImage(playlist.value.id, formData);
   } catch (error) {
     console.log(error);
-
   }
 };
 
@@ -475,7 +488,7 @@ const addToFavourite = async () => {
 
 
   }
-}; 
+};
 
 const removeFromFavouritePlaylist = async () => {
   isPlaylistFavourite.value = false;

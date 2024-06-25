@@ -8,6 +8,7 @@ console.log(role)
 
 const store = createStore({
   state: {
+    playlists: [],
     isLoggedIn: Boolean(user),
     user: user,
     role: role
@@ -25,6 +26,21 @@ const store = createStore({
       state.role = false
       window.localStorage.removeItem('user')
     },
+
+
+    SET_PLAYLISTS(state, playlists){
+      state.playlists = playlists
+    },
+    UPDATE_PLAYLIST(state, playlist){
+      const updatedPlaylists = state.playlists.map(data => {
+        if(data.id === playlist.id){
+          return playlist
+        }else{
+          return data
+        }
+      })
+      state.playlists = updatedPlaylists
+    }
   },
   actions: {
     login({ commit }, response) {
@@ -38,11 +54,19 @@ const store = createStore({
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
     },
+
+    setPlaylists({commit}, playlists){
+      commit("SET_PLAYLISTS", playlists)
+    },
+    updatePlaylist({commit}, playlist){
+      commit("UPDATE_PLAYLIST", playlist)
+    }
   },
   getters: {
     isLoggedIn: state => state.isLoggedIn,
     getUser: state => state.user,
     getRole: state => state.role,
+    getPlaylists: state => state.playlists
   },
 })
 

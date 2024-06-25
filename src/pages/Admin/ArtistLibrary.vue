@@ -2,12 +2,12 @@
   <AdminLayout>
     <template #Main>
       <div class="p-0 bg-black text-white">
-        <h1 class="text-4xl font-bold mb-8">{{ artistName }}</h1>
+        <h1 class="text-3xl font-bold mb-8">{{ artistName }}</h1>
 
         <div class="mb-12">
-          <h2 class="text-2xl font-bold mb-4">All Songs and Reported Songs by the Artist</h2>
+          <!-- <h2 class="text-2xl font-bold mb-4">All Songs and Reported Songs by the Artist</h2> -->
           <table class="bg-zinc-900 shadow-md rounded-lg overflow-hidden table-fixed w-full">
-            <thead class="border-b-2 border-red-800">
+            <thead class="border-b-2 border-b-darkgray">
               <tr>
                 <th class="py-4 px-4 text-center">Title</th>
                 <th class="py-4 px-4 text-center">Duration</th>

@@ -10,30 +10,27 @@
 
           <div class="relative group">
             <img :src="getProfileImageUrl(user?.image)" alt="Artist Image"
-              class="w-60 h-60 border-4 rounded-full border-red-800">
-            <span v-if="isLoggedInUser">
-              <div
-                class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                @click="triggerFileInput">
-                <span class="text-white">Choose Photo</span>
-              </div>
-              <input type="file" ref="fileInput" class="hidden" @change="onImageChange">
-            </span>
+              class="w-60 h-60 border-4 rounded-full border-red-800  object-cover">
+            <div v-show="isLoggedInUser"
+              class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+              @click="triggerFileInput">
+              <span class="text-white">Choose Photo</span>
+            </div>
+            <input type="file" ref="fileInput" class="hidden" @change="onImageChange">
           </div>
 
-          <span v-if="isLoggedInUser">
-            <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
-              {{ user?.first_name }} {{ user?.last_name }}
-              <button @click="toggleEditForm"
-                class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-500 text-xl rounded-lg px-4 py-2">
-                Edit
-              </button>
-            </p>
-          </span>
+
+          <p class="font-bold text-white text-5xl ml-2 mt-[7vw]">
+            {{ user?.first_name }} {{ user?.last_name }}
+            <button @click="toggleEditForm" v-show="isLoggedInUser"
+              class="border-2 border-red-800 text-white hover:ring-2 hover:ring-red-500 text-xl  rounded-lg px-4 py-2">
+              Edit
+            </button>
+          </p>
           <span v-if="!isLoggedInUser">
             <span v-if="!isFollowing">
               <button @click="toggleFollow"
-                class="ml-4 bg-blue-500 text-white hover:bg-blue-700 text-xl rounded-lg px-4 py-2">
+                class="ml-4 bg-pink-500 text-white hover:bg-pink-700 text-xl rounded-lg mt-36 px-4 py-2">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                 Follow
               </button>
@@ -41,7 +38,7 @@
 
             <span v-if="isFollowing">
               <button @click="toggleFollow"
-                class="ml-4 bg-red-500 text-white hover:bg-red-700 text-xl rounded-lg px-4 py-2">
+                class="ml-4 bg-red-500 text-white hover:bg-red-700 text-xl rounded-lg mt-36 px-4 py-2">
                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
                 Unfollow
               </button>
@@ -50,31 +47,23 @@
         </div>
 
         <div class="mt-8 rounded-lg glass-effect">
-          <section>
+          <!-- <section>
             <h2 class="text-3xl font-bold mb-4 text-white mt-10 ml-5">
               Artist
             </h2>
             <ArtistCollection :artists="artists" />
-          </section>
+          </section> -->
 
-          <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Shared Playlists</h2>
-            <span v-if="sharedplaylists.length > 0">
-              <SharedPlaylistCollection :sharedplaylists="sharedplaylists" />
-            </span>
-            <span v-else class="font-bold text-xl text-center text-white">
-              <h2>No Playlists Available</h2>
-            </span>
-          </section>
+        
 
-          <section>
+          <!-- <section>
             <div class="scrollable-table-container mt-10">
               <TracksInTable :tracks="tracks" />
             </div>
-          </section>
+          </section> -->
 
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Albums</h2>
+            <h2 class="text-3xl font-bold mb-4 ml-5 text-white mt-10">Favourite Albums</h2>
             <span v-if="albums?.length > 0">
               <AlbumCollection :albums="albums" />
             </span>
@@ -84,7 +73,7 @@
           </section>
 
           <section>
-            <h2 class="text-3xl font-bold mb-4 text-white mt-10">Favourite Playlists</h2>
+            <h2 class="text-3xl font-bold mb-4 ml-5 text-white mt-10">Favourite Playlists</h2>
             <span v-if="favouriteplaylists?.length > 0">
               <FavouritePlaylistCollection :favouriteplaylists="favouriteplaylists" />
             </span>
@@ -93,15 +82,25 @@
             </span>
           </section>
 
+          <section>
+            <h2 class="text-3xl ml-5 font-bold mb-4 text-white mt-10">Shared Playlists</h2>
+            <span v-if="sharedplaylists.length > 0">
+              <SharedPlaylistCollection :sharedplaylists="sharedplaylists" />
+            </span>
+            <span v-else class="font-bold text-xl text-center text-white">
+              <h2>No Playlists Available</h2>
+            </span>
+          </section>
+
           <transition name="fade">
             <div v-if="showImageForm"
-              class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
-              <div class="bg-black p-8 rounded-lg">
+              class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-zinc-800 bg-opacity-75 z-50">
+              <div class="bg-black p-8 rounded-lg border-2 border-red-800">
                 <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
-                <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
+                <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4 object-cover">
                 <div class="flex justify-end space-x-4">
-                  <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Save</button>
-                  <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-white rounded-md">Cancel</button>
+                  <button @click="saveImage" class="px-4 py-2 ring-2 ring-red-800 hover:bg-red-800 text-white rounded-md">Save</button>
+                  <button @click="cancelImage" class="px-4 py-2 ring-2 ring-red-800 hover:bg-red-800 text-white rounded-md">Cancel</button>
                 </div>
               </div>
             </div>
@@ -144,6 +143,7 @@ import { fetchAllTracks } from '../../api/Track'
 import { getProfileImageUrl } from '../../utils/imageUrl.js';
 
 import defaultImageUrl from '../../assets/placeholders/image.png';
+import { windows } from 'fontawesome';
 const store = useStore()
 
 const props = defineProps({
@@ -248,11 +248,17 @@ const toggleEditForm = () => {
 
 const updateUserDetails = async (updatedUser) => {
   try {
-    await updateUser(updatedUser)
+    console.log("updateuserdeatils",updatedUser)
+    const {image, ...rest} = updatedUser
+    
+    
+    await updateUser(rest)
     user.value = updatedUser
     showEditForm.value = false
+    toast.success("Profile updated successfully")
   } catch (error) {
     console.error("Error updating user:", error)
+    toast.error("Error in updating user profile")
   }
 }
 
@@ -299,10 +305,16 @@ const saveImage = async () => {
     const formData = new FormData()
     formData.append('image', imageFile.value)
     const response = await updateUserProfileImage(user.value.id, formData)
-    user.value.image = response.image
+    user.value = response
+    console.log(user.value)
+    toast.success("Profile image updated successfully")
+    
+    store.commit('setUser', user.value);
+
     showImageForm.value = false
   } catch (error) {
     console.error("Failed to save the image", error)
+    toast.error("Failed to save the image")
   }
 }
 const cancelImage = () => {

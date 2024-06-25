@@ -15,42 +15,44 @@
               </div>
 
               <div class="bg-black bg-opacity-50 rounded-lg p-6 overflow-y-auto shadow-lg max-h-full">
-                <h2 class="text-2xl font-bold text-white mb-4">All tracks</h2>
+                <h2 class="text-3xl font-bold text-white mb-4">All tracks</h2>
                 <table class="min-w-full bg-transparent text-white">
-                  <thead>
-                    <tr class="text-center">
-                      <th class="py-2 px-4 text-left"></th>
-                      <th class="py-2 px-4 text-left">Title</th>
-                      <th class="py-2 px-4 text-left">Duration</th>
+                  <thead class="text-center border-b-2 border-b-darkgray text-lg ">
+                    <tr >
+                      <th class="py-2 px-4"><i class="fa-solid fa-compact-disc fa-2xl" style="color: #ffffff;"></i></th>
+                      <th class="py-2 px-4 text-center">Title</th>
+                      <th class="py-2 px-4 text-center">Duration</th>
+                      <th class="py-2 px-4 text-center">Actions</th>
+
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(track, index) in tracks" :key="index" class="text-center">
-                      <td class="py-2 px-4 text-left border-b border-red-800 flex items-center">
+                    <tr v-for="(track, index) in tracks" :key="index" class="text-center hover:bg-zinc-700">
+                      <td class="py-2 px-4 flex items-center justify-center">
                         <img class=" object-cover w-16 h-16" :src="trackImageUrl(track.image)">
                       </td>
-                      <td class="py-2  text-left border-b border-red-800">{{ track.title }}</td>
-                      <td class="py-2  text-left border-b border-red-800">{{ track.duration }}</td>
-                      <td class="py-2 text-left border-b border-red-800 relative">
+                      <td class="py-2 text-center">{{ track.title }}</td>
+                      <td class="py-2 text-center">{{ track.duration }}</td>
+                      <td class="py-2 text-center relative">
 
-                        <div class="flex items-center space-x-2">
+                        <div class="space-x-2">
 
                           <button class="text-white bg-black rounded-md shadow-md text-md"
                             @click="toggleTrackOptions(index)">
-                            <i class="fas fa-ellipsis-v">...</i>
+                            <i class="fas fa-ellipsis-v" scale="1.5">...</i>
                           </button>
 
                           <div v-if="showTrackOptions[index]"
-                            class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0 mt-8">
+                            class="absolute bg-black text-white rounded-md shadow-md py-2 w-40 z-10 right-0">
 
 
                             <button v-if="!showPlaylistOptions[index]" @click="reportedTrack(track.id)"
-                              class="block w-full text-left px-4 py-2">Report</button>
+                              class="block w-full text-left px-4 py-2 hover:bg-zinc-700">Report</button>
                             <div @click="togglePlaylistOptions(index)">
                               <button v-if="!showPlaylistOptions[index]"
-                                class="block w-full text-left px-4 py-2">Playlist</button>
+                                class="block w-full text-left px-4 py-2 hover:bg-zinc-700">Playlist</button>
                               <div v-if="showPlaylistOptions[index]"
-                                class="bg-black text-white rounded-md shadow-md py-2 w-full mt-2">
+                                class="bg-black text-white rounded-md shadow-md py-2 w-full mt-2 hover:bg-zinc-700">
                                 <div v-for="playlist in playlists" :key="playlist.id">
                                   <button @click="addTrackToPlaylist(playlist.id, track.id)"
                                     class="block w-full text-left px-4 py-2">{{ playlist.title }}</button>
@@ -65,10 +67,16 @@
                   </tbody>
                 </table>
               </div>
-              <div class="bg-opacity-0">
-                <ArtistTourCol :tours="tours" />
-
-              </div>
+              <section>
+            <h2 class=" text-3xl font-bold text-white  ml-5 ">Tour details</h2>
+            <span v-if="tours?.length > 0">
+              <ArtistTourCol :tours="tours" class="mt-5 px-6 w-full" />
+            </span>
+            <span v-else class="font-bold text-xl text-center text-white">
+              <h2>No Tours Available</h2>
+            </span>
+          </section>
+             
             </div>
           </div>
         </div>
@@ -89,7 +97,7 @@ import { useRoute } from 'vue-router';
 import { fetchArtist } from '../api/Artist';
 import { fetchArtistTracks } from '../api/Track';
 import { reportTrack } from '../api/Reports';
-import { addRemoveTrackFromPlaylist } from '../api/Playlist';
+import { addRemoveTrackFromPlaylist, addTrackFromPlaylist } from '../api/Playlist';
 import { fetchUserPlaylists } from '../api/Playlist'; 
 
 import { useStore } from 'vuex'
@@ -97,12 +105,20 @@ import TourCard from '../components/Tour/TourCard.vue';
 import { fetchArtistTour } from '../api/Tour';
 import ArtistTourCol from '../components/Tour/ArtistTourCol.vue';
 
-
-
 const store = useStore();
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+});
+
+
+
 const route = useRoute();
 const artistId = ref(Number(route.params.id));
-const user = ref(store.getters.getUser);
+
+const user = store.getters.getUser;
 const playlists = ref([]);
 const artist = ref({});
 const tracks = ref([]);
@@ -111,6 +127,11 @@ const showPlaylistOptions = ref({});
 const tours=ref({})
 
 const toggleTrackOptions = (index) => {
+  if(!showTrackOptions.value[index]){
+
+    showTrackOptions.value = !showTrackOptions.value
+  }
+  
   showTrackOptions.value = { ...showTrackOptions.value, [index]: !showTrackOptions.value[index] };
   if (!showTrackOptions.value[index]) {
     showPlaylistOptions.value[index] = false;
@@ -120,7 +141,7 @@ const toggleTrackOptions = (index) => {
 
 const reportedTrack = async (trackId) => {
   try {
-    const response = await reportTrack(trackId, user.value.id);
+    const response = await reportTrack(trackId, user.id);
     console.log(response)
     toast.success(response.message);
     
@@ -158,7 +179,7 @@ const loadUserPlaylists = async () => {
   try {
     playlists.value = await fetchUserPlaylists(user.id);
   } catch (error) {
-    console.log("Error fetching user playlists");
+    console.log("Error fetching user playlists", playlists.value);
   }
 };
 const loadTourData = async () => {
@@ -189,7 +210,7 @@ const togglePlaylistOptions = (index) => {
 const addTrackToPlaylist = async (playlistId, trackId) => {
   try {
     const playlistData = { track: trackId };
-    await addRemoveTrackFromPlaylist(playlistId, playlistData);
+    await addTrackFromPlaylist(playlistId, playlistData);
     toast.success('Track added to playlist successfully');
   } catch (error) {
     toast.error('Error adding track to playlist');
