@@ -9,6 +9,7 @@ console.log(role)
 const store = createStore({
   state: {
     playlists: [],
+    albums: [],
     isLoggedIn: Boolean(user),
     user: user,
     role: role
@@ -40,7 +41,25 @@ const store = createStore({
         }
       })
       state.playlists = updatedPlaylists
-    }
+    },
+
+    SET_ALBUMS(state, albums){
+      state.albums = albums
+    },
+    ADD_ALBUM(state, album){
+      state.albums.unshift(album)
+      console.log("From store", state.albums)
+    },
+    UPDATE_ALBUM(state, album){
+      const updatedAlbums = state.albums.map(data => {
+        if(data.id === album.id){
+          return album
+        }else{
+          return data
+        }
+      })
+      state.albums = updatedAlbums
+    },
   },
   actions: {
     login({ commit }, response) {
@@ -60,13 +79,24 @@ const store = createStore({
     },
     updatePlaylist({commit}, playlist){
       commit("UPDATE_PLAYLIST", playlist)
+    },
+
+    setAlbums({commit}, albums){
+      commit("SET_ALBUMS", albums)
+    },
+    addAlbum({commit}, album){
+      commit("ADD_ALBUM", album)
+    },
+    updateAlbum({commit}, album){
+      commit("UPDATE_ALBUM", album)
     }
   },
   getters: {
     isLoggedIn: state => state.isLoggedIn,
     getUser: state => state.user,
     getRole: state => state.role,
-    getPlaylists: state => state.playlists
+    getPlaylists: state => state.playlists,
+    getAlbums: state => state.albums
   },
 })
 

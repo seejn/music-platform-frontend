@@ -371,8 +371,10 @@ const saveAlbum = async () => {
 
 const saveChanges = async () => {
   album.value.title = editedTitle.value;
+  const {image, ...rest} = album.value 
   try{
-    await updateAlbum(album.value.id, album.value);
+    const response = await updateAlbum(rest.id, rest);
+    store.dispatch("updateAlbum", response)
     toast.success("Album title updated successfully");
   }catch(error){
     console.log(error);
