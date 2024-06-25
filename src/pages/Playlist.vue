@@ -5,7 +5,7 @@
         <div class="flex flex-row">
           <div class="relative group">
             <img :src="getProfileImageUrl(playlist?.image)" alt="Playlist Image"
-              class="w-60 h-60 border-4 border-red-800">
+              class="w-60 h-60 border-4 border-red-800 object-cover">
             <div
               class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
               @click="triggerFileInput">
@@ -65,8 +65,8 @@
 
               <span v-show="isPlaylistOwner">
                 <button @click="togglePrivacyPopup">
-  <i class="fa fa-user fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
-</button>
+                  <i class="fa fa-user fa-3x ml-11 w-5 h-5" aria-hidden="true"></i>
+                </button>
 
               </span>
 
@@ -176,10 +176,12 @@
             <div class="bg-black p-8 rounded-lg  border-2 border-red-800">
               <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
 
-              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
+              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4 object-cover">
               <div class="flex justify-end space-x-4">
-                <button @click="saveImage" class="px-4 py-2 bg-gray-300 text-white rounded-md ring-2 ring-red-800 hove:bg-red-800">Save</button>
-                <button @click="cancelImage" class="px-4 py-2 bg-gray-300 text-white rounded-md ring-2 ring-red-800 hove:bg-red-800">Cancel</button>
+                <button @click="saveImage"
+                  class="px-4 py-2 bg-gray-300 text-white rounded-md ring-2 ring-red-800 hove:bg-red-800">Save</button>
+                <button @click="cancelImage"
+                  class="px-4 py-2 bg-gray-300 text-white rounded-md ring-2 ring-red-800 hove:bg-red-800">Cancel</button>
               </div>
             </div>
           </div>
@@ -379,8 +381,11 @@ const removeTrack = async (trackId) => {
 
     const newPlaylist = await addRemoveTrackFromPlaylist(playlistId.value, updatedData);
     playlist.value = newPlaylist.data;
+
+    toast.success("Track removed from playlist")
   } catch (error) {
     console.log(error)
+    toast.error("Error while removing track")
   }
 };
 

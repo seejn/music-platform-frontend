@@ -50,7 +50,7 @@
           </template>
         </template>
 
-        <template v-else-if="!showPlaylists">
+        <template v-else-if="!showPlaylists && role===2">
           <template v-if="!isAlbumValid">
             <li class="flex items-center text-lg leading-loose font-semibold">No Albums Available</li>
           </template>

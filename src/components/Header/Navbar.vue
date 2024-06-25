@@ -14,6 +14,7 @@
 </template> 
 
 <script setup>
+import { ref, watch } from 'vue'
 import UserNav from './UserNav.vue'
 import GuestNav from './GuestNav.vue'
 import ArtistNav from './ArtistNav.vue'
@@ -24,7 +25,11 @@ import { useStore } from 'vuex'
 const store = useStore()
 
 const isLoggedIn = store.getters.isLoggedIn
-const user = store.getters.getUser
+const user = ref(store.getters.getUser)
 const role = store.getters.getRole
+
+watch(() => store.getters.getUser, (newVal) => {
+    user.value = newVal
+})
 
 </script>

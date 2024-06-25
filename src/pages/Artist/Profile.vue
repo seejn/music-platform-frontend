@@ -10,8 +10,8 @@
         <div class="p-6 pt-16 bg-black max-h-full flex-grow relative z-1">
           <div class="flex flex-row">
             <div class="relative group">
-              <img :src="getProfileImageUrl(artist?.image)" alt="Artist Image"
-                class="w-60 h-60 border-4 rounded-full border-red-800">
+              <img :src="getProfileImageUrl(user.image)" alt="Artist Image"
+                class="w-60 h-60 border-4 rounded-full border-red-800 object-cover">
               <div
                 class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                 @click="triggerFileInput">
@@ -80,7 +80,7 @@
             class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
             <div class="bg-black p-8 rounded-lg border-2 border-red-800 ">
               <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
-              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
+              <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4 object-cover">
               <div class="flex justify-end space-x-4">
                 <button @click="saveImage" class="px-4 py-2 ring-2 ring-red-800 hove:bg-red-800 text-white rounded-md">Save</button>
                 <button @click="cancelImage" class="px-4 py-2 ring-2 ring-red-800 hove:bg-red-800 text-white rounded-md">Cancel</button>
@@ -228,9 +228,9 @@ const saveImage = async () => {
 
     user.value = response
     artist.value = response
-    window.localStorage.setItem("user", JSON.stringify(user.value))
+    store.commit('setUser', user.value);
     showImageForm.value = false;
-    toast.success("Images saved successfully")
+    toast.success("Profile image updated successfully")
   } catch (error) {
     toast.error("Failed to save the image")
   }

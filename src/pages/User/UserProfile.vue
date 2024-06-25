@@ -10,7 +10,7 @@
 
           <div class="relative group">
             <img :src="getProfileImageUrl(user?.image)" alt="Artist Image"
-              class="w-60 h-60 border-4 rounded-full border-red-800">
+              class="w-60 h-60 border-4 rounded-full border-red-800  object-cover">
             <div v-show="isLoggedInUser"
               class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
               @click="triggerFileInput">
@@ -97,7 +97,7 @@
               class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-zinc-800 bg-opacity-75 z-50">
               <div class="bg-black p-8 rounded-lg border-2 border-red-800">
                 <h2 class="text-2xl font-bold mb-4 text-white">Save Image</h2>
-                <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4">
+                <img :src="imageUrl" alt="Selected Image" class="w-60 h-60 border-4 border-blood mb-4 object-cover">
                 <div class="flex justify-end space-x-4">
                   <button @click="saveImage" class="px-4 py-2 ring-2 ring-red-800 hover:bg-red-800 text-white rounded-md">Save</button>
                   <button @click="cancelImage" class="px-4 py-2 ring-2 ring-red-800 hover:bg-red-800 text-white rounded-md">Cancel</button>
@@ -248,10 +248,14 @@ const toggleEditForm = () => {
 
 const updateUserDetails = async (updatedUser) => {
   try {
-    await updateUser(updatedUser)
+    console.log("updateuserdeatils",updatedUser)
+    const {image, ...rest} = updatedUser
+    
+    
+    await updateUser(rest)
     user.value = updatedUser
     showEditForm.value = false
-    toast.success("User profile updated successfully")
+    toast.success("Profile updated successfully")
   } catch (error) {
     console.error("Error updating user:", error)
     toast.error("Error in updating user profile")
@@ -303,12 +307,14 @@ const saveImage = async () => {
     const response = await updateUserProfileImage(user.value.id, formData)
     user.value = response
     console.log(user.value)
+    toast.success("Profile image updated successfully")
     
     store.commit('setUser', user.value);
 
     showImageForm.value = false
   } catch (error) {
     console.error("Failed to save the image", error)
+    toast.error("Failed to save the image")
   }
 }
 const cancelImage = () => {
