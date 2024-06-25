@@ -3,7 +3,7 @@
         <div class="w-full">
             <Navbar />
         </div>
-        <div class="w-full h-full  grid grid-cols-10" style="height: 92%;">
+        <div class="w-full grid grid-cols-10" style="height: 92%;">
             <div class="h-full overflow-y-auto col-span-2">
                 <Sidebar />
             </div>

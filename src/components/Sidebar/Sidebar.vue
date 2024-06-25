@@ -10,7 +10,7 @@
       </ul>
     </nav>
   </div>
-  <div class="bg-black text-white p-6 h-full">
+  <div class="bg-black text-white p-6 min-h-full">
     <nav>
       <ul class="space-y-8">
         <li class="flex items-center mb-4">
@@ -112,7 +112,8 @@ const loadUserAlbums = async () => {
   const response = await fetchArtistAlbums(user.id)
   if(!response.length) isAlbumValid.value = false
   
-  albums.value = response
+  store.dispatch("setAlbums", response)
+  albums.value = store.getters.getAlbums
 }
 
 
@@ -136,6 +137,10 @@ const handleCreatePlaylist = async () => {
 
 watch(() => store.getters.getPlaylists, (newVal)=>{
   playlists.value = newVal
+})
+
+watch(() => store.getters.getAlbums, (newVal)=>{
+  albums.value = newVal
 })
 
 watch(() => createdPlaylist.value, (newVal) => {
