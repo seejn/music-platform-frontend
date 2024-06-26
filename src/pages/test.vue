@@ -12,7 +12,7 @@ import axios from 'axios';
 export default {
   methods: {
     exportCSV() {
-      axios.get('http://127.0.0.1:8000/stats/export/dummy-csv/', {
+      axios.get(`${import.meta.env.VITE_API_BASE_URL}/stats/export/dummy-csv/`, {
         responseType: 'blob'
       }).then(response => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
