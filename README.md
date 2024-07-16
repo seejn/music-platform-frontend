@@ -8,14 +8,14 @@ cd music-platform-frontend
 # Create .env file
 .env.sample exists for reference
 
-# Project Setup
+# Build Project 
 ```
-make
+make build
 ```
 
 # Run Project
 ```
- make run
+ make start
 ```
 
 # Stop Project
